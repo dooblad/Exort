@@ -51,6 +51,8 @@ public class Main {
 			if (Keyboard.getEventKeyState()) {
 				if (Keyboard.getEventKey() == Keyboard.KEY_LMENU)
 					Mouse.setGrabbed(!Mouse.isGrabbed());
+				if(Keyboard.getEventKey() == Keyboard.KEY_R)
+					camera.resetRotation();
 			}
 		}
 		
@@ -67,9 +69,8 @@ public class Main {
 		glPushMatrix();
 		camera.applyTransformations();
 		
-		//while(Mouse.next()) {
-			//if(Mouse.getEventButtonState() && Mouse.getEventButton() == 0) {
 		Ray ray;
+		
 		if(Mouse.isGrabbed()) // Assume the mouse is in the middle of the screen if it is grabbed
 			ray = new Ray(camera, RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2));
 		else
@@ -78,14 +79,8 @@ public class Main {
 		// Find the location where the ray intersects the ground plane
 		Vector3f plane = RayCast.findPlane(camera, ray);
 		
-		if(plane!= null) {
+		if(plane!= null) 
 			player.move(plane);
-			System.out.println(camera.rotX + " " + camera.rotY + " " + camera.rotZ);
-		}
-		//	}
-		//}
-		
-		
 		
 		map.render();
 		player.render();

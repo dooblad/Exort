@@ -124,6 +124,21 @@ public class Camera {
 		glRotated(rotZ, 0, 0, 1);
 		glTranslated(-x, -y, -z);
 	}
+	
+	public void reset() {
+		this.rotX = 0;
+		this.rotY = 0;
+		this.rotZ = 0;
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+	}
+	
+	public void resetRotation() {
+		this.rotX = 0;
+		this.rotY = 0;
+		this.rotZ = 0;
+	}
 
 	public float getX() {
 		return x;

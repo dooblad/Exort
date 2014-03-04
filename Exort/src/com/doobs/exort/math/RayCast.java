@@ -13,8 +13,10 @@ import com.doobs.exort.util.*;
 public class RayCast {
 	public static Vector3f getDirection(int mouseX, int mouseY) {
 		// Convert mouse coordinates to normalised device coordinates
-		Vector4f rayClip = new Vector4f((2.0f * mouseX) / Display.getWidth() - 1.0f, 
-				1.0f - (2.0f * mouseY) / Display.getHeight(), -1.0f, 1.0f);
+		Vector3f rayNDS = new Vector3f((2.0f * mouseX) / Display.getWidth() - 1.0f, 
+				(2.0f * mouseY) / Display.getHeight() - 1.0f, 1.0f);
+		
+		Vector4f rayClip = new Vector4f(rayNDS.getX(), rayNDS.getY(), -1.0f, 1.0f);
 		
 		// Store the projection matrix in a FloatBuffer
 		FloatBuffer projectionTemp = BufferUtils.createFloatBuffer(16);
@@ -42,8 +44,12 @@ public class RayCast {
 		// Multiply the eye ray by the modelview matrix
 		Vector4f temp = MathUtil.multByMatrix(modelView, rayEye);
 		
+		// Convert the temp Vector4f to a Vector3f and normalise it
+		Vector3f rayWorld = new Vector3f(temp.getX(), temp.getY(), temp.getZ());
+		//rayWorld = (Vector3f) rayWorld.normalise();
+		
 		// Return the normalised world space vector
-		return (Vector3f) (new Vector3f(-temp.getX(), -temp.getY(), temp.getZ()).normalise());
+		return rayWorld;
 	}
 	
 	public static Vector3f findPlane(Camera camera, Ray ray) {
@@ -61,7 +67,7 @@ public class RayCast {
 			float x = position.getX() + deltaX;
 			float z = position.getZ() + deltaZ;
 			
-			// Make y = 0 so the player is always on the ground plane
+			// Make y = 0 so the vector is always on the ground plane
 			return new Vector3f(x, 0, z);
 		}
 		
