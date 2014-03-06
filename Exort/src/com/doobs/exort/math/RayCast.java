@@ -1,58 +1,66 @@
 package com.doobs.exort.math;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.nio.*;
 
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.*;
 
 import com.doobs.exort.util.*;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.*;
+
 public class RayCast {
 	public static Vector3f getDirection(int mouseX, int mouseY) {
-		// Convert mouse coordinates to normalised device coordinates
-		Vector3f rayNDS = new Vector3f((2.0f * mouseX) / Display.getWidth() - 1.0f, 
-				(2.0f * mouseY) / Display.getHeight() - 1.0f, 1.0f);
-		
-		Vector4f rayClip = new Vector4f(rayNDS.getX(), rayNDS.getY(), -1.0f, 1.0f);
-		
-		// Store the projection matrix in a FloatBuffer
-		FloatBuffer projectionTemp = BufferUtils.createFloatBuffer(16);
-		glGetFloat(GL_PROJECTION_MATRIX, projectionTemp);
-		
-		// Load the FloatBuffer into a Matrix4f object
-		Matrix4f projection = MathUtil.loadMatrix(projectionTemp);
-		projection.invert();
-		
-		// Multiply the clipping ray by the inverted projection matrix 
-		Vector4f rayEye = MathUtil.multByMatrix(projection, rayClip);
-		// Make the eye ray face away from the camera
-		rayEye.setZ(-1.0f);
-		// Specify this vector to be a direction and not a position
-		rayEye.setW(0.0f);
-		
-		// Store the modelview matrix in a FloatBuffer
-		FloatBuffer modelViewTemp = BufferUtils.createFloatBuffer(16);
-		glGetFloat(GL_MODELVIEW_MATRIX, modelViewTemp);
-		
-		// Load the FloatBuffer into a Matrix4f object
-		Matrix4f modelView = MathUtil.loadMatrix(modelViewTemp);
-		modelView.invert();
-		
-		// Multiply the eye ray by the modelview matrix
-		Vector4f temp = MathUtil.multByMatrix(modelView, rayEye);
-		
-		// Convert the temp Vector4f to a Vector3f and normalise it
-		Vector3f rayWorld = new Vector3f(temp.getX(), temp.getY(), temp.getZ());
-		//rayWorld = (Vector3f) rayWorld.normalise();
-		
-		// Return the normalised world space vector
-		return rayWorld;
+		IntBuffer viewport = ByteBuffer.allocateDirect((Integer.SIZE/8)*16).order(ByteOrder.nativeOrder()).asIntBuffer();
+        FloatBuffer modelview = ByteBuffer.allocateDirect((Float.SIZE/8)*16).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        FloatBuffer projection = ByteBuffer.allocateDirect((Float.SIZE/8)*16).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        FloatBuffer pickingRayBuffer = ByteBuffer.allocateDirect((Float.SIZE/8)*3).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        glGetFloat(GL_MODELVIEW_MATRIX, modelview);
+        glGetFloat(GL_PROJECTION_MATRIX, projection);
+        glGetInteger(GL_VIEWPORT, viewport);
+        
+        // convert window coordinates to opengl coordinates (top left to bottom left for (0,0)
+        float winX = (float) mouseX;
+        float winY = (float) mouseY;
+        
+        // now unproject this to get the  vector in to the screen
+        // take the frustum and unproject in to the screen
+        // frustrum has a near plane and a far plane
+        
+        // first the near vector
+        gluUnProject(winX, winY,  0, modelview, projection, viewport, pickingRayBuffer);        
+        Vector3f nearVector = new Vector3f(pickingRayBuffer.get(0),pickingRayBuffer.get(1),pickingRayBuffer.get(2));
+        
+        pickingRayBuffer.rewind();
+        
+        // now the far vector
+        gluUnProject(winX, winY,  1, modelview, projection, viewport, pickingRayBuffer);
+        Vector3f farVector = new Vector3f(pickingRayBuffer.get(0),pickingRayBuffer.get(1),pickingRayBuffer.get(2));
+        
+        //save the results in a vector, far-near
+        Vector3f result = new Vector3f();
+        Vector3f.sub(farVector, nearVector, result);
+        result.x = -result.x;
+        return result;
+        //return farVector.subtractVector(nearVector).normalise();
 	}
 	
-	public static Vector3f findPlane(Camera camera, Ray ray) {
+	public static Vector3f getDirection(Camera camera) {
+		float rotX = (float) Math.toRadians(camera.rotX);
+		float rotY = (float) Math.toRadians(camera.rotY);
+		
+		float x = (float) -(Math.sin(rotY) * Math.cos(rotX));
+		float y = (float) -(Math.sin(rotX));
+		float z = (float) -(Math.cos(rotY) * Math.cos(rotX));
+		
+		return new Vector3f(x, y, z);
+	}
+	
+	public static Ray getRay(Camera camera) {
+		return new Ray(camera.getPosition(), getDirection(camera));
+	}
+	
+	public static Vector3f findPlane(Ray ray) {
 		Vector3f direction = ray.getDirection();
 		Vector3f position = ray.getPosition();
 		
@@ -64,8 +72,8 @@ public class RayCast {
 			float deltaX = direction.getX() * factor;
 			float deltaZ = direction.getZ()	* factor;
 			
-			float x = position.getX() + deltaX;
-			float z = position.getZ() + deltaZ;
+			float x =  position.getX() + deltaX;
+			float z = -position.getZ() + deltaZ;
 			
 			// Make y = 0 so the vector is always on the ground plane
 			return new Vector3f(x, 0, z);
@@ -74,3 +82,11 @@ public class RayCast {
 		return null;
 	}
 }
+
+
+
+
+
+
+
+

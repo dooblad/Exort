@@ -7,6 +7,10 @@ import com.doobs.exort.util.Camera;
 public class Ray {
 	private Vector3f position, direction;
 	
+	public Ray() {
+		
+	}
+	
 	public Ray(Camera camera, Vector3f direction) {
 		position = new Vector3f(camera.getX(), camera.getY(), camera.getZ());
 		this.direction = direction;

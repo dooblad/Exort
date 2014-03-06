@@ -8,7 +8,7 @@ import res.models.OBJLoader;
 
 import com.doobs.exort.util.Model;
 
-public class Player {
+public class Player extends Entity{
 	private Model model;
 	private float x, y, z;
 	

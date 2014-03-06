@@ -16,7 +16,7 @@ import com.doobs.exort.util.GLTools;
 
 public class Main {
 	public static final String TITLE = "Exort";
-	public static int width = 800, height = 600;
+	public static int width = 600, height = 600;
 
 	private Map map;
 	private Player player;
@@ -69,15 +69,15 @@ public class Main {
 		glPushMatrix();
 		camera.applyTransformations();
 		
-		Ray ray;
+		Ray ray = new Ray();
 		
-		if(Mouse.isGrabbed()) // Assume the mouse is in the middle of the screen if it is grabbed
-			ray = new Ray(camera, RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2));
+		if(Mouse.isGrabbed())
+			ray = new Ray(camera.getPosition(), RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2));
 		else
-			ray = new Ray(camera, RayCast.getDirection(Mouse.getX(), Mouse.getY()));
+			ray = new Ray(camera.getPosition(), RayCast.getDirection(Mouse.getX(), Mouse.getY()));
 		
 		// Find the location where the ray intersects the ground plane
-		Vector3f plane = RayCast.findPlane(camera, ray);
+		Vector3f plane = RayCast.findPlane(ray);
 		
 		if(plane!= null) 
 			player.move(plane);

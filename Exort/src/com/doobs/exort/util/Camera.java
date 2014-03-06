@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.*;
 
 public class Camera {
 	private float x, y, z, xa, ya, za;
@@ -140,6 +141,11 @@ public class Camera {
 		this.rotZ = 0;
 	}
 
+	// Getters and Setters
+	public Vector3f getPosition() {
+		return new Vector3f(x, y, z);
+	}
+	
 	public float getX() {
 		return x;
 	}
