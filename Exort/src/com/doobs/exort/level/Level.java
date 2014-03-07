@@ -4,15 +4,12 @@ import java.util.*;
 
 import res.models.OBJLoader;
 
-import com.doobs.exort.*;
 import com.doobs.exort.entity.*;
 import com.doobs.exort.util.Model;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Level {
-	private Main main;
-	
 	private Model model;
 	
 	private Player player;
@@ -22,11 +19,6 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 
 	public Level() {
-		this(null);
-	}
-
-	public Level(Main main) {
-		this.main = main;
 		this.model = OBJLoader.loadModel("map.obj");
 		width = 16;
 		height = 14;

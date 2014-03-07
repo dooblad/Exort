@@ -7,12 +7,13 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
+import res.textures.*;
+
 import com.doobs.exort.entity.Player;
 import com.doobs.exort.level.Level;
 import com.doobs.exort.math.Ray;
 import com.doobs.exort.math.RayCast;
-import com.doobs.exort.util.Camera;
-import com.doobs.exort.util.GLTools;
+import com.doobs.exort.util.*;
 
 public class Main {
 	public static final String TITLE = "Exort";
@@ -26,10 +27,11 @@ public class Main {
 
 	public Main() {
 		GLTools.init();
+		Cursor.init();
 
 		level = new Level();
 		player = new Player();
-		camera = new Camera();
+		camera = new Camera(0.0f, 3.0f, 0.0f);
 
 		closeRequested = false;
 		
@@ -53,10 +55,14 @@ public class Main {
 					Mouse.setGrabbed(!Mouse.isGrabbed());
 				if(Keyboard.getEventKey() == Keyboard.KEY_R)
 					camera.resetRotation();
+				if(Keyboard.getEventKey() == Keyboard.KEY_F11)
+					GLTools.toggleFullscreen();
 			}
 		}
 		
 		GLTools.tick();
+		
+		Lighting.updateLight(camera);
 
 		camera.tick(delta);
 		level.tick(delta);
@@ -65,6 +71,8 @@ public class Main {
 
 	public void render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		//glUseProgram(Shaders.defaultShader.getID());
 
 		glPushMatrix();
 		camera.applyTransformations();
@@ -87,15 +95,12 @@ public class Main {
 		}
 		
 		level.render();
+		
+		//glUseProgram(0);
+		
 		player.render();
 		glPopMatrix();
 		
-		glBegin(GL_LINES);
-		glVertex3f( 0.0f,  0.1f, -1.0f);
-		glVertex3f( 0.0f, -0.1f, -1.0f);
-		glVertex3f(-0.1f,  0.0f, -1.0f);
-		glVertex3f( 0.1f,  0.0f, -1.0f); 
-		glEnd();
 	}
 
 	public static void main(String[] args) {

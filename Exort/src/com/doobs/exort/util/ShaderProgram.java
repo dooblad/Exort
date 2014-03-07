@@ -5,6 +5,8 @@ import static org.lwjgl.opengl.GL20.*;
 
 import java.io.*;
 
+import res.shaders.*;
+
 public class ShaderProgram {
 	public int program;
 	public int vertexShader, fragmentShader;
@@ -16,13 +18,17 @@ public class ShaderProgram {
 		String vertexSource = "";
 		String fragmentSource = "";
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(
-					"res/shaders/" + URL + ".vert")));
+			//BufferedReader reader = new BufferedReader(new FileReader(new File(
+			//		"res/shaders/" + URL + ".vert")));
+			
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(Shaders.class.getResourceAsStream(URL + ".vert")));
 			String line;
 			for (int i = 0; i < 2; i++) {
 				if (i == 1)
-					reader = new BufferedReader(new FileReader(new File(
-							"res/shaders/" + URL + ".frag")));
+					reader = new BufferedReader(new InputStreamReader(Shaders.class.getResourceAsStream(URL + ".frag")));
+					//reader = new BufferedReader(new FileReader(new File(
+					//		"res/shaders/" + URL + ".frag")));
 				while ((line = reader.readLine()) != null) {
 					if (i == 0)
 						vertexSource += line + "\n";
@@ -56,5 +62,10 @@ public class ShaderProgram {
 		glDeleteProgram(program);
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
+	}
+	
+	// Getters and Setters
+	public int getID() {
+		return program;
 	}
 }
