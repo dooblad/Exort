@@ -8,7 +8,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.doobs.exort.entity.Player;
-import com.doobs.exort.level.Map;
+import com.doobs.exort.level.Level;
 import com.doobs.exort.math.Ray;
 import com.doobs.exort.math.RayCast;
 import com.doobs.exort.util.Camera;
@@ -16,9 +16,9 @@ import com.doobs.exort.util.GLTools;
 
 public class Main {
 	public static final String TITLE = "Exort";
-	public static int width = 600, height = 600;
+	public static int width = 800, height = 600;
 
-	private Map map;
+	private Level level;
 	private Player player;
 	private Camera camera;
 	
@@ -27,7 +27,7 @@ public class Main {
 	public Main() {
 		GLTools.init();
 
-		map = new Map();
+		level = new Level();
 		player = new Player();
 		camera = new Camera();
 
@@ -59,7 +59,7 @@ public class Main {
 		GLTools.tick();
 
 		camera.tick(delta);
-		map.tick(delta);
+		level.tick(delta);
 		player.tick(delta);
 	}
 
@@ -71,18 +71,22 @@ public class Main {
 		
 		Ray ray = new Ray();
 		
-		if(Mouse.isGrabbed())
-			ray = new Ray(camera.getPosition(), RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2));
-		else
-			ray = new Ray(camera.getPosition(), RayCast.getDirection(Mouse.getX(), Mouse.getY()));
+		while(Mouse.next()) {
+			if(Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
+				if(Mouse.isGrabbed())
+					ray = new Ray(camera.getPosition(), RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2));
+				else
+					ray = new Ray(camera.getPosition(), RayCast.getDirection(Mouse.getX(), Mouse.getY()));
+				
+				// Find the location where the ray intersects the ground plane
+				Vector3f plane = RayCast.findPlane(ray);
+				
+				if(plane!= null) 
+					player.move(plane);
+			}
+		}
 		
-		// Find the location where the ray intersects the ground plane
-		Vector3f plane = RayCast.findPlane(ray);
-		
-		if(plane!= null) 
-			player.move(plane);
-		
-		map.render();
+		level.render();
 		player.render();
 		glPopMatrix();
 		
@@ -96,5 +100,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		new Main();
+	}
+	
+	// Getters and Setters
+	public Level getLevel() {
+		return level;
 	}
 }

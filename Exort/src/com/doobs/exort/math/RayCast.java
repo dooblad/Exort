@@ -4,8 +4,6 @@ import java.nio.*;
 
 import org.lwjgl.util.vector.*;
 
-import com.doobs.exort.util.*;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
@@ -41,23 +39,9 @@ public class RayCast {
         Vector3f result = new Vector3f();
         Vector3f.sub(farVector, nearVector, result);
         result.x = -result.x;
+        result.z = -result.z;
         return result;
         //return farVector.subtractVector(nearVector).normalise();
-	}
-	
-	public static Vector3f getDirection(Camera camera) {
-		float rotX = (float) Math.toRadians(camera.rotX);
-		float rotY = (float) Math.toRadians(camera.rotY);
-		
-		float x = (float) -(Math.sin(rotY) * Math.cos(rotX));
-		float y = (float) -(Math.sin(rotX));
-		float z = (float) -(Math.cos(rotY) * Math.cos(rotX));
-		
-		return new Vector3f(x, y, z);
-	}
-	
-	public static Ray getRay(Camera camera) {
-		return new Ray(camera.getPosition(), getDirection(camera));
 	}
 	
 	public static Vector3f findPlane(Ray ray) {
