@@ -10,7 +10,7 @@ import com.doobs.exort.net.packets.Packet.*;
 public class PacketParser {
 	private Client client;
 	private Level level;
-	
+
 	// Used to determine client-server latency
 	private long pingStart;
 	private int ping;
@@ -51,15 +51,15 @@ public class PacketParser {
 			break;
 		}
 	}
-	
+
 	public void startPingTimer() {
 		pingStart = System.currentTimeMillis();
 	}
-	
+
 	public void stopPingTimer() {
 		ping = (int) (System.currentTimeMillis() - pingStart);
 	}
-	
+
 	// For adjusting the packet time based on latency
 	public int getAdjustedTime(int time, int offset) {
 		return (time + offset) % 1000;

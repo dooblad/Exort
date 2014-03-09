@@ -6,11 +6,11 @@ import com.doobs.exort.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.packets.*;
 
-public class Client extends Thread implements Runnable{
+public class Client extends Thread implements Runnable {
 	private Main main;
 
 	private PacketHandler handler;
-	
+
 	// Packet timing
 	private long lastTime;
 	private long delta;
@@ -21,14 +21,14 @@ public class Client extends Thread implements Runnable{
 
 		handler = new PacketHandler(this, address, level);
 		handler.start();
-		
+
 		lastTime = System.currentTimeMillis();
 		delta = 0;
 		time = 0;
 	}
-	
+
 	public void run() {
-		while(true) {
+		while (true) {
 			delta = System.currentTimeMillis() - lastTime;
 			lastTime = System.currentTimeMillis();
 			time += delta;
@@ -53,7 +53,7 @@ public class Client extends Thread implements Runnable{
 	public PacketHandler getHandler() {
 		return handler;
 	}
-	
+
 	public InetAddress getAddress() {
 		return handler.getAddress();
 	}
@@ -69,7 +69,7 @@ public class Client extends Thread implements Runnable{
 	public int getPacketTime() {
 		return (int) (time % 1000);
 	}
-	
+
 	public void setTime(int time) {
 		this.time = time;
 	}

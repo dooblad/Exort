@@ -11,7 +11,7 @@ public class Projection {
 	public boolean overlaps(Projection projection) {
 		return max >= projection.getMin() && projection.getMax() >= min;
 	}
-	
+
 	public void print() {
 		System.out.println("Projection[" + min + ", " + max + "]");
 	}

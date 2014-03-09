@@ -11,15 +11,23 @@ public class MathUtil {
 	public static Vector3f perpendicular(Vector3f input) {
 		return new Vector3f(-input.getY(), input.getX(), input.getZ());
 	}
-	
+
 	public static Vector4f multByMatrix(Matrix4f matrix, Vector4f vector) {
-		float x = (matrix.m00 * vector.getX()) + (matrix.m01 * vector.getY() + (matrix.m02 * vector.getZ()) + (matrix.m03 * vector.getW()));
-		float y = (matrix.m10 * vector.getX()) + (matrix.m11 * vector.getY() + (matrix.m12 * vector.getZ()) + (matrix.m13 * vector.getW()));
-		float z = (matrix.m20 * vector.getX()) + (matrix.m21 * vector.getY() + (matrix.m22 * vector.getZ()) + (matrix.m23 * vector.getW()));
-		float w = (matrix.m30 * vector.getX()) + (matrix.m31 * vector.getY() + (matrix.m32 * vector.getZ()) + (matrix.m33 * vector.getW()));
+		float x = (matrix.m00 * vector.getX())
+				+ (matrix.m01 * vector.getY() + (matrix.m02 * vector.getZ()) + (matrix.m03 * vector
+						.getW()));
+		float y = (matrix.m10 * vector.getX())
+				+ (matrix.m11 * vector.getY() + (matrix.m12 * vector.getZ()) + (matrix.m13 * vector
+						.getW()));
+		float z = (matrix.m20 * vector.getX())
+				+ (matrix.m21 * vector.getY() + (matrix.m22 * vector.getZ()) + (matrix.m23 * vector
+						.getW()));
+		float w = (matrix.m30 * vector.getX())
+				+ (matrix.m31 * vector.getY() + (matrix.m32 * vector.getZ()) + (matrix.m33 * vector
+						.getW()));
 		return new Vector4f(x, y, z, w);
 	}
-	
+
 	public static void loadMatrix(Matrix4f matrix, FloatBuffer data) {
 		matrix.m00 = data.get(0);
 		matrix.m01 = data.get(1);
@@ -38,7 +46,7 @@ public class MathUtil {
 		matrix.m32 = data.get(14);
 		matrix.m33 = data.get(15);
 	}
-	
+
 	public static Matrix4f loadMatrix(FloatBuffer data) {
 		Matrix4f result = new Matrix4f();
 		result.m00 = data.get(0);

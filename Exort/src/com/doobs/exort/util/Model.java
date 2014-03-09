@@ -15,7 +15,7 @@ public class Model {
 	public Model() {
 
 	}
-	
+
 	public Model(List<Vector3f> vertices, List<Vector3f> normals) {
 		this.vertices = new Vector3f[vertices.size()];
 		for (int i = 0; i < vertices.size(); i++) {
@@ -40,15 +40,13 @@ public class Model {
 	public void generateDisplayList() {
 		handle = glGenLists(1);
 
-		/*glNewList(handle, GL_COMPILE_AND_EXECUTE);
-		glBegin(GL_TRIANGLES);
-		for (int i = 0; i < vertices.capacity(); i += 3) {
-			glVertex3f(vertices[i), vertices[i + 1],
-					vertices[i + 2));
-		}
-		glEnd();
-		glEndList();*/
-		
+		/*
+		 * glNewList(handle, GL_COMPILE_AND_EXECUTE); glBegin(GL_TRIANGLES); for
+		 * (int i = 0; i < vertices.capacity(); i += 3) {
+		 * glVertex3f(vertices[i), vertices[i + 1], vertices[i + 2)); } glEnd();
+		 * glEndList();
+		 */
+
 		glNewList(handle, GL_COMPILE);
 		glBegin(GL_TRIANGLES);
 		for (Face face : faces) {

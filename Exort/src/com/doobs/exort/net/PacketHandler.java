@@ -14,7 +14,7 @@ public class PacketHandler extends Thread {
 	private PacketParser parser;
 	private InetAddress address;
 	private int port;
-	
+
 	public PacketHandler(Client client, String address, Level level) {
 		port = NetVariables.PORT;
 		try {
@@ -37,7 +37,8 @@ public class PacketHandler extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//System.out.println("[" + packet.getAddress().getHostAddress() + "]:" + new String(packet.getData()).trim());
+			// System.out.println("[" + packet.getAddress().getHostAddress() +
+			// "]:" + new String(packet.getData()).trim());
 			parser.parsePacket(data, packet.getAddress(), packet.getPort());
 		}
 	}
@@ -56,7 +57,7 @@ public class PacketHandler extends Thread {
 	public PacketParser getParser() {
 		return parser;
 	}
-	
+
 	public InetAddress getAddress() {
 		return address;
 	}

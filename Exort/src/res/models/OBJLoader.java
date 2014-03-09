@@ -26,7 +26,8 @@ public class OBJLoader {
 		try {
 			Model model = new Model();
 			model.setHandle(glGenLists(1));
-			BufferedReader reader = new BufferedReader(new InputStreamReader(OBJLoader.class.getResourceAsStream(URL)));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					OBJLoader.class.getResourceAsStream(URL)));
 			List<Vector3f> vertices = new ArrayList<Vector3f>();
 			List<Vector3f> normals = new ArrayList<Vector3f>();
 			List<Face> faces = new ArrayList<Face>();
@@ -59,7 +60,7 @@ public class OBJLoader {
 			// Convert Lists to FloatBuffers
 			Vector3f[] vertArray = new Vector3f[vertices.size() * 3];
 			for (int i = 0; i < vertices.size(); i++) {
-				vertArray[i] = vertices.get(i); 
+				vertArray[i] = vertices.get(i);
 			}
 			model.setVertices(vertArray);
 

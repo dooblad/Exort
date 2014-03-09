@@ -3,9 +3,9 @@ package res.shaders;
 import com.doobs.exort.util.*;
 
 public class Shaders {
-	public static ShaderProgram defaultShader;
+	public static ShaderProgram lightingShader;
 	
 	public static void init() {
-		defaultShader = new ShaderProgram("default");
+		lightingShader = new ShaderProgram("lighting");
 	}
 }

@@ -11,9 +11,9 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Level {
 	private Model model;
-	
+
 	private Player player;
-	
+
 	private int width, height;
 	private byte[] tiles;
 	private List<Entity> entities = new ArrayList<Entity>();
@@ -44,16 +44,14 @@ public class Level {
 	}
 
 	public void render() {
-		glColor3f(1.0f, 0.0f, 0.0f);
 		glCallList(model.getHandle());
-		glColor3f(1.0f, 1.0f, 1.0f);
 	}
 
 	// Getters and setters
 	public Model getModel() {
 		return model;
 	}
-	
+
 	public synchronized void movePlayer(String username, int x, int z, int time) {
 		int index = getPlayerIndex(username);
 		Player player = (Player) entities.get(index);
@@ -76,7 +74,7 @@ public class Level {
 		}
 		entities.remove(index);
 	}
-	
+
 	private int getPlayerIndex(String name) {
 		int index = 0;
 		for (Entity entity : entities) {
@@ -88,7 +86,7 @@ public class Level {
 		}
 		return index;
 	}
-	
+
 	// Getters and Setters
 	public Player getPlayer() {
 		return player;

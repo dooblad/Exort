@@ -5,13 +5,12 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
 
+import res.shaders.*;
 import res.textures.*;
 
 import com.doobs.exort.entity.Player;
 import com.doobs.exort.level.Level;
-import com.doobs.exort.math.Ray;
 import com.doobs.exort.math.RayCast;
 import com.doobs.exort.util.*;
 
@@ -22,7 +21,7 @@ public class Main {
 	private Level level;
 	private Player player;
 	private Camera camera;
-	
+
 	private boolean closeRequested;
 
 	public Main() {
@@ -34,7 +33,7 @@ public class Main {
 		camera = new Camera(0.0f, 3.0f, 0.0f);
 
 		closeRequested = false;
-		
+
 		while (!closeRequested) {
 			tick(GLTools.getDelta());
 			render();
@@ -53,16 +52,14 @@ public class Main {
 			if (Keyboard.getEventKeyState()) {
 				if (Keyboard.getEventKey() == Keyboard.KEY_LMENU)
 					Mouse.setGrabbed(!Mouse.isGrabbed());
-				if(Keyboard.getEventKey() == Keyboard.KEY_R)
+				if (Keyboard.getEventKey() == Keyboard.KEY_R)
 					camera.resetRotation();
-				if(Keyboard.getEventKey() == Keyboard.KEY_F11)
+				if (Keyboard.getEventKey() == Keyboard.KEY_F11)
 					GLTools.toggleFullscreen();
 			}
 		}
-		
+
 		GLTools.tick();
-		
-		Lighting.updateLight(camera);
 
 		camera.tick(delta);
 		level.tick(delta);
@@ -72,41 +69,36 @@ public class Main {
 	public void render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		//glUseProgram(Shaders.defaultShader.getID());
-
+		Shaders.lightingShader.use();
+		
+		glEnable(GL_TEXTURE_2D);
+		
 		glPushMatrix();
 		camera.applyTransformations();
-		
-		Ray ray = new Ray();
-		
-		while(Mouse.next()) {
-			if(Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
-				if(Mouse.isGrabbed())
-					ray = new Ray(camera.getPosition(), RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2));
-				else
-					ray = new Ray(camera.getPosition(), RayCast.getDirection(Mouse.getX(), Mouse.getY()));
-				
-				// Find the location where the ray intersects the ground plane
-				Vector3f plane = RayCast.findPlane(ray);
-				
-				if(plane!= null) 
-					player.move(plane);
+
+		while (Mouse.next()) {
+			if (Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
+				RayCast.movePlayer(camera, player);
 			}
 		}
 		
+		// Send modelViewMatrix to GLSL
+		Lighting.sendModelViewMatrix();
+
 		level.render();
-		
-		//glUseProgram(0);
-		
 		player.render();
-		glPopMatrix();
+
+		glDisable(GL_TEXTURE_2D);
+		Shaders.lightingShader.end();
+
 		
+		glPopMatrix();
 	}
 
 	public static void main(String[] args) {
 		new Main();
 	}
-	
+
 	// Getters and Setters
 	public Level getLevel() {
 		return level;
