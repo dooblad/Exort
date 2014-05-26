@@ -8,8 +8,8 @@ import java.io.*;
 import res.shaders.*;
 
 public class ShaderProgram {
-	public int program;
-	public int vertexShader, fragmentShader;
+	private int program;
+	private int vertexShader, fragmentShader;
 
 	public ShaderProgram(String URL) {
 		program = glCreateProgram();
@@ -18,14 +18,11 @@ public class ShaderProgram {
 		String vertexSource = "";
 		String fragmentSource = "";
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					Shaders.class.getResourceAsStream(URL + ".vert")));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(Shaders.class.getResourceAsStream(URL + ".vert")));
 			String line;
 			for (int i = 0; i < 2; i++) {
 				if (i == 1)
-					reader = new BufferedReader(new InputStreamReader(
-							Shaders.class.getResourceAsStream(URL
-									+ ".frag")));
+					reader = new BufferedReader(new InputStreamReader(Shaders.class.getResourceAsStream(URL + ".frag")));
 				while ((line = reader.readLine()) != null) {
 					if (i == 0)
 						vertexSource += line + "\n";

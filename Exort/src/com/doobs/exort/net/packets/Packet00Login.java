@@ -32,8 +32,7 @@ public class Packet00Login extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("00" + this.username + "," + this.x + "," + this.y + "," + this.time)
-				.getBytes();
+		return ("00" + this.username + "," + this.x + "," + this.y + "," + this.time).getBytes();
 	}
 
 	public String getUsername() {

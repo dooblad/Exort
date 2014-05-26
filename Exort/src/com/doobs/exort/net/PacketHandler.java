@@ -28,6 +28,7 @@ public class PacketHandler extends Thread {
 		parser = new PacketParser(client, level);
 	}
 
+	@Override
 	public void run() {
 		while (true) {
 			byte[] data = new byte[1024];
@@ -44,8 +45,7 @@ public class PacketHandler extends Thread {
 	}
 
 	public void sendData(byte[] data) {
-		DatagramPacket packet = new DatagramPacket(data, data.length, address,
-				port);
+		DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 		try {
 			socket.send(packet);
 		} catch (IOException e) {

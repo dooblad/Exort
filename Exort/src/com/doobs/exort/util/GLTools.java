@@ -3,7 +3,7 @@ package com.doobs.exort.util;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
-import java.nio.FloatBuffer;
+import java.nio.*;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -15,6 +15,7 @@ import org.lwjgl.opengl.DisplayMode;
 import res.shaders.*;
 
 import com.doobs.exort.Main;
+import com.doobs.exort.gfx.*;
 
 public class GLTools {
 	public static long lastFrame;
@@ -31,10 +32,8 @@ public class GLTools {
 
 	public static boolean fullscreen = false;
 
-	public static FloatBuffer perspectiveProjectionMatrix = BufferUtils
-			.createFloatBuffer(16);
-	public static FloatBuffer orthographicProjectionMatrix = BufferUtils
-			.createFloatBuffer(16);
+	public static FloatBuffer perspectiveProjectionMatrix = BufferUtils.createFloatBuffer(16);
+	public static FloatBuffer orthographicProjectionMatrix = BufferUtils.createFloatBuffer(16);
 
 	public static void init() {
 		getDelta();
@@ -65,8 +64,7 @@ public class GLTools {
 		glLoadIdentity();
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(fov, ((float) Main.width / (float) Main.height), zNear,
-				zFar);
+		gluPerspective(fov, ((float) Main.width / (float) Main.height), zNear, zFar);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -81,9 +79,9 @@ public class GLTools {
 		glGetFloat(GL_PROJECTION_MATRIX, orthographicProjectionMatrix);
 		glLoadMatrix(perspectiveProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
-		
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+		glClearColor(0f, 0f, 0f, 0f);
+		glColor4f(1f, 1f, 1f, 1f);
 	}
 
 	public static long getTime() {
@@ -112,15 +110,14 @@ public class GLTools {
 		glViewport(0, 0, Main.width, Main.height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(fov, (float) Main.width / (float) Main.height, zNear,
-				zFar);
+		gluPerspective(fov, (float) Main.width / (float) Main.height, zNear, zFar);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		// Ortho
 		glGetFloat(GL_PROJECTION_MATRIX, perspectiveProjectionMatrix);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, Main.width, Main.height, 0, 1, -1);
+		glOrtho(0, Main.width, 0, Main.height, 1, -1);
 		glGetFloat(GL_PROJECTION_MATRIX, orthographicProjectionMatrix);
 		glLoadMatrix(perspectiveProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
@@ -136,8 +133,11 @@ public class GLTools {
 	}
 
 	public static void switchToOrtho() {
+		// THIS METHOD SHOULD BE CREATING THE PROPER ORTHOGRAPHICAL ENVIRONMENT FOR USE IN
+		// THE GUI RENDER() FUNCTION, BUT NOPE
+		
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrix(GLTools.orthographicProjectionMatrix);
+		glLoadMatrix(orthographicProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glLoadIdentity();
@@ -146,7 +146,7 @@ public class GLTools {
 	public static void switchToPerspective() {
 		glPopMatrix();
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrix(GLTools.perspectiveProjectionMatrix);
+		glLoadMatrix(perspectiveProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
 	}
 
@@ -157,9 +157,7 @@ public class GLTools {
 
 	public static void setDisplayMode(int width, int height, boolean fullscreen) {
 		// return if requested DisplayMode is already set
-		if ((Display.getDisplayMode().getWidth() == width)
-				&& (Display.getDisplayMode().getHeight() == height)
-				&& (Display.isFullscreen() == fullscreen)) {
+		if ((Display.getDisplayMode().getWidth() == width) && (Display.getDisplayMode().getHeight() == height) && (Display.isFullscreen() == fullscreen)) {
 			return;
 		}
 
@@ -173,13 +171,9 @@ public class GLTools {
 				for (int i = 0; i < modes.length; i++) {
 					DisplayMode current = modes[i];
 
-					if ((current.getWidth() == width)
-							&& (current.getHeight() == height)) {
-						if ((targetDisplayMode == null)
-								|| (current.getFrequency() >= freq)) {
-							if ((targetDisplayMode == null)
-									|| (current.getBitsPerPixel() > targetDisplayMode
-											.getBitsPerPixel())) {
+					if ((current.getWidth() == width) && (current.getHeight() == height)) {
+						if ((targetDisplayMode == null) || (current.getFrequency() >= freq)) {
+							if ((targetDisplayMode == null) || (current.getBitsPerPixel() > targetDisplayMode.getBitsPerPixel())) {
 								targetDisplayMode = current;
 								freq = targetDisplayMode.getFrequency();
 							}
@@ -190,10 +184,8 @@ public class GLTools {
 						// original display mode then it's probably best to go
 						// for this one
 						// since it's most likely compatible with the monitor
-						if ((current.getBitsPerPixel() == Display
-								.getDesktopDisplayMode().getBitsPerPixel())
-								&& (current.getFrequency() == Display
-										.getDesktopDisplayMode().getFrequency())) {
+						if ((current.getBitsPerPixel() == Display.getDesktopDisplayMode().getBitsPerPixel())
+								&& (current.getFrequency() == Display.getDesktopDisplayMode().getFrequency())) {
 							targetDisplayMode = current;
 							break;
 						}
@@ -204,8 +196,7 @@ public class GLTools {
 			}
 
 			if (targetDisplayMode == null) {
-				System.out.println("Failed to find value mode: " + width + "x"
-						+ height + " fs=" + fullscreen);
+				System.out.println("Failed to find value mode: " + width + "x" + height + " fs=" + fullscreen);
 				return;
 			}
 
@@ -213,8 +204,7 @@ public class GLTools {
 			Display.setFullscreen(fullscreen);
 
 		} catch (LWJGLException e) {
-			System.out.println("Unable to setup mode " + width + "x" + height
-					+ " fullscreen=" + fullscreen + e);
+			System.out.println("Unable to setup mode " + width + "x" + height + " fullscreen=" + fullscreen + e);
 		}
 	}
 
@@ -225,6 +215,13 @@ public class GLTools {
 
 	public static FloatBuffer asFloatBuffer(float... values) {
 		FloatBuffer result = BufferUtils.createFloatBuffer(values.length);
+		result.put(values);
+		result.flip();
+		return result;
+	}
+
+	public static IntBuffer asIntBuffer(int... values) {
+		IntBuffer result = BufferUtils.createIntBuffer(values.length);
 		result.put(values);
 		result.flip();
 		return result;

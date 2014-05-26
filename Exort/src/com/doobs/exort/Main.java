@@ -10,8 +10,9 @@ import res.shaders.*;
 import res.textures.*;
 
 import com.doobs.exort.entity.Player;
+import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.Level;
-import com.doobs.exort.math.RayCast;
+import com.doobs.exort.math.*;
 import com.doobs.exort.util.*;
 
 public class Main {
@@ -25,15 +26,13 @@ public class Main {
 	private boolean closeRequested;
 
 	public Main() {
-		GLTools.init();
-		Cursor.init();
-
+		init();
+		
 		level = new Level();
 		player = new Player();
 		camera = new Camera(0.0f, 3.0f, 0.0f);
 
 		closeRequested = false;
-
 		while (!closeRequested) {
 			tick(GLTools.getDelta());
 			render();
@@ -42,19 +41,24 @@ public class Main {
 			Display.sync(60);
 		}
 	}
+	
+	public void init() {
+		GLTools.init();
+		Cursor.init();
+		Textures.init();
+	}
 
 	public void tick(int delta) {
-		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)
-				|| Display.isCloseRequested())
+		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested())
 			closeRequested = true;
 
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
 				if (Keyboard.getEventKey() == Keyboard.KEY_LMENU)
 					Mouse.setGrabbed(!Mouse.isGrabbed());
-				if (Keyboard.getEventKey() == Keyboard.KEY_R)
-					camera.resetRotation();
-				if (Keyboard.getEventKey() == Keyboard.KEY_F11)
+				else if (Keyboard.getEventKey() == Keyboard.KEY_R)
+					camera.reset();
+				else if (Keyboard.getEventKey() == Keyboard.KEY_F11)
 					GLTools.toggleFullscreen();
 			}
 		}
@@ -68,12 +72,13 @@ public class Main {
 
 	public void render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		Shaders.lightingShader.use();
-		
+		glLoadIdentity();
+
 		glEnable(GL_TEXTURE_2D);
 		
-		glPushMatrix();
+		// Level rendering
+		Shaders.lighting.use();
+
 		camera.applyTransformations();
 
 		while (Mouse.next()) {
@@ -81,18 +86,24 @@ public class Main {
 				RayCast.movePlayer(camera, player);
 			}
 		}
-		
-		// Send modelViewMatrix to GLSL
+
 		Lighting.sendModelViewMatrix();
 
 		level.render();
 		player.render();
+		
+		Shaders.lighting.end();
+		
+		// GUI rendering
+		GLTools.switchToOrtho();
+		Shaders.gui.use();
+		
+		GUI.render();
+		
+		Shaders.gui.end();
+		GLTools.switchToPerspective();
 
 		glDisable(GL_TEXTURE_2D);
-		Shaders.lightingShader.end();
-
-		
-		glPopMatrix();
 	}
 
 	public static void main(String[] args) {

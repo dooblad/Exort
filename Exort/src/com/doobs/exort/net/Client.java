@@ -27,6 +27,7 @@ public class Client extends Thread implements Runnable {
 		time = 0;
 	}
 
+	@Override
 	public void run() {
 		while (true) {
 			delta = System.currentTimeMillis() - lastTime;
@@ -41,8 +42,7 @@ public class Client extends Thread implements Runnable {
 	}
 
 	public void handleMove(Packet02Move packet) {
-		main.getLevel().movePlayer(packet.getUsername(), packet.getX(),
-				packet.getZ(), packet.getTime());
+		main.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
 	}
 
 	public void sendData(byte[] data) {

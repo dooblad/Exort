@@ -1,3 +1,5 @@
+#version 120
+
 uniform mat4 modelViewMatrix;
 
 uniform sampler2D texture;
@@ -14,8 +16,7 @@ varying vec2 texCoord;
 varying vec4 color;
 
 void main() {
-
-	vec4 diffuseColor = color;
+	vec4 diffuseColor = color; // * texture2D(texture, texCoord);
 	
 	vec3 worldLightPosition = vec3((modelViewMatrix * vec4(lightPosition, 1.0)).xyz);
 
@@ -27,9 +28,10 @@ void main() {
 
     vec3 ambient = ambientColor.rgb * ambientColor.a;
 
-    float attenuation = 1.0 / ( falloff.x + (falloff.y * distance) + (falloff.z * distance * distance) );
+    float attenuation = 1.0 / (falloff.x + (falloff.y * distance) + (falloff.z * distance * distance));
 
     vec3 intensity = ambient + diffuse * attenuation;
     vec3 finalColor = diffuseColor.rgb * intensity;
+    
     gl_FragColor = vec4(finalColor, diffuseColor.a);
 }

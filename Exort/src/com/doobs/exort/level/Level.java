@@ -66,8 +66,7 @@ public class Level {
 	public void removePlayer(String name) {
 		int index = 0;
 		for (Entity entity : entities) {
-			if (entity instanceof Player
-					&& ((Player) entity).getUsername().equals(name)) {
+			if (entity instanceof Player && ((Player) entity).getUsername().equals(name)) {
 				break;
 			}
 			index++;
@@ -78,8 +77,7 @@ public class Level {
 	private int getPlayerIndex(String name) {
 		int index = 0;
 		for (Entity entity : entities) {
-			if (entity instanceof Player
-					&& ((Player) entity).getUsername().equals(name)) {
+			if (entity instanceof Player && ((Player) entity).getUsername().equals(name)) {
 				break;
 			}
 			index++;

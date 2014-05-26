@@ -3,9 +3,11 @@ package res.shaders;
 import com.doobs.exort.util.*;
 
 public class Shaders {
-	public static ShaderProgram lightingShader;
-	
+	public static ShaderProgram lighting;
+	public static ShaderProgram gui;
+
 	public static void init() {
-		lightingShader = new ShaderProgram("lighting");
+		lighting = new ShaderProgram("lighting");
+		gui = new ShaderProgram("gui");
 	}
 }

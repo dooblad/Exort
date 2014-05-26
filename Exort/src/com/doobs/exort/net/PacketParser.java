@@ -32,15 +32,13 @@ public class PacketParser {
 			stopPingTimer();
 			Packet00Login packet = new Packet00Login(data);
 			System.out.println(packet.getUsername() + " has joined the game.");
-			Player player = new Player(null, packet.getUsername(),
-					packet.getX(), packet.getY(), level);
+			Player player = new Player(null, packet.getUsername(), packet.getX(), packet.getY(), level);
 			level.addEntity(player);
 			client.setTime(getAdjustedTime(packet.getTime(), ping));
 			break;
 		case DISCONNECT:
 			Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-			System.out.println(disconnectPacket.getUsername()
-					+ " has left the game.");
+			System.out.println(disconnectPacket.getUsername() + " has left the game.");
 			level.removePlayer(disconnectPacket.getUsername());
 			break;
 		case MOVE:

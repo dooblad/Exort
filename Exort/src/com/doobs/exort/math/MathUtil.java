@@ -13,18 +13,10 @@ public class MathUtil {
 	}
 
 	public static Vector4f multByMatrix(Matrix4f matrix, Vector4f vector) {
-		float x = (matrix.m00 * vector.getX())
-				+ (matrix.m01 * vector.getY() + (matrix.m02 * vector.getZ()) + (matrix.m03 * vector
-						.getW()));
-		float y = (matrix.m10 * vector.getX())
-				+ (matrix.m11 * vector.getY() + (matrix.m12 * vector.getZ()) + (matrix.m13 * vector
-						.getW()));
-		float z = (matrix.m20 * vector.getX())
-				+ (matrix.m21 * vector.getY() + (matrix.m22 * vector.getZ()) + (matrix.m23 * vector
-						.getW()));
-		float w = (matrix.m30 * vector.getX())
-				+ (matrix.m31 * vector.getY() + (matrix.m32 * vector.getZ()) + (matrix.m33 * vector
-						.getW()));
+		float x = (matrix.m00 * vector.getX()) + (matrix.m01 * vector.getY() + (matrix.m02 * vector.getZ()) + (matrix.m03 * vector.getW()));
+		float y = (matrix.m10 * vector.getX()) + (matrix.m11 * vector.getY() + (matrix.m12 * vector.getZ()) + (matrix.m13 * vector.getW()));
+		float z = (matrix.m20 * vector.getX()) + (matrix.m21 * vector.getY() + (matrix.m22 * vector.getZ()) + (matrix.m23 * vector.getW()));
+		float w = (matrix.m30 * vector.getX()) + (matrix.m31 * vector.getY() + (matrix.m32 * vector.getZ()) + (matrix.m33 * vector.getW()));
 		return new Vector4f(x, y, z, w);
 	}
 

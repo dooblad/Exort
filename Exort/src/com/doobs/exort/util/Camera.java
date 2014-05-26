@@ -47,76 +47,42 @@ public class Camera {
 			else if (rotY >= 360)
 				rotY -= 360.0f;
 
-			if ((Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard
-						.isKeyDown(Keyboard.KEY_D))
-					|| (Keyboard.isKeyDown(Keyboard.KEY_W)
-							&& !Keyboard.isKeyDown(Keyboard.KEY_S)
-							&& Keyboard.isKeyDown(Keyboard.KEY_A) && Keyboard
-								.isKeyDown(Keyboard.KEY_D))) { // W || W + A + D
+			if ((Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard
+					.isKeyDown(Keyboard.KEY_D))
+					|| (Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A) && Keyboard
+							.isKeyDown(Keyboard.KEY_D))) { // W || W + A + D
 				xa += (float) (Math.sin(Math.toRadians(rotY)) * moveSpeed * delta);
 				za -= (float) (Math.cos(Math.toRadians(rotY)) * moveSpeed * delta);
-			} else if ((!Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard
-						.isKeyDown(Keyboard.KEY_D))
-					|| (!Keyboard.isKeyDown(Keyboard.KEY_W)
-							&& Keyboard.isKeyDown(Keyboard.KEY_S)
-							&& Keyboard.isKeyDown(Keyboard.KEY_A) && Keyboard
-								.isKeyDown(Keyboard.KEY_D))) { // S || S + A + D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 180.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 180.0f))
-						* moveSpeed * delta);
-			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& Keyboard.isKeyDown(Keyboard.KEY_A)
+			} else if ((!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard
+					.isKeyDown(Keyboard.KEY_D))
+					|| (!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A) && Keyboard
+							.isKeyDown(Keyboard.KEY_D))) { // S || S + A + D
+				xa += (float) (Math.sin(Math.toRadians(rotY + 180.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY + 180.0f)) * moveSpeed * delta);
+			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& !Keyboard.isKeyDown(Keyboard.KEY_D)) { // A
-				xa += (float) (Math.sin(Math.toRadians(rotY - 90.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY - 90.0f))
-						* moveSpeed * delta);
-			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_A)
+				xa += (float) (Math.sin(Math.toRadians(rotY - 90.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY - 90.0f)) * moveSpeed * delta);
+			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& Keyboard.isKeyDown(Keyboard.KEY_D)) { // D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 90.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 90.0f))
-						* moveSpeed * delta);
-			} else if (Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& Keyboard.isKeyDown(Keyboard.KEY_A)
+				xa += (float) (Math.sin(Math.toRadians(rotY + 90.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY + 90.0f)) * moveSpeed * delta);
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& !Keyboard.isKeyDown(Keyboard.KEY_D)) { // W + A
-				xa += (float) (Math.sin(Math.toRadians(rotY - 45.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY - 45.0f))
-						* moveSpeed * delta);
-			} else if (Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_A)
+				xa += (float) (Math.sin(Math.toRadians(rotY - 45.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY - 45.0f)) * moveSpeed * delta);
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& Keyboard.isKeyDown(Keyboard.KEY_D)) { // W + D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 45.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 45.0f))
-						* moveSpeed * delta);
-			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& Keyboard.isKeyDown(Keyboard.KEY_A)
+				xa += (float) (Math.sin(Math.toRadians(rotY + 45.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY + 45.0f)) * moveSpeed * delta);
+			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& !Keyboard.isKeyDown(Keyboard.KEY_D)) { // S + A
-				xa += (float) (Math.sin(Math.toRadians(rotY - 135.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY - 135.0f))
-						* moveSpeed * delta);
-			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W)
-					&& Keyboard.isKeyDown(Keyboard.KEY_S)
-					&& !Keyboard.isKeyDown(Keyboard.KEY_A)
+				xa += (float) (Math.sin(Math.toRadians(rotY - 135.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY - 135.0f)) * moveSpeed * delta);
+			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& Keyboard.isKeyDown(Keyboard.KEY_D)) { // S + D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 135.0f))
-						* moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 135.0f))
-						* moveSpeed * delta);
+				xa += (float) (Math.sin(Math.toRadians(rotY + 135.0f)) * moveSpeed * delta);
+				za -= (float) (Math.cos(Math.toRadians(rotY + 135.0f)) * moveSpeed * delta);
 			}
 
 			if (isKeyDown(KEY_SPACE))
@@ -141,9 +107,7 @@ public class Camera {
 	}
 
 	public void reset() {
-		this.rotX = 0;
-		this.rotY = 0;
-		this.rotZ = 0;
+		resetRotation();
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;

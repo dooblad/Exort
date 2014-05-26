@@ -26,8 +26,7 @@ public class OBJLoader {
 		try {
 			Model model = new Model();
 			model.setHandle(glGenLists(1));
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					OBJLoader.class.getResourceAsStream(URL)));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(OBJLoader.class.getResourceAsStream(URL)));
 			List<Vector3f> vertices = new ArrayList<Vector3f>();
 			List<Vector3f> normals = new ArrayList<Vector3f>();
 			List<Face> faces = new ArrayList<Face>();
@@ -44,14 +43,10 @@ public class OBJLoader {
 					float z = Float.valueOf(line.split(" ")[3]);
 					normals.add(new Vector3f(x, y, z));
 				} else if (line.startsWith("f ")) {
-					Vector3f vertexIndices = new Vector3f(Float.valueOf(line
-							.split(" ")[1].split("/")[0]), Float.valueOf(line
-							.split(" ")[2].split("/")[0]), Float.valueOf(line
-							.split(" ")[3].split("/")[0]));
-					Vector3f normalIndices = new Vector3f(Float.valueOf(line
-							.split(" ")[1].split("/")[2]), Float.valueOf(line
-							.split(" ")[2].split("/")[2]), Float.valueOf(line
-							.split(" ")[3].split("/")[2]));
+					Vector3f vertexIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]), Float.valueOf(line.split(" ")[2].split("/")[0]),
+							Float.valueOf(line.split(" ")[3].split("/")[0]));
+					Vector3f normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]), Float.valueOf(line.split(" ")[2].split("/")[2]),
+							Float.valueOf(line.split(" ")[3].split("/")[2]));
 					faces.add(new Face(vertexIndices, normalIndices));
 				}
 			}

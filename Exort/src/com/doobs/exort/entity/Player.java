@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import res.models.OBJLoader;
 
+import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.*;
 import com.doobs.exort.util.Model;
@@ -69,11 +70,12 @@ public class Player extends Entity {
 		this.x += xa * delta;
 		this.z += za * delta;
 
+		Lighting.moveLight(new Vector3f(this.x, 4f, this.z), false);
 	}
 
 	public void render() {
 		glTranslatef(x, y, z);
-		glColor3f(1.0f, 1.0f, 0.0f);
+		glColor3f(1.0f, 0.0f, 0.0f);
 		glCallList(model.getHandle());
 
 		glTranslatef(targetX - x, 0, targetZ - z);
@@ -88,8 +90,7 @@ public class Player extends Entity {
 		if (position.getX() != this.x || position.getZ() != this.z) {
 			targetX = position.getX();
 			targetZ = position.getZ();
-			Vector3f target = new Vector3f(targetX - this.x, 0f, targetZ
-					- this.z);
+			Vector3f target = new Vector3f(targetX - this.x, 0f, targetZ - this.z);
 			target.normalise();
 			xa = target.getX() * moveSpeed;
 			za = target.getZ() * moveSpeed;

@@ -5,21 +5,17 @@ import org.lwjgl.util.vector.Vector3f;
 public class SAT {
 
 	private static Vector3f[] axes1, axes2;
-	private static Shape shape1 = new Shape(0.0f, 0.0f, -3.0f, 1.0f, 0.0f,
-			-3.0f, 0.0f, 1.0f, -3.0f);
-	private static Shape shape2 = new Shape(0.5f, 0.0f, -3.0f, 1.5f, 0.0f,
-			-3.0f, 0.5f, 1.0f, -3.0f);
+	private static Shape shape1 = new Shape(0.0f, 0.0f, -3.0f, 1.0f, 0.0f, -3.0f, 0.0f, 1.0f, -3.0f);
+	private static Shape shape2 = new Shape(0.5f, 0.0f, -3.0f, 1.5f, 0.0f, -3.0f, 0.5f, 1.0f, -3.0f);
 
 	private static Vector3f[] calculateAxes(Shape shape) {
 		Vector3f[] axes = new Vector3f[shape.getVertices().length];
 		for (int i = 0; i < shape.getVertices().length; i++) {
 			Vector3f edge = new Vector3f();
-			Vector3f.sub(shape.getVertex(i), shape.getVertex(i + 1 == shape
-					.getVertices().length ? 0 : i + 1), edge);
+			Vector3f.sub(shape.getVertex(i), shape.getVertex(i + 1 == shape.getVertices().length ? 0 : i + 1), edge);
 			axes[i] = (Vector3f) MathUtil.perpendicular(edge).normalise();
 			// RIDDENCE
-			System.out.println("Axis[" + axes[i].getX() + ", " + axes[i].getY()
-					+ ", " + axes[i].getZ() + "]");
+			System.out.println("Axis[" + axes[i].getX() + ", " + axes[i].getY() + ", " + axes[i].getZ() + "]");
 		}
 
 		return axes;

@@ -8,8 +8,7 @@ public class Shape {
 	public Shape(float... vertices) {
 		this.vertices = new Vector3f[vertices.length / 3];
 		for (int i = 0; i < vertices.length; i += 3) {
-			this.vertices[i / 3] = new Vector3f(vertices[i], vertices[i + 1],
-					vertices[i + 2]);
+			this.vertices[i / 3] = new Vector3f(vertices[i], vertices[i + 1], vertices[i + 2]);
 		}
 	}
 

@@ -1,5 +1,11 @@
 package res.textures;
 
-public class Textures {
+import com.doobs.exort.util.*;
 
+public class Textures {
+	public static Texture abilityHUD;
+	
+	public static void init() {
+		abilityHUD = TextureLoader.getTexture("abilityHUD.png");
+	}
 }

@@ -1,10 +1,4 @@
-uniform sampler2D texture;
-uniform sampler2D normalMap;
-
-uniform vec3 lightPosition;   
-uniform vec4 lightColor;      
-uniform vec4 ambientColor;    
-uniform vec3 falloff; 
+#version 120
 
 varying vec3 position;        
 varying vec3 normal;

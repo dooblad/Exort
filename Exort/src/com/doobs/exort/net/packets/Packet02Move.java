@@ -32,8 +32,7 @@ public class Packet02Move extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("02" + this.username + "," + this.x + "," + this.z + "," + this.time)
-				.getBytes();
+		return ("02" + this.username + "," + this.x + "," + this.z + "," + this.time).getBytes();
 	}
 
 	public String getUsername() {
