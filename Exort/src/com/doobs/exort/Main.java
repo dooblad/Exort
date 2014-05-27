@@ -81,15 +81,16 @@ public class Main {
 
 		camera.applyTransformations();
 
+		Lighting.sendModelViewMatrix();
+
+		level.render();
+		
 		while (Mouse.next()) {
 			if (Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
 				RayCast.movePlayer(camera, player);
 			}
 		}
-
-		Lighting.sendModelViewMatrix();
-
-		level.render();
+		
 		player.render();
 		
 		Shaders.lighting.end();
