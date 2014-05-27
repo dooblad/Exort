@@ -16,7 +16,7 @@ varying vec2 texCoord;
 varying vec4 color;
 
 void main() {
-	vec4 diffuseColor = color; // * texture2D(texture, texCoord);
+	vec4 diffuseColor = color + texture2D(texture, texCoord);	
 	
 	vec3 worldLightPosition = vec3((modelViewMatrix * vec4(lightPosition, 1.0)).xyz);
 

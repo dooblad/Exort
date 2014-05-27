@@ -7,7 +7,7 @@ import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.*;
 
-import com.doobs.exort.entity.*;
+import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.util.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -17,16 +17,16 @@ public class RayCast {
 		Vector3f plane;
 		
 		if (Mouse.isGrabbed())
-			plane = RayCast.getDirection(Display.getWidth() / 2, Display.getHeight() / 2);
+			plane = RayCast.getPosition(Display.getWidth() / 2, Display.getHeight() / 2);
 		else
-			plane = RayCast.getDirection(Mouse.getX(), Mouse.getY());
+			plane = RayCast.getPosition(Mouse.getX(), Mouse.getY());
 
 		if (plane != null) {
 			player.move(plane);
 		}
 	}
 
-	public static Vector3f getDirection(int mouseX, int mouseY) {
+	public static Vector3f getPosition(int mouseX, int mouseY) {
 		IntBuffer viewport = BufferUtils.createIntBuffer(16);
 		FloatBuffer modelViewBuffer = BufferUtils.createFloatBuffer(16);
 		FloatBuffer projectionBuffer = BufferUtils.createFloatBuffer(16);
@@ -42,12 +42,15 @@ public class RayCast {
 		float[] out;
 		Vector3f coords = new Vector3f();
 		
+		// Find inverse of ProjectionModelViewMatrix
 		Math3D.matrixMultiply4(a, projection, modelView);
 		a = Math3D.matrixInverse4(a);
 		
+		// Get the depth component of the mouse pixel
 		FloatBuffer winZ = BufferUtils.createFloatBuffer(1);
 		glReadPixels(mouseX, mouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, winZ);
 		
+		// Normalized device coordinate transformation
 		in[0] = (mouseX - (float) viewport.get(0)) / (float) viewport.get(2) * 2f - 1f; 
 		in[1] = (mouseY - (float) viewport.get(1)) / (float) viewport.get(3) * 2f - 1f;
 		in[2] = 2f * winZ.get(0) - 1f;

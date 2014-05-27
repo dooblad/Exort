@@ -1,4 +1,4 @@
-package com.doobs.exort.entity;
+package com.doobs.exort.entity.creature;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -6,19 +6,19 @@ import org.lwjgl.util.vector.Vector3f;
 
 import res.models.OBJLoader;
 
+import com.doobs.exort.entity.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.*;
 import com.doobs.exort.util.Model;
 
-public class Player extends Entity {
+public class Player extends MovingEntity {
 	private Model model, move;
 
 	private Client client;
 	private String username;
 
 	private float targetX, targetZ;
-	private float xa, za;
 
 	private static float moveSpeed = 1 / 50f;
 
@@ -39,8 +39,8 @@ public class Player extends Entity {
 	}
 
 	public void tick(int delta) {
+		// Player movement
 		boolean xDone = false, zDone = false;
-
 		if (xa > 0 && this.x + xa * delta > targetX) {
 			xa = targetX - this.x;
 			xDone = true;
@@ -69,20 +69,23 @@ public class Player extends Entity {
 
 		this.x += xa * delta;
 		this.z += za * delta;
-
-		Lighting.moveLight(new Vector3f(this.x, 4f, this.z), false);
+		
+		// Ability handling
+		
+		// Update lighting
+		Lighting.moveLight(new Vector3f((float) this.x, 4f, (float) this.z), false);
 	}
 
 	public void render() {
-		glTranslatef(x, y, z);
+		glTranslated(x, y, z);
 		glColor3f(1.0f, 0.0f, 0.0f);
 		glCallList(model.getHandle());
 
-		glTranslatef(targetX - x, 0, targetZ - z);
+		glTranslated(targetX - x, 0, targetZ - z);
 		glColor3f(0.0f, 1.0f, 0.0f);
 		glCallList(move.getHandle());
 
-		glTranslatef(-targetX, -y, -targetZ);
+		glTranslated(-targetX, -y, -targetZ);
 		glColor3f(1.0f, 1.0f, 1.0f);
 	}
 
@@ -90,7 +93,7 @@ public class Player extends Entity {
 		if (position.getX() != this.x || position.getZ() != this.z) {
 			targetX = position.getX();
 			targetZ = position.getZ();
-			Vector3f target = new Vector3f(targetX - this.x, 0f, targetZ - this.z);
+			Vector3f target = new Vector3f((float) (targetX - this.x), 0f, (float) (targetZ - this.z));
 			target.normalise();
 			xa = target.getX() * moveSpeed;
 			za = target.getZ() * moveSpeed;

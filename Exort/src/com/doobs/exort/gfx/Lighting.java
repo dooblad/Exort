@@ -13,7 +13,7 @@ import res.shaders.*;
 public class Lighting {
 	public static final float[] lightColor = new float[] {1f, 0.5f, 0f, 1f};
 	public static final float[] ambientColor = new float[] {0.6f, 0.6f, 1f, 0.2f};
-	public static final float[] falloff = new float[] {0.2f, 0.05f, 0.05f};
+	public static final float[] falloff = new float[] {0.1f, 0.01f, 0.005f};
 	
 	// Shader locations
 	private static int lightPositionLocation, lightColorLocation, ambientColorLocation, falloffLocation;

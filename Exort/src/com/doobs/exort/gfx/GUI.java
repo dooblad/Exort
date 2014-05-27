@@ -19,7 +19,7 @@ public class GUI {
 		glColor4f(1f, 1f, 1f, 1f);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Textures.abilityHUD.getTexture());
+		glBindTexture(GL_TEXTURE_2D, Textures.abilityHUD.getID());
 		glUniform1i(glGetUniformLocation(Shaders.gui.getID(), "texture"), 0);
 		
 		glEnable(GL_BLEND);

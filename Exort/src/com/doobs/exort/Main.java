@@ -9,7 +9,7 @@ import org.lwjgl.opengl.Display;
 import res.shaders.*;
 import res.textures.*;
 
-import com.doobs.exort.entity.Player;
+import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.Level;
 import com.doobs.exort.math.*;
@@ -19,6 +19,7 @@ public class Main {
 	public static final String TITLE = "Exort";
 	public static int width = 800, height = 600;
 
+	private InputHandler input;
 	private Level level;
 	private Player player;
 	private Camera camera;
@@ -27,11 +28,21 @@ public class Main {
 
 	public Main() {
 		init();
+		run();
+	}
+	
+	public void init() {
+		GLTools.init();
+		Cursor.init();
+		Textures.init();
 		
+		input = new InputHandler();
 		level = new Level();
 		player = new Player();
 		camera = new Camera(0.0f, 3.0f, 0.0f);
-
+	}
+	
+	public void run() {
 		closeRequested = false;
 		while (!closeRequested) {
 			tick(GLTools.getDelta());
@@ -41,27 +52,19 @@ public class Main {
 			Display.sync(60);
 		}
 	}
-	
-	public void init() {
-		GLTools.init();
-		Cursor.init();
-		Textures.init();
-	}
 
 	public void tick(int delta) {
-		if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested())
+		input.tick();
+		
+		if (input.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested())
 			closeRequested = true;
 
-		while (Keyboard.next()) {
-			if (Keyboard.getEventKeyState()) {
-				if (Keyboard.getEventKey() == Keyboard.KEY_LMENU)
-					Mouse.setGrabbed(!Mouse.isGrabbed());
-				else if (Keyboard.getEventKey() == Keyboard.KEY_R)
-					camera.reset();
-				else if (Keyboard.getEventKey() == Keyboard.KEY_F11)
-					GLTools.toggleFullscreen();
-			}
-		}
+		if (input.isKeyPressed(Keyboard.KEY_LMENU))
+			Mouse.setGrabbed(!Mouse.isGrabbed());
+		else if (input.isKeyPressed(Keyboard.KEY_R))
+			camera.reset();
+		else if (input.isKeyPressed(Keyboard.KEY_F11))
+			GLTools.toggleFullscreen();
 
 		GLTools.tick();
 

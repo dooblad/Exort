@@ -5,6 +5,7 @@ import java.util.*;
 import res.models.OBJLoader;
 
 import com.doobs.exort.entity.*;
+import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.util.Model;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -19,7 +20,7 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 
 	public Level() {
-		this.model = OBJLoader.loadModel("map.obj");
+		this.model = OBJLoader.loadModel("mapTest.obj");
 		width = 16;
 		height = 14;
 		tiles = new byte[width * height];
@@ -44,6 +45,7 @@ public class Level {
 	}
 
 	public void render() {
+		glColor4f(0f, 0f, 0f, 1f);
 		glCallList(model.getHandle());
 	}
 

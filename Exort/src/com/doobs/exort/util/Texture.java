@@ -1,18 +1,18 @@
 package com.doobs.exort.util;
 
 public class Texture {
-	private int texture;
+	private int id;
 	private int width, height;
 	
-	public Texture(int texture, int width, int height) {
-		this.texture = texture;
+	public Texture(int id, int width, int height) {
+		this.id = id;
 		this.width = width;
 		this.height = height;
 	}
 	
 	// Getters and setters
-	public int getTexture()	 {
-		return texture;
+	public int getID()	 {
+		return id;
 	}
 	
 	public int getWidth() {

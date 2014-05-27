@@ -2,24 +2,30 @@ package com.doobs.exort.util;
 
 import java.util.List;
 
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Model {
 	private int handle; // Display List Handle
 
-	private Vector3f[] vertices, normals;
-	private Face[] faces;
+	public Vector3f[] vertices, normals;
+	public Vector2f[] texCoords;
+	public Face[] faces;
 
 	public Model() {
 
 	}
 
-	public Model(List<Vector3f> vertices, List<Vector3f> normals) {
+	public Model(List<Vector3f> vertices, List<Vector2f> texCoords, List<Vector3f> normals) {
 		this.vertices = new Vector3f[vertices.size()];
 		for (int i = 0; i < vertices.size(); i++) {
 			this.vertices[i] = vertices.get(i);
+		}
+		
+		this.texCoords = new Vector2f[texCoords.size()];
+		for(int i = 0; i < texCoords.size(); i++) {
+			this.texCoords[i] = texCoords.get(i);
 		}
 
 		this.normals = new Vector3f[normals.size()];
@@ -30,8 +36,9 @@ public class Model {
 		generateDisplayList();
 	}
 
-	public Model(Vector3f[] vertices, Vector3f[] normals) {
+	public Model(Vector3f[] vertices, Vector2f[] texCoords, Vector3f[] normals) {
 		this.vertices = vertices;
+		this.texCoords = texCoords;
 		this.normals = normals;
 
 		generateDisplayList();
@@ -74,22 +81,6 @@ public class Model {
 
 	public void setHandle(int handle) {
 		this.handle = handle;
-	}
-
-	public Vector3f[] getVertices() {
-		return vertices;
-	}
-
-	public void setVertices(Vector3f[] vertices) {
-		this.vertices = vertices;
-	}
-
-	public Vector3f[] getNormals() {
-		return normals;
-	}
-
-	public void setNormals(Vector3f[] normals) {
-		this.normals = normals;
 	}
 
 	public Face[] getFaces() {

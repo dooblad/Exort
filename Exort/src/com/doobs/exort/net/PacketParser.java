@@ -3,6 +3,7 @@ package com.doobs.exort.net;
 import java.net.InetAddress;
 
 import com.doobs.exort.entity.*;
+import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.packets.*;
 import com.doobs.exort.net.packets.Packet.*;
