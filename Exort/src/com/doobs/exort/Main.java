@@ -33,6 +33,8 @@ public class Main {
 	
 	public void init() {
 		GLTools.init();
+		Shaders.init();
+		Lighting.init();
 		Cursor.init();
 		Textures.init();
 		
@@ -86,7 +88,9 @@ public class Main {
 
 		Lighting.sendModelViewMatrix();
 
+		Lighting.setTextured(true);
 		level.render();
+		Lighting.setTextured(false);
 		
 		while (Mouse.next()) {
 			if (Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
@@ -95,8 +99,6 @@ public class Main {
 		}
 		
 		player.render();
-		
-		Shaders.lighting.end();
 		
 		// GUI rendering
 		GLTools.switchToOrtho();

@@ -10,7 +10,7 @@ void main() {
 	
 	position = (gl_ModelViewMatrix * gl_Vertex).xyz;
 	
-	normal = normalize(gl_NormalMatrix * gl_Normal);
+	normal = gl_NormalMatrix * gl_Normal;
 	
 	texCoord = gl_MultiTexCoord0.st;
 	

@@ -77,14 +77,21 @@ public class Player extends MovingEntity {
 	}
 
 	public void render() {
+		// Draw model command
 		glTranslated(x, y, z);
 		glColor3f(1.0f, 0.0f, 0.0f);
 		glCallList(model.getHandle());
 
-		glTranslated(targetX - x, 0, targetZ - z);
+		// Draw light
+		glTranslated(0, 4, 0);
+		Lighting.drawLight();
+		
+		// Draw move command
+		glTranslated(targetX - x, -4, targetZ - z);
 		glColor3f(0.0f, 1.0f, 0.0f);
 		glCallList(move.getHandle());
 
+		// Reset
 		glTranslated(-targetX, -y, -targetZ);
 		glColor3f(1.0f, 1.0f, 1.0f);
 	}

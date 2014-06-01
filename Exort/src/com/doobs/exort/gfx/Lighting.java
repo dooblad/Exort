@@ -6,36 +6,38 @@ import static org.lwjgl.opengl.GL20.*;
 import java.nio.*;
 
 import org.lwjgl.*;
+import org.lwjgl.util.glu.*;
 import org.lwjgl.util.vector.*;
 
 import res.shaders.*;
 
+/**
+ * A helper class to provide a 
+ * @author Logan
+ */
 public class Lighting {
 	public static final float[] lightColor = new float[] {1f, 0.5f, 0f, 1f};
 	public static final float[] ambientColor = new float[] {0.6f, 0.6f, 1f, 0.2f};
-	public static final float[] falloff = new float[] {0.1f, 0.01f, 0.005f};
+	public static final float[] falloff = new float[] {0.65f, 0.02f, 0.005f};
 	
-	// Shader locations
-	private static int lightPositionLocation, lightColorLocation, ambientColorLocation, falloffLocation;
+	private static boolean textured;
+	private static boolean normalMapped;
 	
 	private static Vector3f position;
 	
-	public static void setupLighting() {
+	public static void init() {
 		Shaders.lighting.use();
 		
-		lightPositionLocation = glGetUniformLocation(Shaders.lighting.getID(), "lightPosition");
 		position = new Vector3f(0f, 1f, 0f);
 		position.normalise();
-		glUniform3f(lightPositionLocation, position.getX(), position.getY(), position.getZ());
-		
-		lightColorLocation = glGetUniformLocation(Shaders.lighting.getID(), "lightColor");
-		glUniform4f(lightColorLocation, lightColor[0], lightColor[1], lightColor[2], lightColor[3]);
-		
-		ambientColorLocation = glGetUniformLocation(Shaders.lighting.getID(), "ambientColor");
-		glUniform4f(ambientColorLocation, ambientColor[0], ambientColor[1], ambientColor[2], ambientColor[3]);
-		
-		falloffLocation = glGetUniformLocation(Shaders.lighting.getID(), "falloff");
-		glUniform3f(falloffLocation, falloff[0], falloff[1], falloff[2]);
+		Shaders.lighting.setUniform3f("lightPosition", position.getX(), position.getY(), position.getZ());
+		Shaders.lighting.setUniform4f("lightColor", lightColor[0], lightColor[1], lightColor[2], lightColor[3]);
+		Shaders.lighting.setUniform4f("ambientColor", ambientColor[0], ambientColor[1], ambientColor[2], ambientColor[3]);
+		Shaders.lighting.setUniform3f("falloff", falloff[0], falloff[1], falloff[2]);
+		setTextured(false);
+		setNormalMapped(false);
+		Shaders.lighting.setUniform1i("diffuseTexture", 0);
+		Shaders.lighting.setUniform1i("normalMap", 1);
 		
 		Shaders.lighting.end();
 	}
@@ -51,12 +53,36 @@ public class Lighting {
 			Shaders.lighting.end();
 	}
 	
-	//public static void drawLight()
-
+	public static void drawLight() {
+		Shaders.lighting.end();
+		glColor4f(1f, 1f, 1f, 1f);
+		Sphere sphere = new Sphere();
+		sphere.draw(0.25f, 5, 5);
+		Shaders.lighting.use();
+	}
+	
+	public static void setTextured(boolean textured) {
+		Lighting.textured = textured;
+		Shaders.lighting.setUniform1i("textured", textured ? 1 : 0);
+	}
+	
+	public static void setNormalMapped(boolean normalMapped) {
+		Lighting.normalMapped = normalMapped;
+		Shaders.lighting.setUniform1i("normalMapped", normalMapped ? 1 : 0);
+	}
+	
 	public static void sendModelViewMatrix() {
-		int location = glGetUniformLocation(Shaders.lighting.getID(), "modelViewMatrix");
 		FloatBuffer modelViewMatrix = BufferUtils.createFloatBuffer(16);
 		glGetFloat(GL_MODELVIEW_MATRIX, modelViewMatrix);
-		glUniformMatrix4(location, false, modelViewMatrix);
+		Shaders.lighting.setUniformMatrix4("modelViewMatrix", false, modelViewMatrix);
+	}
+	
+	// Getters and setters
+	public static boolean isTextured() {
+		return textured;
+	}
+	
+	public static boolean isNormalMapped() {
+		return normalMapped;
 	}
 }

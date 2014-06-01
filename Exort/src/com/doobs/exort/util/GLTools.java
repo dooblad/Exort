@@ -12,10 +12,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import res.shaders.*;
-
 import com.doobs.exort.Main;
-import com.doobs.exort.gfx.*;
 
 public class GLTools {
 	public static long lastFrame;
@@ -40,9 +37,6 @@ public class GLTools {
 		lastFPS = getTime();
 		initDisplay();
 		initGL();
-		Shaders.init();
-		Lighting.setupLighting();
-
 		aspectRatio = (float) Main.width / (float) Main.height;
 	}
 

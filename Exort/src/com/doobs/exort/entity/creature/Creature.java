@@ -29,4 +29,13 @@ public class Creature extends MovingEntity {
 	public Creature(double x, double y, double z, float xa, float ya, float za, Level level) {
 		super(x, y, z, xa, ya, za, level);
 	}
+	
+	// Getters and setters
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int health) {
+		this.health = health;
+	}
 }

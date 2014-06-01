@@ -20,7 +20,7 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 
 	public Level() {
-		this.model = OBJLoader.loadModel("mapTest.obj");
+		this.model = OBJLoader.loadModel("arena.obj");
 		width = 16;
 		height = 14;
 		tiles = new byte[width * height];
@@ -45,7 +45,6 @@ public class Level {
 	}
 
 	public void render() {
-		glColor4f(0f, 0f, 0f, 1f);
 		glCallList(model.getHandle());
 	}
 

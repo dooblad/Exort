@@ -18,8 +18,6 @@ import com.doobs.exort.util.*;
 public class OBJLoader {
 	public static Model loadModel(String URL) {
 		try {
-			// TRY PUTTING SOME OF THE FILE READING CODE WITHIN THE CREATION OF THE DISPLAY LIST
-			
 			Model model = new Model();
 			model.setHandle(glGenLists(1));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(OBJLoader.class.getResourceAsStream(URL)));
@@ -101,8 +99,11 @@ public class OBJLoader {
 					
 					// If textured, bind the corresponding texture
 					if(textured) {
+						glActiveTexture(GL_TEXTURE1);
+						glBindTexture(GL_TEXTURE_2D, Textures.textures.get(URL.split("\\.")[0] + "Normal").getID());
+						
 						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, Textures.textures.get(URL.split(".")[0]).getID());
+						glBindTexture(GL_TEXTURE_2D, Textures.textures.get(URL.split("\\.")[0]).getID());
 					}
 					
 					for (Face face : faces) {
