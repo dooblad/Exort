@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import com.doobs.exort.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.packets.*;
+import com.doobs.exort.state.*;
 
 public class Client extends Thread implements Runnable {
 	private Main main;
@@ -42,7 +43,7 @@ public class Client extends Thread implements Runnable {
 	}
 
 	public void handleMove(Packet02Move packet) {
-		main.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
+		((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
 	}
 
 	public void sendData(byte[] data) {
