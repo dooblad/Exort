@@ -1,15 +1,15 @@
 package res.shaders;
 
-import com.doobs.exort.util.*;
+import com.doobs.exort.util.gl.*;
 
 public class Shaders {
 	public static Shader lighting;
-	public static Shader bloom;
+	public static Shader font;
 	public static Shader gui;
 
 	public static void init() {
 		lighting = new Shader(Shaders.class, "lighting");
-		bloom = new Shader(Shaders.class, "bloom");
+		font = new Shader(Shaders.class, "font");
 		gui = new Shader(Shaders.class, "gui");
 	}
 }

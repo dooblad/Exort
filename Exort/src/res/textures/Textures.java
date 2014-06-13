@@ -2,7 +2,7 @@ package res.textures;
 
 import java.util.*;
 
-import com.doobs.exort.util.*;
+import com.doobs.exort.util.texture.*;
 
 public class Textures {
 	public static Map<String, Texture> textures = new HashMap<String, Texture>();

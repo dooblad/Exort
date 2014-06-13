@@ -11,7 +11,7 @@ import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.math.*;
-import com.doobs.exort.util.*;
+import com.doobs.exort.util.gl.*;
 
 public class DuelState implements GameState {
 	private Level level;
@@ -49,11 +49,13 @@ public class DuelState implements GameState {
 		level.render();
 		Lighting.setTextured(false);
 		
-		while (Mouse.next()) {
+		/*while (Mouse.next()) {
 			if (Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
 				RayCast.movePlayer(camera, player);
 			}
-		}
+		}*/
+		if(Main.input.isMouseButtonDown(1))
+			RayCast.movePlayer(camera, player);
 		
 		player.render();
 		

@@ -10,7 +10,7 @@ import com.doobs.exort.entity.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.*;
-import com.doobs.exort.util.Model;
+import com.doobs.exort.util.gl.*;
 
 public class Player extends MovingEntity {
 	private Model model, move;

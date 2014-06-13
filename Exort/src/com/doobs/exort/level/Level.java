@@ -6,7 +6,7 @@ import res.models.OBJLoader;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.entity.creature.*;
-import com.doobs.exort.util.Model;
+import com.doobs.exort.util.gl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 

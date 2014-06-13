@@ -1,4 +1,4 @@
-package com.doobs.exort.util;
+package com.doobs.exort.util.gl;
 
 import org.lwjgl.util.vector.*;
 

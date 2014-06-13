@@ -1,4 +1,4 @@
-package com.doobs.exort.util;
+package com.doobs.exort.util.texture;
 
 import static org.lwjgl.opengl.GL11.*;
 

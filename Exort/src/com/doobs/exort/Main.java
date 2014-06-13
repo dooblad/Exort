@@ -7,10 +7,12 @@ import org.lwjgl.opengl.Display;
 
 import res.shaders.*;
 import res.textures.*;
+import res.textures.fonts.*;
 
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.state.*;
 import com.doobs.exort.util.*;
+import com.doobs.exort.util.gl.*;
 
 public class Main {
 	public static final String TITLE = "Exort";
@@ -28,12 +30,13 @@ public class Main {
 		Lighting.init();
 		Cursor.init();
 		Textures.init();
+		Fonts.init();
 		
 		input = new InputHandler();
 		
 		closeRequested = false;
 		
-		state = new DuelState();
+		state = new MainMenuState(this);
 
 		run();
 	}
@@ -68,6 +71,10 @@ public class Main {
 		glLoadIdentity();
 
 		state.render();
+	}
+	
+	public void changeState(GameState state) {
+		this.state = state;
 	}
 
 	public static void main(String[] args) {

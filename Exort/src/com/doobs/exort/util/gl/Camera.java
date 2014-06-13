@@ -1,4 +1,4 @@
-package com.doobs.exort.util;
+package com.doobs.exort.util.gl;
 
 import static org.lwjgl.input.Keyboard.KEY_LSHIFT;
 import static org.lwjgl.input.Keyboard.KEY_SPACE;

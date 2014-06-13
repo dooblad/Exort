@@ -1,4 +1,4 @@
-package com.doobs.exort.util;
+package com.doobs.exort.util.gl;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;

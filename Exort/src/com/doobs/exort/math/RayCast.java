@@ -8,7 +8,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.*;
 
 import com.doobs.exort.entity.creature.*;
-import com.doobs.exort.util.*;
+import com.doobs.exort.util.gl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 

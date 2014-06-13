@@ -13,7 +13,7 @@ import org.lwjgl.util.vector.*;
 
 import res.textures.*;
 
-import com.doobs.exort.util.*;
+import com.doobs.exort.util.gl.*;
 
 public class OBJLoader {
 	public static Model loadModel(String URL) {
