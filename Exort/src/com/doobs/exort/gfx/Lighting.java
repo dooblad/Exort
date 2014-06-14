@@ -39,7 +39,7 @@ public class Lighting {
 		Shaders.lighting.setUniform1i("diffuseTexture", 0);
 		Shaders.lighting.setUniform1i("normalMap", 1);
 		
-		Shaders.lighting.end();
+		Shaders.useDefault();
 	}
 
 	public static void moveLight(Vector3f position, boolean usingShader) {
@@ -50,11 +50,11 @@ public class Lighting {
 		glUniform3f(location, position.getX(), position.getY(), position.getZ());
 
 		if (!usingShader)
-			Shaders.lighting.end();
+			Shaders.useDefault();
 	}
 	
 	public static void drawLight() {
-		Shaders.lighting.end();
+		Shaders.useDefault();
 		glColor4f(1f, 1f, 1f, 1f);
 		Sphere sphere = new Sphere();
 		sphere.draw(0.25f, 5, 5);

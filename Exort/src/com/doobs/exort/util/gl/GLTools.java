@@ -127,14 +127,12 @@ public class GLTools {
 	}
 
 	public static void switchToOrtho() {
-		// THIS METHOD SHOULD BE CREATING THE PROPER ORTHOGRAPHICAL ENVIRONMENT FOR USE IN
-		// THE GUI RENDER() FUNCTION, BUT NOPE
-		
 		glMatrixMode(GL_PROJECTION);
 		glLoadMatrix(orthographicProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glLoadIdentity();
+		glOrtho(0, Main.width, 0, Main.height, 1, -1);
 	}
 
 	public static void switchToPerspective() {

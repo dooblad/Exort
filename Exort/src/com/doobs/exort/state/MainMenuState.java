@@ -3,6 +3,7 @@ package com.doobs.exort.state;
 import org.lwjgl.input.*;
 
 import res.shaders.*;
+import res.textures.fonts.*;
 
 import com.doobs.exort.*;
 
@@ -20,8 +21,7 @@ public class MainMenuState implements GameState{
 
 	public void render() {
 		Shaders.font.use();
-		
-		Shaders.font.end();
+		Fonts.automati.draw("7777", 0, 0, 1f, 1f, 1f);
+		Shaders.useDefault();
 	}
-
 }

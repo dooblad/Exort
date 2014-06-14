@@ -1,5 +1,7 @@
 package res.shaders;
 
+import static org.lwjgl.opengl.GL20.*;
+
 import com.doobs.exort.util.gl.*;
 
 public class Shaders {
@@ -11,5 +13,9 @@ public class Shaders {
 		lighting = new Shader(Shaders.class, "lighting");
 		font = new Shader(Shaders.class, "font");
 		gui = new Shader(Shaders.class, "gui");
+	}
+	
+	public static void useDefault() {
+		glUseProgram(0);
 	}
 }

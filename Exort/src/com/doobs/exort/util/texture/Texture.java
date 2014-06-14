@@ -1,5 +1,7 @@
 package com.doobs.exort.util.texture;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class Texture {
 	private int id;
 	private int width, height;
@@ -8,6 +10,10 @@ public class Texture {
 		this.id = id;
 		this.width = width;
 		this.height = height;
+	}
+	
+	public void bind() {
+		glBindTexture(GL_TEXTURE_2D, id);
 	}
 	
 	// Getters and setters

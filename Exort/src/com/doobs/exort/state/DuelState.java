@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.*;
 
 import res.shaders.*;
+import res.textures.fonts.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.entity.creature.*;
@@ -49,25 +50,21 @@ public class DuelState implements GameState {
 		level.render();
 		Lighting.setTextured(false);
 		
-		/*while (Mouse.next()) {
-			if (Mouse.getEventButtonState() && Mouse.getEventButton() == 1) {
-				RayCast.movePlayer(camera, player);
-			}
-		}*/
 		if(Main.input.isMouseButtonDown(1))
 			RayCast.movePlayer(camera, player);
 		
 		player.render();
 		
 		// GUI rendering
-		GLTools.switchToOrtho();
+		glEnable(GL_BLEND);
 		Shaders.gui.use();
-		
+		GLTools.switchToOrtho();
 		GUI.render();
-		
-		Shaders.gui.end();
+		Shaders.font.use();
+		Fonts.automati.draw("7777", 0, 0, 1f, 1f, 1f);
+		Shaders.useDefault();
 		GLTools.switchToPerspective();
-
+		glDisable(GL_BLEND);
 		glDisable(GL_TEXTURE_2D);
 	}
 	

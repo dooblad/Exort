@@ -108,10 +108,6 @@ public class Shader {
 		glUseProgram(program);
 	}
 
-	public void end() {
-		glUseProgram(0);
-	}
-
 	public void cleanup() {
 		glDeleteProgram(program);
 		glDeleteShader(vertexShader);
