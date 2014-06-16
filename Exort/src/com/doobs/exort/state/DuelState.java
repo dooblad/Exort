@@ -61,7 +61,11 @@ public class DuelState implements GameState {
 		GLTools.switchToOrtho();
 		GUI.render();
 		Shaders.font.use();
-		Fonts.automati.draw("7777", 0, 0, 1f, 1f, 1f);
+		glPushMatrix();
+		glTranslatef(45f, 300f, 0f);
+		glScalef(0.15f, 0.15f, 0.15f);
+		Fonts.finalFrontier.draw("Welcome to Exort", 0, 0, 1f, 1f, 1f);
+		glPopMatrix();
 		Shaders.useDefault();
 		GLTools.switchToPerspective();
 		glDisable(GL_BLEND);

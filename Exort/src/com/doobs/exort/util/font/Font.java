@@ -10,6 +10,8 @@ import res.textures.fonts.*;
 import com.doobs.exort.util.texture.*;
 
 public class Font {
+	public static final int SPACE = 50;
+	
 	private Texture texture;
 	private Map<Integer, Character> characters;
 	
@@ -26,8 +28,6 @@ public class Font {
 		Character character;
 		float[] texCoords;
 		float width, height;
-		
-		// HASHMAP IS NOT WORKING CORRECTLY. LEARN ABOUT DEM
 		
 		glBegin(GL_QUADS);
 		for(int i = 0; i < phrase.length(); i++) {
@@ -47,6 +47,11 @@ public class Font {
 				
 				glTexCoord2f(texCoords[6], texCoords[7]);
 				glVertex2f(x, y + height);
+				
+				x += width;
+			} else if(phrase.charAt(i) == ' ') {
+				// WORK ON SPACING!
+				x += SPACE;
 			}
 		}
 		glEnd();

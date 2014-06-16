@@ -39,6 +39,8 @@ public class CharInfoLoader {
 							Integer.valueOf(temp[2]), Integer.valueOf(temp[3]), Integer.valueOf(temp[4])));
 				}
 			}
+			
+			return characters;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

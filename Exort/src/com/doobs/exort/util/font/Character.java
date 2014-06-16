@@ -8,10 +8,12 @@ public class Character {
 		this.texCoords = new float[8];
 		this.width = charWidth;
 		this.height = charHeight;
-		float x1 = (texWidth - x) / texWidth;
-		float y1 = (texHeight - y) / texHeight;
-		float x2 = (texWidth - x + charWidth) / texWidth;
-		float y2 = (texHeight - y + charHeight) / texHeight;
+		
+		float x1 = (float) (x) / texWidth;
+		float y1 = (float) (texHeight - y - charHeight) / texHeight;
+		float x2 = (float) (x + charWidth) / texWidth;
+		float y2 = (float) (texHeight - y) / texHeight;
+		
 		texCoords[0] = x1;
 		texCoords[1] = y1;
 		texCoords[2] = x2;

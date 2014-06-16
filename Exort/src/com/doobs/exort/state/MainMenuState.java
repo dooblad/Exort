@@ -21,7 +21,7 @@ public class MainMenuState implements GameState{
 
 	public void render() {
 		Shaders.font.use();
-		Fonts.automati.draw("7777", 0, 0, 1f, 1f, 1f);
+		Fonts.automati.draw("7777", 300, 300, 1f, 1f, 1f);
 		Shaders.useDefault();
 	}
 }
