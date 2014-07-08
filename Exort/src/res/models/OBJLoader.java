@@ -16,9 +16,9 @@ import res.textures.*;
 import com.doobs.exort.util.gl.*;
 
 public class OBJLoader {
-	public static Model loadModel(String URL) {
+	public static TexturedModel loadModel(String URL) {
 		try {
-			Model model = new Model();
+			TexturedModel model = new TexturedModel();
 			model.setHandle(glGenLists(1));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(OBJLoader.class.getResourceAsStream(URL)));
 			
@@ -99,8 +99,12 @@ public class OBJLoader {
 					
 					// If textured, bind the corresponding texture
 					if(textured) {
+						try {
 						glActiveTexture(GL_TEXTURE1);
 						glBindTexture(GL_TEXTURE_2D, Textures.textures.get(URL.split("\\.")[0] + "Normal").getID());
+						} catch(NullPointerException e) {
+							System.out.println("No normal map found for object " + URL);
+						}
 						
 						glActiveTexture(GL_TEXTURE0);
 						glBindTexture(GL_TEXTURE_2D, Textures.textures.get(URL.split("\\.")[0]).getID());

@@ -17,8 +17,8 @@ public class Textures {
 		
 		arena = TextureLoader.getTexture("arena.png");
 		textures.put("arena", arena);
-		arenaNormal = TextureLoader.getTexture("arenaNormal.png");
-		textures.put("arenaNormal", arenaNormal);
+		//arenaNormal = TextureLoader.getTexture("arenaNormal.png");
+		//textures.put("arenaNormal", arena);
 		
 		mapTest = TextureLoader.getTexture("mapTest.png");
 		textures.put("mapTest", mapTest);

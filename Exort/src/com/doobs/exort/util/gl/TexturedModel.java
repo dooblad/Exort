@@ -1,22 +1,21 @@
 package com.doobs.exort.util.gl;
 
-import java.util.List;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
+
+import java.util.*;
 
 import org.lwjgl.util.vector.*;
 
-import static org.lwjgl.opengl.GL11.*;
-
-public class Model {
-	protected int handle; // Display List Handle
-
-	public Vector3f[] vertices, normals;
-	public Face[] faces;
-
-	public Model() {
-
+public class TexturedModel extends Model {
+	public int texture;
+	public Vector2f[] texCoords;
+	
+	public TexturedModel() {
+		
 	}
-
-	public Model(List<Vector3f> vertices, List<Vector3f> normals) {
+	
+	public TexturedModel(List<Vector3f> vertices, List<Vector3f> normals, List<Vector2f> texCoords, int texture) {
 		this.vertices = new Vector3f[vertices.size()];
 		for (int i = 0; i < vertices.size(); i++) {
 			this.vertices[i] = vertices.get(i);
@@ -27,20 +26,32 @@ public class Model {
 			this.normals[i] = normals.get(i);
 		}
 
+		this.texCoords = new Vector2f[texCoords.size()];
+		for(int i = 0; i < texCoords.size(); i++) {
+			this.texCoords[i] = texCoords.get(i);
+		}
+		
+		this.texture = texture;
+		
 		generateDisplayList();
 	}
 
-	public Model(Vector3f[] vertices, Vector3f[] normals) {
+	public TexturedModel(Vector3f[] vertices, Vector3f[] normals, Vector2f[] texCoords, int texture) {
 		this.vertices = vertices;
 		this.normals = normals;
+		this.texCoords = texCoords;
+		
+		this.texture = texture;
 
 		generateDisplayList();
 	}
-
+	
 	public void generateDisplayList() {
 		handle = glGenLists(1);
 
 		glNewList(handle, GL_COMPILE);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
 		glBegin(GL_TRIANGLES);
 		for (Face face : faces) {
 			Vector3f n1 = normals[(int) face.getNormal().x - 1];
@@ -61,23 +72,6 @@ public class Model {
 	}
 	
 	public void draw() {
-		glCallList(handle);
-	}
-
-	// Getters and setters
-	public int getHandle() {
-		return handle;
-	}
-
-	public void setHandle(int handle) {
-		this.handle = handle;
-	}
-
-	public Face[] getFaces() {
-		return faces;
-	}
-
-	public void setFaces(Face[] faces) {
-		this.faces = faces;
+		
 	}
 }

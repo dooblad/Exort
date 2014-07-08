@@ -17,8 +17,8 @@ import res.shaders.*;
  */
 public class Lighting {
 	public static final float[] lightColor = new float[] {1f, 0.5f, 0f, 1f};
-	public static final float[] ambientColor = new float[] {0.6f, 0.6f, 1f, 0.2f};
-	public static final float[] falloff = new float[] {0.65f, 0.02f, 0.005f};
+	public static final float[] ambientColor = new float[] {0.3f, 0.3f, 1f, 0.5f};
+	public static final float[] falloff = new float[] {0.25f, 0.01f, 0.005f};
 	
 	private static boolean textured;
 	private static boolean normalMapped;

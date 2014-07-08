@@ -5,7 +5,6 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.*;
 
 import res.shaders.*;
-import res.textures.fonts.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.entity.creature.*;
@@ -60,12 +59,6 @@ public class DuelState implements GameState {
 		Shaders.gui.use();
 		GLTools.switchToOrtho();
 		GUI.render();
-		Shaders.font.use();
-		glPushMatrix();
-		glTranslatef(45f, 300f, 0f);
-		glScalef(0.15f, 0.15f, 0.15f);
-		Fonts.finalFrontier.draw("Welcome to Exort", 0, 0, 1f, 1f, 1f);
-		glPopMatrix();
 		Shaders.useDefault();
 		GLTools.switchToPerspective();
 		glDisable(GL_BLEND);
