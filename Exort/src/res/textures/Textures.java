@@ -1,26 +1,33 @@
 package res.textures;
 
+import java.io.*;
 import java.util.*;
 
 import com.doobs.exort.util.texture.*;
 
 public class Textures {
 	public static Map<String, Texture> textures = new HashMap<String, Texture>();
-	
-	public static Texture abilityHUD;
-	public static Texture arena, arenaNormal;
-	public static Texture mapTest;
-	
+
 	public static void init() {
-		abilityHUD = TextureLoader.getTexture("abilityHUD.png");
-		textures.put("abilityHUD", abilityHUD);
-		
-		arena = TextureLoader.getTexture("arena.png");
-		textures.put("arena", arena);
-		//arenaNormal = TextureLoader.getTexture("arenaNormal.png");
-		//textures.put("arenaNormal", arena);
-		
-		mapTest = TextureLoader.getTexture("mapTest.png");
-		textures.put("mapTest", mapTest);
+		File directory = new File("src/res/textures/");
+		File[] files = directory.listFiles();
+		String[] temp;
+
+		if (files != null) {
+			for (File file : files) {
+				if (file.isFile()) {
+					temp = file.getName().split("\\.");
+
+					if (temp[1].equals("png")) {
+						System.out.println(temp[0]);
+						textures.put(temp[0], TextureLoader.getTexture(temp[0] + "." + temp[1]));
+					}
+				}
+			}
+		}
+	}
+
+	public static Texture getTexture(String key) {
+		return textures.get(key);
 	}
 }

@@ -18,11 +18,11 @@ public class GUI {
 		glColor4f(1f, 1f, 1f, 1f);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Textures.abilityHUD.getID());
+		glBindTexture(GL_TEXTURE_2D, Textures.getTexture("abilityHUD").getID());
 		Shaders.gui.setUniform1i("texture", 0);
 		
-		float width = Textures.abilityHUD.getWidth();
-		float height = Textures.abilityHUD.getHeight();
+		float width = Textures.getTexture("abilityHUD").getWidth();
+		float height = Textures.getTexture("abilityHUD").getHeight();
 		
 		float x = (Main.width - width) / 2;
 		

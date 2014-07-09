@@ -5,8 +5,10 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
+import res.models.*;
 import res.shaders.*;
 import res.textures.*;
+import res.textures.cursors.*;
 import res.textures.fonts.*;
 
 import com.doobs.exort.gfx.*;
@@ -31,6 +33,7 @@ public class Main {
 		Cursor.init();
 		Textures.init();
 		Fonts.init();
+		Models.init();
 		
 		input = new InputHandler();
 		

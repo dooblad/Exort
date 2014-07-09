@@ -9,23 +9,17 @@ import res.models.OBJLoader;
 import com.doobs.exort.entity.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
-import com.doobs.exort.net.*;
 import com.doobs.exort.util.gl.*;
 
 public class Player extends MovingEntity {
 	private Model model, move;
 
-	private Client client;
-	private String username;
-
 	private float targetX, targetZ;
 
 	private static float moveSpeed = 1 / 50f;
 
-	public Player(Client client, String username, int x, int z, Level level) {
+	public Player(int x, int z, Level level) {
 		super(x, z, level);
-		this.client = client;
-		this.username = username;
 	}
 
 	public Player() {
@@ -110,17 +104,5 @@ public class Player extends MovingEntity {
 	// Getters and Setters
 	public Model getModel() {
 		return model;
-	}
-
-	public Client getClient() {
-		return client;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 }

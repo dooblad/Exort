@@ -1,5 +1,20 @@
 package com.doobs.exort.util.gl;
 
-public class AnimatedModel {
+import java.util.*;
 
+public class AnimatedModel {
+	
+	public AnimatedModel() {
+		
+	}
+	
+	public AnimatedModel(List<TexturedModel> models) {
+		
+	}
+	
+	public AnimatedModel(TexturedModel[] models) {
+		
+	}
+	
+	
 }

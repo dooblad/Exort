@@ -16,9 +16,8 @@ public class Packet01Disconnect extends Packet {
 		this.username = username;
 	}
 
-	@Override
-	public void writeData(Client client) {
-		client.sendData(getData());
+	public void writeData(NetComponent component) {
+		super.writeData(component, getData());
 	}
 
 	@Override

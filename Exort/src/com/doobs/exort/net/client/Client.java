@@ -1,13 +1,14 @@
-package com.doobs.exort.net;
+package com.doobs.exort.net.client;
 
-import java.net.InetAddress;
+import java.net.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.level.*;
+import com.doobs.exort.net.*;
 import com.doobs.exort.net.packets.*;
 import com.doobs.exort.state.*;
 
-public class Client extends Thread implements Runnable {
+public class Client extends NetComponent implements Runnable {
 	private Main main;
 
 	private PacketHandler handler;
@@ -43,7 +44,8 @@ public class Client extends Thread implements Runnable {
 	}
 
 	public void handleMove(Packet02Move packet) {
-		((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
+		if(main.getCurrentState() instanceof DuelState)
+			((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
 	}
 
 	public void sendData(byte[] data) {

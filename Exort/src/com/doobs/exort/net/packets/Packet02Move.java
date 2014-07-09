@@ -25,9 +25,8 @@ public class Packet02Move extends Packet {
 		this.time = time;
 	}
 
-	@Override
-	public void writeData(Client client) {
-		client.sendData(getData());
+	public void writeData(NetComponent component) {
+		super.writeData(component, getData());
 	}
 
 	@Override

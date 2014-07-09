@@ -107,7 +107,7 @@ public class OBJLoader {
 						}
 						
 						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, Textures.textures.get(URL.split("\\.")[0]).getID());
+						glBindTexture(GL_TEXTURE_2D, Textures.getTexture(URL.split("\\.")[0]).getID());
 					}
 					
 					for (Face face : faces) {

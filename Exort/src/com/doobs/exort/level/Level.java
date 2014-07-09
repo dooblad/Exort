@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Level {
 	private Model model;
 
-	private Player player;
+	private NetPlayer player;
 
 	private int width, height;
 	private byte[] tiles;
@@ -37,9 +37,9 @@ public class Level {
 
 	public void tick(int delta) {
 		for (Entity entity : entities) {
-			if (entity instanceof Player) {
+			if (entity instanceof NetPlayer) {
 				if (entity == this.player)
-					((Player) entity).tick(delta);
+					((NetPlayer) entity).tick(delta);
 			}
 		}
 	}
@@ -55,7 +55,7 @@ public class Level {
 
 	public synchronized void movePlayer(String username, int x, int z, int time) {
 		int index = getPlayerIndex(username);
-		Player player = (Player) entities.get(index);
+		NetPlayer player = (NetPlayer) entities.get(index);
 		player.setX(x);
 		player.setZ(z);
 	}
@@ -67,7 +67,7 @@ public class Level {
 	public void removePlayer(String name) {
 		int index = 0;
 		for (Entity entity : entities) {
-			if (entity instanceof Player && ((Player) entity).getUsername().equals(name)) {
+			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(name)) {
 				break;
 			}
 			index++;
@@ -78,7 +78,7 @@ public class Level {
 	private int getPlayerIndex(String name) {
 		int index = 0;
 		for (Entity entity : entities) {
-			if (entity instanceof Player && ((Player) entity).getUsername().equals(name)) {
+			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(name)) {
 				break;
 			}
 			index++;
@@ -87,7 +87,7 @@ public class Level {
 	}
 
 	// Getters and Setters
-	public Player getPlayer() {
+	public NetPlayer getPlayer() {
 		return player;
 	}
 }

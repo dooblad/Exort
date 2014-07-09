@@ -1,4 +1,4 @@
-package res.textures;
+package res.textures.cursors;
 
 import java.awt.image.*;
 import java.io.*;

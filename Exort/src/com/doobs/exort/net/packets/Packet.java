@@ -1,6 +1,8 @@
 package com.doobs.exort.net.packets;
 
 import com.doobs.exort.net.*;
+import com.doobs.exort.net.client.*;
+import com.doobs.exort.net.server.*;
 
 public abstract class Packet {
 
@@ -24,7 +26,12 @@ public abstract class Packet {
 		this.packetId = (byte) packetId;
 	}
 
-	public abstract void writeData(Client client);
+	public void writeData(NetComponent component, byte[] data) {
+		if(component instanceof Client)
+			((Client) component).sendData(getData());
+		else if(component instanceof Server)
+			((Server) component).sendDataToAllClients(getData());
+	}
 
 	public String readData(byte[] data) {
 		String message = new String(data).trim();

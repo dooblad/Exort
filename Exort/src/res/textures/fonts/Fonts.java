@@ -7,7 +7,7 @@ public class Fonts {
 	public static Font finalFrontier;
 	
 	public static void init() {
-		automatica = new Font("automatica");
+		//automatica = new Font("automatica");
 		finalFrontier = new Font("finalFrontier");
 	}
 }
