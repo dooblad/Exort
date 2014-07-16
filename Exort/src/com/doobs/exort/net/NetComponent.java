@@ -1,5 +1,4 @@
 package com.doobs.exort.net;
 
-public class NetComponent extends Thread {
-	
+public class NetComponent {
 }

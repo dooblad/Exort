@@ -131,294 +131,141 @@ public class Math3D {
 			product[(3 << 2) + i] = ai0 * b[(3 << 2) + 0] + ai1 * b[(3 << 2) + 1] + ai2 * b[(3 << 2) + 2] + ai3 * b[(3 << 2) + 3];
 		}
 	}
-	
+
 	/**
-	 * @param a The matrix
-	 * @param b The vector
+	 * @param a
+	 *            The matrix
+	 * @param b
+	 *            The vector
 	 * @return The resultant vector
 	 */
 	public static float[] matrixMultiplyByVector4(float[] a, float[] b) {
 		float[] result = new float[4];
-		
+
 		result[0] = a[0] * b[0] + a[4] * b[1] + a[8] * b[2] + a[12] * b[3];
 		result[1] = a[1] * b[0] + a[5] * b[1] + a[9] * b[2] + a[13] * b[3];
 		result[2] = a[2] * b[0] + a[6] * b[1] + a[10] * b[2] + a[14] * b[3];
 		result[3] = a[3] * b[0] + a[7] * b[1] + a[11] * b[2] + a[15] * b[3];
-		
+
 		return result;
 	}
+
 	/**
 	 * Calculates the inverse of a 4x4 matrix.
 	 * 
-	 * @param result The resultant matrix
-	 * @param m The matrix to be inverted
+	 * @param result
+	 *            The resultant matrix
+	 * @param m
+	 *            The matrix to be inverted
 	 */
 	public static boolean matrixInverse4(float[] result, float[] m) {
 		float[] tempInverse = new float[16];
 		float det;
 
-	    tempInverse[0] = m[5]  * m[10] * m[15] - 
-	             m[5]  * m[11] * m[14] - 
-	             m[9]  * m[6]  * m[15] + 
-	             m[9]  * m[7]  * m[14] +
-	             m[13] * m[6]  * m[11] - 
-	             m[13] * m[7]  * m[10];
+		tempInverse[0] = m[5] * m[10] * m[15] - m[5] * m[11] * m[14] - m[9] * m[6] * m[15] + m[9] * m[7] * m[14] + m[13] * m[6] * m[11] - m[13] * m[7] * m[10];
 
-	    tempInverse[4] = -m[4]  * m[10] * m[15] + 
-	              m[4]  * m[11] * m[14] + 
-	              m[8]  * m[6]  * m[15] - 
-	              m[8]  * m[7]  * m[14] - 
-	              m[12] * m[6]  * m[11] + 
-	              m[12] * m[7]  * m[10];
+		tempInverse[4] = -m[4] * m[10] * m[15] + m[4] * m[11] * m[14] + m[8] * m[6] * m[15] - m[8] * m[7] * m[14] - m[12] * m[6] * m[11] + m[12] * m[7] * m[10];
 
-	    tempInverse[8] = m[4]  * m[9] * m[15] - 
-	             m[4]  * m[11] * m[13] - 
-	             m[8]  * m[5] * m[15] + 
-	             m[8]  * m[7] * m[13] + 
-	             m[12] * m[5] * m[11] - 
-	             m[12] * m[7] * m[9];
+		tempInverse[8] = m[4] * m[9] * m[15] - m[4] * m[11] * m[13] - m[8] * m[5] * m[15] + m[8] * m[7] * m[13] + m[12] * m[5] * m[11] - m[12] * m[7] * m[9];
 
-	    tempInverse[12] = -m[4]  * m[9] * m[14] + 
-	               m[4]  * m[10] * m[13] +
-	               m[8]  * m[5] * m[14] - 
-	               m[8]  * m[6] * m[13] - 
-	               m[12] * m[5] * m[10] + 
-	               m[12] * m[6] * m[9];
+		tempInverse[12] = -m[4] * m[9] * m[14] + m[4] * m[10] * m[13] + m[8] * m[5] * m[14] - m[8] * m[6] * m[13] - m[12] * m[5] * m[10] + m[12] * m[6] * m[9];
 
-	    tempInverse[1] = -m[1]  * m[10] * m[15] + 
-	              m[1]  * m[11] * m[14] + 
-	              m[9]  * m[2] * m[15] - 
-	              m[9]  * m[3] * m[14] - 
-	              m[13] * m[2] * m[11] + 
-	              m[13] * m[3] * m[10];
+		tempInverse[1] = -m[1] * m[10] * m[15] + m[1] * m[11] * m[14] + m[9] * m[2] * m[15] - m[9] * m[3] * m[14] - m[13] * m[2] * m[11] + m[13] * m[3] * m[10];
 
-	    tempInverse[5] = m[0]  * m[10] * m[15] - 
-	             m[0]  * m[11] * m[14] - 
-	             m[8]  * m[2] * m[15] + 
-	             m[8]  * m[3] * m[14] + 
-	             m[12] * m[2] * m[11] - 
-	             m[12] * m[3] * m[10];
+		tempInverse[5] = m[0] * m[10] * m[15] - m[0] * m[11] * m[14] - m[8] * m[2] * m[15] + m[8] * m[3] * m[14] + m[12] * m[2] * m[11] - m[12] * m[3] * m[10];
 
-	    tempInverse[9] = -m[0]  * m[9] * m[15] + 
-	              m[0]  * m[11] * m[13] + 
-	              m[8]  * m[1] * m[15] - 
-	              m[8]  * m[3] * m[13] - 
-	              m[12] * m[1] * m[11] + 
-	              m[12] * m[3] * m[9];
+		tempInverse[9] = -m[0] * m[9] * m[15] + m[0] * m[11] * m[13] + m[8] * m[1] * m[15] - m[8] * m[3] * m[13] - m[12] * m[1] * m[11] + m[12] * m[3] * m[9];
 
-	    tempInverse[13] = m[0]  * m[9] * m[14] - 
-	              m[0]  * m[10] * m[13] - 
-	              m[8]  * m[1] * m[14] + 
-	              m[8]  * m[2] * m[13] + 
-	              m[12] * m[1] * m[10] - 
-	              m[12] * m[2] * m[9];
+		tempInverse[13] = m[0] * m[9] * m[14] - m[0] * m[10] * m[13] - m[8] * m[1] * m[14] + m[8] * m[2] * m[13] + m[12] * m[1] * m[10] - m[12] * m[2] * m[9];
 
-	    tempInverse[2] = m[1]  * m[6] * m[15] - 
-	             m[1]  * m[7] * m[14] - 
-	             m[5]  * m[2] * m[15] + 
-	             m[5]  * m[3] * m[14] + 
-	             m[13] * m[2] * m[7] - 
-	             m[13] * m[3] * m[6];
+		tempInverse[2] = m[1] * m[6] * m[15] - m[1] * m[7] * m[14] - m[5] * m[2] * m[15] + m[5] * m[3] * m[14] + m[13] * m[2] * m[7] - m[13] * m[3] * m[6];
 
-	    tempInverse[6] = -m[0]  * m[6] * m[15] + 
-	              m[0]  * m[7] * m[14] + 
-	              m[4]  * m[2] * m[15] - 
-	              m[4]  * m[3] * m[14] - 
-	              m[12] * m[2] * m[7] + 
-	              m[12] * m[3] * m[6];
+		tempInverse[6] = -m[0] * m[6] * m[15] + m[0] * m[7] * m[14] + m[4] * m[2] * m[15] - m[4] * m[3] * m[14] - m[12] * m[2] * m[7] + m[12] * m[3] * m[6];
 
-	    tempInverse[10] = m[0]  * m[5] * m[15] - 
-	              m[0]  * m[7] * m[13] - 
-	              m[4]  * m[1] * m[15] + 
-	              m[4]  * m[3] * m[13] + 
-	              m[12] * m[1] * m[7] - 
-	              m[12] * m[3] * m[5];
+		tempInverse[10] = m[0] * m[5] * m[15] - m[0] * m[7] * m[13] - m[4] * m[1] * m[15] + m[4] * m[3] * m[13] + m[12] * m[1] * m[7] - m[12] * m[3] * m[5];
 
-	    tempInverse[14] = -m[0]  * m[5] * m[14] + 
-	               m[0]  * m[6] * m[13] + 
-	               m[4]  * m[1] * m[14] - 
-	               m[4]  * m[2] * m[13] - 
-	               m[12] * m[1] * m[6] + 
-	               m[12] * m[2] * m[5];
+		tempInverse[14] = -m[0] * m[5] * m[14] + m[0] * m[6] * m[13] + m[4] * m[1] * m[14] - m[4] * m[2] * m[13] - m[12] * m[1] * m[6] + m[12] * m[2] * m[5];
 
-	    tempInverse[3] = -m[1] * m[6] * m[11] + 
-	              m[1] * m[7] * m[10] + 
-	              m[5] * m[2] * m[11] - 
-	              m[5] * m[3] * m[10] - 
-	              m[9] * m[2] * m[7] + 
-	              m[9] * m[3] * m[6];
+		tempInverse[3] = -m[1] * m[6] * m[11] + m[1] * m[7] * m[10] + m[5] * m[2] * m[11] - m[5] * m[3] * m[10] - m[9] * m[2] * m[7] + m[9] * m[3] * m[6];
 
-	    tempInverse[7] = m[0] * m[6] * m[11] - 
-	             m[0] * m[7] * m[10] - 
-	             m[4] * m[2] * m[11] + 
-	             m[4] * m[3] * m[10] + 
-	             m[8] * m[2] * m[7] - 
-	             m[8] * m[3] * m[6];
+		tempInverse[7] = m[0] * m[6] * m[11] - m[0] * m[7] * m[10] - m[4] * m[2] * m[11] + m[4] * m[3] * m[10] + m[8] * m[2] * m[7] - m[8] * m[3] * m[6];
 
-	    tempInverse[11] = -m[0] * m[5] * m[11] + 
-	               m[0] * m[7] * m[9] + 
-	               m[4] * m[1] * m[11] - 
-	               m[4] * m[3] * m[9] - 
-	               m[8] * m[1] * m[7] + 
-	               m[8] * m[3] * m[5];
+		tempInverse[11] = -m[0] * m[5] * m[11] + m[0] * m[7] * m[9] + m[4] * m[1] * m[11] - m[4] * m[3] * m[9] - m[8] * m[1] * m[7] + m[8] * m[3] * m[5];
 
-	    tempInverse[15] = m[0] * m[5] * m[10] - 
-	              m[0] * m[6] * m[9] - 
-	              m[4] * m[1] * m[10] + 
-	              m[4] * m[2] * m[9] + 
-	              m[8] * m[1] * m[6] - 
-	              m[8] * m[2] * m[5];
+		tempInverse[15] = m[0] * m[5] * m[10] - m[0] * m[6] * m[9] - m[4] * m[1] * m[10] + m[4] * m[2] * m[9] + m[8] * m[1] * m[6] - m[8] * m[2] * m[5];
 
-	    det = m[0] * tempInverse[0] + m[1] * tempInverse[4] + m[2] * tempInverse[8] + m[3] * tempInverse[12];
+		det = m[0] * tempInverse[0] + m[1] * tempInverse[4] + m[2] * tempInverse[8] + m[3] * tempInverse[12];
 
-	    if (det == 0)
-	        return false;
+		if (det == 0)
+			return false;
 
-	    det = 1f / det;
+		det = 1f / det;
 
-	    float[] inverse = new float[16];
-	    
-	    for (int i = 0; i < 16; i++)
-	        inverse[i] = tempInverse[i] * det;
+		float[] inverse = new float[16];
 
-	    return true;
+		for (int i = 0; i < 16; i++)
+			inverse[i] = tempInverse[i] * det;
+
+		return true;
 	}
-	
+
 	/**
 	 * Calculates the inverse of a 4x4 matrix.
 	 * 
-	 * @param result The resultant matrix
-	 * @param m The matrix to be inverted
+	 * @param result
+	 *            The resultant matrix
+	 * @param m
+	 *            The matrix to be inverted
 	 */
 	public static float[] matrixInverse4(float[] m) {
 		float[] tempInverse = new float[16];
 		float det;
 
-	    tempInverse[0] = m[5]  * m[10] * m[15] - 
-	             m[5]  * m[11] * m[14] - 
-	             m[9]  * m[6]  * m[15] + 
-	             m[9]  * m[7]  * m[14] +
-	             m[13] * m[6]  * m[11] - 
-	             m[13] * m[7]  * m[10];
+		tempInverse[0] = m[5] * m[10] * m[15] - m[5] * m[11] * m[14] - m[9] * m[6] * m[15] + m[9] * m[7] * m[14] + m[13] * m[6] * m[11] - m[13] * m[7] * m[10];
 
-	    tempInverse[4] = -m[4]  * m[10] * m[15] + 
-	              m[4]  * m[11] * m[14] + 
-	              m[8]  * m[6]  * m[15] - 
-	              m[8]  * m[7]  * m[14] - 
-	              m[12] * m[6]  * m[11] + 
-	              m[12] * m[7]  * m[10];
+		tempInverse[4] = -m[4] * m[10] * m[15] + m[4] * m[11] * m[14] + m[8] * m[6] * m[15] - m[8] * m[7] * m[14] - m[12] * m[6] * m[11] + m[12] * m[7] * m[10];
 
-	    tempInverse[8] = m[4]  * m[9] * m[15] - 
-	             m[4]  * m[11] * m[13] - 
-	             m[8]  * m[5] * m[15] + 
-	             m[8]  * m[7] * m[13] + 
-	             m[12] * m[5] * m[11] - 
-	             m[12] * m[7] * m[9];
+		tempInverse[8] = m[4] * m[9] * m[15] - m[4] * m[11] * m[13] - m[8] * m[5] * m[15] + m[8] * m[7] * m[13] + m[12] * m[5] * m[11] - m[12] * m[7] * m[9];
 
-	    tempInverse[12] = -m[4]  * m[9] * m[14] + 
-	               m[4]  * m[10] * m[13] +
-	               m[8]  * m[5] * m[14] - 
-	               m[8]  * m[6] * m[13] - 
-	               m[12] * m[5] * m[10] + 
-	               m[12] * m[6] * m[9];
+		tempInverse[12] = -m[4] * m[9] * m[14] + m[4] * m[10] * m[13] + m[8] * m[5] * m[14] - m[8] * m[6] * m[13] - m[12] * m[5] * m[10] + m[12] * m[6] * m[9];
 
-	    tempInverse[1] = -m[1]  * m[10] * m[15] + 
-	              m[1]  * m[11] * m[14] + 
-	              m[9]  * m[2] * m[15] - 
-	              m[9]  * m[3] * m[14] - 
-	              m[13] * m[2] * m[11] + 
-	              m[13] * m[3] * m[10];
+		tempInverse[1] = -m[1] * m[10] * m[15] + m[1] * m[11] * m[14] + m[9] * m[2] * m[15] - m[9] * m[3] * m[14] - m[13] * m[2] * m[11] + m[13] * m[3] * m[10];
 
-	    tempInverse[5] = m[0]  * m[10] * m[15] - 
-	             m[0]  * m[11] * m[14] - 
-	             m[8]  * m[2] * m[15] + 
-	             m[8]  * m[3] * m[14] + 
-	             m[12] * m[2] * m[11] - 
-	             m[12] * m[3] * m[10];
+		tempInverse[5] = m[0] * m[10] * m[15] - m[0] * m[11] * m[14] - m[8] * m[2] * m[15] + m[8] * m[3] * m[14] + m[12] * m[2] * m[11] - m[12] * m[3] * m[10];
 
-	    tempInverse[9] = -m[0]  * m[9] * m[15] + 
-	              m[0]  * m[11] * m[13] + 
-	              m[8]  * m[1] * m[15] - 
-	              m[8]  * m[3] * m[13] - 
-	              m[12] * m[1] * m[11] + 
-	              m[12] * m[3] * m[9];
+		tempInverse[9] = -m[0] * m[9] * m[15] + m[0] * m[11] * m[13] + m[8] * m[1] * m[15] - m[8] * m[3] * m[13] - m[12] * m[1] * m[11] + m[12] * m[3] * m[9];
 
-	    tempInverse[13] = m[0]  * m[9] * m[14] - 
-	              m[0]  * m[10] * m[13] - 
-	              m[8]  * m[1] * m[14] + 
-	              m[8]  * m[2] * m[13] + 
-	              m[12] * m[1] * m[10] - 
-	              m[12] * m[2] * m[9];
+		tempInverse[13] = m[0] * m[9] * m[14] - m[0] * m[10] * m[13] - m[8] * m[1] * m[14] + m[8] * m[2] * m[13] + m[12] * m[1] * m[10] - m[12] * m[2] * m[9];
 
-	    tempInverse[2] = m[1]  * m[6] * m[15] - 
-	             m[1]  * m[7] * m[14] - 
-	             m[5]  * m[2] * m[15] + 
-	             m[5]  * m[3] * m[14] + 
-	             m[13] * m[2] * m[7] - 
-	             m[13] * m[3] * m[6];
+		tempInverse[2] = m[1] * m[6] * m[15] - m[1] * m[7] * m[14] - m[5] * m[2] * m[15] + m[5] * m[3] * m[14] + m[13] * m[2] * m[7] - m[13] * m[3] * m[6];
 
-	    tempInverse[6] = -m[0]  * m[6] * m[15] + 
-	              m[0]  * m[7] * m[14] + 
-	              m[4]  * m[2] * m[15] - 
-	              m[4]  * m[3] * m[14] - 
-	              m[12] * m[2] * m[7] + 
-	              m[12] * m[3] * m[6];
+		tempInverse[6] = -m[0] * m[6] * m[15] + m[0] * m[7] * m[14] + m[4] * m[2] * m[15] - m[4] * m[3] * m[14] - m[12] * m[2] * m[7] + m[12] * m[3] * m[6];
 
-	    tempInverse[10] = m[0]  * m[5] * m[15] - 
-	              m[0]  * m[7] * m[13] - 
-	              m[4]  * m[1] * m[15] + 
-	              m[4]  * m[3] * m[13] + 
-	              m[12] * m[1] * m[7] - 
-	              m[12] * m[3] * m[5];
+		tempInverse[10] = m[0] * m[5] * m[15] - m[0] * m[7] * m[13] - m[4] * m[1] * m[15] + m[4] * m[3] * m[13] + m[12] * m[1] * m[7] - m[12] * m[3] * m[5];
 
-	    tempInverse[14] = -m[0]  * m[5] * m[14] + 
-	               m[0]  * m[6] * m[13] + 
-	               m[4]  * m[1] * m[14] - 
-	               m[4]  * m[2] * m[13] - 
-	               m[12] * m[1] * m[6] + 
-	               m[12] * m[2] * m[5];
+		tempInverse[14] = -m[0] * m[5] * m[14] + m[0] * m[6] * m[13] + m[4] * m[1] * m[14] - m[4] * m[2] * m[13] - m[12] * m[1] * m[6] + m[12] * m[2] * m[5];
 
-	    tempInverse[3] = -m[1] * m[6] * m[11] + 
-	              m[1] * m[7] * m[10] + 
-	              m[5] * m[2] * m[11] - 
-	              m[5] * m[3] * m[10] - 
-	              m[9] * m[2] * m[7] + 
-	              m[9] * m[3] * m[6];
+		tempInverse[3] = -m[1] * m[6] * m[11] + m[1] * m[7] * m[10] + m[5] * m[2] * m[11] - m[5] * m[3] * m[10] - m[9] * m[2] * m[7] + m[9] * m[3] * m[6];
 
-	    tempInverse[7] = m[0] * m[6] * m[11] - 
-	             m[0] * m[7] * m[10] - 
-	             m[4] * m[2] * m[11] + 
-	             m[4] * m[3] * m[10] + 
-	             m[8] * m[2] * m[7] - 
-	             m[8] * m[3] * m[6];
+		tempInverse[7] = m[0] * m[6] * m[11] - m[0] * m[7] * m[10] - m[4] * m[2] * m[11] + m[4] * m[3] * m[10] + m[8] * m[2] * m[7] - m[8] * m[3] * m[6];
 
-	    tempInverse[11] = -m[0] * m[5] * m[11] + 
-	               m[0] * m[7] * m[9] + 
-	               m[4] * m[1] * m[11] - 
-	               m[4] * m[3] * m[9] - 
-	               m[8] * m[1] * m[7] + 
-	               m[8] * m[3] * m[5];
+		tempInverse[11] = -m[0] * m[5] * m[11] + m[0] * m[7] * m[9] + m[4] * m[1] * m[11] - m[4] * m[3] * m[9] - m[8] * m[1] * m[7] + m[8] * m[3] * m[5];
 
-	    tempInverse[15] = m[0] * m[5] * m[10] - 
-	              m[0] * m[6] * m[9] - 
-	              m[4] * m[1] * m[10] + 
-	              m[4] * m[2] * m[9] + 
-	              m[8] * m[1] * m[6] - 
-	              m[8] * m[2] * m[5];
+		tempInverse[15] = m[0] * m[5] * m[10] - m[0] * m[6] * m[9] - m[4] * m[1] * m[10] + m[4] * m[2] * m[9] + m[8] * m[1] * m[6] - m[8] * m[2] * m[5];
 
-	    det = m[0] * tempInverse[0] + m[1] * tempInverse[4] + m[2] * tempInverse[8] + m[3] * tempInverse[12];
+		det = m[0] * tempInverse[0] + m[1] * tempInverse[4] + m[2] * tempInverse[8] + m[3] * tempInverse[12];
 
-	    if (det == 0)
-	        return null;
+		if (det == 0)
+			return null;
 
-	    det = 1f / det;
+		det = 1f / det;
 
-	    float[] inverse = new float[16];
-	    
-	    for (int i = 0; i < 16; i++)
-	        inverse[i] = tempInverse[i] * det;
+		float[] inverse = new float[16];
 
-	    return inverse;
+		for (int i = 0; i < 16; i++)
+			inverse[i] = tempInverse[i] * det;
+
+		return inverse;
 	}
 
 	/**
@@ -439,7 +286,7 @@ public class Math3D {
 		float xx, yy, zz, xy, yz, zx, xs, ys, zs, one_c;
 
 		angle = (float) Math.toRadians(angle);
-		
+
 		s = (float) Math.sin(angle);
 		c = (float) Math.cos(angle);
 

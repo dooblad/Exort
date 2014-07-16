@@ -12,22 +12,23 @@ import org.lwjgl.util.vector.*;
 import res.shaders.*;
 
 /**
- * A helper class to provide a 
+ * A helper class to provide a
+ * 
  * @author Logan
  */
 public class Lighting {
-	public static final float[] lightColor = new float[] {1f, 0.5f, 0f, 1f};
-	public static final float[] ambientColor = new float[] {0.3f, 0.3f, 1f, 0.5f};
-	public static final float[] falloff = new float[] {0.25f, 0.01f, 0.005f};
-	
+	public static final float[] lightColor = new float[] { 1f, 0.5f, 0f, 1f };
+	public static final float[] ambientColor = new float[] { 0.3f, 0.3f, 1f, 0.5f };
+	public static final float[] falloff = new float[] { 0.25f, 0.01f, 0.005f };
+
 	private static boolean textured;
 	private static boolean normalMapped;
-	
+
 	private static Vector3f position;
-	
+
 	public static void init() {
 		Shaders.lighting.use();
-		
+
 		position = new Vector3f(0f, 1f, 0f);
 		position.normalise();
 		Shaders.lighting.setUniform3f("lightPosition", position.getX(), position.getY(), position.getZ());
@@ -38,7 +39,7 @@ public class Lighting {
 		setNormalMapped(false);
 		Shaders.lighting.setUniform1i("diffuseTexture", 0);
 		Shaders.lighting.setUniform1i("normalMap", 1);
-		
+
 		Shaders.useDefault();
 	}
 
@@ -52,7 +53,7 @@ public class Lighting {
 		if (!usingShader)
 			Shaders.useDefault();
 	}
-	
+
 	public static void drawLight() {
 		Shaders.useDefault();
 		glColor4f(1f, 1f, 1f, 1f);
@@ -60,28 +61,28 @@ public class Lighting {
 		sphere.draw(0.25f, 5, 5);
 		Shaders.lighting.use();
 	}
-	
+
 	public static void setTextured(boolean textured) {
 		Lighting.textured = textured;
 		Shaders.lighting.setUniform1i("textured", textured ? 1 : 0);
 	}
-	
+
 	public static void setNormalMapped(boolean normalMapped) {
 		Lighting.normalMapped = normalMapped;
 		Shaders.lighting.setUniform1i("normalMapped", normalMapped ? 1 : 0);
 	}
-	
+
 	public static void sendModelViewMatrix() {
 		FloatBuffer modelViewMatrix = BufferUtils.createFloatBuffer(16);
 		glGetFloat(GL_MODELVIEW_MATRIX, modelViewMatrix);
 		Shaders.lighting.setUniformMatrix4("modelViewMatrix", false, modelViewMatrix);
 	}
-	
+
 	// Getters and setters
 	public static boolean isTextured() {
 		return textured;
 	}
-	
+
 	public static boolean isNormalMapped() {
 		return normalMapped;
 	}

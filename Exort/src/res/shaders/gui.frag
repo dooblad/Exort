@@ -10,5 +10,6 @@ void main() {
 	if(texture2D(texture, texCoord).a == 0.0)
 		discard;
 		
-    gl_FragColor = color * texture2D(texture, texCoord);
+	vec4 finalColor = color * texture2D(texture, texCoord);
+    gl_FragColor = finalColor;
 }

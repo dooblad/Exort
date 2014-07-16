@@ -3,43 +3,91 @@ package com.doobs.exort.gfx;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 
-import com.doobs.exort.*;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 import res.shaders.*;
 import res.textures.*;
+import res.textures.fonts.*;
 
 public class GUI {
-	
+	public static List<String> messages = new ArrayList<String>();
+
+	private static final int padding = 5;
+	private static final float[] chatBGCol = { 0f, 0f, 0f, 0.5f };
+
+	private static final int VISIBLE_MESSAGES = 5;
+	private static final int FADE_TIME = 100;
+	private static int fadeTimer;
+	private static boolean hidden = true;
+
 	public static void tick() {
-		
+		if (++fadeTimer > FADE_TIME) {
+			fadeTimer = FADE_TIME;
+			hidden = true;
+		}
 	}
-	
-	public static void render() {
-		glColor4f(1f, 1f, 1f, 1f);
-		
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Textures.getTexture("abilityHUD").getID());
-		Shaders.gui.setUniform1i("texture", 0);
-		
-		float width = Textures.getTexture("abilityHUD").getWidth();
-		float height = Textures.getTexture("abilityHUD").getHeight();
-		
-		float x = (Main.width - width) / 2;
-		
+
+	public static void render(String text, boolean typing) {
+		Fonts.finalFrontier.setSize(5);
+		Fonts.finalFrontier.setColor(1f, 1f, 1f);
+
+		glEnable(GL_BLEND);
+		glDisable(GL_DEPTH_TEST);
+
+		if (typing) {
+			hidden = false;
+
+			// Draw background
+			Shaders.gui.use();
+			glActiveTexture(GL_TEXTURE0);
+			Textures.getTexture("white").bind();
+			Dimension d = Fonts.finalFrontier.getPhraseDimensions(text);
+			renderChatBackground(text, d, 10, 10);
+			Shaders.font.use();
+			Fonts.finalFrontier.draw(text, 10, 10);
+		}
+
+		if (!hidden) {
+			Dimension d;
+			int y = 10 + Fonts.finalFrontier.getPhraseHeight(text) + padding * 2;
+			for (int i = 0; i < VISIBLE_MESSAGES; i++) {
+				if (i < messages.size()) {
+					String message = messages.get(messages.size() - i - 1);
+					d = Fonts.finalFrontier.getPhraseDimensions(message);
+
+					// Draw background
+					Shaders.gui.use();
+					glActiveTexture(GL_TEXTURE0);
+					Textures.getTexture("white").bind();
+					renderChatBackground(message, d, 10, y);
+
+					Shaders.font.use();
+					Fonts.finalFrontier.draw(message, 10, y);
+					
+					y += d.height + padding * 2;
+				}
+			}
+		}
+
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+	}
+
+	private static void renderChatBackground(String text, Dimension d, int x, int y) {
+		glColor4f(chatBGCol[0], chatBGCol[1], chatBGCol[2], chatBGCol[3]);
 		glBegin(GL_QUADS);
-		glTexCoord2f(0f, 0f);
-		glVertex2f(x, 0f);
-		
-		glTexCoord2f(1f, 0f);
-		glVertex2f(x + width, 0f);
-		
-		glTexCoord2f(1f, 1f);
-		glVertex2f(x + width, height);
-		
-		glTexCoord2f(0f, 1f);
-		glVertex2f(x, height);
+		glVertex2f(x - padding, y - padding);
+		glVertex2f(d.width + x + padding, y - padding);
+		glVertex2f(d.width + x + padding, d.height + y + padding);
+		glVertex2f(x - padding, d.height + y + padding);
 		glEnd();
-		
-		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-}	
+
+	public static void addMessage(String message) {
+		messages.add(message);
+		fadeTimer = 0;
+		hidden = false;
+	}
+}

@@ -27,9 +27,9 @@ public abstract class Packet {
 	}
 
 	public void writeData(NetComponent component, byte[] data) {
-		if(component instanceof Client)
+		if (component instanceof Client)
 			((Client) component).sendData(getData());
-		else if(component instanceof Server)
+		else if (component instanceof Server)
 			((Server) component).sendDataToAllClients(getData());
 	}
 

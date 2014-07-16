@@ -20,7 +20,7 @@ public class PacketParser {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		boolean client = component instanceof Client;
-		
+
 		switch (type) {
 		case INVALID:
 			break;
@@ -30,14 +30,15 @@ public class PacketParser {
 			// " has joined the game.");
 			NetPlayer player = new NetPlayer(null, loginPacket.getUsername(), address.toString(), port, level);
 			level.addEntity(player);
-			if(!client)
+			if (!client)
 				((Server) component).addConnection(player, loginPacket);
 			break;
 		case DISCONNECT:
 			Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-			// System.out.println(disconnectPacket.getUsername() + " has left the game.");
+			// System.out.println(disconnectPacket.getUsername() +
+			// " has left the game.");
 			level.removePlayer(disconnectPacket.getUsername());
-			
+
 			if (!client && ((Server) component).getPlayer(disconnectPacket.getUsername()) != null) {
 				/*
 				 * UI.addMessage("[" + address.getHostAddress() + "] " +
@@ -48,7 +49,7 @@ public class PacketParser {
 			break;
 		case MOVE:
 			Packet02Move movePacket = new Packet02Move(data);
-			if(client) {
+			if (client) {
 				((Client) component).handleMove(movePacket);
 			} else {
 				((Server) component).handleMove(movePacket);

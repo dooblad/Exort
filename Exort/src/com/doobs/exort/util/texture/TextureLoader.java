@@ -18,13 +18,13 @@ public class TextureLoader {
 	public static Texture getTexture(String URL) {
 		try {
 			Texture result;
-			
+
 			int texture = glGenTextures();
 
 			BufferedImage image = ImageIO.read(Textures.class.getResourceAsStream(URL));
 			int width = image.getWidth();
 			int height = image.getHeight();
-			
+
 			result = new Texture(texture, width, height);
 
 			int[] pixels = new int[width * height];

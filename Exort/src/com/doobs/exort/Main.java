@@ -23,7 +23,7 @@ public class Main {
 	public static InputHandler input;
 
 	private boolean closeRequested;
-	
+
 	private GameState state;
 
 	public Main() {
@@ -34,16 +34,16 @@ public class Main {
 		Textures.init();
 		Fonts.init();
 		Models.init();
-		
+
 		input = new InputHandler();
-		
+
 		closeRequested = false;
-		
+
 		state = new MainMenuState(this);
 
 		run();
 	}
-	
+
 	public void run() {
 		while (!closeRequested) {
 			tick(GLTools.getDelta());
@@ -52,19 +52,21 @@ public class Main {
 			Display.update();
 			Display.sync(60);
 		}
+
+		System.exit(0);
 	}
 
 	public void tick(int delta) {
 		input.tick();
-		
+
 		if (input.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested())
 			closeRequested = true;
 
-		
 		else if (input.isKeyPressed(Keyboard.KEY_F11))
 			GLTools.toggleFullscreen();
 
 		GLTools.tick();
+		GUI.tick();
 
 		state.tick(delta);
 	}
@@ -75,7 +77,7 @@ public class Main {
 
 		state.render();
 	}
-	
+
 	public void changeState(GameState state) {
 		this.state = state;
 	}
@@ -83,7 +85,7 @@ public class Main {
 	public static void main(String[] args) {
 		new Main();
 	}
-	
+
 	// Getters and setters
 	public GameState getCurrentState() {
 		return state;

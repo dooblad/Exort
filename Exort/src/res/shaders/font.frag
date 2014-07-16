@@ -10,6 +10,7 @@ void main() {
 	
 	vec4 finalColor;
 	finalColor.rgb = color.rgb;
+	finalColor.a = alpha;
 	
 	if(alpha < 0.5)
 		finalColor.a = 0.0;

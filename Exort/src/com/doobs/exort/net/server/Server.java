@@ -7,16 +7,11 @@ import com.doobs.exort.level.*;
 import com.doobs.exort.net.*;
 import com.doobs.exort.net.packets.*;
 
-public class Server extends NetComponent implements Runnable {
+public class Server extends NetComponent {
 	private PacketHandler handler;
 
 	private Level level;
 	private List<NetPlayer> players;
-
-	// Packet timing
-	private long lastTime;
-	private long delta;
-	private long time;
 
 	public Server() {
 		level = new Level();
@@ -24,23 +19,6 @@ public class Server extends NetComponent implements Runnable {
 
 		handler = new PacketHandler(this, null, level);
 		handler.start();
-
-		lastTime = System.currentTimeMillis();
-		delta = 0;
-		time = 0;
-	}
-
-	public void run() {
-		while (true) {
-			delta = System.currentTimeMillis() - lastTime;
-			lastTime = System.currentTimeMillis();
-			time += delta;
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public void handleMove(Packet02Move packet) {
@@ -60,7 +38,7 @@ public class Server extends NetComponent implements Runnable {
 				alreadyConnected = true;
 			} else {
 				handler.sendData(packet.getData(), p.getAddress());
-				handler.sendData(new Packet00Login(p.getUsername(), getPacketTime()).getData(), player.getAddress());
+				handler.sendData(new Packet00Login(p.getUsername()).getData(), player.getAddress());
 			}
 		}
 		if (!alreadyConnected) {
@@ -95,10 +73,5 @@ public class Server extends NetComponent implements Runnable {
 		for (NetPlayer player : players) {
 			handler.sendData(data, player.getAddress());
 		}
-	}
-
-	// Getters and setters
-	public int getPacketTime() {
-		return (int) (time % 1000);
 	}
 }

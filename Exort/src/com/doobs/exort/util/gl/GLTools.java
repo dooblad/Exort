@@ -218,14 +218,14 @@ public class GLTools {
 		result.flip();
 		return result;
 	}
-	
+
 	public static float[] asFloatArray(FloatBuffer buffer) {
 		float[] result = new float[16];
 
-		for(int i = 0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++) {
 			result[i] = buffer.get(i);
 		}
-		
+
 		return result;
 	}
 }

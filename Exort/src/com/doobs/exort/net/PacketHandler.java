@@ -45,7 +45,7 @@ public class PacketHandler extends Thread {
 			parser.parsePacket(data, packet.getAddress().toString(), packet.getPort());
 		}
 	}
-	
+
 	public void sendData(byte[] data) {
 		sendData(data, null);
 	}
@@ -53,12 +53,12 @@ public class PacketHandler extends Thread {
 	public void sendData(byte[] data, String address) {
 		try {
 			DatagramPacket packet;
-			
-			if(address != null) 
+
+			if (address != null)
 				packet = new DatagramPacket(data, data.length, InetAddress.getByName(address), port);
 			else
 				packet = new DatagramPacket(data, data.length, this.address, port);
-			
+
 			socket.send(packet);
 		} catch (IOException e) {
 			e.printStackTrace();

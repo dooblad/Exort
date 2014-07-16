@@ -19,8 +19,8 @@ public class Textures {
 					temp = file.getName().split("\\.");
 
 					if (temp[1].equals("png")) {
-						System.out.println(temp[0]);
-						textures.put(temp[0], TextureLoader.getTexture(temp[0] + "." + temp[1]));
+						System.out.println(file.getName());
+						textures.put(temp[0], TextureLoader.getTexture(file.getName()));
 					}
 				}
 			}

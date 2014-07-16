@@ -14,14 +14,14 @@ public class Face {
 	public Vector3f getVertex() {
 		return vertex;
 	}
-	
+
 	public Vector3f getTexCoord() {
-		if(texCoord == null)
+		if (texCoord == null)
 			return new Vector3f(0f, 0f, 0f);
 		else
 			return texCoord;
 	}
-	
+
 	public Vector3f getNormal() {
 		return normal;
 	}

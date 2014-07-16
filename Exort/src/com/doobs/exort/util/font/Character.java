@@ -8,12 +8,12 @@ public class Character {
 		this.texCoords = new float[8];
 		this.width = charWidth;
 		this.height = charHeight;
-		
+
 		float x1 = (float) (x) / texWidth;
 		float y1 = (float) (texHeight - y - charHeight) / texHeight;
 		float x2 = (float) (x + charWidth) / texWidth;
 		float y2 = (float) (texHeight - y) / texHeight;
-		
+
 		texCoords[0] = x1;
 		texCoords[1] = y1;
 		texCoords[2] = x2;
@@ -23,16 +23,16 @@ public class Character {
 		texCoords[6] = x1;
 		texCoords[7] = y2;
 	}
-	
+
 	// Getters and setters
 	public float[] getTexCoords() {
 		return texCoords;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}

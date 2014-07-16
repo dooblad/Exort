@@ -14,7 +14,7 @@ public class Shaders {
 		font = new Shader(Shaders.class, "font");
 		gui = new Shader(Shaders.class, "gui");
 	}
-	
+
 	public static void useDefault() {
 		glUseProgram(0);
 	}

@@ -21,7 +21,7 @@ public class Model {
 		for (int i = 0; i < vertices.size(); i++) {
 			this.vertices[i] = vertices.get(i);
 		}
-		
+
 		this.normals = new Vector3f[normals.size()];
 		for (int i = 0; i < normals.size(); i++) {
 			this.normals[i] = normals.get(i);
@@ -59,7 +59,7 @@ public class Model {
 		glEnd();
 		glEndList();
 	}
-	
+
 	public void draw() {
 		glCallList(handle);
 	}

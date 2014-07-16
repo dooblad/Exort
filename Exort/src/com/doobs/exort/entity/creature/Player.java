@@ -63,9 +63,9 @@ public class Player extends MovingEntity {
 
 		this.x += xa * delta;
 		this.z += za * delta;
-		
+
 		// Ability handling
-		
+
 		// Update lighting
 		Lighting.moveLight(new Vector3f((float) this.x, 4f, (float) this.z), false);
 	}
@@ -79,7 +79,7 @@ public class Player extends MovingEntity {
 		// Draw light
 		glTranslated(0, 4, 0);
 		Lighting.drawLight();
-		
+
 		// Draw move command
 		glTranslated(targetX - x, -4, targetZ - z);
 		glColor3f(0.0f, 1.0f, 0.0f);

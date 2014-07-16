@@ -8,43 +8,20 @@ import com.doobs.exort.net.*;
 import com.doobs.exort.net.packets.*;
 import com.doobs.exort.state.*;
 
-public class Client extends NetComponent implements Runnable {
+public class Client extends NetComponent {
 	private Main main;
 
 	private PacketHandler handler;
-
-	// Packet timing
-	private long lastTime;
-	private long delta;
-	private long time;
 
 	public Client(Main main, Level level, String address) {
 		this.main = main;
 
 		handler = new PacketHandler(this, address, level);
 		handler.start();
-
-		lastTime = System.currentTimeMillis();
-		delta = 0;
-		time = 0;
-	}
-
-	@Override
-	public void run() {
-		while (true) {
-			delta = System.currentTimeMillis() - lastTime;
-			lastTime = System.currentTimeMillis();
-			time += delta;
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public void handleMove(Packet02Move packet) {
-		if(main.getCurrentState() instanceof DuelState)
+		if (main.getCurrentState() instanceof DuelState)
 			((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
 	}
 
@@ -67,13 +44,5 @@ public class Client extends NetComponent implements Runnable {
 
 	public int getPort() {
 		return handler.getPort();
-	}
-
-	public int getPacketTime() {
-		return (int) (time % 1000);
-	}
-
-	public void setTime(int time) {
-		this.time = time;
 	}
 }

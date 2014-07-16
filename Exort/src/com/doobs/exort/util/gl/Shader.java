@@ -11,20 +11,23 @@ import java.util.*;
 public class Shader {
 	private int program;
 	private int vertexShader, fragmentShader;
-	
+
 	private String vertexSource, fragmentSource;
-	
+
 	private Map<String, Integer> attributeLocations = new HashMap<String, Integer>();
-    private Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
+	private Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
 
 	public Shader(Class c, String URL) {
 		this(c, URL, (String[]) null);
 	}
-	
+
 	/**
 	 * 
-	 * @param permutation The string to concatenate to the front of the shader to define a permutation.
-	 * @param URL The location of the shader program.
+	 * @param permutation
+	 *            The string to concatenate to the front of the shader to define
+	 *            a permutation.
+	 * @param URL
+	 *            The location of the shader program.
 	 */
 	public Shader(Class c, String URL, String... permutations) {
 		program = glCreateProgram();
@@ -34,32 +37,32 @@ public class Shader {
 		String fragmentSource = loadProgram(c, URL + ".frag", permutations);
 		compile(vertexSource, fragmentSource);
 	}
-	
+
 	public String loadProgram(Class c, String URL, String... permutations) {
 		String source = "";
-		
+
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(c.getResourceAsStream(URL)));
 			String line;
-			
-			while((line = reader.readLine()) != null) {
-				if(permutations != null && source.equals("") && line.contains("#version")) {
+
+			while ((line = reader.readLine()) != null) {
+				if (permutations != null && source.equals("") && line.contains("#version")) {
 					source += line + '\n';
-					
-					// Add permutations after version define 
-					for(String permutation : permutations) {
+
+					// Add permutations after version define
+					for (String permutation : permutations) {
 						source += "#define " + permutation + '\n';
 					}
 				} else
 					source += line + '\n';
 			}
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return source;
 	}
-	
+
 	public void compile(String vertexSource, String fragmentSource) {
 		// Vertex
 		glShaderSource(vertexShader, vertexSource);
@@ -68,7 +71,7 @@ public class Shader {
 			System.err.println("Vertex shader not compiled.");
 			System.err.println(glGetShaderInfoLog(vertexShader, 1024));
 		}
-		
+
 		// Fragment
 		glShaderSource(fragmentShader, fragmentSource);
 		glCompileShader(fragmentShader);
@@ -76,32 +79,32 @@ public class Shader {
 			System.err.println("Fragment shader not compiled.");
 			System.err.println(glGetShaderInfoLog(fragmentShader, 1024));
 		}
-		
+
 		// Program
 		glAttachShader(program, vertexShader);
 		glAttachShader(program, fragmentShader);
 		glLinkProgram(program);
 		glValidateProgram(program);
-		
+
 		// Attributes
 		int numAttributes = glGetProgrami(program, GL_ACTIVE_ATTRIBUTES);
-        int maxAttributeLength = glGetProgrami(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
-        for (int i = 0; i < numAttributes; i++) {
-            String name = glGetActiveAttrib(program, i, maxAttributeLength);
-            int location = glGetAttribLocation(program, name);
-            System.out.println(name + ":" + location);
-            attributeLocations.put(name, location);
-        }
-        
-        // Uniforms
-        int numUniforms = glGetProgrami(program, GL_ACTIVE_UNIFORMS);
-        int maxUniformLength = glGetProgrami(program, GL_ACTIVE_UNIFORM_MAX_LENGTH);
-        for (int i = 0; i < numUniforms; i++) {
-            String name = glGetActiveUniform(program, i, maxUniformLength);
-            int location = glGetUniformLocation(program, name);
-            uniformLocations.put(name, location);
-            System.out.println(name + ":" + location);            
-        }             
+		int maxAttributeLength = glGetProgrami(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
+		for (int i = 0; i < numAttributes; i++) {
+			String name = glGetActiveAttrib(program, i, maxAttributeLength);
+			int location = glGetAttribLocation(program, name);
+			System.out.println(name + ":" + location);
+			attributeLocations.put(name, location);
+		}
+
+		// Uniforms
+		int numUniforms = glGetProgrami(program, GL_ACTIVE_UNIFORMS);
+		int maxUniformLength = glGetProgrami(program, GL_ACTIVE_UNIFORM_MAX_LENGTH);
+		for (int i = 0; i < numUniforms; i++) {
+			String name = glGetActiveUniform(program, i, maxUniformLength);
+			int location = glGetUniformLocation(program, name);
+			uniformLocations.put(name, location);
+			System.out.println(name + ":" + location);
+		}
 	}
 
 	public void use() {
@@ -113,60 +116,60 @@ public class Shader {
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
-	
+
 	public void printProgram() {
 		printVertexShader();
 		printFragmentShader();
 	}
-	
+
 	public void printVertexShader() {
 		System.out.println(vertexSource);
 	}
-	
+
 	public void printFragmentShader() {
 		System.out.println(fragmentSource);
 	}
-	
+
 	// Getters and Setters
 	public int getID() {
 		return program;
 	}
-	
+
 	public Map<String, Integer> getAttributeLocations() {
-        return attributeLocations;
-    }
-    
-    public Map<String, Integer> getUniformLocations() {
-        return uniformLocations;
-    }
-    
-    public void setUniformMatrix4(String uniformName, boolean transpose, FloatBuffer matrixdata) {
-        int location = uniformLocations.get(uniformName);     
-        glUniformMatrix4(location, transpose, matrixdata);        
-    }
-    
-    public void setUniformMatrix3(String uniformName, boolean transpose, FloatBuffer matrixdata) {
-        int location = uniformLocations.get(uniformName);     
-        glUniformMatrix3(location, transpose, matrixdata);                
-    }
-    
-    public void setUniform1i(String uniformName, int i) {
-        int location = uniformLocations.get(uniformName);
-        glUniform1i(location, i);
-    }
-    
-    public void setUniform1f(String uniformName, float f) {
-    	int location = uniformLocations.get(uniformName);
-    	glUniform1f(location, f);
-    }
-    
-    public void setUniform3f(String uniformName, float v1, float v2, float v3) {
-        int location = uniformLocations.get(uniformName);
-        glUniform3f(location, v1, v2, v3);
-    }
-    
-    public void setUniform4f(String uniformName, float v1, float v2, float v3, float v4) {
-        int location = uniformLocations.get(uniformName);
-        glUniform4f(location, v1, v2, v3, v4);
-    }
+		return attributeLocations;
+	}
+
+	public Map<String, Integer> getUniformLocations() {
+		return uniformLocations;
+	}
+
+	public void setUniformMatrix4(String uniformName, boolean transpose, FloatBuffer matrixdata) {
+		int location = uniformLocations.get(uniformName);
+		glUniformMatrix4(location, transpose, matrixdata);
+	}
+
+	public void setUniformMatrix3(String uniformName, boolean transpose, FloatBuffer matrixdata) {
+		int location = uniformLocations.get(uniformName);
+		glUniformMatrix3(location, transpose, matrixdata);
+	}
+
+	public void setUniform1i(String uniformName, int i) {
+		int location = uniformLocations.get(uniformName);
+		glUniform1i(location, i);
+	}
+
+	public void setUniform1f(String uniformName, float f) {
+		int location = uniformLocations.get(uniformName);
+		glUniform1f(location, f);
+	}
+
+	public void setUniform3f(String uniformName, float v1, float v2, float v3) {
+		int location = uniformLocations.get(uniformName);
+		glUniform3f(location, v1, v2, v3);
+	}
+
+	public void setUniform4f(String uniformName, float v1, float v2, float v3, float v4) {
+		int location = uniformLocations.get(uniformName);
+		glUniform4f(location, v1, v2, v3, v4);
+	}
 }
