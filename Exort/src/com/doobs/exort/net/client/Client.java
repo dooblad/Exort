@@ -4,19 +4,18 @@ import java.net.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.level.*;
-import com.doobs.exort.net.*;
 import com.doobs.exort.net.packets.*;
 import com.doobs.exort.state.*;
 
-public class Client extends NetComponent {
+public class Client {
 	private Main main;
 
-	private PacketHandler handler;
+	private PacketIO handler;
 
 	public Client(Main main, Level level, String address) {
 		this.main = main;
 
-		handler = new PacketHandler(this, address, level);
+		handler = new PacketIO(this, address, level);
 		handler.start();
 	}
 
@@ -30,7 +29,7 @@ public class Client extends NetComponent {
 	}
 
 	// Getters and Setters
-	public PacketHandler getHandler() {
+	public PacketIO getHandler() {
 		return handler;
 	}
 

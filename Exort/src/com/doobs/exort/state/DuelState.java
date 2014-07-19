@@ -12,41 +12,47 @@ import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.math.*;
-import com.doobs.exort.net.*;
 import com.doobs.exort.net.client.*;
+import com.doobs.exort.net.packets.*;
 import com.doobs.exort.net.server.*;
 import com.doobs.exort.util.gl.*;
 
 public class DuelState implements GameState {
 	private Main main;
 	private Level level;
-	private Player player;
+	private NetPlayer player;
 	private Camera camera;
 
-	private NetComponent component;
+	private Client client;
+	private Server server;
+
+	private boolean paused;
 
 	private boolean typing;
 	private String message;
 
-	public DuelState(Main main, boolean client, String address) {
+	public DuelState(Main main, boolean isServer, String username, String address) {
 		this.main = main;
 
-		level = new Level();
-		player = new Player();
-		camera = new Camera(0.0f, 3.0f, 0.0f);
+		this.client = new Client(main, level, address);
+		new Packet00Login(username).writeData(this.client);
 
-		if (client) {
-			component = new Client(main, level, address);
-		} else {
-			component = new Server();
-		}
+		if (isServer)
+			server = new Server(level);
+
+		level = new Level(player);
+		player = new NetPlayer(client, username, address, client.getPort(), level);
+		camera = new Camera(0.0f, 3.0f, 0.0f);
 
 		typing = false;
 		message = "";
 	}
 
 	public void tick(int delta) {
-		if (Main.input.isKeyPressed(Keyboard.KEY_LMENU))
+		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
+			paused = !paused;
+			Mouse.setGrabbed(false);
+		} else if (Main.input.isKeyPressed(Keyboard.KEY_LMENU))
 			Mouse.setGrabbed(!Mouse.isGrabbed());
 		else if (Main.input.isKeyPressed(Keyboard.KEY_R) && !typing)
 			camera.reset();
@@ -58,15 +64,17 @@ public class DuelState implements GameState {
 			typing = !typing;
 		}
 
-		if (typing)
-			message = Main.input.handleTyping(message, Fonts.finalFrontier);
-		else
-			camera.tick(delta);
+		if (!paused) {
+			if (typing)
+				message = Main.input.handleTyping(message, Fonts.finalFrontier);
+			else
+				camera.tick(delta);
 
-		level.tick(delta);
+			level.tick(delta);
 
-		if (!typing)
-			player.tick(delta);
+			if (!typing)
+				player.tick(delta);
+		}
 	}
 
 	public void render() {
@@ -92,7 +100,7 @@ public class DuelState implements GameState {
 		glEnable(GL_BLEND);
 		Shaders.font.use();
 		GLTools.switchToOrtho();
-		GUI.render(message, typing);
+		GUI.render(message, paused, typing);
 		Shaders.useDefault();
 		GLTools.switchToPerspective();
 		glDisable(GL_BLEND);

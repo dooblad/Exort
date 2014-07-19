@@ -4,28 +4,25 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import res.models.OBJLoader;
+import res.models.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
-import com.doobs.exort.util.gl.*;
 
 public class Player extends MovingEntity {
-	private Model model, move;
-
+	public static double[] spawn = new double[] {0, 0, 0};
+	
 	private float targetX, targetZ;
 
 	private static float moveSpeed = 1 / 50f;
 
-	public Player(int x, int z, Level level) {
-		super(x, z, level);
+	public Player(double x, double y, double z, Level level) {
+		super(x, y, z, level);
 	}
 
 	public Player() {
 		super();
-		model = OBJLoader.loadModel("player.obj");
-		move = OBJLoader.loadModel("move.obj");
 		targetX = 0;
 		targetZ = 0;
 		xa = 0;
@@ -74,7 +71,7 @@ public class Player extends MovingEntity {
 		// Draw model command
 		glTranslated(x, y, z);
 		glColor3f(1.0f, 0.0f, 0.0f);
-		glCallList(model.getHandle());
+		glCallList(Models.stillModels.get("player").getHandle());
 
 		// Draw light
 		glTranslated(0, 4, 0);
@@ -83,7 +80,7 @@ public class Player extends MovingEntity {
 		// Draw move command
 		glTranslated(targetX - x, -4, targetZ - z);
 		glColor3f(0.0f, 1.0f, 0.0f);
-		glCallList(move.getHandle());
+		glCallList(Models.stillModels.get("move").getHandle());
 
 		// Reset
 		glTranslated(-targetX, -y, -targetZ);
@@ -99,10 +96,5 @@ public class Player extends MovingEntity {
 			xa = target.getX() * moveSpeed;
 			za = target.getZ() * moveSpeed;
 		}
-	}
-
-	// Getters and Setters
-	public Model getModel() {
-		return model;
 	}
 }

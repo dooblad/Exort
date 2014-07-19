@@ -1,36 +1,31 @@
-package com.doobs.exort.net;
+package com.doobs.exort.net.client;
 
 import java.io.*;
 import java.net.*;
 
+import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
-import com.doobs.exort.net.client.*;
-import com.doobs.exort.net.server.*;
+import com.doobs.exort.net.*;
 
-public class PacketHandler extends Thread {
+public class PacketIO extends Thread {
 	private DatagramSocket socket;
 	private PacketParser parser;
 	private InetAddress address;
 	private int port;
 
-	public PacketHandler(NetComponent component, String address, Level level) {
+	public PacketIO(Client client, String address, Level level) {
 		port = NetVariables.PORT;
 		try {
-			if (component instanceof Client) {
-				socket = new DatagramSocket();
-				this.address = InetAddress.getByName(address);
-			} else if (component instanceof Server) {
-				socket = new DatagramSocket(port);
-			}
+			socket = new DatagramSocket();
+			this.address = InetAddress.getByName(address);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		parser = new PacketParser(component, level);
+		parser = new PacketParser(client, level);
 	}
 
-	@Override
 	public void run() {
 		while (true) {
 			byte[] data = new byte[1024];
@@ -40,25 +35,14 @@ public class PacketHandler extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// System.out.println("[" + packet.getAddress().getHostAddress() +
-			// "]:" + new String(packet.getData()).trim());
-			parser.parsePacket(data, packet.getAddress().toString(), packet.getPort());
+			GUI.addMessage("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim());
+			parser.parsePacket(data, packet.getAddress(), packet.getPort());
 		}
 	}
 
 	public void sendData(byte[] data) {
-		sendData(data, null);
-	}
-
-	public void sendData(byte[] data, String address) {
+		DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 		try {
-			DatagramPacket packet;
-
-			if (address != null)
-				packet = new DatagramPacket(data, data.length, InetAddress.getByName(address), port);
-			else
-				packet = new DatagramPacket(data, data.length, this.address, port);
-
 			socket.send(packet);
 		} catch (IOException e) {
 			e.printStackTrace();

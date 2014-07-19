@@ -17,6 +17,7 @@ void main() {
 	else
 		finalColor.a = 1.0;
 		
+	finalColor.a *= color.a;
 	finalColor.a *= smoothstep(0.25, 0.75, alpha);
 	
     gl_FragColor = finalColor;

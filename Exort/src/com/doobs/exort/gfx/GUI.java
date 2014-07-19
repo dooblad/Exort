@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import com.doobs.exort.*;
+
 import res.shaders.*;
 import res.textures.*;
 import res.textures.fonts.*;
@@ -15,29 +17,29 @@ public class GUI {
 	public static List<String> messages = new ArrayList<String>();
 
 	private static final int padding = 5;
-	private static final float[] chatBGCol = { 0f, 0f, 0f, 0.5f };
+	private static final float[] guiCol = { 0f, 0f, 0f, 0.5f };
 
 	private static final int VISIBLE_MESSAGES = 5;
 	private static final int FADE_TIME = 100;
 	private static int fadeTimer;
-	private static boolean hidden = true;
+	private static boolean chatHidden = true;
 
 	public static void tick() {
 		if (++fadeTimer > FADE_TIME) {
 			fadeTimer = FADE_TIME;
-			hidden = true;
+			chatHidden = true;
 		}
 	}
 
-	public static void render(String text, boolean typing) {
+	public static void render(String text, boolean paused, boolean typing) {
 		Fonts.finalFrontier.setSize(5);
-		Fonts.finalFrontier.setColor(1f, 1f, 1f);
+		Fonts.finalFrontier.setColor(1f, 1f, 1f, 1f);
 
 		glEnable(GL_BLEND);
 		glDisable(GL_DEPTH_TEST);
 
 		if (typing) {
-			hidden = false;
+			chatHidden = false;
 
 			// Draw background
 			Shaders.gui.use();
@@ -49,7 +51,7 @@ public class GUI {
 			Fonts.finalFrontier.draw(text, 10, 10);
 		}
 
-		if (!hidden) {
+		if (!chatHidden) {
 			Dimension d;
 			int y = 10 + Fonts.finalFrontier.getPhraseHeight(text) + padding * 2;
 			for (int i = 0; i < VISIBLE_MESSAGES; i++) {
@@ -70,13 +72,31 @@ public class GUI {
 				}
 			}
 		}
+		
+		if(paused) {
+			chatHidden = false;
+			Shaders.gui.use();
+			glActiveTexture(GL_TEXTURE0);
+			Textures.getTexture("white").bind();
+			glColor4f(guiCol[0], guiCol[1], guiCol[2], guiCol[3]);
+			glBegin(GL_QUADS);
+			glVertex2f((Main.width - 450f) / 2, (Main.height - 150f) / 2);
+			glVertex2f((Main.width + 250f) / 2, (Main.height - 150f) / 2);
+			glVertex2f((Main.width + 450f) / 2, (Main.height + 150f) / 2);
+			glVertex2f((Main.width - 250f) / 2, (Main.height + 150f) / 2);
+			glEnd();
+			Shaders.font.use();
+			Fonts.finalFrontier.setColor(1f, 1f, 1f, 1f);
+			Fonts.finalFrontier.setSize(14);
+			Fonts.finalFrontier.drawCentered("EXIT", 0, 0);
+		}
 
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 	}
 
 	private static void renderChatBackground(String text, Dimension d, int x, int y) {
-		glColor4f(chatBGCol[0], chatBGCol[1], chatBGCol[2], chatBGCol[3]);
+		glColor4f(guiCol[0], guiCol[1], guiCol[2], guiCol[3]);
 		glBegin(GL_QUADS);
 		glVertex2f(x - padding, y - padding);
 		glVertex2f(d.width + x + padding, y - padding);
@@ -88,6 +108,6 @@ public class GUI {
 	public static void addMessage(String message) {
 		messages.add(message);
 		fadeTimer = 0;
-		hidden = false;
+		chatHidden = false;
 	}
 }

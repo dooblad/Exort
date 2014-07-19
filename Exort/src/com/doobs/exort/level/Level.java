@@ -1,5 +1,7 @@
 package com.doobs.exort.level;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import java.util.*;
 
 import res.models.*;
@@ -14,7 +16,9 @@ public class Level {
 	private byte[] tiles;
 	private List<Entity> entities = new ArrayList<Entity>();
 
-	public Level() {
+	public Level(NetPlayer player) {
+		this.player = player;
+		
 		width = 16;
 		height = 14;
 		tiles = new byte[width * height];
@@ -31,15 +35,21 @@ public class Level {
 
 	public void tick(int delta) {
 		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer) {
-				if (entity == this.player)
-					((NetPlayer) entity).tick(delta);
-			}
+			if (entity instanceof NetPlayer)
+				((NetPlayer) entity).tick(delta);
+			else if(entity instanceof Player) // application's player
+				((Player) entity).tick(delta);
 		}
 	}
 
 	public void render() {
+		glColor4f(1f, 1f, 1f, 1f);
 		Models.stillModels.get("arena").draw();
+		
+		for(Entity entity : entities) {
+			if(entity instanceof Player)
+				((Player) entity).render();
+		}
 	}
 
 	// Getters and setters
@@ -77,7 +87,7 @@ public class Level {
 	}
 
 	// Getters and Setters
-	public NetPlayer getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 }

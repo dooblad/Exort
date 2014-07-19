@@ -1,6 +1,7 @@
 package com.doobs.exort.net.packets;
 
-import com.doobs.exort.net.*;
+import com.doobs.exort.net.client.*;
+import com.doobs.exort.net.server.*;
 
 public class Packet02Move extends Packet {
 
@@ -25,10 +26,14 @@ public class Packet02Move extends Packet {
 		this.time = time;
 	}
 
-	public void writeData(NetComponent component) {
-		super.writeData(component, getData());
+	public void writeData(Client client) {
+		super.writeData(client, getData());
 	}
 
+	public void writeData(Server server) {
+		super.writeData(server, getData());
+	}
+	
 	@Override
 	public byte[] getData() {
 		return ("02" + this.username + "," + this.x + "," + this.z + "," + this.time).getBytes();

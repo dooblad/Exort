@@ -18,7 +18,9 @@ public class MainMenuState implements GameState {
 	}
 
 	public void tick(int delta) {
-		if (Main.input.isKeyPressed(Keyboard.KEY_RETURN))
+		if(Main.input.isKeyPressed(Keyboard.KEY_ESCAPE))
+			main.exit();
+		else if (Main.input.isKeyPressed(Keyboard.KEY_RETURN))
 			main.changeState(new MultiplayerSetupState(main));
 	}
 
@@ -28,7 +30,7 @@ public class MainMenuState implements GameState {
 		GLTools.switchToOrtho();
 		Shaders.font.use();
 		String phrase = "Welcome to Exort";
-		Fonts.finalFrontier.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 1000.0) / 2f + 0.5f, 0f);
+		Fonts.finalFrontier.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 1000.0) / 2f + 0.5f, 0f, 1f);
 		Fonts.finalFrontier.drawCentered(phrase, 0, 0);
 		Shaders.useDefault();
 		GLTools.switchToPerspective();

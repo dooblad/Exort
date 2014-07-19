@@ -59,7 +59,7 @@ public class Main {
 	public void tick(int delta) {
 		input.tick();
 
-		if (input.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested())
+		if (Display.isCloseRequested())
 			closeRequested = true;
 
 		else if (input.isKeyPressed(Keyboard.KEY_F11))
@@ -80,6 +80,10 @@ public class Main {
 
 	public void changeState(GameState state) {
 		this.state = state;
+	}
+	
+	public void exit() {
+		closeRequested = true;
 	}
 
 	public static void main(String[] args) {

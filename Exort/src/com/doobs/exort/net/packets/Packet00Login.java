@@ -1,6 +1,7 @@
 package com.doobs.exort.net.packets;
 
-import com.doobs.exort.net.*;
+import com.doobs.exort.net.client.*;
+import com.doobs.exort.net.server.*;
 
 public class Packet00Login extends Packet {
 
@@ -17,8 +18,12 @@ public class Packet00Login extends Packet {
 		this.username = username;
 	}
 
-	public void writeData(NetComponent component) {
-		super.writeData(component, getData());
+	public void writeData(Client client) {
+		super.writeData(client, getData());
+	}
+	
+	public void writeData(Server server) {
+		super.writeData(server, getData());
 	}
 
 	@Override

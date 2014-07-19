@@ -15,10 +15,12 @@ public class Font {
 	public static final int SPACE = 125;
 
 	private static final int DEFAULT_SIZE = 12;
-	private static final float[] DEFAULT_COLOR = new float[] { 1f, 1f, 1f };
+	private static final float[] DEFAULT_COLOR = new float[] { 1f, 1f, 1f, 1f };
 
-	private int size;
-	private float[] color = new float[] { 1f, 1f, 1f };
+	private float size;
+	private float[] color = new float[] { 1f, 1f, 1f, 1f };
+	
+	private int[] corrections;
 
 	private Texture texture;
 	private Map<Integer, Character> characters;
@@ -34,7 +36,7 @@ public class Font {
 	}
 
 	public void draw(String phrase, int x, int y) {
-		glColor3f(color[0], color[1], color[2]);
+		glColor4f(color[0], color[1], color[2], color[3]);
 		glActiveTexture(GL_TEXTURE0);
 		texture.bind();
 
@@ -68,6 +70,13 @@ public class Font {
 					yy = -150 * sizeFactor;
 				else if(temp == 'y')
 					yy = -150 * sizeFactor;
+				
+				for(int j = 0; i < corrections.length; i++) {
+						
+					// ADD FONT-SPECIFIC CORRECTIONS (NOT USING ARRAYS. THIS IS TEMPORARY)
+					// MAKE IT A MANUAL CONSTRUCT YOU HAVE TO WRITE WITHIN THE FONT .PNGs ASSOCIATED
+					// .TXT FILE
+				}
 
 				glTexCoord2f(texCoords[0], texCoords[1]);
 				glVertex2f(x, y + yy);
@@ -101,11 +110,11 @@ public class Font {
 		return characters.get(character);
 	}
 
-	public int getSize() {
+	public float getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(float size) {
 		this.size = size;
 	}
 
@@ -113,10 +122,11 @@ public class Font {
 		return color;
 	}
 
-	public void setColor(float red, float green, float blue) {
+	public void setColor(float red, float green, float blue, float alpha) {
 		color[0] = red;
 		color[1] = green;
 		color[2] = blue;
+		color[3] = alpha;
 	}
 
 	public Dimension getPhraseDimensions(String phrase) {
