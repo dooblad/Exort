@@ -86,9 +86,9 @@ public class GUI {
 			glVertex2f((Main.width - 250f) / 2, (Main.height + 150f) / 2);
 			glEnd();
 			Shaders.font.use();
-			Fonts.finalFrontier.setColor(1f, 1f, 1f, 1f);
-			Fonts.finalFrontier.setSize(14);
-			Fonts.finalFrontier.drawCentered("EXIT", 0, 0);
+			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
+			Fonts.centuryGothic.setSize(14);
+			Fonts.centuryGothic.drawCentered("EXIT", 0, 0);
 		}
 
 		glEnable(GL_DEPTH_TEST);

@@ -103,9 +103,9 @@ public class MultiplayerSetupState implements GameState {
 			Fonts.finalFrontier.setSize(9 + (1 - nameAddressSwitch.getPercentage()) * 5);
 			Fonts.finalFrontier.drawCentered("Server IP", 0, -5 + yo + (int) (1 - nameAddressSwitch.getPercentage() * 15));
 
-			Fonts.finalFrontier.setColor(0.2f, 0.2f, 0.2f, percent);
-			Fonts.finalFrontier.setSize(6 + nameAddressSwitch.getPercentage() * 5);
-			Fonts.finalFrontier.drawCentered(username, 0, 55 + yo - (int) (nameAddressSwitch.getPercentage() * 5));
+			Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
+			Fonts.centuryGothic.setSize(6 + nameAddressSwitch.getPercentage() * 5);
+			Fonts.centuryGothic.drawCentered(username, 0, 55 + yo - (int) (nameAddressSwitch.getPercentage() * 5));
 			Fonts.finalFrontier.setSize(6 + (1 - nameAddressSwitch.getPercentage()) * 5);
 			Fonts.finalFrontier.drawCentered(address, 0, -75 + yo - (int) (1 - nameAddressSwitch.getPercentage() * 5));
 		}

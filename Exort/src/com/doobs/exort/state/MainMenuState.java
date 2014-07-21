@@ -29,9 +29,10 @@ public class MainMenuState implements GameState {
 		glEnable(GL_BLEND);
 		GLTools.switchToOrtho();
 		Shaders.font.use();
-		String phrase = "Welcome to Exort";
-		Fonts.finalFrontier.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 1000.0) / 2f + 0.5f, 0f, 1f);
-		Fonts.finalFrontier.drawCentered(phrase, 0, 0);
+		String phrase = "The quick brown fox jumped over the lazy dog.";
+		Fonts.centuryGothic.setSize(25);
+		Fonts.centuryGothic.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 1000.0) / 2f + 0.5f, 0f, 1f);
+		Fonts.centuryGothic.drawCentered(phrase, 0, 0);
 		Shaders.useDefault();
 		GLTools.switchToPerspective();
 		glDisable(GL_BLEND);

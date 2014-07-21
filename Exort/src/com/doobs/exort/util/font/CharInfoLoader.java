@@ -15,29 +15,28 @@ public class CharInfoLoader {
 			Map<Integer, Character> characters = new HashMap<Integer, Character>();
 
 			String line;
-			String[] temp;
+			double[] temp;
 
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("char ")) {
 					String number = "";
 					int numbers = 0;
-					temp = new String[6];
+					temp = new double[8];
 
 					for (int i = 0; i < line.length(); i++) {
-						if ((int) line.charAt(i) >= 48 && (int) line.charAt(i) <= 57)
+						if ((int) line.charAt(i) >= 48 && (int) line.charAt(i) <= 57 || line.charAt(i) == '.')
 							number += line.charAt(i);
 						else if (!number.equals("")) {
-							temp[numbers] = number;
+							temp[numbers] = Double.valueOf(number);
 							number = "";
-							if (numbers >= 5)
+							if (numbers >= temp.length - 1)
 								break;
 							numbers++;
 						}
 					}
 
-					characters.put(Integer.valueOf(temp[0]),
-							new Character(texture.getWidth(), texture.getHeight(), Integer.valueOf(temp[1]), Integer.valueOf(temp[2]),
-									Integer.valueOf(temp[3]), Integer.valueOf(temp[4])));
+					characters.put((int) temp[0], new Character(texture.getWidth(), texture.getHeight(), (int) temp[1], (int) temp[2], (int) temp[3],
+							(int) temp[4], (int) temp[5], (int) temp[6], (int) temp[7]));
 				}
 			}
 

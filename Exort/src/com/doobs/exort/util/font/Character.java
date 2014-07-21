@@ -3,8 +3,10 @@ package com.doobs.exort.util.font;
 public class Character {
 	private float[] texCoords;
 	private int width, height;
+	private int xo, yo;
+	private int xa;
 
-	public Character(int texWidth, int texHeight, int x, int y, int charWidth, int charHeight) {
+	public Character(int texWidth, int texHeight, int x, int y, int charWidth, int charHeight, int xOffset, int yOffset, int xAdvance) {
 		this.texCoords = new float[8];
 		this.width = charWidth;
 		this.height = charHeight;
@@ -22,6 +24,15 @@ public class Character {
 		texCoords[5] = y2;
 		texCoords[6] = x1;
 		texCoords[7] = y2;
+
+		this.xo = xOffset;
+		this.yo = yOffset - charHeight;
+		
+		this.xa = xAdvance;
+	}
+
+	public Character(int texWidth, int texHeight, int x, int y, int charWidth, int charHeight) {
+		this(texWidth, texHeight, x, y, charWidth, charHeight, 0, 0, 0);
 	}
 
 	// Getters and setters
@@ -35,5 +46,17 @@ public class Character {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public int getXO() {
+		return xo;
+	}
+
+	public int getYO() {
+		return yo;
+	}
+	
+	public int getXA() {
+		return xa;
 	}
 }

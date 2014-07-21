@@ -12,16 +12,12 @@ import com.doobs.exort.*;
 import com.doobs.exort.util.texture.*;
 
 public class Font {
-	public static final int SPACE = 125;
-
 	private static final int DEFAULT_SIZE = 12;
 	private static final float[] DEFAULT_COLOR = new float[] { 1f, 1f, 1f, 1f };
 
 	private float size;
 	private float[] color = new float[] { 1f, 1f, 1f, 1f };
 	
-	private int[] corrections;
-
 	private Texture texture;
 	private Map<Integer, Character> characters;
 
@@ -46,51 +42,32 @@ public class Font {
 
 		float sizeFactor = getSizeFactor();
 
-		float yy = 0;
+		float xo = 0, yo = 0;
 
 		glBegin(GL_QUADS);
 		for (int i = 0; i < phrase.length(); i++) {
 			char temp = phrase.charAt(i);
-			if (temp == ' ') {
-				x += SPACE * sizeFactor;
-			} else if ((character = characters.get(Integer.valueOf(temp))) != null) {
+			if ((character = characters.get(Integer.valueOf(temp))) != null) {
 				texCoords = character.getTexCoords();
-				width = character.getWidth();
-				height = character.getHeight();
+				width = character.getWidth() * sizeFactor;
+				height = character.getHeight() * sizeFactor;
 
-				yy = 0f;
-
-				if (temp == 'g')
-					yy = -125 * sizeFactor;
-				else if(temp == 'j')
-					yy = -135 * sizeFactor;
-				else if(temp == 'p')
-					yy = -150 * sizeFactor;
-				else if(temp == 'q')
-					yy = -150 * sizeFactor;
-				else if(temp == 'y')
-					yy = -150 * sizeFactor;
+				xo = character.getXO() * sizeFactor;
+				yo = character.getYO() * sizeFactor;
 				
-				for(int j = 0; i < corrections.length; i++) {
-						
-					// ADD FONT-SPECIFIC CORRECTIONS (NOT USING ARRAYS. THIS IS TEMPORARY)
-					// MAKE IT A MANUAL CONSTRUCT YOU HAVE TO WRITE WITHIN THE FONT .PNGs ASSOCIATED
-					// .TXT FILE
-				}
-
 				glTexCoord2f(texCoords[0], texCoords[1]);
-				glVertex2f(x, y + yy);
+				glVertex2f(x + xo, y + yo);
 
 				glTexCoord2f(texCoords[2], texCoords[3]);
-				glVertex2f(x + width * sizeFactor, y + yy);
+				glVertex2f(x + xo + width, y + yo);
 
 				glTexCoord2f(texCoords[4], texCoords[5]);
-				glVertex2f(x + width * sizeFactor, y + yy + height * sizeFactor);
+				glVertex2f(x + xo + width, y + yo + height);
 
 				glTexCoord2f(texCoords[6], texCoords[7]);
-				glVertex2f(x, y + yy + height * sizeFactor);
+				glVertex2f(x + xo, y + yo + height);
 
-				x += width * sizeFactor;
+				x += character.getXA() * sizeFactor;
 			}
 		}
 		glEnd();
@@ -137,9 +114,7 @@ public class Font {
 		float w, h;
 
 		for (int i = 0; i < phrase.length(); i++) {
-			if (phrase.charAt(i) == ' ') {
-				width += SPACE * sizeFactor;
-			} else if ((character = characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
+			if ((character = characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
 				w = character.getWidth() * sizeFactor;
 				h = character.getHeight() * sizeFactor;
 
@@ -161,9 +136,7 @@ public class Font {
 		float w;
 
 		for (int i = 0; i < phrase.length(); i++) {
-			if (phrase.charAt(i) == ' ') {
-				width += SPACE * sizeFactor;
-			} else if ((character = characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
+			if ((character = characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
 				w = character.getWidth() * sizeFactor;
 
 				width += w;
