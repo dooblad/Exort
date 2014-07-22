@@ -12,7 +12,7 @@ public class PacketIO extends Thread {
 	private PacketParser parser;
 	private InetAddress address;
 	private int port;
-
+	
 	public PacketIO(Client client, String address, Level level) {
 		port = NetVariables.PORT;
 		try {
@@ -34,6 +34,7 @@ public class PacketIO extends Thread {
 				socket.receive(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
+				break;
 			}
 			GUI.addMessage("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim());
 			parser.parsePacket(data, packet.getAddress(), packet.getPort());
@@ -47,6 +48,10 @@ public class PacketIO extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void exit() {
+		socket.close();
 	}
 
 	// Getters and setters

@@ -111,14 +111,14 @@ public class Font {
 
 		float sizeFactor = getSizeFactor();
 		int width = 0, height = 0;
-		float w, h;
+		float xa, h;
 
 		for (int i = 0; i < phrase.length(); i++) {
 			if ((character = characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
-				w = character.getWidth() * sizeFactor;
+				xa = character.getXA() * sizeFactor;
 				h = character.getHeight() * sizeFactor;
 
-				width += w;
+				width += xa;
 
 				if (h > height)
 					height = (int) h;
@@ -133,13 +133,13 @@ public class Font {
 
 		float sizeFactor = getSizeFactor();
 		int width = 0;
-		float w;
+		float xa;
 
 		for (int i = 0; i < phrase.length(); i++) {
 			if ((character = characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
-				w = character.getWidth() * sizeFactor;
+				xa = character.getXA() * sizeFactor;
 
-				width += w;
+				width += xa;
 			}
 		}
 

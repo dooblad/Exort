@@ -18,6 +18,7 @@ public class Level {
 
 	public Level(NetPlayer player) {
 		this.player = player;
+		entities.add(player);
 		
 		width = 16;
 		height = 14;
@@ -32,23 +33,33 @@ public class Level {
 				tiles[i] = 2;
 		}
 	}
+	
+	public Level() {
+		this(null);
+	}
 
 	public void tick(int delta) {
 		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer)
+			if (entity instanceof NetPlayer) {
 				((NetPlayer) entity).tick(delta);
-			else if(entity instanceof Player) // application's player
-				((Player) entity).tick(delta);
+			}
 		}
 	}
 
 	public void render() {
+		renderLevel();
+		renderEntities();
+	}
+	
+	public void renderLevel() {
 		glColor4f(1f, 1f, 1f, 1f);
 		Models.stillModels.get("arena").draw();
-		
+	}
+	
+	public void renderEntities() {
 		for(Entity entity : entities) {
-			if(entity instanceof Player)
-				((Player) entity).render();
+			if(entity instanceof NetPlayer)
+				((NetPlayer) entity).render();
 		}
 	}
 
@@ -62,6 +73,11 @@ public class Level {
 
 	public void addEntity(Entity entity) {
 		entities.add(entity);
+	}
+	
+	public void addApplicationPlayer(NetPlayer player) {
+		this.player = player;
+		entities.add(player);
 	}
 
 	public void removePlayer(String name) {

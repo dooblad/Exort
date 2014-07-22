@@ -30,6 +30,8 @@ public class InputHandler {
 			oldMouse[i] = mouse[i];
 			mouse[i] = Mouse.isButtonDown(i);
 		}
+		
+		
 	}
 
 	public char getChar(int keyCode) {

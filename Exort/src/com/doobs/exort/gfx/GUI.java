@@ -7,7 +7,10 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import org.lwjgl.input.*;
+
 import com.doobs.exort.*;
+import com.doobs.exort.util.*;
 
 import res.shaders.*;
 import res.textures.*;
@@ -16,78 +19,107 @@ import res.textures.fonts.*;
 public class GUI {
 	public static List<String> messages = new ArrayList<String>();
 
-	private static final int padding = 5;
-	private static final float[] guiCol = { 0f, 0f, 0f, 0.5f };
+	private static final int PADDING = 5;
+	private static final float[] GUI_COL = { 0f, 0f, 0f, 0.5f };
 
 	private static final int VISIBLE_MESSAGES = 5;
-	private static final int FADE_TIME = 100;
-	private static int fadeTimer;
-	private static boolean chatHidden = true;
+	public static Animation chatFade;
 
-	public static void tick() {
-		if (++fadeTimer > FADE_TIME) {
-			fadeTimer = FADE_TIME;
-			chatHidden = true;
+	public static Animation exitDuel;
+	private static Animation pauseHover;
+	private static boolean exiting;
+	private static Rectangle exit;
+
+	public static void init() {
+		chatFade = new Animation(120);
+		pauseHover = new Animation(8);
+		exitDuel = new Animation(15);
+		exiting = false;
+		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
+	}
+
+	public static void tick(int delta) {
+		chatFade.tickUp(delta);
+
+		if (exit.intersects(Mouse.getX(), Mouse.getY(), 1, 1)) {
+			pauseHover.tickUp(delta);
+
+			if (Main.input.isMouseButtonPressed(0)) {
+				exiting = true;
+				chatFade.fill();
+			}
+		} else
+			pauseHover.tickDown(delta);
+
+		if (exiting) {
+			pauseHover.fill();
+			exitDuel.tickUp(delta);
 		}
 	}
 
 	public static void render(String text, boolean paused, boolean typing) {
-		Fonts.finalFrontier.setSize(5);
-		Fonts.finalFrontier.setColor(1f, 1f, 1f, 1f);
+		Fonts.centuryGothic.setSize(10);
+		Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
 
 		glEnable(GL_BLEND);
 		glDisable(GL_DEPTH_TEST);
 
 		if (typing) {
-			chatHidden = false;
+			chatFade.empty();
 
 			// Draw background
 			Shaders.gui.use();
 			glActiveTexture(GL_TEXTURE0);
 			Textures.getTexture("white").bind();
-			Dimension d = Fonts.finalFrontier.getPhraseDimensions(text);
-			renderChatBackground(text, d, 10, 10);
+			Dimension d = Fonts.centuryGothic.getPhraseDimensions(text);
+			renderChatBackground(text, d, 10, 10, 1f);
 			Shaders.font.use();
-			Fonts.finalFrontier.draw(text, 10, 10);
+			Fonts.centuryGothic.draw(text, 10, 10);
 		}
 
-		if (!chatHidden) {
+		if (!chatFade.isFull()) {
+			float alpha = Math.min(1f, 1f - (chatFade.getPercentage() - 0.8f) * 5f);
 			Dimension d;
-			int y = 10 + Fonts.finalFrontier.getPhraseHeight(text) + padding * 2;
+			int y = 10 + Fonts.centuryGothic.getPhraseHeight(text) + PADDING * 2;
 			for (int i = 0; i < VISIBLE_MESSAGES; i++) {
 				if (i < messages.size()) {
 					String message = messages.get(messages.size() - i - 1);
-					d = Fonts.finalFrontier.getPhraseDimensions(message);
+					d = Fonts.centuryGothic.getPhraseDimensions(message);
 
-					// Draw background
+					// Draw chat background
 					Shaders.gui.use();
 					glActiveTexture(GL_TEXTURE0);
 					Textures.getTexture("white").bind();
-					renderChatBackground(message, d, 10, y);
+					renderChatBackground(message, d, 10, y, alpha);
 
 					Shaders.font.use();
-					Fonts.finalFrontier.draw(message, 10, y);
-					
-					y += d.height + padding * 2;
+					Fonts.centuryGothic.setColor(1f, 1f, 1f, alpha);
+					Fonts.centuryGothic.draw(message, 10, y);
+
+					y += d.height + PADDING * 2;
 				}
 			}
 		}
-		
-		if(paused) {
-			chatHidden = false;
+
+		if (paused) {
 			Shaders.gui.use();
 			glActiveTexture(GL_TEXTURE0);
 			Textures.getTexture("white").bind();
-			glColor4f(guiCol[0], guiCol[1], guiCol[2], guiCol[3]);
+			glColor4f(GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] + exitDuel.getSmoothedPercentage() * (1 - GUI_COL[3]));
 			glBegin(GL_QUADS);
-			glVertex2f((Main.width - 450f) / 2, (Main.height - 150f) / 2);
-			glVertex2f((Main.width + 250f) / 2, (Main.height - 150f) / 2);
-			glVertex2f((Main.width + 450f) / 2, (Main.height + 150f) / 2);
-			glVertex2f((Main.width - 250f) / 2, (Main.height + 150f) / 2);
+			glVertex2f((exit.x - pauseHover.getSmoothedPercentage() * 100f) * (1 - exitDuel.getSmoothedPercentage()),
+					exit.y * (1 - exitDuel.getSmoothedPercentage()));
+			glVertex2f(Main.width * exitDuel.getSmoothedPercentage() + (exit.x + exit.width) * (1 - exitDuel.getSmoothedPercentage()),
+					exit.y * (1 - exitDuel.getSmoothedPercentage()));
+			glVertex2f(
+					Main.width * exitDuel.getSmoothedPercentage() + (exit.x + exit.width + pauseHover.getSmoothedPercentage() * 100f)
+							* (1 - exitDuel.getSmoothedPercentage()),
+					(Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height) * (1 - exitDuel.getSmoothedPercentage()));
+			glVertex2f(exit.x * (1 - exitDuel.getSmoothedPercentage()), (Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height) * (1 - exitDuel.getSmoothedPercentage()));
 			glEnd();
 			Shaders.font.use();
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
-			Fonts.centuryGothic.setSize(14);
+			Fonts.centuryGothic.setSize(40 + pauseHover.getSmoothedPercentage() * 10);
 			Fonts.centuryGothic.drawCentered("EXIT", 0, 0);
 		}
 
@@ -95,19 +127,22 @@ public class GUI {
 		glDisable(GL_BLEND);
 	}
 
-	private static void renderChatBackground(String text, Dimension d, int x, int y) {
-		glColor4f(guiCol[0], guiCol[1], guiCol[2], guiCol[3]);
+	private static void renderChatBackground(String text, Dimension d, int x, int y, float alpha) {
+		glColor4f(GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] * alpha);
 		glBegin(GL_QUADS);
-		glVertex2f(x - padding, y - padding);
-		glVertex2f(d.width + x + padding, y - padding);
-		glVertex2f(d.width + x + padding, d.height + y + padding);
-		glVertex2f(x - padding, d.height + y + padding);
+		glVertex2f(x - PADDING, y - PADDING);
+		glVertex2f(d.width + x + PADDING, y - PADDING);
+		glVertex2f(d.width + x + PADDING, d.height + y + PADDING);
+		glVertex2f(x - PADDING, d.height + y + PADDING);
 		glEnd();
+	}
+
+	public static void recalculate() {
+		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
 	}
 
 	public static void addMessage(String message) {
 		messages.add(message);
-		fadeTimer = 0;
-		chatHidden = false;
+		chatFade.empty();
 	}
 }

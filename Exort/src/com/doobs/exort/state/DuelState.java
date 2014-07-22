@@ -40,8 +40,9 @@ public class DuelState implements GameState {
 		if (isServer)
 			server = new Server(level);
 
-		level = new Level(player);
+		level = new Level();
 		player = new NetPlayer(client, username, address, client.getPort(), level);
+		level.addApplicationPlayer(player);
 		camera = new Camera(0.0f, 3.0f, 0.0f);
 
 		typing = false;
@@ -49,8 +50,17 @@ public class DuelState implements GameState {
 	}
 
 	public void tick(int delta) {
+		if(GUI.exitDuel.isFull()) {
+			if(server != null) server.exit();
+			client.exit();
+			main.changeState(new MainMenuState(main));
+		}
+		
+		GUI.tick(delta);
+		
 		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			paused = !paused;
+			GUI.chatFade.empty();
 			Mouse.setGrabbed(false);
 		} else if (Main.input.isKeyPressed(Keyboard.KEY_LMENU))
 			Mouse.setGrabbed(!Mouse.isGrabbed());
@@ -66,15 +76,13 @@ public class DuelState implements GameState {
 
 		if (!paused) {
 			if (typing)
-				message = Main.input.handleTyping(message, Fonts.finalFrontier);
+				message = Main.input.handleTyping(message, Fonts.centuryGothic);
 			else
 				camera.tick(delta);
 
 			level.tick(delta);
-
-			if (!typing)
-				player.tick(delta);
-		}
+		} else
+			typing = false;
 	}
 
 	public void render() {
@@ -88,13 +96,11 @@ public class DuelState implements GameState {
 		Lighting.sendModelViewMatrix();
 
 		Lighting.setTextured(true);
-		level.render();
-		Lighting.setTextured(false);
-
-		if (Main.input.isMouseButtonDown(1))
+		level.renderLevel();
+		if (!paused && Main.input.isMouseButtonDown(1))
 			RayCast.movePlayer(camera, player);
-
-		player.render();
+		level.renderEntities();
+		Lighting.setTextured(false);
 
 		// GUI rendering
 		glEnable(GL_BLEND);

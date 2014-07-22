@@ -4,9 +4,6 @@ import com.doobs.exort.level.*;
 import com.doobs.exort.net.client.*;
 
 public class NetPlayer extends Player {
-	// Other players are defined entirely by Netplayer whereas as the application's player
-	// is defined by the Client + Player combination
-	
 	private Client client;
 	private String username;
 	private String address;
@@ -24,6 +21,11 @@ public class NetPlayer extends Player {
 	public void tick(int delta) {
 		if(client != null)
 			super.tick(delta);
+	}
+	
+	@Override
+	public void render() {
+		super.render();
 	}
 	
 	// Getters and setters

@@ -11,7 +11,7 @@ public class Server {
 	private PacketIO handler;
 
 	private Level level;
-	private List<NetPlayer> players; 
+	private List<NetPlayer> players;
 
 	public Server(Level level) {
 		this.level = level;
@@ -19,7 +19,7 @@ public class Server {
 
 		handler = new PacketIO(this, level);
 		handler.start();
-		
+
 		GUI.addMessage("Started server on port " + handler.getPort());
 	}
 
@@ -31,7 +31,7 @@ public class Server {
 	public void addConnection(NetPlayer player, Packet00Login packet) {
 		// Confirm the login (to the player)
 		handler.sendData(new Packet00Login(player.getUsername()).getData(), player.getAddress(), player.getPort());
-		
+
 		boolean alreadyConnected = false;
 		for (NetPlayer p : players) {
 			if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
@@ -43,10 +43,10 @@ public class Server {
 			}
 		}
 		if (!alreadyConnected) {
-			
+
 		}
 	}
-	
+
 	public void addPlayer(NetPlayer player) {
 		players.add(player);
 		level.addEntity(player);
@@ -79,5 +79,9 @@ public class Server {
 		for (NetPlayer player : players) {
 			handler.sendData(data, player.getAddress(), player.getPort());
 		}
+	}
+
+	public void exit() {
+		handler.exit();
 	}
 }

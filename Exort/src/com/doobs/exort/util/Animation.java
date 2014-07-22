@@ -18,6 +18,14 @@ public class Animation {
 			current = 0;
 	}
 	
+	public void fill() {
+		current = max;
+	}
+	
+	public void empty() {
+		current = 0;
+	}
+	
 	// Getters and setters
 	public int getProgress() {
 		return current;
@@ -25,6 +33,10 @@ public class Animation {
 	
 	public float getPercentage() {
 		return (float) current / (float) max;
+	}
+	
+	public float getSmoothedPercentage() {
+		return (float) Math.sin(((float) current / (float) max) * Math.PI / 2);
 	}
 	
 	public boolean isFull() {

@@ -34,6 +34,7 @@ public class Main {
 		Textures.init();
 		Fonts.init();
 		Models.init();
+		GUI.init();
 
 		input = new InputHandler();
 
@@ -66,7 +67,6 @@ public class Main {
 			GLTools.toggleFullscreen();
 
 		GLTools.tick();
-		GUI.tick();
 
 		state.tick(delta);
 	}

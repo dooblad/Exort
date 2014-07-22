@@ -13,6 +13,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import com.doobs.exort.Main;
+import com.doobs.exort.gfx.*;
 
 public class GLTools {
 	public static long lastFrame;
@@ -115,6 +116,8 @@ public class GLTools {
 		glGetFloat(GL_PROJECTION_MATRIX, orthographicProjectionMatrix);
 		glLoadMatrix(perspectiveProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
+		
+		GUI.recalculate();
 	}
 
 	public static void updateFPS() {

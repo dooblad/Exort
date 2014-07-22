@@ -54,10 +54,10 @@ public class MultiplayerSetupState implements GameState {
 			toClientSetup.tickUp(delta);
 
 			if (typingName) {
-				username = Main.input.handleTyping(username, Fonts.finalFrontier);
+				username = Main.input.handleTyping(username, Fonts.centuryGothic);
 				nameAddressSwitch.tickUp(delta);
 			} else {
-				address = Main.input.handleTyping(address, Fonts.finalFrontier);
+				address = Main.input.handleTyping(address, Fonts.centuryGothic);
 				nameAddressSwitch.tickDown(delta);
 			}
 		} else
@@ -79,35 +79,35 @@ public class MultiplayerSetupState implements GameState {
 		if (!toClientSetup.isFull()) {
 			yo = (int) (Math.sin(percent * Math.PI / 2) * 200);
 			phrase = "Server or Client";
-			Fonts.finalFrontier.setSize(18);
-			Fonts.finalFrontier.setColor(1f, 1f, 0f, 1f - percent);
-			Fonts.finalFrontier.drawCentered(phrase, 0, yo);
+			Fonts.centuryGothic.setSize(30);
+			Fonts.centuryGothic.setColor(1f, 1f, 0f, 1f - percent);
+			Fonts.centuryGothic.drawCentered(phrase, 0, yo);
 
 			// Selection Arrow
 			phrase = "v";
-			Fonts.finalFrontier.setColor(1f, 1f, 1f, 1f - percent);
+			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f - percent);
 			int x;
 			if (!server)
-				x = (Fonts.finalFrontier.getPhraseWidth("or Clientv")) / 2 + 24;
+				x = (Fonts.centuryGothic.getPhraseWidth("or Clientv")) / 2;
 			else
-				x = (-Fonts.finalFrontier.getPhraseWidth("Server v")) / 2 + 13;
-			Fonts.finalFrontier.drawCentered(phrase, x, (int) (Math.sin(System.currentTimeMillis() / 200.0) * 15) + 55 + yo);
+				x = (-Fonts.centuryGothic.getPhraseWidth("Server v")) / 2;
+			Fonts.centuryGothic.drawCentered(phrase, x, (int) (Math.sin(System.currentTimeMillis() / 200.0) * 15) + 55 + yo);
 		}
 
 		if (!toClientSetup.isEmpty()) {
 			yo = -(int) (Math.cos(percent * Math.PI / 2) * 200);
 
-			Fonts.finalFrontier.setColor(1f, 1f, 1f, percent);
-			Fonts.finalFrontier.setSize(9 + nameAddressSwitch.getPercentage() * 5);
-			Fonts.finalFrontier.drawCentered("Username", 0, 110 + yo + (int) (nameAddressSwitch.getPercentage() * 15));
-			Fonts.finalFrontier.setSize(9 + (1 - nameAddressSwitch.getPercentage()) * 5);
-			Fonts.finalFrontier.drawCentered("Server IP", 0, -5 + yo + (int) (1 - nameAddressSwitch.getPercentage() * 15));
+			Fonts.centuryGothic.setColor(1f, 1f, 1f, percent);
+			Fonts.centuryGothic.setSize(20 + nameAddressSwitch.getPercentage() * 15);
+			Fonts.centuryGothic.drawCentered("Username", 0, 110 + yo + (int) (nameAddressSwitch.getPercentage() * 15));
+			Fonts.centuryGothic.setSize(20 + (1 - nameAddressSwitch.getPercentage()) * 15);
+			Fonts.centuryGothic.drawCentered("Server IP", 0, -5 + yo + (int) (1 - nameAddressSwitch.getPercentage() * 15));
 
 			Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
-			Fonts.centuryGothic.setSize(6 + nameAddressSwitch.getPercentage() * 5);
-			Fonts.centuryGothic.drawCentered(username, 0, 55 + yo - (int) (nameAddressSwitch.getPercentage() * 5));
-			Fonts.finalFrontier.setSize(6 + (1 - nameAddressSwitch.getPercentage()) * 5);
-			Fonts.finalFrontier.drawCentered(address, 0, -75 + yo - (int) (1 - nameAddressSwitch.getPercentage() * 5));
+			Fonts.centuryGothic.setSize(10 + nameAddressSwitch.getPercentage() * 15);
+			Fonts.centuryGothic.drawCentered(username, 0, 75 + yo - (int) (nameAddressSwitch.getPercentage() * 15));
+			Fonts.centuryGothic.setSize(10 + (1 - nameAddressSwitch.getPercentage()) * 15);
+			Fonts.centuryGothic.drawCentered(address, 0, -75 + yo - (int) (1 - nameAddressSwitch.getPercentage() * 15));
 		}
 
 		Shaders.useDefault();

@@ -28,6 +28,10 @@ public class Client {
 		handler.sendData(data);
 	}
 
+	public void exit() {
+		handler.exit();
+	}
+
 	// Getters and Setters
 	public PacketIO getHandler() {
 		return handler;
