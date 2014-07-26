@@ -1,7 +1,10 @@
 package com.doobs.exort.entity.creature;
 
+import org.lwjgl.util.vector.*;
+
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.client.*;
+import com.doobs.exort.net.packets.*;
 
 public class NetPlayer extends Player {
 	private Client client;
@@ -19,8 +22,7 @@ public class NetPlayer extends Player {
 	
 	@Override
 	public void tick(int delta) {
-		if(client != null)
-			super.tick(delta);
+		super.tick(delta);
 	}
 	
 	@Override
@@ -28,9 +30,18 @@ public class NetPlayer extends Player {
 		super.render();
 	}
 	
+	public void move(Vector3f position) {
+		super.move(position);
+		client.sendData(new Packet02Move(username, position.getX(), position.getZ()).getData());
+	}
+	
 	// Getters and setters
 	public Client getClient() {
 		return client;
+	}
+	
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public String getUsername() {

@@ -3,17 +3,23 @@ package com.doobs.exort.net.client;
 import java.io.*;
 import java.net.*;
 
+import org.lwjgl.util.vector.*;
+
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.*;
+import com.doobs.exort.util.*;
 
 public class PacketIO extends Thread {
+	private GUI gui;
+	
 	private DatagramSocket socket;
 	private PacketParser parser;
 	private InetAddress address;
 	private int port;
 	
-	public PacketIO(Client client, String address, Level level) {
+	public PacketIO(Client client, GUI gui, String address, Level level) {
+		this.gui = gui;
 		port = NetVariables.PORT;
 		try {
 			socket = new DatagramSocket();
@@ -23,7 +29,7 @@ public class PacketIO extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		parser = new PacketParser(client, level);
+		parser = new PacketParser(gui, client, level);
 	}
 
 	public void run() {
@@ -36,7 +42,7 @@ public class PacketIO extends Thread {
 				e.printStackTrace();
 				break;
 			}
-			GUI.addMessage("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim());
+			gui.addMessage(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f, 0f, 1f)));
 			parser.parsePacket(data, packet.getAddress(), packet.getPort());
 		}
 	}

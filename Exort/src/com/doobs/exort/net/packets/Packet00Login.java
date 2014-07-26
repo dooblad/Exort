@@ -31,6 +31,7 @@ public class Packet00Login extends Packet {
 		return ("00" + this.username).getBytes();
 	}
 
+	// Getters and setters
 	public String getUsername() {
 		return username;
 	}

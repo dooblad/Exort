@@ -17,31 +17,42 @@ import res.textures.*;
 import res.textures.fonts.*;
 
 public class GUI {
-	public static List<String> messages = new ArrayList<String>();
-
 	private static final int PADDING = 5;
 	private static final float[] GUI_COL = { 0f, 0f, 0f, 0.5f };
-
 	private static final int VISIBLE_MESSAGES = 5;
-	public static Animation chatFade;
+	
+	private List<Message> messages;
+	public Animation chatFade;
+	private int messageOffset;
 
-	public static Animation exitDuel;
-	private static Animation pauseHover;
-	private static boolean exiting;
-	private static Rectangle exit;
+	public Animation exitDuel;
+	public Animation pauseHover;
+	private boolean exiting;
+	private Rectangle exit;
 
-	public static void init() {
+	public GUI() {
+		messages = new ArrayList<Message>();
 		chatFade = new Animation(120);
+		messageOffset = 0;
 		pauseHover = new Animation(8);
 		exitDuel = new Animation(15);
 		exiting = false;
 		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
 	}
 
-	public static void tick(int delta) {
+	public void tick(boolean paused, int delta) {
 		chatFade.tickUp(delta);
 
-		if (exit.intersects(Mouse.getX(), Mouse.getY(), 1, 1)) {
+		if(Main.input.isKeyPressed(Keyboard.KEY_UP) && messageOffset < messages.size() - VISIBLE_MESSAGES) {
+			chatFade.empty();
+			messageOffset++;
+		}
+		else if(Main.input.isKeyPressed(Keyboard.KEY_DOWN) && messageOffset != 0) {
+			chatFade.empty();
+			messageOffset--;
+		}
+		
+		if (paused && exit.intersects(Mouse.getX(), Mouse.getY(), 1, 1)) {
 			pauseHover.tickUp(delta);
 
 			if (Main.input.isMouseButtonPressed(0)) {
@@ -57,7 +68,7 @@ public class GUI {
 		}
 	}
 
-	public static void render(String text, boolean paused, boolean typing) {
+	public void render(String text, boolean paused, boolean typing) {
 		Fonts.centuryGothic.setSize(10);
 		Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
 
@@ -83,18 +94,17 @@ public class GUI {
 			int y = 10 + Fonts.centuryGothic.getPhraseHeight(text) + PADDING * 2;
 			for (int i = 0; i < VISIBLE_MESSAGES; i++) {
 				if (i < messages.size()) {
-					String message = messages.get(messages.size() - i - 1);
-					d = Fonts.centuryGothic.getPhraseDimensions(message);
+					Message message = messages.get(messages.size() - i - messageOffset - 1);
+					d = Fonts.centuryGothic.getPhraseDimensions(message.getText());
 
 					// Draw chat background
 					Shaders.gui.use();
 					glActiveTexture(GL_TEXTURE0);
 					Textures.getTexture("white").bind();
-					renderChatBackground(message, d, 10, y, alpha);
+					renderChatBackground(message.getText(), d, 10, y, alpha);
 
 					Shaders.font.use();
-					Fonts.centuryGothic.setColor(1f, 1f, 1f, alpha);
-					Fonts.centuryGothic.draw(message, 10, y);
+					message.draw(10, y);
 
 					y += d.height + PADDING * 2;
 				}
@@ -137,12 +147,17 @@ public class GUI {
 		glEnd();
 	}
 
-	public static void recalculate() {
+	public void recalculatePositions() {
 		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
 	}
-
-	public static void addMessage(String message) {
+	
+	public void addMessage(Message message) {
 		messages.add(message);
 		chatFade.empty();
+		messageOffset = 0;
+	}
+	
+	public void addMessage(String message) {
+		addMessage(new Message(message));
 	}
 }

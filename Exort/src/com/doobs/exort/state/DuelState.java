@@ -19,6 +19,7 @@ import com.doobs.exort.util.gl.*;
 
 public class DuelState implements GameState {
 	private Main main;
+	private GUI gui;
 	private Level level;
 	private NetPlayer player;
 	private Camera camera;
@@ -33,16 +34,23 @@ public class DuelState implements GameState {
 
 	public DuelState(Main main, boolean isServer, String username, String address) {
 		this.main = main;
-
-		this.client = new Client(main, level, address);
-		new Packet00Login(username).writeData(this.client);
-
-		if (isServer)
-			server = new Server(level);
-
+		
+		gui = new GUI();
+		
 		level = new Level();
-		player = new NetPlayer(client, username, address, client.getPort(), level);
-		level.addApplicationPlayer(player);
+		
+		if (isServer)
+			server = new Server(gui, level);
+		
+		this.client = new Client(main, isServer, gui, level, address);
+		
+		if(!isServer) {
+			level.addApplicationPlayer(player);
+			player = new NetPlayer(client, username, address, client.getPort(), level);
+		}
+		
+		new Packet00Login(username).writeData(this.client);
+		
 		camera = new Camera(0.0f, 3.0f, 0.0f);
 
 		typing = false;
@@ -50,17 +58,23 @@ public class DuelState implements GameState {
 	}
 
 	public void tick(int delta) {
-		if(GUI.exitDuel.isFull()) {
+		if(this.player == null && level.getPlayer() != null) {
+			this.player = level.getPlayer();
+			player.setClient(client);
+		}
+		
+		if(gui.exitDuel.isFull()) {
 			if(server != null) server.exit();
+			client.sendData(new Packet01Disconnect(player.getUsername()).getData());
 			client.exit();
 			main.changeState(new MainMenuState(main));
 		}
 		
-		GUI.tick(delta);
+		gui.tick(paused, delta);
 		
 		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			paused = !paused;
-			GUI.chatFade.empty();
+			gui.chatFade.empty();
 			Mouse.setGrabbed(false);
 		} else if (Main.input.isKeyPressed(Keyboard.KEY_LMENU))
 			Mouse.setGrabbed(!Mouse.isGrabbed());
@@ -68,7 +82,7 @@ public class DuelState implements GameState {
 			camera.reset();
 		else if (Main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
 			if (typing && message.length() != 0) {
-				GUI.addMessage(message);
+				new Packet03Chat(player.getUsername(), message).writeData(client);
 				message = "";
 			}
 			typing = !typing;
@@ -106,7 +120,7 @@ public class DuelState implements GameState {
 		glEnable(GL_BLEND);
 		Shaders.font.use();
 		GLTools.switchToOrtho();
-		GUI.render(message, paused, typing);
+		gui.render(message, paused, typing);
 		Shaders.useDefault();
 		GLTools.switchToPerspective();
 		glDisable(GL_BLEND);
@@ -114,6 +128,10 @@ public class DuelState implements GameState {
 	}
 
 	// Getters and setters
+	public GUI getGUI() {
+		return gui;
+	}
+	
 	public Level getLevel() {
 		return level;
 	}

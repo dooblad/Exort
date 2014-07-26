@@ -18,7 +18,8 @@ public class Level {
 
 	public Level(NetPlayer player) {
 		this.player = player;
-		entities.add(player);
+		if(player != null)
+			entities.add(player);
 		
 		width = 16;
 		height = 14;
@@ -64,11 +65,10 @@ public class Level {
 	}
 
 	// Getters and setters
-	public synchronized void movePlayer(String username, int x, int z, int time) {
+	public synchronized void movePlayer(String username, float x, float z) {
 		int index = getPlayerIndex(username);
 		NetPlayer player = (NetPlayer) entities.get(index);
-		player.setX(x);
-		player.setZ(z);
+		player.setTargetPosition(x, z);
 	}
 
 	public void addEntity(Entity entity) {
@@ -103,7 +103,11 @@ public class Level {
 	}
 
 	// Getters and Setters
-	public Player getPlayer() {
+	public NetPlayer getPlayer() {
 		return player;
+	}
+	
+	public void setPlayer(NetPlayer player) {
+		this.player = player;
 	}
 }

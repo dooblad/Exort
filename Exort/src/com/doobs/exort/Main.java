@@ -27,14 +27,13 @@ public class Main {
 	private GameState state;
 
 	public Main() {
-		GLTools.init();
+		GLTools.init(this);
 		Shaders.init();
 		Lighting.init();
 		Cursor.init();
 		Textures.init();
 		Fonts.init();
 		Models.init();
-		GUI.init();
 
 		input = new InputHandler();
 

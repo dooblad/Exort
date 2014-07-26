@@ -5,17 +5,16 @@ import static org.lwjgl.util.glu.GLU.*;
 
 import java.nio.*;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.*;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 
-import com.doobs.exort.Main;
-import com.doobs.exort.gfx.*;
+import com.doobs.exort.*;
+import com.doobs.exort.state.*;
 
 public class GLTools {
+	private static Main main;
+	
 	public static long lastFrame;
 	public static int fps, perFrameFPS;
 	public static long lastFPS;
@@ -33,7 +32,8 @@ public class GLTools {
 	public static FloatBuffer perspectiveProjectionMatrix = BufferUtils.createFloatBuffer(16);
 	public static FloatBuffer orthographicProjectionMatrix = BufferUtils.createFloatBuffer(16);
 
-	public static void init() {
+	public static void init(Main main) {
+		GLTools.main = main;
 		getDelta();
 		lastFPS = getTime();
 		initDisplay();
@@ -117,7 +117,8 @@ public class GLTools {
 		glLoadMatrix(perspectiveProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
 		
-		GUI.recalculate();
+		if(main.getCurrentState() instanceof DuelState)
+			((DuelState) main.getCurrentState()).getGUI().recalculatePositions();
 	}
 
 	public static void updateFPS() {

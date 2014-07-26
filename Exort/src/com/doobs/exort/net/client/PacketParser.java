@@ -9,10 +9,12 @@ import com.doobs.exort.net.packets.*;
 import com.doobs.exort.net.packets.Packet.PacketType;
 
 public class PacketParser {
+	private GUI gui;
 	private Client client;
 	private Level level;
 
-	public PacketParser(Client client, Level level) {
+	public PacketParser(GUI gui, Client client, Level level) {
+		this.gui = gui;
 		this.client = client;
 		this.level = level;
 	}
@@ -25,19 +27,22 @@ public class PacketParser {
 			break;
 		case LOGIN:
 			Packet00Login packet = new Packet00Login(data);
-			GUI.addMessage(packet.getUsername() + " has joined the game.");
+			gui.addMessage(packet.getUsername() + " has joined the game.");
 			NetPlayer player = new NetPlayer(client, packet.getUsername(), null, -1, level);
-			level.addEntity(player);
+			client.addConnection(player, packet);
 			break;
 		case DISCONNECT:
 			Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-			GUI.addMessage(disconnectPacket.getUsername() + " has left the game.");
-			level.removePlayer(disconnectPacket.getUsername());
+			gui.addMessage(disconnectPacket.getUsername() + " has left the game.");
+			client.removeConnection(disconnectPacket);
 			break;
 		case MOVE:
 			Packet02Move movePacket = new Packet02Move(data);
 			client.handleMove(movePacket);
 			break;
+		case CHAT:
+			Packet03Chat chatPacket = new Packet03Chat(data);
+			gui.addMessage(chatPacket.getUsername() + ": " + chatPacket.getMessage());
 		default:
 			break;
 		}

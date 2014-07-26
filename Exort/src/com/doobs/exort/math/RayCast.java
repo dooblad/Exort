@@ -13,7 +13,7 @@ import com.doobs.exort.util.gl.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RayCast {
-	public static void movePlayer(Camera camera, Player player) {
+	public static void movePlayer(Camera camera, NetPlayer player) {
 		Vector3f plane;
 
 		if (Mouse.isGrabbed())

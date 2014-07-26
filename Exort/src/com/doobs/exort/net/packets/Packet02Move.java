@@ -6,24 +6,21 @@ import com.doobs.exort.net.server.*;
 public class Packet02Move extends Packet {
 
 	private String username;
-	private int x, z;
-	private int time;
+	private float x, z;
 
 	public Packet02Move(byte[] data) {
 		super(02);
 		String[] dataArray = readData(data).split(",");
 		this.username = dataArray[0];
-		this.x = Integer.parseInt(dataArray[1]);
-		this.z = Integer.parseInt(dataArray[2]);
-		this.time = Integer.parseInt(dataArray[3]);
+		this.x = Float.parseFloat(dataArray[1]);
+		this.z = Float.parseFloat(dataArray[2]);
 	}
 
-	public Packet02Move(String username, int x, int z, int time) {
+	public Packet02Move(String username, float x, float z) {
 		super(02);
 		this.username = username;
 		this.x = x;
 		this.z = z;
-		this.time = time;
 	}
 
 	public void writeData(Client client) {
@@ -36,22 +33,19 @@ public class Packet02Move extends Packet {
 	
 	@Override
 	public byte[] getData() {
-		return ("02" + this.username + "," + this.x + "," + this.z + "," + this.time).getBytes();
+		return ("02" + this.username + "," + this.x + "," + this.z).getBytes();
 	}
 
+	// Getters and setters
 	public String getUsername() {
 		return username;
 	}
 
-	public int getX() {
+	public float getX() {
 		return this.x;
 	}
 
-	public int getZ() {
+	public float getZ() {
 		return this.z;
-	}
-
-	public int getTime() {
-		return time;
 	}
 }

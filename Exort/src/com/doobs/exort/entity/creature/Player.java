@@ -11,8 +11,8 @@ import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 
 public class Player extends MovingEntity {
-	public static double[] spawn = new double[] {0, 0, 0};
-	
+	public static double[] spawn = new double[] { 0, 0, 0 };
+
 	private float targetX, targetZ;
 
 	private static float moveSpeed = 1 / 50f;
@@ -87,10 +87,33 @@ public class Player extends MovingEntity {
 		if (position.getX() != this.x || position.getZ() != this.z) {
 			targetX = position.getX();
 			targetZ = position.getZ();
-			Vector3f target = new Vector3f((float) (targetX - this.x), 0f, (float) (targetZ - this.z));
+			calculateSpeeds();
+		}
+	}
+
+	public void calculateSpeeds() {
+		Vector3f target = new Vector3f((float) (targetX - this.x), 0f, (float) (targetZ - this.z));
+		if (target.getX() != 0 || target.getZ() != 0) {
 			target.normalise();
 			xa = target.getX() * moveSpeed;
 			za = target.getZ() * moveSpeed;
 		}
+	}
+
+	// Getters and setters
+	public void setTargetX(float x) {
+		this.targetX = x;
+		calculateSpeeds();
+	}
+
+	public void setTargetZ(float z) {
+		this.targetZ = z;
+		calculateSpeeds();
+	}
+
+	public void setTargetPosition(float x, float z) {
+		this.targetX = x;
+		this.targetZ = z;
+		calculateSpeeds();
 	}
 }

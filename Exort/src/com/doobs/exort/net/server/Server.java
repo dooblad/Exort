@@ -13,24 +13,32 @@ public class Server {
 	private Level level;
 	private List<NetPlayer> players;
 
-	public Server(Level level) {
+	public Server(GUI gui, Level level) {
 		this.level = level;
 		players = new ArrayList<NetPlayer>();
 
-		handler = new PacketIO(this, level);
+		handler = new PacketIO(gui, this, level);
 		handler.start();
 
-		GUI.addMessage("Started server on port " + handler.getPort());
+		gui.addMessage("Started server on port " + handler.getPort());
 	}
 
 	public void handleMove(Packet02Move packet) {
-		level.movePlayer(packet.getUsername(), packet.getX(), packet.getZ(), packet.getTime());
+		level.movePlayer(packet.getUsername(), packet.getX(), packet.getZ());
 		packet.writeData(this);
 	}
 
 	public void addConnection(NetPlayer player, Packet00Login packet) {
 		// Confirm the login (to the player)
 		handler.sendData(new Packet00Login(player.getUsername()).getData(), player.getAddress(), player.getPort());
+		
+		if(players.isEmpty()) {
+			level.setPlayer(player);
+		}
+		
+		for(NetPlayer p : players) {
+			handler.sendData(new Packet00Login(p.getUsername()).getData(), player.getAddress(), player.getPort());
+		}
 
 		boolean alreadyConnected = false;
 		for (NetPlayer p : players) {
@@ -43,7 +51,7 @@ public class Server {
 			}
 		}
 		if (!alreadyConnected) {
-
+			addPlayer(player);
 		}
 	}
 
@@ -77,6 +85,13 @@ public class Server {
 
 	public void sendDataToAllClients(byte[] data) {
 		for (NetPlayer player : players) {
+			handler.sendData(data, player.getAddress(), player.getPort());
+		}
+	}
+	
+	public void sendDataToAllClientsExcept(String username, byte[] data) {
+		for (NetPlayer player : players) {
+			if(!player.getUsername().equalsIgnoreCase(username))
 			handler.sendData(data, player.getAddress(), player.getPort());
 		}
 	}

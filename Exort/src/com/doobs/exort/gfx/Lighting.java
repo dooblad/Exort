@@ -6,13 +6,12 @@ import static org.lwjgl.opengl.GL20.*;
 import java.nio.*;
 
 import org.lwjgl.*;
-import org.lwjgl.util.glu.*;
 import org.lwjgl.util.vector.*;
 
 import res.shaders.*;
 
 /**
- * A helper class to provide a
+ * A helper class for lighting
  * 
  * @author Logan
  */
@@ -52,14 +51,6 @@ public class Lighting {
 
 		if (!usingShader)
 			Shaders.useDefault();
-	}
-
-	public static void drawLight() {
-		Shaders.useDefault();
-		glColor4f(1f, 1f, 1f, 1f);
-		Sphere sphere = new Sphere();
-		sphere.draw(0.25f, 5, 5);
-		Shaders.lighting.use();
 	}
 
 	public static void setTextured(boolean textured) {
