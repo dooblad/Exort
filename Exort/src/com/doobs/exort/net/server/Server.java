@@ -8,6 +8,8 @@ import com.doobs.exort.level.*;
 import com.doobs.exort.net.packets.*;
 
 public class Server {
+	public static final int USERNAME_MAX_LENGTH = 16;
+	
 	private PacketIO handler;
 
 	private Level level;
@@ -63,6 +65,7 @@ public class Server {
 	public void removeConnection(Packet01Disconnect packet) {
 		players.remove(getNetPlayerIndex(packet.getUsername()));
 		packet.writeData(this);
+		level.removePlayer(packet.getUsername());
 	}
 
 	public NetPlayer getPlayer(String username) {

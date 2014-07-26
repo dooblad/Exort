@@ -57,6 +57,8 @@ public class Client {
 	
 	public void removeConnection(Packet01Disconnect packet) {
 		players.remove(getNetPlayerIndex(packet.getUsername()));
+		if(!isServer)
+			level.removePlayer(packet.getUsername());
 	}
 	
 	public int getNetPlayerIndex(String username) {

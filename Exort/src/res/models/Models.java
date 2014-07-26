@@ -10,19 +10,21 @@ public class Models {
 	public static Map<String, AnimatedModel> animatedModels = new HashMap<String, AnimatedModel>();
 
 	public static void init() {
-		File directory = new File("src/res/models/");
+		File directory = new File("res/models/");
 		File[] files = directory.listFiles();
 		String[] temp;
 
 		if (files != null) {
 			for (File file : files) {
 				if (file.isFile()) {
+					// Static models
 					temp = file.getName().split("\\.");
 
 					if (temp[1].equals("obj")) {
 						stillModels.put(temp[0], OBJLoader.loadModel(file.getName()));
 					}
 				} else if (file.isDirectory()) {
+					// Animated models
 					List<TexturedModel> modelsTemp = new ArrayList<TexturedModel>();
 
 					File[] subFiles = file.listFiles();

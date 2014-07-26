@@ -3,11 +3,8 @@ package res.models;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import org.lwjgl.util.vector.*;
 
@@ -20,7 +17,7 @@ public class OBJLoader {
 		try {
 			TexturedModel model = new TexturedModel();
 			model.setHandle(glGenLists(1));
-			BufferedReader reader = new BufferedReader(new InputStreamReader(OBJLoader.class.getResourceAsStream(URL)));
+			BufferedReader reader = new BufferedReader(new FileReader("res/models/" + URL));
 
 			List<Vector3f> vertices = new ArrayList<Vector3f>();
 			List<Vector3f> verticesTemp = new ArrayList<Vector3f>();
@@ -123,6 +120,7 @@ public class OBJLoader {
 
 	private static void dumpModelData(String URL, List<Vector3f> vertices, List<Vector3f> verticesTemp, List<Vector2f> texCoords, List<Vector2f> texCoordsTemp,
 			List<Vector3f> normals, List<Vector3f> normalsTemp, List<Face> faces, List<Face> facesTemp) {
+		
 		for (int i = 0; i < verticesTemp.size(); i++) {
 			vertices.add(verticesTemp.get(i));
 		}

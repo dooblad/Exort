@@ -7,7 +7,6 @@ import java.io.*;
 import java.nio.*;
 import java.util.*;
 
-@SuppressWarnings("rawtypes")
 public class Shader {
 	private int program;
 	private int vertexShader, fragmentShader;
@@ -17,8 +16,8 @@ public class Shader {
 	private Map<String, Integer> attributeLocations = new HashMap<String, Integer>();
 	private Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
 
-	public Shader(Class c, String URL) {
-		this(c, URL, (String[]) null);
+	public Shader(String URL) {
+		this(URL, (String[]) null);
 	}
 
 	/**
@@ -29,20 +28,20 @@ public class Shader {
 	 * @param URL
 	 *            The location of the shader program.
 	 */
-	public Shader(Class c, String URL, String... permutations) {
+	public Shader(String URL, String... permutations) {
 		program = glCreateProgram();
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		String vertexSource = loadProgram(c, URL + ".vert", permutations);
-		String fragmentSource = loadProgram(c, URL + ".frag", permutations);
+		String vertexSource = loadProgram("res/shaders/" + URL + ".vert", permutations);
+		String fragmentSource = loadProgram("res/shaders/" + URL + ".frag", permutations);
 		compile(vertexSource, fragmentSource);
 	}
 
-	public String loadProgram(Class c, String URL, String... permutations) {
+	public String loadProgram(String URL, String... permutations) {
 		String source = "";
 
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(c.getResourceAsStream(URL)));
+			BufferedReader reader = new BufferedReader(new FileReader(URL));
 			String line;
 
 			while ((line = reader.readLine()) != null) {
@@ -56,6 +55,8 @@ public class Shader {
 				} else
 					source += line + '\n';
 			}
+			
+			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -10,18 +10,16 @@ import javax.imageio.*;
 
 import org.lwjgl.*;
 
-import res.textures.*;
-
 public class TextureLoader {
 	private static final int BYTES_PER_PIXEL = 4;
 
-	public static Texture getTexture(String URL) {
+	public static Texture getTexture(String URL, boolean mipmapped) {
 		try {
 			Texture result;
 
 			int texture = glGenTextures();
 
-			BufferedImage image = ImageIO.read(Textures.class.getResourceAsStream(URL));
+			BufferedImage image = ImageIO.read(new File(URL));
 			int width = image.getWidth();
 			int height = image.getHeight();
 
@@ -48,8 +46,9 @@ public class TextureLoader {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			// Actual mipmapping makes texture disappear for some reason
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mipmapped ? GL_LINEAR : GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipmapped ? GL_LINEAR : GL_NEAREST);
 
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 			glBindTexture(GL_TEXTURE_2D, 0);

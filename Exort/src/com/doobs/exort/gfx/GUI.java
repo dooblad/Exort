@@ -14,7 +14,6 @@ import com.doobs.exort.util.*;
 
 import res.shaders.*;
 import res.textures.*;
-import res.textures.fonts.*;
 
 public class GUI {
 	private static final int PADDING = 5;
@@ -69,7 +68,7 @@ public class GUI {
 	}
 
 	public void render(String text, boolean paused, boolean typing) {
-		Fonts.centuryGothic.setSize(10);
+		Fonts.centuryGothic.setSize(15);
 		Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
 
 		glEnable(GL_BLEND);

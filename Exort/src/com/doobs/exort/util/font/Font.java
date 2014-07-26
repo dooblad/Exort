@@ -6,8 +6,6 @@ import static org.lwjgl.opengl.GL13.*;
 import java.awt.*;
 import java.util.*;
 
-import res.textures.fonts.*;
-
 import com.doobs.exort.*;
 import com.doobs.exort.util.texture.*;
 
@@ -27,8 +25,8 @@ public class Font {
 			color[i] = DEFAULT_COLOR[i];
 		}
 
-		this.texture = TextureLoader.getTexture("fonts/" + URL + ".png");
-		this.characters = CharInfoLoader.load(Fonts.class, texture, URL + ".txt");
+		this.texture = TextureLoader.getTexture("res/textures/fonts/" + URL + ".png", true);
+		this.characters = CharInfoLoader.load(texture, "res/textures/fonts/" + URL + ".txt");
 	}
 
 	public void draw(String phrase, int x, int y) {

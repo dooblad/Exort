@@ -10,9 +10,9 @@ public class Shaders {
 	public static Shader gui;
 
 	public static void init() {
-		lighting = new Shader(Shaders.class, "lighting");
-		font = new Shader(Shaders.class, "font");
-		gui = new Shader(Shaders.class, "gui");
+		lighting = new Shader("lighting");
+		font = new Shader("font");
+		gui = new Shader("gui");
 	}
 
 	public static void useDefault() {

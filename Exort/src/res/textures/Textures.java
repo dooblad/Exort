@@ -9,7 +9,7 @@ public class Textures {
 	public static Map<String, Texture> textures = new HashMap<String, Texture>();
 
 	public static void init() {
-		File directory = new File("src/res/textures/");
+		File directory = new File("res/textures/");
 		File[] files = directory.listFiles();
 		String[] temp;
 
@@ -20,7 +20,7 @@ public class Textures {
 
 					if (temp[1].equals("png")) {
 						System.out.println(file.getName());
-						textures.put(temp[0], TextureLoader.getTexture(file.getName()));
+						textures.put(temp[0], TextureLoader.getTexture("res/textures/" + file.getName(), false));
 					}
 				}
 			}

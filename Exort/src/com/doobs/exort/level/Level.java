@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.*;
 
 import res.models.*;
+import res.textures.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.entity.creature.*;
@@ -54,6 +55,7 @@ public class Level {
 	
 	public void renderLevel() {
 		glColor4f(1f, 1f, 1f, 1f);
+		Textures.textures.get("arena").bind();
 		Models.stillModels.get("arena").draw();
 	}
 	

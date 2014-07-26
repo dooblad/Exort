@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.*;
 
 import res.shaders.*;
-import res.textures.fonts.*;
+import res.textures.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.entity.creature.*;

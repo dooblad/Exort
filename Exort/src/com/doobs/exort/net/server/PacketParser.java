@@ -26,6 +26,8 @@ public class PacketParser {
 			break;
 		case LOGIN:
 			Packet00Login loginPacket = new Packet00Login(data);
+			if(loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH)
+				loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
 			gui.addMessage(loginPacket.getUsername() + " has joined the game.");
 			NetPlayer player = new NetPlayer(null, loginPacket.getUsername(), address, port, level);
 			server.addConnection(player, loginPacket);

@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.input.*;
 
 import res.shaders.*;
-import res.textures.fonts.*;
+import res.textures.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.util.gl.*;
@@ -31,7 +31,7 @@ public class MainMenuState implements GameState {
 		Shaders.font.use();
 		String phrase = "Welcome to Exort";
 		Fonts.centuryGothic.setSize(50);
-		Fonts.centuryGothic.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 1000.0) / 2f + 0.5f, 0f, 1f);
+		Fonts.centuryGothic.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 350.0) / 2f + 0.5f, 0f, 1f);
 		Fonts.centuryGothic.drawCentered(phrase, 0, 0);
 		Shaders.useDefault();
 		GLTools.switchToPerspective();

@@ -8,8 +8,6 @@ import org.lwjgl.opengl.Display;
 import res.models.*;
 import res.shaders.*;
 import res.textures.*;
-import res.textures.cursors.*;
-import res.textures.fonts.*;
 
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.state.*;
