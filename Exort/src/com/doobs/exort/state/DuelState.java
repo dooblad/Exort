@@ -55,6 +55,8 @@ public class DuelState implements GameState {
 
 		typing = false;
 		message = "";
+		
+		Mouse.setGrabbed(true);
 	}
 
 	public void tick(int delta) {

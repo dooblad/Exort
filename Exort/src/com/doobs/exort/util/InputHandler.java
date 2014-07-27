@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.lwjgl.input.*;
 
+import res.textures.*;
+
 import com.doobs.exort.util.font.*;
 
 public class InputHandler {
@@ -50,10 +52,11 @@ public class InputHandler {
 			phrase = phrase.substring(0, phrase.length() - 1);
 		} else {
 			for(char c : eventChars) {
-				phrase += c;
+				if(Fonts.centuryGothic.getCharacter(c) != null)
+					phrase += c;
 			}
 		}
-
+		
 		return phrase;
 	}
 

@@ -42,7 +42,7 @@ public class MultiplayerSetupState implements GameState {
 					main.changeState(new DuelState(main, server, username, address));
 			} else
 				chosen = true;
-		} else if (Main.input.isKeyPressed(Keyboard.KEY_LEFT) || Main.input.isKeyPressed(Keyboard.KEY_RIGHT))
+		} else if (!chosen && (Main.input.isKeyPressed(Keyboard.KEY_LEFT) || Main.input.isKeyPressed(Keyboard.KEY_RIGHT)))
 			server = !server;
 		else if (chosen && (Main.input.isKeyPressed(Keyboard.KEY_UP) || Main.input.isKeyPressed(Keyboard.KEY_DOWN) || Main.input.isKeyPressed(Keyboard.KEY_TAB)))
 			typingName = !typingName;
