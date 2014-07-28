@@ -55,7 +55,7 @@ public class Shader {
 				} else
 					source += line + '\n';
 			}
-			
+
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();

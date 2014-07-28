@@ -15,7 +15,7 @@ public class Player extends MovingEntity {
 
 	private float targetX, targetZ;
 
-	private static float moveSpeed = 1 / 50f;
+	private static float moveSpeed = 1f / 50f;
 
 	public Player(double x, double y, double z, Level level) {
 		super(x, y, z, level);
@@ -101,6 +101,10 @@ public class Player extends MovingEntity {
 	}
 
 	// Getters and setters
+	public Vector3f getPosition() {
+		return new Vector3f((float) this.x, (float) this.y, (float) this.z);
+	}
+
 	public void setTargetX(float x) {
 		this.targetX = x;
 		calculateSpeeds();

@@ -17,12 +17,12 @@ public class Packet01Disconnect extends Packet {
 		this.username = username;
 	}
 
-	public void writeData(Client client) {
-		super.writeData(client, getData());
+	public void sendData(Client client) {
+		super.sendData(client, getData());
 	}
-	
-	public void writeData(Server server) {
-		super.writeData(server, getData());
+
+	public void sendData(Server server) {
+		super.sendData(server, getData());
 	}
 
 	@Override

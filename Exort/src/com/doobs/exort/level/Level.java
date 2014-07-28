@@ -9,83 +9,103 @@ import res.textures.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.entity.creature.*;
+import com.doobs.exort.entity.projectile.*;
 
 public class Level {
 	private NetPlayer player;
 
-	private int width, height;
-	private byte[] tiles;
-	private List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities;
+
+	private volatile boolean entitiesLocked;
 
 	public Level(NetPlayer player) {
 		this.player = player;
-		if(player != null)
+		if (player != null)
 			entities.add(player);
-		
-		width = 16;
-		height = 14;
-		tiles = new byte[width * height];
-		for (int i = 0; i < tiles.length; i++) {
-			int random = (int) (Math.random() * 12);
-			if (random <= 8)
-				tiles[i] = 0;
-			else if (random == 9)
-				tiles[i] = 1;
-			else if (random > 9)
-				tiles[i] = 2;
-		}
+		entities = new ArrayList<Entity>();
+		entitiesLocked = false;
 	}
-	
+
 	public Level() {
 		this(null);
 	}
 
 	public void tick(int delta) {
-		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer) {
-				((NetPlayer) entity).tick(delta);
+		entitiesLocked = true;
+		Iterator<Entity> iterator = entities.iterator();
+		while (iterator.hasNext()) {
+			Entity entity = iterator.next();
+
+			if (entity != null) {
+				if (entity.isRemoved())
+					iterator.remove();
+				else if (entity instanceof NetPlayer)
+					((NetPlayer) entity).tick(delta);
+				else if (entity instanceof QSpell)
+					((QSpell) entity).tick(delta);
 			}
 		}
+		entitiesLocked = false;
 	}
 
 	public void render() {
 		renderLevel();
 		renderEntities();
 	}
-	
+
 	public void renderLevel() {
 		glColor4f(1f, 1f, 1f, 1f);
 		Textures.textures.get("arena").bind();
 		Models.stillModels.get("arena").draw();
 	}
-	
+
 	public void renderEntities() {
-		for(Entity entity : entities) {
-			if(entity instanceof NetPlayer)
+		entitiesLocked = true;
+		Iterator<Entity> iterator = entities.iterator();
+		while (iterator.hasNext()) {
+			Entity entity = iterator.next();
+
+			if (entity instanceof NetPlayer)
 				((NetPlayer) entity).render();
+			else if (entity instanceof QSpell)
+				((QSpell) entity).render();
 		}
+		entitiesLocked = false;
 	}
 
 	// Getters and setters
-	public synchronized void movePlayer(String username, float x, float z) {
+	public synchronized void movePlayer(String username, float x, float y, float z) {
 		int index = getPlayerIndex(username);
 		NetPlayer player = (NetPlayer) entities.get(index);
 		player.setTargetPosition(x, z);
 	}
 
-	public void addEntity(Entity entity) {
+	public synchronized void addEntity(Entity entity) {
+		while(entitiesLocked) ;
 		entities.add(entity);
 	}
-	
-	public void addApplicationPlayer(NetPlayer player) {
+
+	public synchronized void addMainPlayer(NetPlayer player) {
+		while(entitiesLocked) ;
 		this.player = player;
 		entities.add(player);
 	}
 
-	public void removePlayer(String name) {
+	public NetPlayer getPlayer(String username) {
 		int index = 0;
 		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(name)) {
+			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(username)) {
+				break;
+			}
+			index++;
+		}
+		return (NetPlayer) entities.get(index);
+	}
+
+	public synchronized void removePlayer(String username) {
+		int index = 0;
+		for (Entity entity : entities) {
+			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(username)) {
 				break;
 			}
 			index++;
@@ -105,11 +125,11 @@ public class Level {
 	}
 
 	// Getters and Setters
-	public NetPlayer getPlayer() {
+	public NetPlayer getMainPlayer() {
 		return player;
 	}
-	
-	public void setPlayer(NetPlayer player) {
+
+	public void setMainPlayer(NetPlayer player) {
 		this.player = player;
 	}
 }

@@ -10,7 +10,7 @@ public class CharInfoLoader {
 	public static Map<Integer, Character> load(Texture texture, String URL) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(new File(URL)));
-			
+
 			Map<Integer, Character> characters = new HashMap<Integer, Character>();
 
 			String line;
@@ -38,7 +38,7 @@ public class CharInfoLoader {
 							(int) temp[4], (int) temp[5], (int) temp[6], (int) temp[7]));
 				}
 			}
-			
+
 			reader.close();
 
 			return characters;

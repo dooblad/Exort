@@ -18,7 +18,7 @@ public class MainMenuState implements GameState {
 	}
 
 	public void tick(int delta) {
-		if(Main.input.isKeyPressed(Keyboard.KEY_ESCAPE))
+		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE))
 			main.exit();
 		else if (Main.input.isKeyPressed(Keyboard.KEY_RETURN))
 			main.changeState(new MultiplayerSetupState(main));

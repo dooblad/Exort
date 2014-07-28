@@ -19,7 +19,7 @@ public class GUI {
 	private static final int PADDING = 5;
 	private static final float[] GUI_COL = { 0f, 0f, 0f, 0.5f };
 	private static final int VISIBLE_MESSAGES = 5;
-	
+
 	private List<Message> messages;
 	public Animation chatFade;
 	private int messageOffset;
@@ -42,15 +42,14 @@ public class GUI {
 	public void tick(boolean paused, int delta) {
 		chatFade.tickUp(delta);
 
-		if(Main.input.isKeyPressed(Keyboard.KEY_UP) && messageOffset < messages.size() - VISIBLE_MESSAGES) {
+		if (Main.input.isKeyPressed(Keyboard.KEY_UP) && messageOffset < messages.size() - VISIBLE_MESSAGES) {
 			chatFade.empty();
 			messageOffset++;
-		}
-		else if(Main.input.isKeyPressed(Keyboard.KEY_DOWN) && messageOffset != 0) {
+		} else if (Main.input.isKeyPressed(Keyboard.KEY_DOWN) && messageOffset != 0) {
 			chatFade.empty();
 			messageOffset--;
 		}
-		
+
 		if (paused && exit.intersects(Mouse.getX(), Mouse.getY(), 1, 1)) {
 			pauseHover.tickUp(delta);
 
@@ -80,7 +79,7 @@ public class GUI {
 			// Draw background
 			Shaders.gui.use();
 			glActiveTexture(GL_TEXTURE0);
-			Textures.getTexture("white").bind();
+			Textures.get("white").bind();
 			Dimension d = Fonts.centuryGothic.getPhraseDimensions(text);
 			renderChatBackground(text, d, 10, 10, 1f);
 			Shaders.font.use();
@@ -99,7 +98,7 @@ public class GUI {
 					// Draw chat background
 					Shaders.gui.use();
 					glActiveTexture(GL_TEXTURE0);
-					Textures.getTexture("white").bind();
+					Textures.get("white").bind();
 					renderChatBackground(message.getText(), d, 10, y, alpha);
 
 					Shaders.font.use();
@@ -113,7 +112,7 @@ public class GUI {
 		if (paused) {
 			Shaders.gui.use();
 			glActiveTexture(GL_TEXTURE0);
-			Textures.getTexture("white").bind();
+			Textures.get("white").bind();
 			glColor4f(GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] + exitDuel.getSmoothedPercentage() * (1 - GUI_COL[3]));
 			glBegin(GL_QUADS);
 			glVertex2f((exit.x - pauseHover.getSmoothedPercentage() * 100f) * (1 - exitDuel.getSmoothedPercentage()),
@@ -124,7 +123,8 @@ public class GUI {
 					Main.width * exitDuel.getSmoothedPercentage() + (exit.x + exit.width + pauseHover.getSmoothedPercentage() * 100f)
 							* (1 - exitDuel.getSmoothedPercentage()),
 					(Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height) * (1 - exitDuel.getSmoothedPercentage()));
-			glVertex2f(exit.x * (1 - exitDuel.getSmoothedPercentage()), (Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height) * (1 - exitDuel.getSmoothedPercentage()));
+			glVertex2f(exit.x * (1 - exitDuel.getSmoothedPercentage()), (Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height)
+					* (1 - exitDuel.getSmoothedPercentage()));
 			glEnd();
 			Shaders.font.use();
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
@@ -149,13 +149,13 @@ public class GUI {
 	public void recalculatePositions() {
 		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
 	}
-	
+
 	public void addMessage(Message message) {
 		messages.add(message);
 		chatFade.empty();
 		messageOffset = 0;
 	}
-	
+
 	public void addMessage(String message) {
 		addMessage(new Message(message));
 	}

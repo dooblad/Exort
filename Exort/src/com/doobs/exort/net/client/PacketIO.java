@@ -12,12 +12,12 @@ import com.doobs.exort.util.*;
 
 public class PacketIO extends Thread {
 	private GUI gui;
-	
+
 	private DatagramSocket socket;
 	private PacketParser parser;
 	private InetAddress address;
 	private int port;
-	
+
 	public PacketIO(Client client, GUI gui, String address, Level level) {
 		this.gui = gui;
 		port = NetVariables.PORT;
@@ -55,7 +55,7 @@ public class PacketIO extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void exit() {
 		socket.close();
 	}

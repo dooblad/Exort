@@ -3,6 +3,7 @@ package com.doobs.exort.net.client;
 import java.net.*;
 
 import com.doobs.exort.entity.creature.*;
+import com.doobs.exort.entity.projectile.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.packets.*;
@@ -28,7 +29,7 @@ public class PacketParser {
 		case LOGIN:
 			Packet00Login packet = new Packet00Login(data);
 			gui.addMessage(packet.getUsername() + " has joined the game.");
-			NetPlayer player = new NetPlayer(client, packet.getUsername(), null, -1, level);
+			NetPlayer player = new NetPlayer(null, packet.getUsername(), null, -1, level);
 			client.addConnection(player, packet);
 			break;
 		case DISCONNECT:
@@ -43,6 +44,10 @@ public class PacketParser {
 		case CHAT:
 			Packet03Chat chatPacket = new Packet03Chat(data);
 			gui.addMessage(chatPacket.getUsername() + ": " + chatPacket.getMessage());
+			break;
+		case Q:
+			Packet04Q qPacket = new Packet04Q(data);
+			level.addEntity(new QSpell(level.getPlayer(qPacket.getUsername()).getPosition(), qPacket.getDirection(), level));
 		default:
 			break;
 		}

@@ -27,7 +27,7 @@ public class Character {
 
 		this.xo = xOffset;
 		this.yo = yOffset - charHeight;
-		
+
 		this.xa = xAdvance;
 	}
 
@@ -55,7 +55,7 @@ public class Character {
 	public int getYO() {
 		return yo;
 	}
-	
+
 	public int getXA() {
 		return xa;
 	}

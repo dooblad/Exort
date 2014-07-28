@@ -23,14 +23,14 @@ public class Packet02Move extends Packet {
 		this.z = z;
 	}
 
-	public void writeData(Client client) {
-		super.writeData(client, getData());
+	public void sendData(Client client) {
+		super.sendData(client, getData());
 	}
 
-	public void writeData(Server server) {
-		super.writeData(server, getData());
+	public void sendData(Server server) {
+		super.sendData(server, getData());
 	}
-	
+
 	@Override
 	public byte[] getData() {
 		return ("02" + this.username + "," + this.x + "," + this.z).getBytes();

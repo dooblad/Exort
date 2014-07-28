@@ -7,22 +7,26 @@ import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.*;
 
-import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.util.gl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class RayCast {
-	public static void movePlayer(Camera camera, NetPlayer player) {
-		Vector3f plane;
+	// In world coordinates
+	public static float mouseX, mouseZ;
 
-		if (Mouse.isGrabbed())
-			plane = RayCast.getPosition(Display.getWidth() / 2, Display.getHeight() / 2);
+	// Only call after rendering the level
+	public static void tick(Camera camera) {
+		Vector3f position;
+
+		if (!Mouse.isGrabbed())
+			position = getPosition(Mouse.getX(), Mouse.getY());
 		else
-			plane = RayCast.getPosition(Mouse.getX(), Mouse.getY());
+			position = getPosition(Display.getWidth() / 2, Display.getHeight() / 2);
 
-		if (plane != null) {
-			player.move(plane);
+		if (position != null) {
+			mouseX = position.getX();
+			mouseZ = position.getZ();
 		}
 	}
 

@@ -27,7 +27,7 @@ public class Textures {
 		}
 	}
 
-	public static Texture getTexture(String key) {
+	public static Texture get(String key) {
 		return textures.get(key);
 	}
 }

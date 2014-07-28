@@ -6,7 +6,7 @@ import com.doobs.exort.net.server.*;
 public abstract class Packet {
 
 	public static enum PacketType {
-		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02), CHAT(03);
+		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02), CHAT(03), Q(04);
 
 		private int id;
 
@@ -25,11 +25,11 @@ public abstract class Packet {
 		this.packetId = (byte) packetId;
 	}
 
-	public void writeData(Client client, byte[] data) {
+	public void sendData(Client client, byte[] data) {
 		client.sendData(data);
 	}
-	
-	public void writeData(Server server, byte[] data) {
+
+	public void sendData(Server server, byte[] data) {
 		server.sendDataToAllClients(data);
 	}
 

@@ -35,16 +35,17 @@ public class MultiplayerSetupState implements GameState {
 	@Override
 	public void tick(int delta) {
 		if (Main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
-			if(chosen) {
-				if((server && username != ""))
+			if (chosen) {
+				if ((server && username != ""))
 					main.changeState(new DuelState(main, server, username, NetVariables.LOCALHOST));
-				else if(!server && username != "" && address != "")
+				else if (!server && username != "" && address != "")
 					main.changeState(new DuelState(main, server, username, address));
 			} else
 				chosen = true;
 		} else if (!chosen && (Main.input.isKeyPressed(Keyboard.KEY_LEFT) || Main.input.isKeyPressed(Keyboard.KEY_RIGHT)))
 			server = !server;
-		else if (chosen && (Main.input.isKeyPressed(Keyboard.KEY_UP) || Main.input.isKeyPressed(Keyboard.KEY_DOWN) || Main.input.isKeyPressed(Keyboard.KEY_TAB)))
+		else if (chosen
+				&& (Main.input.isKeyPressed(Keyboard.KEY_UP) || Main.input.isKeyPressed(Keyboard.KEY_DOWN) || Main.input.isKeyPressed(Keyboard.KEY_TAB)))
 			typingName = !typingName;
 		else if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			if (chosen)
@@ -99,12 +100,12 @@ public class MultiplayerSetupState implements GameState {
 
 		if (!toPlayerSetup.isEmpty()) {
 			yo = -(int) (Math.cos(percent * Math.PI / 2) * 200);
-			
+
 			if (server) {
 				Fonts.centuryGothic.setColor(1f, 1f, 1f, percent);
 				Fonts.centuryGothic.setSize(35);
 				Fonts.centuryGothic.drawCentered("Username", 0, yo + 35);
-				
+
 				Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
 				Fonts.centuryGothic.setSize(25);
 				Fonts.centuryGothic.drawCentered(username, 0, yo - 35);

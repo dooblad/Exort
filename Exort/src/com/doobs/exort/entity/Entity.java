@@ -7,6 +7,8 @@ public class Entity {
 
 	protected Level level;
 
+	protected boolean removed;
+
 	public Entity() {
 		this(0, 0, 0, null);
 	}
@@ -28,6 +30,11 @@ public class Entity {
 		this.y = y;
 		this.z = z;
 		this.level = level;
+		removed = false;
+	}
+
+	public void remove() {
+		removed = true;
 	}
 
 	// Getters and Setters
@@ -53,5 +60,9 @@ public class Entity {
 
 	public void setZ(double z) {
 		this.z = z;
+	}
+
+	public boolean isRemoved() {
+		return removed;
 	}
 }

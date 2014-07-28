@@ -14,7 +14,7 @@ import com.doobs.exort.state.*;
 
 public class GLTools {
 	private static Main main;
-	
+
 	public static long lastFrame;
 	public static int fps, perFrameFPS;
 	public static long lastFPS;
@@ -116,8 +116,8 @@ public class GLTools {
 		glGetFloat(GL_PROJECTION_MATRIX, orthographicProjectionMatrix);
 		glLoadMatrix(perspectiveProjectionMatrix);
 		glMatrixMode(GL_MODELVIEW);
-		
-		if(main.getCurrentState() instanceof DuelState)
+
+		if (main.getCurrentState() instanceof DuelState)
 			((DuelState) main.getCurrentState()).getGUI().recalculatePositions();
 	}
 

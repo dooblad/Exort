@@ -34,46 +34,47 @@ public class DuelState implements GameState {
 
 	public DuelState(Main main, boolean isServer, String username, String address) {
 		this.main = main;
-		
+
 		gui = new GUI();
-		
+
 		level = new Level();
-		
+
 		if (isServer)
-			server = new Server(gui, level);
-		
-		this.client = new Client(main, isServer, gui, level, address);
-		
-		if(!isServer) {
-			level.addApplicationPlayer(player);
+			server = new Server(this, gui, new Level()); 
+
+		client = new Client(main, gui, level, address);
+
+		if (!isServer) {
+			level.addMainPlayer(player);
 			player = new NetPlayer(client, username, address, client.getPort(), level);
 		}
-		
-		new Packet00Login(username).writeData(this.client);
-		
-		camera = new Camera(0.0f, 3.0f, 0.0f);
+
+		new Packet00Login(username).sendData(this.client);
+
+		camera = new Camera(0.0f, 6.5f, 0.0f);
 
 		typing = false;
 		message = "";
-		
+
 		Mouse.setGrabbed(true);
 	}
 
 	public void tick(int delta) {
-		if(this.player == null && level.getPlayer() != null) {
-			this.player = level.getPlayer();
+		if (this.player == null && level.getMainPlayer() != null) {
+			this.player = level.getMainPlayer();
 			player.setClient(client);
 		}
-		
-		if(gui.exitDuel.isFull()) {
-			if(server != null) server.exit();
+
+		if (gui.exitDuel.isFull()) {
+			if (server != null)
+				server.exit();
 			client.sendData(new Packet01Disconnect(player.getUsername()).getData());
 			client.exit();
 			main.changeState(new MainMenuState(main));
 		}
-		
+
 		gui.tick(paused, delta);
-		
+
 		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			paused = !paused;
 			gui.chatFade.empty();
@@ -84,7 +85,7 @@ public class DuelState implements GameState {
 			camera.reset();
 		else if (Main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
 			if (typing && message.length() != 0) {
-				new Packet03Chat(player.getUsername(), message).writeData(client);
+				new Packet03Chat(player.getUsername(), message).sendData(client);
 				message = "";
 			}
 			typing = !typing;
@@ -113,8 +114,8 @@ public class DuelState implements GameState {
 
 		Lighting.setTextured(true);
 		level.renderLevel();
-		if (!paused && Main.input.isMouseButtonDown(1))
-			RayCast.movePlayer(camera, player);
+		if (!paused)
+			RayCast.tick(camera);
 		level.renderEntities();
 		Lighting.setTextured(false);
 
@@ -133,7 +134,7 @@ public class DuelState implements GameState {
 	public GUI getGUI() {
 		return gui;
 	}
-	
+
 	public Level getLevel() {
 		return level;
 	}
@@ -144,5 +145,9 @@ public class DuelState implements GameState {
 
 	public Camera getCamera() {
 		return camera;
+	}
+
+	public Client getClient() {
+		return client;
 	}
 }

@@ -78,7 +78,7 @@ public class Main {
 	public void changeState(GameState state) {
 		this.state = state;
 	}
-	
+
 	public void exit() {
 		closeRequested = true;
 	}

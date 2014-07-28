@@ -3,22 +3,22 @@ package com.doobs.exort.net.packets;
 import com.doobs.exort.net.client.*;
 import com.doobs.exort.net.server.*;
 
-public class Packet03Chat extends Packet {
+public class Packet04Q extends Packet {
 
 	private String username;
-	private String message;
+	private float direction;
 
-	public Packet03Chat(byte[] data) {
-		super(03);
+	public Packet04Q(byte[] data) {
+		super(04);
 		String[] dataArray = readData(data).split(",");
 		this.username = dataArray[0];
-		this.message = dataArray[1];
+		this.direction = Float.valueOf(dataArray[1]);
 	}
 
-	public Packet03Chat(String username, String message) {
-		super(03);
+	public Packet04Q(String username, float direction) {
+		super(04);
 		this.username = username;
-		this.message = message;
+		this.direction = direction;
 	}
 
 	public void sendData(Client client) {
@@ -31,7 +31,7 @@ public class Packet03Chat extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("03" + this.username + "," + this.message).getBytes();
+		return ("04" + this.username + "," + this.direction).getBytes();
 	}
 
 	// Getters and setters
@@ -39,7 +39,7 @@ public class Packet03Chat extends Packet {
 		return username;
 	}
 
-	public String getMessage() {
-		return message;
+	public float getDirection() {
+		return direction;
 	}
 }

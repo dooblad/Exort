@@ -12,21 +12,19 @@ import com.doobs.exort.state.*;
 
 public class Client {
 	private Main main;
-	
-	private boolean isServer;
-	
+
 	private Level level;
-	private List<NetPlayer> players;
+	private Map<String, NetPlayer> players; // Keeping this here just for the
+											// sake of having the usernames of
+											// all connected players
 
 	private PacketIO handler;
 
-	public Client(Main main, boolean isServer, GUI gui, Level level, String address) {
+	public Client(Main main, GUI gui, Level level, String address) {
 		this.main = main;
-		
-		this.isServer = isServer;
-		
+
 		this.level = level;
-		players = new ArrayList<NetPlayer>();
+		players = new HashMap<String, NetPlayer>();
 
 		handler = new PacketIO(this, gui, address, level);
 		handler.start();
@@ -34,47 +32,35 @@ public class Client {
 
 	public void handleMove(Packet02Move packet) {
 		if (main.getCurrentState() instanceof DuelState)
-			((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getZ());
+			((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), 0, packet.getZ());
 	}
-	
+
 	public void addConnection(NetPlayer player, Packet00Login packet) {
-		if(players.isEmpty()) {
-			level.setPlayer(player);
+		if (players.isEmpty()) {
+			player.setClient(this);
+			level.setMainPlayer(player);
 		}
 
-		boolean alreadyConnected = false;
-		for (NetPlayer p : players) {
-			if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
-				if (p.getAddress() == null)
-					p.setAddress(player.getAddress());
-				alreadyConnected = true;
-			}
-		}
-		if (!alreadyConnected) {
+		if (players.containsKey(player.getUsername())) {
+			NetPlayer p = players.get(packet.getUsername());
+			if (p.getAddress() == null)
+				p.setAddress(player.getAddress());
+		} else
 			addPlayer(player);
-		}
 	}
-	
+
 	public void removeConnection(Packet01Disconnect packet) {
-		players.remove(getNetPlayerIndex(packet.getUsername()));
-		if(!isServer)
-			level.removePlayer(packet.getUsername());
+		players.remove(packet.getUsername());
+		level.removePlayer(packet.getUsername());
 	}
-	
-	public int getNetPlayerIndex(String username) {
-		int index = 0;
-		for (NetPlayer player : players) {
-			if (player.getUsername().equals(username))
-				break;
-			index++;
-		}
-		return index;
+
+	public NetPlayer getNetPlayer(String username) {
+		return players.get(username);
 	}
-	
+
 	public void addPlayer(NetPlayer player) {
-		players.add(player);
-		if(!isServer)
-			level.addEntity(player);
+		players.put(player.getUsername(), player);
+		level.addEntity(player);
 	}
 
 	public void sendData(byte[] data) {

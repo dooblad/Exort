@@ -12,7 +12,7 @@ public class InputHandler {
 	public static final int NUM_OF_KEYS = 256, NUM_OF_MOUSE_BUTTONS = 3;
 
 	public List<java.lang.Character> eventChars;
-	
+
 	public boolean[] keys, oldKeys;
 	public boolean[] mouse, oldMouse;
 
@@ -26,12 +26,12 @@ public class InputHandler {
 
 	public void tick() {
 		eventChars.clear();
-		while(Keyboard.next()) {
-			if(Keyboard.getEventKeyState()) {
+		while (Keyboard.next()) {
+			if (Keyboard.getEventKeyState()) {
 				eventChars.add(Keyboard.getEventCharacter());
 			}
 		}
-		
+
 		Keyboard.poll();
 		Mouse.poll();
 
@@ -51,12 +51,12 @@ public class InputHandler {
 		if (isKeyPressed(Keyboard.KEY_BACK) && phrase.length() != 0) {
 			phrase = phrase.substring(0, phrase.length() - 1);
 		} else {
-			for(char c : eventChars) {
-				if(Fonts.centuryGothic.getCharacter(c) != null)
+			for (char c : eventChars) {
+				if (Fonts.centuryGothic.getCharacter(c) != null)
 					phrase += c;
 			}
 		}
-		
+
 		return phrase;
 	}
 
@@ -70,6 +70,12 @@ public class InputHandler {
 	public boolean isKeyPressed(int keyCode) {
 		if (keyCode < keys.length)
 			return keys[keyCode] && !oldKeys[keyCode];
+		else
+			return false;
+	}
+	public boolean isKeyReleased(int keyCode) {
+		if (keyCode < keys.length)
+			return !keys[keyCode] && oldKeys[keyCode];
 		else
 			return false;
 	}

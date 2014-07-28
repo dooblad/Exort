@@ -25,11 +25,21 @@ public class MovingEntity extends Entity {
 		super(x, y, z, level);
 	}
 
-	public MovingEntity(double x, double y, double z, float xa, float ya, float za, Level level) {
+	public MovingEntity(double x, double y, double z, double xa, double ya, double za, Level level) {
 		super(x, y, z, level);
 		this.xa = xa;
 		this.ya = ya;
 		this.za = za;
+	}
+
+	protected void tick(int delta) {
+		this.x += xa * delta;
+		this.y += ya * delta;
+		this.z += za * delta;
+	}
+
+	protected void render() {
+
 	}
 
 	// Getters and setters

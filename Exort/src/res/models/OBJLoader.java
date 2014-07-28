@@ -120,7 +120,7 @@ public class OBJLoader {
 
 	private static void dumpModelData(String URL, List<Vector3f> vertices, List<Vector3f> verticesTemp, List<Vector2f> texCoords, List<Vector2f> texCoordsTemp,
 			List<Vector3f> normals, List<Vector3f> normalsTemp, List<Face> faces, List<Face> facesTemp) {
-		
+
 		for (int i = 0; i < verticesTemp.size(); i++) {
 			vertices.add(verticesTemp.get(i));
 		}
@@ -156,10 +156,10 @@ public class OBJLoader {
 
 			glActiveTexture(GL_TEXTURE0);
 			try {
-				glBindTexture(GL_TEXTURE_2D, Textures.getTexture(URL.split("\\.")[0]).getID());
+				glBindTexture(GL_TEXTURE_2D, Textures.get(URL.split("\\.")[0]).getID());
 			} catch (NullPointerException e) {
 				System.err.println("No corresponding diffuse texture found for model \"" + URL + "\"");
-				glBindTexture(GL_TEXTURE_2D, Textures.getTexture("missing").getID());
+				glBindTexture(GL_TEXTURE_2D, Textures.get("missing").getID());
 			}
 		}
 

@@ -8,7 +8,7 @@ import com.doobs.exort.net.packets.Packet.PacketType;
 
 public class PacketParser {
 	private GUI gui;
-	
+
 	private Server server;
 	private Level level;
 
@@ -26,7 +26,7 @@ public class PacketParser {
 			break;
 		case LOGIN:
 			Packet00Login loginPacket = new Packet00Login(data);
-			if(loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH)
+			if (loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH)
 				loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
 			gui.addMessage(loginPacket.getUsername() + " has joined the game.");
 			NetPlayer player = new NetPlayer(null, loginPacket.getUsername(), address, port, level);
@@ -43,8 +43,11 @@ public class PacketParser {
 			server.handleMove(new Packet02Move(data));
 			break;
 		case CHAT:
-			Packet03Chat chatPacket = new Packet03Chat(data);
-			server.sendDataToAllClients(chatPacket.getData());
+			server.sendDataToAllClients(data);
+			break;
+		case Q:
+			server.sendDataToAllClients(data);
+			break;
 		default:
 			break;
 		}

@@ -15,7 +15,7 @@ public class Font {
 
 	private float size;
 	private float[] color = new float[] { 1f, 1f, 1f, 1f };
-	
+
 	private Texture texture;
 	private Map<Integer, Character> characters;
 
@@ -52,7 +52,7 @@ public class Font {
 
 				xo = character.getXO() * sizeFactor;
 				yo = character.getYO() * sizeFactor;
-				
+
 				glTexCoord2f(texCoords[0], texCoords[1]);
 				glVertex2f(x + xo, y + yo);
 
