@@ -11,9 +11,10 @@ import org.lwjgl.input.*;
 
 import com.doobs.exort.*;
 import com.doobs.exort.util.*;
-
-import res.shaders.*;
-import res.textures.*;
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.util.Color;
+import com.doobs.modern.util.batch.*;
+import com.doobs.modern.util.matrix.*;
 
 public class GUI {
 	private static final int PADDING = 5;
@@ -27,7 +28,7 @@ public class GUI {
 	public Animation exitDuel;
 	public Animation pauseHover;
 	private boolean exiting;
-	private Rectangle exit;
+	private Rectangle exitBounds;
 
 	public GUI() {
 		messages = new ArrayList<Message>();
@@ -36,7 +37,7 @@ public class GUI {
 		pauseHover = new Animation(8);
 		exitDuel = new Animation(15);
 		exiting = false;
-		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
+		exitBounds = new Rectangle((Main.getWidth() - 250) / 2, (Main.getHeight() - 150) / 2, 250, 150);
 	}
 
 	public void tick(boolean paused, int delta) {
@@ -50,7 +51,7 @@ public class GUI {
 			messageOffset--;
 		}
 
-		if (paused && exit.intersects(Mouse.getX(), Mouse.getY(), 1, 1)) {
+		if (paused && exitBounds.intersects(Mouse.getX(), Mouse.getY(), 1, 1)) {
 			pauseHover.tickUp(delta);
 
 			if (Main.input.isMouseButtonPressed(0)) {
@@ -67,8 +68,16 @@ public class GUI {
 	}
 
 	public void render(String text, boolean paused, boolean typing) {
+		Matrices.switchToOrtho();
+		Matrices.loadIdentity();
+		
+		Shaders.use("font");
+		Matrices.sendMVPMatrix(Shaders.current);
 		Fonts.centuryGothic.setSize(15);
 		Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
+		
+		Shaders.use("gui");
+		Matrices.sendMVPMatrix(Shaders.current);
 
 		glEnable(GL_BLEND);
 		glDisable(GL_DEPTH_TEST);
@@ -77,12 +86,12 @@ public class GUI {
 			chatFade.empty();
 
 			// Draw background
-			Shaders.gui.use();
+			Shaders.use("gui");
 			glActiveTexture(GL_TEXTURE0);
 			Textures.get("white").bind();
 			Dimension d = Fonts.centuryGothic.getPhraseDimensions(text);
-			renderChatBackground(text, d, 10, 10, 1f);
-			Shaders.font.use();
+			renderChatBackground(d, 10, 10, 1f);
+			Shaders.use("font");
 			Fonts.centuryGothic.draw(text, 10, 10);
 		}
 
@@ -96,12 +105,12 @@ public class GUI {
 					d = Fonts.centuryGothic.getPhraseDimensions(message.getText());
 
 					// Draw chat background
-					Shaders.gui.use();
+					Shaders.use("gui");
 					glActiveTexture(GL_TEXTURE0);
 					Textures.get("white").bind();
-					renderChatBackground(message.getText(), d, 10, y, alpha);
+					renderChatBackground(d, 10, y, alpha);
 
-					Shaders.font.use();
+					Shaders.use("font");
 					message.draw(10, y);
 
 					y += d.height + PADDING * 2;
@@ -110,23 +119,39 @@ public class GUI {
 		}
 
 		if (paused) {
-			Shaders.gui.use();
+			Shaders.use("gui");
 			glActiveTexture(GL_TEXTURE0);
 			Textures.get("white").bind();
-			glColor4f(GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] + exitDuel.getSmoothedPercentage() * (1 - GUI_COL[3]));
-			glBegin(GL_QUADS);
-			glVertex2f((exit.x - pauseHover.getSmoothedPercentage() * 100f) * (1 - exitDuel.getSmoothedPercentage()),
-					exit.y * (1 - exitDuel.getSmoothedPercentage()));
-			glVertex2f(Main.width * exitDuel.getSmoothedPercentage() + (exit.x + exit.width) * (1 - exitDuel.getSmoothedPercentage()),
-					exit.y * (1 - exitDuel.getSmoothedPercentage()));
-			glVertex2f(
-					Main.width * exitDuel.getSmoothedPercentage() + (exit.x + exit.width + pauseHover.getSmoothedPercentage() * 100f)
-							* (1 - exitDuel.getSmoothedPercentage()),
-					(Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height) * (1 - exitDuel.getSmoothedPercentage()));
-			glVertex2f(exit.x * (1 - exitDuel.getSmoothedPercentage()), (Main.height * exitDuel.getSmoothedPercentage()) + (exit.y + exit.height)
-					* (1 - exitDuel.getSmoothedPercentage()));
-			glEnd();
-			Shaders.font.use();
+			Color.set(Shaders.current, GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] + exitDuel.getSmoothedPercentage() * (1 - GUI_COL[3]));
+			
+			// Percentages
+			float exit = exitDuel.getSmoothedPercentage();
+			float inverseExit = 1 - exitDuel.getSmoothedPercentage();
+			float hover = pauseHover.getSmoothedPercentage();
+			
+			new SimpleBatch(GL_TRIANGLES, 3, new float[] {
+					(exitBounds.x - hover * 100f) * inverseExit, // 0
+					exitBounds.y * inverseExit, 0f,
+			
+					Main.getWidth() * exit + (exitBounds.x + exitBounds.width) * inverseExit, // 1
+					exitBounds.y * inverseExit, 0f,
+			
+					Main.getWidth() * exit + (exitBounds.x + exitBounds.width + hover * 100f) // 2
+							* inverseExit,
+					(Main.getHeight() * exit) + (exitBounds.y + exitBounds.height) * inverseExit, 0f,
+			
+					(exitBounds.x - hover * 100f) * inverseExit, // 0
+					exitBounds.y * inverseExit, 0f,
+					
+					Main.getWidth() * exit + (exitBounds.x + exitBounds.width + hover * 100f) // 2
+						* inverseExit,
+					(Main.getHeight() * exit) + (exitBounds.y + exitBounds.height) * inverseExit, 0f,
+	
+					exitBounds.x * inverseExit, // 3
+					(Main.getHeight() * exit) + (exitBounds.y + exitBounds.height) * inverseExit, 0f
+			}, null, null, null, null).draw(Shaders.current.getAttributeLocations());
+			
+			Shaders.use("font");
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
 			Fonts.centuryGothic.setSize(40 + pauseHover.getSmoothedPercentage() * 10);
 			Fonts.centuryGothic.drawCentered("EXIT", 0, 0);
@@ -136,18 +161,30 @@ public class GUI {
 		glDisable(GL_BLEND);
 	}
 
-	private static void renderChatBackground(String text, Dimension d, int x, int y, float alpha) {
-		glColor4f(GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] * alpha);
-		glBegin(GL_QUADS);
-		glVertex2f(x - PADDING, y - PADDING);
-		glVertex2f(d.width + x + PADDING, y - PADDING);
-		glVertex2f(d.width + x + PADDING, d.height + y + PADDING);
-		glVertex2f(x - PADDING, d.height + y + PADDING);
-		glEnd();
+	private static void renderChatBackground(Dimension d, int x, int y, float alpha) {
+		Color.set(Shaders.current, GUI_COL[0], GUI_COL[1], GUI_COL[2], GUI_COL[3] * alpha);
+		
+		new SimpleBatch(GL_TRIANGLES, 3, new float[] {
+				x - PADDING, y - PADDING, 0f, 
+				d.width + x + PADDING, y - PADDING, 0f, 
+				d.width + x + PADDING, d.height + y + PADDING, 0f,
+				
+				x - PADDING, y - PADDING, 0f,
+				d.width + x + PADDING, d.height + y + PADDING, 0f,
+				x - PADDING, d.height + y + PADDING, 0f
+		}, null, null, new float[] {
+				0f, 0f,
+				1f, 0f,
+				1f, 1f,
+				
+				0f, 0f,
+				1f, 1f,
+				0f, 1f
+		}, null).draw(Shaders.current.getAttributeLocations());
 	}
 
 	public void recalculatePositions() {
-		exit = new Rectangle((Main.width - 250) / 2, (Main.height - 150) / 2, 250, 150);
+		exitBounds = new Rectangle((Main.getWidth() - 250) / 2, (Main.getHeight() - 150) / 2, 250, 150);
 	}
 
 	public void addMessage(Message message) {

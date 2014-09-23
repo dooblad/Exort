@@ -7,9 +7,13 @@ import java.awt.*;
 import java.util.*;
 
 import com.doobs.exort.*;
-import com.doobs.exort.util.texture.*;
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.util.Color;
+import com.doobs.modern.util.batch.*;
+import com.doobs.modern.util.texture.*;
 
 public class Font {
+	private static final String DIRECTORY = "res/textures/fonts/";
 	private static final int DEFAULT_SIZE = 12;
 	private static final float[] DEFAULT_COLOR = new float[] { 1f, 1f, 1f, 1f };
 
@@ -25,55 +29,81 @@ public class Font {
 			color[i] = DEFAULT_COLOR[i];
 		}
 
-		this.texture = TextureLoader.getTexture("res/textures/fonts/" + URL + ".png", true);
-		this.characters = CharInfoLoader.load(texture, "res/textures/fonts/" + URL + ".txt");
+		this.texture = TextureLoader.getTexture(DIRECTORY + URL + ".png", true);
+		this.characters = CharInfoLoader.load(texture, DIRECTORY + URL + ".txt");
 	}
 
 	public void draw(String phrase, int x, int y) {
-		glColor4f(color[0], color[1], color[2], color[3]);
+		Shaders.use("font");
+		Color.set(Shaders.current, color[0], color[1], color[2], color[3]);
 		glActiveTexture(GL_TEXTURE0);
+		Shaders.current.setUniform1i("texture", 0);
 		texture.bind();
 
 		Character character;
-		float[] texCoords;
+		float[] texCoords = new float[phrase.length() * 8];
+		float[] vertexData = new float[phrase.length() * 16];
+		short[] indexData = new short[phrase.length() * 6];
+
 		float width, height;
 
 		float sizeFactor = getSizeFactor();
 
 		float xo = 0, yo = 0;
 
-		glBegin(GL_QUADS);
 		for (int i = 0; i < phrase.length(); i++) {
 			char temp = phrase.charAt(i);
-			if ((character = characters.get(Integer.valueOf(temp))) != null) {
-				texCoords = character.getTexCoords();
+			if ((character = characters.get((int) temp)) != null) {
 				width = character.getWidth() * sizeFactor;
 				height = character.getHeight() * sizeFactor;
 
 				xo = character.getXO() * sizeFactor;
 				yo = character.getYO() * sizeFactor;
 
-				glTexCoord2f(texCoords[0], texCoords[1]);
-				glVertex2f(x + xo, y + yo);
+				// Tex Coords
+				for (int j = 0; j < 8; j++) {
+					texCoords[i * 8 + j] = character.getTexCoords()[j];
+				}
 
-				glTexCoord2f(texCoords[2], texCoords[3]);
-				glVertex2f(x + xo + width, y + yo);
+				// Vertices
+				vertexData[i * 16] = x + xo;
+				vertexData[i * 16 + 1] = y + yo;
+				vertexData[i * 16 + 2] = 0f;
+				vertexData[i * 16 + 3] = 1f;
 
-				glTexCoord2f(texCoords[4], texCoords[5]);
-				glVertex2f(x + xo + width, y + yo + height);
+				vertexData[i * 16 + 4] = x + xo + width;
+				vertexData[i * 16 + 5] = y + yo;
+				vertexData[i * 16 + 6] = 0f;
+				vertexData[i * 16 + 7] = 1f;
 
-				glTexCoord2f(texCoords[6], texCoords[7]);
-				glVertex2f(x + xo, y + yo + height);
+				vertexData[i * 16 + 8] = x + xo + width;
+				vertexData[i * 16 + 9] = y + yo + height;
+				vertexData[i * 16 + 10] = 0f;
+				vertexData[i * 16 + 11] = 1f;
+
+				vertexData[i * 16 + 12] = x + xo;
+				vertexData[i * 16 + 13] = y + yo + height;
+				vertexData[i * 16 + 14] = 0f;
+				vertexData[i * 16 + 15] = 1f;
+
+				// Indices
+				indexData[i * 6] = (short) (i * 4);
+				indexData[i * 6 + 1] = (short) (i * 4 + 1);
+				indexData[i * 6 + 2] = (short) (i * 4 + 2);
+
+				indexData[i * 6 + 3] = (short) (i * 4);
+				indexData[i * 6 + 4] = (short) (i * 4 + 2);
+				indexData[i * 6 + 5] = (short) (i * 4 + 3);
 
 				x += character.getXA() * sizeFactor;
 			}
 		}
-		glEnd();
+		new SimpleBatch(GL_TRIANGLES, 4, vertexData, null, null, texCoords, indexData).draw(Shaders.current.getAttributeLocations());
 	}
 
 	public void drawCentered(String phrase, int xo, int yo) {
 		Dimension d = getPhraseDimensions(phrase);
-		draw(phrase, (Main.width - d.width) / 2 + xo, (Main.height - d.height) / 2 + yo);
+		draw(phrase, (Main.getWidth() - d.width) / 2 + xo, (Main.getHeight() - d.height) / 2 + yo);
 	}
 
 	// Getters and setters

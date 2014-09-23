@@ -1,12 +1,14 @@
-#version 120
+#version 330
 
-varying vec2 texCoord;
-varying vec4 color;
+uniform mat4 mvpMatrix;
+
+in vec4 inPosition;
+in vec2 inTexCoord;
+
+out vec2 texCoord;
 
 void main() {   
-	gl_Position = gl_ModelViewMatrix * gl_Vertex;
+	gl_Position = mvpMatrix * inPosition;
 	
-	texCoord = gl_MultiTexCoord0.st;
-	
-	color = gl_Color;
+	texCoord = inTexCoord;
 }

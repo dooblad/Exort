@@ -4,13 +4,11 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.input.*;
 
-import res.shaders.*;
-import res.textures.*;
-
 import com.doobs.exort.*;
 import com.doobs.exort.net.*;
 import com.doobs.exort.util.*;
-import com.doobs.exort.util.gl.*;
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.util.matrix.*;
 
 public class MultiplayerSetupState implements GameState {
 	private Main main;
@@ -30,6 +28,8 @@ public class MultiplayerSetupState implements GameState {
 		address = "";
 		toPlayerSetup = new Animation(10);
 		nameAddressSwitch = new Animation(10);
+		
+		Matrices.loadIdentity();
 	}
 
 	@Override
@@ -71,10 +71,9 @@ public class MultiplayerSetupState implements GameState {
 
 	@Override
 	public void render() {
-		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
-		GLTools.switchToOrtho();
-		Shaders.font.use();
+		Matrices.switchToOrtho();
+		Shaders.use("font");
 
 		float percent = toPlayerSetup.getPercentage();
 		int yo;
@@ -125,9 +124,8 @@ public class MultiplayerSetupState implements GameState {
 		}
 
 		Shaders.useDefault();
-		GLTools.switchToPerspective();
+		Matrices.switchToPerspective();
 		glDisable(GL_BLEND);
-		glDisable(GL_TEXTURE_2D);
 	}
 
 }

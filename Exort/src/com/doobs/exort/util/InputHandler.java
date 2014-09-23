@@ -4,9 +4,8 @@ import java.util.*;
 
 import org.lwjgl.input.*;
 
-import res.textures.*;
-
 import com.doobs.exort.util.font.*;
+import com.doobs.exort.util.loaders.*;
 
 public class InputHandler {
 	public static final int NUM_OF_KEYS = 256, NUM_OF_MOUSE_BUTTONS = 3;
@@ -73,6 +72,7 @@ public class InputHandler {
 		else
 			return false;
 	}
+
 	public boolean isKeyReleased(int keyCode) {
 		if (keyCode < keys.length)
 			return !keys[keyCode] && oldKeys[keyCode];

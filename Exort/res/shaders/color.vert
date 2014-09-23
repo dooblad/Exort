@@ -1,8 +1,9 @@
-#version 120
+#version 330
 
-varying vec4 color;
+uniform mat4 mvpMatrix;
+
+in vec4 inPosition;
 
 void main() {   
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-	color = gl_Color;
+	gl_Position = mvpMatrix * inPosition;
 }

@@ -1,8 +1,10 @@
 #version 120
 
-uniform mat4 modelViewMatrix;
+uniform mat4 mvMatrix;
 
-uniform sampler2D diffuseTexture;
+uniform vec4 color;
+
+uniform sampler2D texture;
 uniform sampler2D normalMap;
 uniform bool textured;
 uniform bool normalMapped;
@@ -13,24 +15,25 @@ uniform vec4 lightColor;
 uniform vec4 ambientColor;   
 uniform vec3 falloff;        
 
-varying vec3 position;
-varying vec3 normal; 
-varying vec2 texCoord;
-varying vec4 color;
+in vec3 position;
+in vec3 normal; 
+in vec2 texCoord;
+
+out vec4 fragColor;
 
 void main() {
 	vec4 diffuseColor;
 	vec3 normalColor;
 	
 	if (textured) {
-		diffuseColor = color * texture2D(diffuseTexture, texCoord);	
+		diffuseColor = color * texture2D(texture, texCoord);	
 		if(normalMapped)
 			normalColor = texture2D(normalMap, texCoord).rgb * 2.0 - 1.0;
 	} else {
 		diffuseColor = color;
 	}
 	
-	vec3 worldLightPosition = vec3((modelViewMatrix * vec4(lightPosition, 1.0)).xyz);
+	vec3 worldLightPosition = vec3((mvMatrix * vec4(lightPosition, 1.0)).xyz);
 
     float distance = length(position - worldLightPosition);
 
@@ -51,5 +54,5 @@ void main() {
     vec3 intensity = ambient + diffuse * attenuation;
     vec3 finalColor = diffuseColor.rgb * intensity;
     
-    gl_FragColor = vec4(finalColor, diffuseColor.a);
+    fragColor = vec4(finalColor, diffuseColor.a);
 }

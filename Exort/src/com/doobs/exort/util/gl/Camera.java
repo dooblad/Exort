@@ -3,18 +3,19 @@ package com.doobs.exort.util.gl;
 import static org.lwjgl.input.Keyboard.KEY_LSHIFT;
 import static org.lwjgl.input.Keyboard.KEY_SPACE;
 import static org.lwjgl.input.Keyboard.isKeyDown;
-import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.*;
+
+import com.doobs.modern.util.matrix.*;
 
 public class Camera {
 	private float x, y, z, xa, ya, za;
 	public double rotX, rotY, rotZ;
 
 	private static float rotModifier = 75.0f;
-	private static float moveSpeed = 0.0015f;
+	public static float moveSpeed = 0.0015f;
 	private static float slowFactor = 0.7f;
 
 	public Camera() {
@@ -100,10 +101,10 @@ public class Camera {
 	}
 
 	public void applyTransformations() {
-		glRotated(rotX, 1, 0, 0);
-		glRotated(rotY, 0, 1, 0);
-		glRotated(rotZ, 0, 0, 1);
-		glTranslated(-x, -y, -z);
+		Matrices.rotate((float) -rotX, 1, 0, 0);
+		Matrices.rotate((float) -rotY, 0, 1, 0);
+		Matrices.rotate((float) -rotZ, 0, 0, 1);
+		Matrices.translate(-x, -y, -z);
 	}
 
 	public void reset() {

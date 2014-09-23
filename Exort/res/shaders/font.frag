@@ -1,9 +1,12 @@
-#version 120
+#version 330
 
 uniform sampler2D texture;
 
-varying vec2 texCoord;
-varying vec4 color;
+uniform vec4 color;
+
+in vec2 texCoord;
+
+out vec4 fragColor;
 
 void main() {
 	float alpha = texture2D(texture, texCoord).a;
@@ -20,5 +23,5 @@ void main() {
 	finalColor.a *= color.a;
 	finalColor.a *= smoothstep(0.25, 0.75, alpha);
 	
-    gl_FragColor = finalColor;
+   fragColor = finalColor;
 }

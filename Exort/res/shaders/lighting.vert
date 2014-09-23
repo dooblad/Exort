@@ -1,18 +1,22 @@
-#version 120
+#version 330
 
-varying vec3 position;        
-varying vec3 normal;
-varying vec2 texCoord;
-varying vec4 color;
+uniform mat4 mvpMatrix;
+uniform mat4 mvMatrix;
+
+in vec4 inPosition;
+in vec3 inNormal;
+in vec2 inTexCoord;
+
+out vec3 position;        
+out vec3 normal;
+out vec2 texCoord;
 
 void main() {   
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	gl_Position = mvpMatrix * inPosition;
 	
-	position = (gl_ModelViewMatrix * gl_Vertex).xyz;
+	position = (mvMatrix * inPosition).xyz;
 	
-	normal = normalize(gl_NormalMatrix * gl_Normal);
+	normal = normalize((mvMatrix * vec4(inNormal, 0.0)).xyz);
 	
-	texCoord = gl_MultiTexCoord0.st;
-	
-	color = gl_Color;
+	texCoord = inTexCoord;
 }

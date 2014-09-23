@@ -1,31 +1,26 @@
 package com.doobs.exort;
 
-import static org.lwjgl.opengl.GL11.*;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-
-import res.models.*;
-import res.shaders.*;
-import res.textures.*;
+import org.lwjgl.input.*;
 
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.state.*;
 import com.doobs.exort.util.*;
-import com.doobs.exort.util.gl.*;
+import com.doobs.exort.util.gl.Cursor;
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.*;
+import com.doobs.modern.util.*;
 
-public class Main {
-	public static final String TITLE = "Exort";
-	public static int width = 800, height = 600;
+public class Main implements GameLoop {
+	public static final String TITLE = "Exort Test";
+
+	private static GraphicsContext context;
 
 	public static InputHandler input;
-
-	private boolean closeRequested;
 
 	private GameState state;
 
 	public Main() {
-		GLTools.init(this);
+		context = new GraphicsContext(this);
 		Shaders.init();
 		Lighting.init();
 		Cursor.init();
@@ -35,44 +30,35 @@ public class Main {
 
 		input = new InputHandler();
 
-		closeRequested = false;
-
 		state = new MainMenuState(this);
 
-		run();
+		context.run();
 	}
 
-	public void run() {
-		while (!closeRequested) {
-			tick(GLTools.getDelta());
-			render();
-
-			Display.update();
-			Display.sync(60);
-		}
-
-		System.exit(0);
-	}
-
+	@Override
 	public void tick(int delta) {
+		if(GLTools.wasResized())
+			resize();
+		
 		input.tick();
 
-		if (Display.isCloseRequested())
-			closeRequested = true;
-
-		else if (input.isKeyPressed(Keyboard.KEY_F11))
+		if (input.isKeyPressed(Keyboard.KEY_F11))
 			GLTools.toggleFullscreen();
-
-		GLTools.tick();
 
 		state.tick(delta);
 	}
 
+	@Override
 	public void render() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
-
 		state.render();
+	}
+	
+	private void resize() {
+		
+		
+		if(state instanceof DuelState) {
+			((DuelState) state).getGUI().recalculatePositions();
+		}
 	}
 
 	public void changeState(GameState state) {
@@ -80,7 +66,7 @@ public class Main {
 	}
 
 	public void exit() {
-		closeRequested = true;
+		context.requestExit();
 	}
 
 	public static void main(String[] args) {
@@ -88,6 +74,14 @@ public class Main {
 	}
 
 	// Getters and setters
+	public static int getWidth() {
+		return context.getWidth();
+	}
+
+	public static int getHeight() {
+		return context.getHeight();
+	}
+
 	public GameState getCurrentState() {
 		return state;
 	}

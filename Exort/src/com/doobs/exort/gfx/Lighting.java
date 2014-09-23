@@ -1,14 +1,11 @@
 package com.doobs.exort.gfx;
 
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
-import java.nio.*;
-
-import org.lwjgl.*;
 import org.lwjgl.util.vector.*;
 
-import res.shaders.*;
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.util.shader.*;
 
 /**
  * A helper class for lighting
@@ -26,27 +23,28 @@ public class Lighting {
 	private static Vector3f position;
 
 	public static void init() {
-		Shaders.lighting.use();
+		Shader lighting = Shaders.get("lighting");
+		lighting.use();
 
 		position = new Vector3f(0f, 1f, 0f);
 		position.normalise();
-		Shaders.lighting.setUniform3f("lightPosition", position.getX(), position.getY(), position.getZ());
-		Shaders.lighting.setUniform4f("lightColor", lightColor[0], lightColor[1], lightColor[2], lightColor[3]);
-		Shaders.lighting.setUniform4f("ambientColor", ambientColor[0], ambientColor[1], ambientColor[2], ambientColor[3]);
-		Shaders.lighting.setUniform3f("falloff", falloff[0], falloff[1], falloff[2]);
+		lighting.setUniform3f("lightPosition", position.getX(), position.getY(), position.getZ());
+		lighting.setUniform4f("lightColor", lightColor[0], lightColor[1], lightColor[2], lightColor[3]);
+		lighting.setUniform4f("ambientColor", ambientColor[0], ambientColor[1], ambientColor[2], ambientColor[3]);
+		lighting.setUniform3f("falloff", falloff[0], falloff[1], falloff[2]);
 		setTextured(false);
 		setNormalMapped(false);
-		Shaders.lighting.setUniform1i("diffuseTexture", 0);
-		Shaders.lighting.setUniform1i("normalMap", 1);
+		lighting.setUniform1i("texture", 0);
+		lighting.setUniform1i("normalMap", 1);
 
 		Shaders.useDefault();
 	}
 
 	public static void moveLight(Vector3f position, boolean usingShader) {
 		if (!usingShader)
-			Shaders.lighting.use();
+			Shaders.get("lighting").use();
 
-		int location = glGetUniformLocation(Shaders.lighting.getID(), "lightPosition");
+		int location = glGetUniformLocation(Shaders.get("lighting").getID(), "lightPosition");
 		glUniform3f(location, position.getX(), position.getY(), position.getZ());
 
 		if (!usingShader)
@@ -55,18 +53,12 @@ public class Lighting {
 
 	public static void setTextured(boolean textured) {
 		Lighting.textured = textured;
-		Shaders.lighting.setUniform1i("textured", textured ? 1 : 0);
+		Shaders.get("lighting").setUniform1i("textured", textured ? 1 : 0);
 	}
 
 	public static void setNormalMapped(boolean normalMapped) {
 		Lighting.normalMapped = normalMapped;
-		Shaders.lighting.setUniform1i("normalMapped", normalMapped ? 1 : 0);
-	}
-
-	public static void sendModelViewMatrix() {
-		FloatBuffer modelViewMatrix = BufferUtils.createFloatBuffer(16);
-		glGetFloat(GL_MODELVIEW_MATRIX, modelViewMatrix);
-		Shaders.lighting.setUniformMatrix4("modelViewMatrix", false, modelViewMatrix);
+		Shaders.get("lighting").setUniform1i("normalMapped", normalMapped ? 1 : 0);
 	}
 
 	// Getters and setters

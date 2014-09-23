@@ -1,15 +1,11 @@
 package com.doobs.exort.level;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.util.*;
-
-import res.models.*;
-import res.textures.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.entity.creature.*;
 import com.doobs.exort.entity.projectile.*;
+import com.doobs.exort.util.loaders.*;
 
 public class Level {
 	private NetPlayer player;
@@ -54,9 +50,7 @@ public class Level {
 	}
 
 	public void renderLevel() {
-		glColor4f(1f, 1f, 1f, 1f);
-		Textures.textures.get("arena").bind();
-		Models.stillModels.get("arena").draw();
+		Models.get("arena").draw();
 	}
 
 	public void renderEntities() {
@@ -81,12 +75,14 @@ public class Level {
 	}
 
 	public synchronized void addEntity(Entity entity) {
-		while(entitiesLocked) ;
+		while (entitiesLocked)
+			;
 		entities.add(entity);
 	}
 
 	public synchronized void addMainPlayer(NetPlayer player) {
-		while(entitiesLocked) ;
+		while (entitiesLocked)
+			;
 		this.player = player;
 		entities.add(player);
 	}

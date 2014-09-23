@@ -29,9 +29,10 @@ public class Projectile extends MovingEntity {
 		this(0, 0, 0, 0, 0, 0, 0, null);
 	}
 
+	@Override
 	protected void tick(int delta) {
 		super.tick(delta);
-		if(currentLife-- <= 0)
+		if (currentLife-- <= 0)
 			remove();
 	}
 

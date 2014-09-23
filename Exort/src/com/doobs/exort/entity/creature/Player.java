@@ -1,34 +1,35 @@
 package com.doobs.exort.entity.creature;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import org.lwjgl.util.vector.Vector3f;
-
-import res.models.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.util.*;
+import com.doobs.modern.util.matrix.*;
 
 public class Player extends MovingEntity {
 	public static double[] spawn = new double[] { 0, 0, 0 };
 
 	private float targetX, targetZ;
 
-	private static float moveSpeed = 1f / 50f;
+	private float moveSpeed;
 
 	public Player(double x, double y, double z, Level level) {
 		super(x, y, z, level);
-	}
-
-	public Player() {
-		super();
 		targetX = 0;
 		targetZ = 0;
 		xa = 0;
 		za = 0;
+		moveSpeed = 1f / 50f;
 	}
 
+	public Player() {
+		this(0, 0, 0, null);
+	}
+
+	@Override
 	public void tick(int delta) {
 		// Player movement
 		boolean xDone = false, zDone = false;
@@ -64,23 +65,27 @@ public class Player extends MovingEntity {
 		// Ability handling
 
 		// Update lighting
-		Lighting.moveLight(new Vector3f((float) this.x, 4f, (float) this.z), false);
+		Lighting.moveLight(new Vector3f((float) this.x, 8f, (float) this.z), false);
 	}
 
+	@Override
 	public void render() {
 		// Draw model command
-		glTranslated(x, y, z);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glCallList(Models.stillModels.get("player").getHandle());
+		Matrices.translate(x, y, z);
+		Matrices.sendMVPMatrix(Shaders.current);
+		Color.set(Shaders.current, 1f, 0f, 0f, 1f);
+		Models.get("player").draw();
 
 		// Draw move command
-		glTranslated(targetX - x, 0, targetZ - z);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glCallList(Models.stillModels.get("move").getHandle());
-
+		Matrices.translate(targetX - x, 0, targetZ - z);
+		Matrices.sendMVPMatrix(Shaders.current);
+		Color.set(Shaders.current, 0f, 1f, 0f, 1f);
+		Models.get("move").draw();
+		
 		// Reset
-		glTranslated(-targetX, -y, -targetZ);
-		glColor3f(1.0f, 1.0f, 1.0f);
+		Matrices.translate(-targetX, -y, -targetZ);
+		Matrices.sendMVPMatrix(Shaders.current);
+		Color.set(Shaders.current, 1f, 1f, 1f, 1f);
 	}
 
 	public void move(Vector3f position) {
@@ -119,5 +124,13 @@ public class Player extends MovingEntity {
 		this.targetX = x;
 		this.targetZ = z;
 		calculateSpeeds();
+	}
+	
+	public float getMoveSpeed() {
+		return moveSpeed;
+	}
+	
+	public void setMoveSpeed(float moveSpeed) {
+		this.moveSpeed = moveSpeed;
 	}
 }

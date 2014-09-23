@@ -2,7 +2,7 @@ package com.doobs.exort.util;
 
 import org.lwjgl.util.vector.*;
 
-import res.textures.*;
+import com.doobs.exort.util.loaders.*;
 
 public class Message {
 	private static final Vector4f DEFAULT_COLOR = new Vector4f(1f, 1f, 1f, 1f);

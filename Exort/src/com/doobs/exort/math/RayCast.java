@@ -8,6 +8,8 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.*;
 
 import com.doobs.exort.util.gl.*;
+import com.doobs.modern.util.*;
+import com.doobs.modern.util.matrix.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -32,15 +34,10 @@ public class RayCast {
 
 	public static Vector3f getPosition(int mouseX, int mouseY) {
 		IntBuffer viewport = BufferUtils.createIntBuffer(16);
-		FloatBuffer modelViewBuffer = BufferUtils.createFloatBuffer(16);
-		FloatBuffer projectionBuffer = BufferUtils.createFloatBuffer(16);
-
-		glGetFloat(GL_MODELVIEW_MATRIX, modelViewBuffer);
-		glGetFloat(GL_PROJECTION_MATRIX, projectionBuffer);
 		glGetInteger(GL_VIEWPORT, viewport);
 
-		float[] modelView = GLTools.asFloatArray(modelViewBuffer);
-		float[] projection = GLTools.asFloatArray(projectionBuffer);
+		float[] modelView = Matrices.transform.getModelViewMatrix(); 
+		float[] projection = Matrices.perspective.getProjectionMatrix();
 		float[] a = new float[16];
 		float[] in = new float[4];
 		float[] out;
@@ -55,8 +52,8 @@ public class RayCast {
 		glReadPixels(mouseX, mouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, winZ);
 
 		// Normalized device coordinate transformation
-		in[0] = (mouseX - (float) viewport.get(0)) / (float) viewport.get(2) * 2f - 1f;
-		in[1] = (mouseY - (float) viewport.get(1)) / (float) viewport.get(3) * 2f - 1f;
+		in[0] = (mouseX - (float) viewport.get(0)) / viewport.get(2) * 2f - 1f;
+		in[1] = (mouseY - (float) viewport.get(1)) / viewport.get(3) * 2f - 1f;
 		in[2] = 2f * winZ.get(0) - 1f;
 		in[3] = 1f;
 

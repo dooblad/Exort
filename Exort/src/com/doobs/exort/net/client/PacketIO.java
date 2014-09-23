@@ -32,6 +32,7 @@ public class PacketIO extends Thread {
 		parser = new PacketParser(gui, client, level);
 	}
 
+	@Override
 	public void run() {
 		while (true) {
 			byte[] data = new byte[1024];

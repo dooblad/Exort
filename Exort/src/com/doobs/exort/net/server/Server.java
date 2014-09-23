@@ -52,8 +52,8 @@ public class Server {
 		} else {
 			Iterator<Entry<String, NetPlayer>> iterator = players.entrySet().iterator();
 			while (iterator.hasNext()) {
-				Map.Entry<String, NetPlayer> pairs = (Map.Entry<String, NetPlayer>) iterator.next();
-				NetPlayer p = (NetPlayer) pairs.getValue();
+				Map.Entry<String, NetPlayer> pairs = iterator.next();
+				NetPlayer p = pairs.getValue();
 
 				// Inform new player of existing players
 				handler.sendData(new Packet00Login(p.getUsername()).getData(), player.getAddress(), player.getPort());
@@ -86,8 +86,8 @@ public class Server {
 	public void sendDataToAllClients(byte[] data) {
 		Iterator<Entry<String, NetPlayer>> iterator = players.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<String, NetPlayer> pairs = (Map.Entry<String, NetPlayer>) iterator.next();
-			NetPlayer player = (NetPlayer) pairs.getValue();
+			Map.Entry<String, NetPlayer> pairs = iterator.next();
+			NetPlayer player = pairs.getValue();
 			handler.sendData(data, player.getAddress(), player.getPort());
 			// iterator.remove();
 		}
