@@ -1,17 +1,20 @@
 package com.doobs.exort.entity.creature;
 
-import org.lwjgl.util.vector.Vector3f;
+import java.util.*;
+
+import org.lwjgl.util.vector.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.util.loaders.*;
+import com.doobs.exort.util.sat.*;
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
 public class Player extends MovingEntity {
 	public static double[] spawn = new double[] { 0, 0, 0 };
-
+	
 	private float targetX, targetZ;
 
 	private float moveSpeed;
@@ -23,6 +26,7 @@ public class Player extends MovingEntity {
 		xa = 0;
 		za = 0;
 		moveSpeed = 1f / 50f;
+		bb = new BB((float) x, 2.5f, (float) z, 2.5f);
 	}
 
 	public Player() {
@@ -58,10 +62,25 @@ public class Player extends MovingEntity {
 			this.z = targetZ;
 			za = 0;
 		}
+		
+		super.tick(delta);
 
-		this.x += xa * delta;
-		this.z += za * delta;
+		//bb.move((float) x - 1.25f, (float) z - 1.25f);
 
+		// Check collisions
+		//while(level.entitiesLocked()) ;
+		Iterator<Entity> iterator = level.getEntities().iterator();
+		while(iterator.hasNext()) {
+			Entity entity = iterator.next();
+			
+			if(entity != null && entity.getBB().colliding(bb) && entity != this) {
+				if(entity instanceof MovingEntity) {
+					((MovingEntity) entity).stop();
+					stop();
+				}
+			}
+		}
+		
 		// Ability handling
 
 		// Update lighting
@@ -70,6 +89,9 @@ public class Player extends MovingEntity {
 
 	@Override
 	public void render() {
+		bb.render();
+		Shaders.use("lighting");
+		
 		// Draw model command
 		Matrices.translate(x, y, z);
 		Matrices.sendMVPMatrix(Shaders.current);
@@ -88,10 +110,14 @@ public class Player extends MovingEntity {
 		Color.set(Shaders.current, 1f, 1f, 1f, 1f);
 	}
 
+	/**
+	 * Sets a new destination for the player
+	 * @param position the vector position for the player's new destination
+	 */
 	public void move(Vector3f position) {
 		if (position.getX() != this.x || position.getZ() != this.z) {
-			targetX = position.getX();
-			targetZ = position.getZ();
+			targetX = position.x;
+			targetZ = position.z;
 			calculateSpeeds();
 		}
 	}

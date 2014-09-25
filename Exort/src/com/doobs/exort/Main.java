@@ -54,8 +54,6 @@ public class Main implements GameLoop {
 	}
 	
 	private void resize() {
-		
-		
 		if(state instanceof DuelState) {
 			((DuelState) state).getGUI().recalculatePositions();
 		}

@@ -36,10 +36,18 @@ public class MovingEntity extends Entity {
 		this.x += xa * delta;
 		this.y += ya * delta;
 		this.z += za * delta;
+		
+		bb.move((float) x, (float) z);
 	}
 
 	protected void render() {
 
+	}
+	
+	public void stop() {
+		xa = 0;
+		ya = 0;
+		za = 0;
 	}
 
 	// Getters and setters

@@ -13,7 +13,7 @@ public class Projection {
 	}
 	
 	public boolean overlaps(Projection p) {
-		return p.getMin() > max || p.getMax() < min;
+		return !(p.getMin() > max || p.getMax() < min);
 	}
 
 	// Getters and setters

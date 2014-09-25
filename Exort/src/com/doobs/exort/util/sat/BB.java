@@ -1,6 +1,12 @@
 package com.doobs.exort.util.sat;
 
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.*;
+
+import com.doobs.exort.util.loaders.*;
+import com.doobs.modern.util.*;
+import com.doobs.modern.util.batch.*;
+import com.doobs.modern.util.matrix.*;
 
 /**
  * Utility class for Oriented Bounding Boxes (OBBs) that rotate around the center of their shape
@@ -11,21 +17,37 @@ public class BB {
 	private float angle;
 	
 	private Vector2f[] vertices;
+	private float width, length;
 	
 	public BB(float x, float width, float z, float length) {
 		angle = 0;
 		vertices = new Vector2f[4];
-		vertices[0] = new Vector2f(x, z);
-		vertices[1] = new Vector2f(x + width, z);
-		vertices[2] = new Vector2f(x + width, z + length);
-		vertices[3] = new Vector2f(x, z + length);
+		this.width = width;
+		this.length = length;
+		move(x, z);
 	}
 	
 	public BB() {
 		this(0, 0, 0, 0);
 	}
 	
-	public void rotate(float angle) {
+	public void render() {
+		Shaders.use("color");
+		Color.set(Shaders.current, 1f, 0f, 1f, 1f);
+		Matrices.sendMVPMatrix(Shaders.current);
+		new SimpleBatch(GL11.GL_LINES, 3, new float[] {
+				vertices[0].x - width / 2, 0.2f, vertices[0].y - length / 2,
+				vertices[1].x - width / 2, 0.2f, vertices[1].y - length / 2,
+				vertices[1].x - width / 2, 0.2f, vertices[1].y - length / 2,
+				vertices[2].x - width / 2, 0.2f, vertices[2].y - length / 2,
+				vertices[2].x - width / 2, 0.2f, vertices[2].y - length / 2,
+				vertices[3].x - width / 2, 0.2f, vertices[3].y - length / 2,
+				vertices[3].x - width / 2, 0.2f, vertices[3].y - length / 2,
+				vertices[0].x - width / 2, 0.2f, vertices[0].y - length / 2,
+		}, null, null, null, null).draw(Shaders.current.getAttributeLocations());
+	}
+	
+	public void rotate(double angle) {
 		this.angle += angle;
 		
 	}
@@ -55,8 +77,6 @@ public class BB {
 			// The axis must be normalized to get accurate projections
 			double p = Vector2f.dot(axis, vertices[i]);
 			
-			System.out.println(axis.x);
-			
 			if(p < min) {
 				min = p;
 			} else if(p > max) {
@@ -69,6 +89,8 @@ public class BB {
 	}
 	
 	public boolean colliding(BB bb) {
+		double overlap = 1000;
+		Vector2f smallest = null;
 		Vector2f[] axes1 = getAxes();
 		Vector2f[] axes2 = bb.getAxes();
 		
@@ -98,14 +120,14 @@ public class BB {
 		
 		return true;
 	}
-
-	public static void main(String[] args) {
-		BB shape1 = new BB(1, 4, 1, 4);
-		BB shape2 = new BB(0, 3, 0, 3);
-		
-		System.out.println(shape1.colliding(shape2));
-	}
 	
+	public void move(float x, float z) {
+		vertices[0] = new Vector2f(x, z);
+		vertices[1] = new Vector2f(x + width, z);
+		vertices[2] = new Vector2f(x + width, z + length);
+		vertices[3] = new Vector2f(x, z + length);
+	}
+
 	// Getters and setters
 	public float getAngle() {
 		return angle;
@@ -113,5 +135,21 @@ public class BB {
 
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+	
+	public float getWidth() {
+		return width;
+	}
+	
+	public void setWidth(float width) {
+		this.width = width;
+	}
+	
+	public float getLength() {
+		return length;
+	}
+	
+	public void setLength(float length) {
+		this.length = length;
 	}
 }

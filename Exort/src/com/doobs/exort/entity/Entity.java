@@ -1,8 +1,11 @@
 package com.doobs.exort.entity;
 
 import com.doobs.exort.level.*;
+import com.doobs.exort.util.sat.*;
 
 public class Entity {
+	protected BB bb;
+	
 	protected double x, y, z;
 
 	protected Level level;
@@ -38,6 +41,14 @@ public class Entity {
 	}
 
 	// Getters and Setters
+	public BB getBB() {
+		return bb;
+	}
+	
+	public void setBB(BB bb) {
+		this.bb = bb;
+	}
+	
 	public double getX() {
 		return x;
 	}

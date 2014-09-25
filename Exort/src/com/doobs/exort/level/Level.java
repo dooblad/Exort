@@ -128,4 +128,12 @@ public class Level {
 	public void setMainPlayer(NetPlayer player) {
 		this.player = player;
 	}
+	
+	public List<Entity> getEntities() {
+		return entities;
+	}
+	
+	public boolean entitiesLocked() {
+		return entitiesLocked;
+	}
 }
