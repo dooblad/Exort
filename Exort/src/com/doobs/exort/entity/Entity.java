@@ -6,7 +6,7 @@ import com.doobs.exort.util.sat.*;
 public class Entity {
 	protected BB bb;
 	
-	protected double x, y, z;
+	public double x, y, z;
 
 	protected Level level;
 

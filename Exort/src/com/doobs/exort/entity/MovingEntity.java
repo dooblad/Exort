@@ -3,7 +3,7 @@ package com.doobs.exort.entity;
 import com.doobs.exort.level.*;
 
 public class MovingEntity extends Entity {
-	protected double xa, ya, za;
+	public double xa, ya, za;
 
 	public MovingEntity() {
 		this(0, 0, 0, null);

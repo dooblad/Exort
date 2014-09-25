@@ -14,7 +14,7 @@ import com.doobs.modern.util.matrix.*;
 
 public class Player extends MovingEntity {
 	public static double[] spawn = new double[] { 0, 0, 0 };
-	
+
 	private float targetX, targetZ;
 
 	private float moveSpeed;
@@ -62,25 +62,36 @@ public class Player extends MovingEntity {
 			this.z = targetZ;
 			za = 0;
 		}
-		
+
 		super.tick(delta);
 
-		//bb.move((float) x - 1.25f, (float) z - 1.25f);
-
 		// Check collisions
-		//while(level.entitiesLocked()) ;
 		Iterator<Entity> iterator = level.getEntities().iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
-			
-			if(entity != null && entity.getBB().colliding(bb) && entity != this) {
-				if(entity instanceof MovingEntity) {
-					((MovingEntity) entity).stop();
+			//MTV mtv = null;
+			Vector2f mtv = null;
+			if (entity != null && entity != this && (mtv = bb.colliding(entity.getBB())) != null ) {
+				if (entity instanceof MovingEntity) {
+					MovingEntity mEntity = (MovingEntity) entity;
+					mEntity.stop();
 					stop();
+
+					// Divide by 2 so each entity is repelled by an equal amount
+					// (no momentum)
+					if (mtv != null) {
+						entity.x += mtv.x;
+						entity.z += mtv.y;
+
+						mEntity.x += -mtv.x;
+						mEntity.z += -mtv.y;
+						
+						System.out.println("X: " + mtv.x + " Y: " + mtv.y);
+					}
 				}
 			}
 		}
-		
+
 		// Ability handling
 
 		// Update lighting
@@ -91,7 +102,7 @@ public class Player extends MovingEntity {
 	public void render() {
 		bb.render();
 		Shaders.use("lighting");
-		
+
 		// Draw model command
 		Matrices.translate(x, y, z);
 		Matrices.sendMVPMatrix(Shaders.current);
@@ -103,7 +114,7 @@ public class Player extends MovingEntity {
 		Matrices.sendMVPMatrix(Shaders.current);
 		Color.set(Shaders.current, 0f, 1f, 0f, 1f);
 		Models.get("move").draw();
-		
+
 		// Reset
 		Matrices.translate(-targetX, -y, -targetZ);
 		Matrices.sendMVPMatrix(Shaders.current);
@@ -112,7 +123,9 @@ public class Player extends MovingEntity {
 
 	/**
 	 * Sets a new destination for the player
-	 * @param position the vector position for the player's new destination
+	 * 
+	 * @param position
+	 *            the vector position for the player's new destination
 	 */
 	public void move(Vector3f position) {
 		if (position.getX() != this.x || position.getZ() != this.z) {
@@ -151,11 +164,11 @@ public class Player extends MovingEntity {
 		this.targetZ = z;
 		calculateSpeeds();
 	}
-	
+
 	public float getMoveSpeed() {
 		return moveSpeed;
 	}
-	
+
 	public void setMoveSpeed(float moveSpeed) {
 		this.moveSpeed = moveSpeed;
 	}

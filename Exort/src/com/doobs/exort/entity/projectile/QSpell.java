@@ -14,7 +14,7 @@ public class QSpell extends Projectile {
 
 	public QSpell(double x, double y, double z, double xa, double ya, double za, Level level) {
 		super(x, y, z, xa, ya, za, LIFE, level);
-		bb = new BB((float) x, 3f, (float) y, 3f);
+		bb = new BB((float) x, 1f, (float) y, 1f);
 	}
 
 	public QSpell(Vector3f position, double xa, double ya, double za, Level level) {

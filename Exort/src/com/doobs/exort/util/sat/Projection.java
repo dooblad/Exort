@@ -15,6 +15,13 @@ public class Projection {
 	public boolean overlaps(Projection p) {
 		return !(p.getMin() > max || p.getMax() < min);
 	}
+	
+	public double getOverlap(Projection p) {
+		double smallest = max - p.getMin();
+		if(min - p.getMax() < smallest) smallest = p.getMax() - min;
+		// If it returns negative values, they're not overlapping
+		return smallest;
+	}
 
 	// Getters and setters
 	public double getMin() {
