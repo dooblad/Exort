@@ -47,7 +47,7 @@ public class PacketParser {
 			break;
 		case Q:
 			Packet04Q qPacket = new Packet04Q(data);
-			level.addEntity(new QSpell(level.getPlayer(qPacket.getUsername()).getPosition(), qPacket.getDirection(), level));
+			level.addEntity(new SonicWave(level.getPlayer(qPacket.getUsername()).getPosition(), qPacket.getDirection(), level));
 		default:
 			break;
 		}

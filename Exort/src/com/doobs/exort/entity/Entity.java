@@ -35,6 +35,14 @@ public class Entity {
 		this.level = level;
 		removed = false;
 	}
+	
+	protected void tick(int delta) {
+		
+	}
+	
+	protected void render() {
+		
+	}
 
 	public void remove() {
 		removed = true;

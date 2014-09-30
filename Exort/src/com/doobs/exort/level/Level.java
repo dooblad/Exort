@@ -37,8 +37,8 @@ public class Level {
 					iterator.remove();
 				else if (entity instanceof NetPlayer)
 					((NetPlayer) entity).tick(delta);
-				else if (entity instanceof QSpell)
-					((QSpell) entity).tick(delta);
+				else if (entity instanceof SonicWave)
+					((SonicWave) entity).tick(delta);
 			}
 		}
 		entitiesLocked = false;
@@ -61,8 +61,8 @@ public class Level {
 
 			if (entity instanceof NetPlayer)
 				((NetPlayer) entity).render();
-			else if (entity instanceof QSpell)
-				((QSpell) entity).render();
+			else if (entity instanceof SonicWave)
+				((SonicWave) entity).render();
 		}
 		entitiesLocked = false;
 	}

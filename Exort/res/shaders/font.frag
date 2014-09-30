@@ -6,7 +6,7 @@ uniform vec4 color;
 
 in vec2 texCoord;
 
-out vec4 fragColor;
+varying out vec4 fragColor;
 
 void main() {
 	float alpha = texture2D(texture, texCoord).a;
