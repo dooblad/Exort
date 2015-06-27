@@ -9,41 +9,43 @@ public class Animation {
 	}
 
 	public void tickUp(int delta) {
-		if (current < max)
-			current++;
+		if (this.current < this.max) {
+			this.current++;
+		}
 	}
 
 	public void tickDown(int delta) {
-		if ((--current) < 0)
-			current = 0;
+		if ((--this.current) < 0) {
+			this.current = 0;
+		}
 	}
 
 	public void fill() {
-		current = max;
+		this.current = this.max;
 	}
 
 	public void empty() {
-		current = 0;
+		this.current = 0;
 	}
 
 	// Getters and setters
 	public int getProgress() {
-		return current;
+		return this.current;
 	}
 
 	public float getPercentage() {
-		return (float) current / (float) max;
+		return (float) this.current / (float) this.max;
 	}
 
 	public float getSmoothedPercentage() {
-		return (float) Math.sin(((float) current / (float) max) * Math.PI / 2);
+		return (float) Math.sin((((float) this.current / (float) this.max) * Math.PI) / 2);
 	}
 
 	public boolean isFull() {
-		return current >= max;
+		return this.current >= this.max;
 	}
 
 	public boolean isEmpty() {
-		return current <= 0;
+		return this.current <= 0;
 	}
 }

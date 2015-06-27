@@ -31,11 +31,10 @@
 
 package com.doobs.exort.util.vecmath;
 
-import java.lang.Math;
 
 /**
  * A 4-element tuple represented by signed integer x,y,z,w coordinates.
- * 
+ *
  * @since vecmath 1.2
  */
 public abstract class Tuple4i implements java.io.Serializable, Cloneable {
@@ -63,17 +62,16 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	public int w;
 
 	/**
-	 * Constructs and initializes a Tuple4i from the specified x, y, z, and w
-	 * coordinates.
-	 * 
+	 * Constructs and initializes a Tuple4i from the specified x, y, z, and w coordinates.
+	 *
 	 * @param x
-	 *            the x coordinate
+	 *        the x coordinate
 	 * @param y
-	 *            the y coordinate
+	 *        the y coordinate
 	 * @param z
-	 *            the z coordinate
+	 *        the z coordinate
 	 * @param w
-	 *            the w coordinate
+	 *        the w coordinate
 	 */
 	public Tuple4i(int x, int y, int z, int w) {
 		this.x = x;
@@ -84,9 +82,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple4i from the array of length 4.
-	 * 
+	 *
 	 * @param t
-	 *            the array of length 4 containing x, y, z, and w in order.
+	 *        the array of length 4 containing x, y, z, and w in order.
 	 */
 	public Tuple4i(int[] t) {
 		this.x = t[0];
@@ -97,9 +95,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple4i from the specified Tuple4i.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple4i containing the initialization x, y, z, and w data.
+	 *        the Tuple4i containing the initialization x, y, z, and w data.
 	 */
 	public Tuple4i(Tuple4i t1) {
 		this.x = t1.x;
@@ -120,15 +118,15 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the specified x, y, z, and w coordinates.
-	 * 
+	 *
 	 * @param x
-	 *            the x coordinate
+	 *        the x coordinate
 	 * @param y
-	 *            the y coordinate
+	 *        the y coordinate
 	 * @param z
-	 *            the z coordinate
+	 *        the z coordinate
 	 * @param w
-	 *            the w coordinate
+	 *        the w coordinate
 	 */
 	public final void set(int x, int y, int z, int w) {
 		this.x = x;
@@ -138,11 +136,10 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the specified coordinates in the array of
-	 * length 4.
-	 * 
+	 * Sets the value of this tuple to the specified coordinates in the array of length 4.
+	 *
 	 * @param t
-	 *            the array of length 4 containing x, y, z, and w in order.
+	 *        the array of length 4 containing x, y, z, and w in order.
 	 */
 	public final void set(int[] t) {
 		this.x = t[0];
@@ -153,9 +150,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the value of tuple t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the tuple to be copied
+	 *        the tuple to be copied
 	 */
 	public final void set(Tuple4i t1) {
 		this.x = t1.x;
@@ -166,9 +163,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Copies the values of this tuple into the array t.
-	 * 
+	 *
 	 * @param t
-	 *            the array
+	 *        the array
 	 */
 	public final void get(int[] t) {
 		t[0] = this.x;
@@ -179,9 +176,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Copies the values of this tuple into the tuple t.
-	 * 
+	 *
 	 * @param t
-	 *            the target tuple
+	 *        the target tuple
 	 */
 	public final void get(Tuple4i t) {
 		t.x = this.x;
@@ -192,11 +189,11 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the sum of tuples t1 and t2.
-	 * 
+	 *
 	 * @param t1
-	 *            the first tuple
+	 *        the first tuple
 	 * @param t2
-	 *            the second tuple
+	 *        the second tuple
 	 */
 	public final void add(Tuple4i t1, Tuple4i t2) {
 		this.x = t1.x + t2.x;
@@ -207,9 +204,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the sum of itself and t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the other tuple
+	 *        the other tuple
 	 */
 	public final void add(Tuple4i t1) {
 		this.x += t1.x;
@@ -219,13 +216,13 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the difference of tuples t1 and t2 (this
-	 * = t1 - t2).
-	 * 
+	 * Sets the value of this tuple to the difference of tuples t1 and t2 (this = t1 -
+	 * t2).
+	 *
 	 * @param t1
-	 *            the first tuple
+	 *        the first tuple
 	 * @param t2
-	 *            the second tuple
+	 *        the second tuple
 	 */
 	public final void sub(Tuple4i t1, Tuple4i t2) {
 		this.x = t1.x - t2.x;
@@ -235,11 +232,10 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the difference of itself and t1 (this =
-	 * this - t1).
-	 * 
+	 * Sets the value of this tuple to the difference of itself and t1 (this = this - t1).
+	 *
 	 * @param t1
-	 *            the other tuple
+	 *        the other tuple
 	 */
 	public final void sub(Tuple4i t1) {
 		this.x -= t1.x;
@@ -250,9 +246,9 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the negation of tuple t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the source tuple
+	 *        the source tuple
 	 */
 	public final void negate(Tuple4i t1) {
 		this.x = -t1.x;
@@ -273,11 +269,11 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the scalar multiplication of tuple t1.
-	 * 
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param t1
-	 *            the source tuple
+	 *        the source tuple
 	 */
 	public final void scale(int s, Tuple4i t1) {
 		this.x = s * t1.x;
@@ -287,11 +283,11 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the scalar multiplication of the scale
-	 * factor with this.
-	 * 
+	 * Sets the value of this tuple to the scalar multiplication of the scale factor with
+	 * this.
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 */
 	public final void scale(int s) {
 		this.x *= s;
@@ -301,43 +297,42 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the scalar multiplication of tuple t1
-	 * plus tuple t2 (this = s*t1 + t2).
-	 * 
+	 * Sets the value of this tuple to the scalar multiplication of tuple t1 plus tuple t2
+	 * (this = s*t1 + t2).
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param t1
-	 *            the tuple to be multipled
+	 *        the tuple to be multipled
 	 * @param t2
-	 *            the tuple to be added
+	 *        the tuple to be added
 	 */
 	public final void scaleAdd(int s, Tuple4i t1, Tuple4i t2) {
-		this.x = s * t1.x + t2.x;
-		this.y = s * t1.y + t2.y;
-		this.z = s * t1.z + t2.z;
-		this.w = s * t1.w + t2.w;
+		this.x = (s * t1.x) + t2.x;
+		this.y = (s * t1.y) + t2.y;
+		this.z = (s * t1.z) + t2.z;
+		this.w = (s * t1.w) + t2.w;
 	}
 
 	/**
-	 * Sets the value of this tuple to the scalar multiplication of itself and
-	 * then adds tuple t1 (this = s*this + t1).
-	 * 
+	 * Sets the value of this tuple to the scalar multiplication of itself and then adds
+	 * tuple t1 (this = s*this + t1).
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param t1
-	 *            the tuple to be added
+	 *        the tuple to be added
 	 */
 	public final void scaleAdd(int s, Tuple4i t1) {
-		this.x = s * this.x + t1.x;
-		this.y = s * this.y + t1.y;
-		this.z = s * this.z + t1.z;
-		this.w = s * this.w + t1.w;
+		this.x = (s * this.x) + t1.x;
+		this.y = (s * this.y) + t1.y;
+		this.z = (s * this.z) + t1.z;
+		this.w = (s * this.w) + t1.w;
 	}
 
 	/**
-	 * Returns a string that contains the values of this Tuple4i. The form is
-	 * (x,y,z,w).
-	 * 
+	 * Returns a string that contains the values of this Tuple4i. The form is (x,y,z,w).
+	 *
 	 * @return the String representation
 	 */
 	public String toString() {
@@ -345,18 +340,17 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the Object t1 is of type Tuple4i and all of the data
-	 * members of t1 are equal to the corresponding data members in this
-	 * Tuple4i.
-	 * 
+	 * Returns true if the Object t1 is of type Tuple4i and all of the data members of t1
+	 * are equal to the corresponding data members in this Tuple4i.
+	 *
 	 * @param t1
-	 *            the object with which the comparison is made
+	 *        the object with which the comparison is made
 	 * @return true or false
 	 */
 	public boolean equals(Object t1) {
 		try {
 			Tuple4i t2 = (Tuple4i) t1;
-			return (this.x == t2.x && this.y == t2.y && this.z == t2.z && this.w == t2.w);
+			return ((this.x == t2.x) && (this.y == t2.y) && (this.z == t2.z) && (this.w == t2.w));
 		} catch (NullPointerException e2) {
 			return false;
 		} catch (ClassCastException e1) {
@@ -365,243 +359,250 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns a hash code value based on the data values in this object. Two
-	 * different Tuple4i objects with identical data values (i.e.,
-	 * Tuple4i.equals returns true) will return the same hash code value. Two
-	 * objects with different data members may return the same hash value,
-	 * although this is not likely.
-	 * 
+	 * Returns a hash code value based on the data values in this object. Two different
+	 * Tuple4i objects with identical data values (i.e., Tuple4i.equals returns true) will
+	 * return the same hash code value. Two objects with different data members may return
+	 * the same hash value, although this is not likely.
+	 *
 	 * @return the integer hash code value
 	 */
 	public int hashCode() {
 		long bits = 1L;
-		bits = 31L * bits + (long) x;
-		bits = 31L * bits + (long) y;
-		bits = 31L * bits + (long) z;
-		bits = 31L * bits + (long) w;
+		bits = (31L * bits) + this.x;
+		bits = (31L * bits) + this.y;
+		bits = (31L * bits) + this.z;
+		bits = (31L * bits) + this.w;
 		return (int) (bits ^ (bits >> 32));
 	}
 
 	/**
-	 * Clamps the tuple parameter to the range [low, high] and places the values
-	 * into this tuple.
-	 * 
+	 * Clamps the tuple parameter to the range [low, high] and places the values into this
+	 * tuple.
+	 *
 	 * @param min
-	 *            the lowest value in the tuple after clamping
+	 *        the lowest value in the tuple after clamping
 	 * @param max
-	 *            the highest value in the tuple after clamping
+	 *        the highest value in the tuple after clamping
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void clamp(int min, int max, Tuple4i t) {
 		if (t.x > max) {
-			x = max;
+			this.x = max;
 		} else if (t.x < min) {
-			x = min;
+			this.x = min;
 		} else {
-			x = t.x;
+			this.x = t.x;
 		}
 
 		if (t.y > max) {
-			y = max;
+			this.y = max;
 		} else if (t.y < min) {
-			y = min;
+			this.y = min;
 		} else {
-			y = t.y;
+			this.y = t.y;
 		}
 
 		if (t.z > max) {
-			z = max;
+			this.z = max;
 		} else if (t.z < min) {
-			z = min;
+			this.z = min;
 		} else {
-			z = t.z;
+			this.z = t.z;
 		}
 
 		if (t.w > max) {
-			w = max;
+			this.w = max;
 		} else if (t.w < min) {
-			w = min;
+			this.w = min;
 		} else {
-			w = t.w;
+			this.w = t.w;
 		}
 	}
 
 	/**
-	 * Clamps the minimum value of the tuple parameter to the min parameter and
-	 * places the values into this tuple.
-	 * 
+	 * Clamps the minimum value of the tuple parameter to the min parameter and places the
+	 * values into this tuple.
+	 *
 	 * @param min
-	 *            the lowest value in the tuple after clamping
+	 *        the lowest value in the tuple after clamping
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void clampMin(int min, Tuple4i t) {
 		if (t.x < min) {
-			x = min;
+			this.x = min;
 		} else {
-			x = t.x;
+			this.x = t.x;
 		}
 
 		if (t.y < min) {
-			y = min;
+			this.y = min;
 		} else {
-			y = t.y;
+			this.y = t.y;
 		}
 
 		if (t.z < min) {
-			z = min;
+			this.z = min;
 		} else {
-			z = t.z;
+			this.z = t.z;
 		}
 
 		if (t.w < min) {
-			w = min;
+			this.w = min;
 		} else {
-			w = t.w;
+			this.w = t.w;
 		}
 
 	}
 
 	/**
-	 * Clamps the maximum value of the tuple parameter to the max parameter and
-	 * places the values into this tuple.
-	 * 
+	 * Clamps the maximum value of the tuple parameter to the max parameter and places the
+	 * values into this tuple.
+	 *
 	 * @param max
-	 *            the highest value in the tuple after clamping
+	 *        the highest value in the tuple after clamping
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void clampMax(int max, Tuple4i t) {
 		if (t.x > max) {
-			x = max;
+			this.x = max;
 		} else {
-			x = t.x;
+			this.x = t.x;
 		}
 
 		if (t.y > max) {
-			y = max;
+			this.y = max;
 		} else {
-			y = t.y;
+			this.y = t.y;
 		}
 
 		if (t.z > max) {
-			z = max;
+			this.z = max;
 		} else {
-			z = t.z;
+			this.z = t.z;
 		}
 
 		if (t.w > max) {
-			w = max;
+			this.w = max;
 		} else {
-			w = t.z;
+			this.w = t.z;
 		}
 	}
 
 	/**
-	 * Sets each component of the tuple parameter to its absolute value and
-	 * places the modified values into this tuple.
-	 * 
+	 * Sets each component of the tuple parameter to its absolute value and places the
+	 * modified values into this tuple.
+	 *
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void absolute(Tuple4i t) {
-		x = Math.abs(t.x);
-		y = Math.abs(t.y);
-		z = Math.abs(t.z);
-		w = Math.abs(t.w);
+		this.x = Math.abs(t.x);
+		this.y = Math.abs(t.y);
+		this.z = Math.abs(t.z);
+		this.w = Math.abs(t.w);
 	}
 
 	/**
 	 * Clamps this tuple to the range [low, high].
-	 * 
+	 *
 	 * @param min
-	 *            the lowest value in this tuple after clamping
+	 *        the lowest value in this tuple after clamping
 	 * @param max
-	 *            the highest value in this tuple after clamping
+	 *        the highest value in this tuple after clamping
 	 */
 	public final void clamp(int min, int max) {
-		if (x > max) {
-			x = max;
-		} else if (x < min) {
-			x = min;
+		if (this.x > max) {
+			this.x = max;
+		} else if (this.x < min) {
+			this.x = min;
 		}
 
-		if (y > max) {
-			y = max;
-		} else if (y < min) {
-			y = min;
+		if (this.y > max) {
+			this.y = max;
+		} else if (this.y < min) {
+			this.y = min;
 		}
 
-		if (z > max) {
-			z = max;
-		} else if (z < min) {
-			z = min;
+		if (this.z > max) {
+			this.z = max;
+		} else if (this.z < min) {
+			this.z = min;
 		}
 
-		if (w > max) {
-			w = max;
-		} else if (w < min) {
-			w = min;
+		if (this.w > max) {
+			this.w = max;
+		} else if (this.w < min) {
+			this.w = min;
 		}
 	}
 
 	/**
 	 * Clamps the minimum value of this tuple to the min parameter.
-	 * 
+	 *
 	 * @param min
-	 *            the lowest value in this tuple after clamping
+	 *        the lowest value in this tuple after clamping
 	 */
 	public final void clampMin(int min) {
-		if (x < min)
-			x = min;
+		if (this.x < min) {
+			this.x = min;
+		}
 
-		if (y < min)
-			y = min;
+		if (this.y < min) {
+			this.y = min;
+		}
 
-		if (z < min)
-			z = min;
+		if (this.z < min) {
+			this.z = min;
+		}
 
-		if (w < min)
-			w = min;
+		if (this.w < min) {
+			this.w = min;
+		}
 	}
 
 	/**
 	 * Clamps the maximum value of this tuple to the max parameter.
-	 * 
+	 *
 	 * @param max
-	 *            the highest value in the tuple after clamping
+	 *        the highest value in the tuple after clamping
 	 */
 	public final void clampMax(int max) {
-		if (x > max)
-			x = max;
+		if (this.x > max) {
+			this.x = max;
+		}
 
-		if (y > max)
-			y = max;
+		if (this.y > max) {
+			this.y = max;
+		}
 
-		if (z > max)
-			z = max;
+		if (this.z > max) {
+			this.z = max;
+		}
 
-		if (w > max)
-			w = max;
+		if (this.w > max) {
+			this.w = max;
+		}
 	}
 
 	/**
 	 * Sets each component of this tuple to its absolute value.
 	 */
 	public final void absolute() {
-		x = Math.abs(x);
-		y = Math.abs(y);
-		z = Math.abs(z);
-		w = Math.abs(w);
+		this.x = Math.abs(this.x);
+		this.y = Math.abs(this.y);
+		this.z = Math.abs(this.z);
+		this.w = Math.abs(this.w);
 	}
 
 	/**
 	 * Creates a new object of the same class as this object.
-	 * 
+	 *
 	 * @return a clone of this instance.
 	 * @exception OutOfMemoryError
-	 *                if there is not enough memory.
+	 *            if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
@@ -617,21 +618,21 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>x</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>x</i> coordinate.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final int getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
 	 * Set the <i>x</i> coordinate.
-	 * 
+	 *
 	 * @param x
-	 *            value to <i>x</i> coordinate.
-	 * 
+	 *        value to <i>x</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setX(int x) {
@@ -640,21 +641,21 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>y</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>y</i> coordinate.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final int getY() {
-		return y;
+		return this.y;
 	}
 
 	/**
 	 * Set the <i>y</i> coordinate.
-	 * 
+	 *
 	 * @param y
-	 *            value to <i>y</i> coordinate.
-	 * 
+	 *        value to <i>y</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setY(int y) {
@@ -663,21 +664,21 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>z</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>z</i> coordinate.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final int getZ() {
-		return z;
+		return this.z;
 	}
 
 	/**
 	 * Set the <i>z</i> coordinate.
-	 * 
+	 *
 	 * @param z
-	 *            value to <i>z</i> coordinate.
-	 * 
+	 *        value to <i>z</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setZ(int z) {
@@ -686,20 +687,20 @@ public abstract class Tuple4i implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>w</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>w</i> coordinate.
 	 * @since vecmath 1.5
 	 */
 	public final int getW() {
-		return w;
+		return this.w;
 	}
 
 	/**
 	 * Set the <i>w</i> coordinate.
-	 * 
+	 *
 	 * @param w
-	 *            value to <i>w</i> coordinate.
-	 * 
+	 *        value to <i>w</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setW(int w) {

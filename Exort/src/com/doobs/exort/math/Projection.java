@@ -9,19 +9,19 @@ public class Projection {
 	}
 
 	public boolean overlaps(Projection projection) {
-		return max >= projection.getMin() && projection.getMax() >= min;
+		return (this.max >= projection.getMin()) && (projection.getMax() >= this.min);
 	}
 
 	public void print() {
-		System.out.println("Projection[" + min + ", " + max + "]");
+		System.out.println("Projection[" + this.min + ", " + this.max + "]");
 	}
 
 	// Getters and Setters
 	public float getMin() {
-		return min;
+		return this.min;
 	}
 
 	public float getMax() {
-		return max;
+		return this.max;
 	}
 }

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ModernGL">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Exort/lib/ModernGL.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

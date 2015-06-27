@@ -10,7 +10,7 @@ public class Packet03Chat extends Packet {
 
 	public Packet03Chat(byte[] data) {
 		super(03);
-		String[] dataArray = readData(data).split(",");
+		String[] dataArray = this.readData(data).split(",");
 		this.username = dataArray[0];
 		this.message = dataArray[1];
 	}
@@ -22,11 +22,11 @@ public class Packet03Chat extends Packet {
 	}
 
 	public void sendData(Client client) {
-		super.sendData(client, getData());
+		super.sendData(client, this.getData());
 	}
 
 	public void sendData(Server server) {
-		super.sendData(server, getData());
+		super.sendData(server, this.getData());
 	}
 
 	@Override
@@ -36,10 +36,10 @@ public class Packet03Chat extends Packet {
 
 	// Getters and setters
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
 }

@@ -12,17 +12,18 @@ public class Face {
 	}
 
 	public Vector3f getVertex() {
-		return vertex;
+		return this.vertex;
 	}
 
 	public Vector3f getTexCoord() {
-		if (texCoord == null)
+		if (this.texCoord == null) {
 			return new Vector3f(0f, 0f, 0f);
-		else
-			return texCoord;
+		} else {
+			return this.texCoord;
+		}
 	}
 
 	public Vector3f getNormal() {
-		return normal;
+		return this.normal;
 	}
 }

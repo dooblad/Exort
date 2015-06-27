@@ -10,37 +10,44 @@ import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
 public class RockWall extends Entity {
-	public static final int LIFE = 120;
-	
+	public static final int LIFE = 60;
+
 	private int currentLife;
 
-	public RockWall(double x, double y, double z, Level level) {
-		super(x, y, z, level);
-		bb = new BB((float) x, 1f, (float) y, 1f);
-		currentLife = LIFE;
+	private float direction;
+
+	public RockWall(double x, double z, float direction, Level level) {
+		super(x, z, level);
+		this.bb = new BB((float) x, 0.7f, (float) z, 2f);
+		this.bb.rotate(direction);
+		this.currentLife = LIFE;
+		this.direction = (float) (Math.toDegrees(direction));
 	}
 
-	public RockWall(Vector3f position, Level level) {
-		this(position.getX(), position.getY(), position.getZ(), level);
+	public RockWall(Vector3f position, float direction, Level level) {
+		this(position.getX(), position.getZ(), direction, level);
 	}
 
 	@Override
 	public void tick(int delta) {
-		if(--currentLife < 0)
-			remove();
+		if (--this.currentLife < 0) {
+			this.remove();
+		}
 	}
 
 	@Override
 	public void render() {
-		bb.render();
-		
+		this.bb.render();
+
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);
+		Matrices.rotate(this.direction, 0, 1, 0);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Color.set(Shaders.current, 0.3f, 0.3f, 1.0f, 1.0f);
 		Models.get("rockWall").draw();
 
 		// Reset
+		Matrices.rotate(this.direction, 0, -1, 0);
 		Matrices.translate(-this.x, -this.y, -this.z);
 	}
 }

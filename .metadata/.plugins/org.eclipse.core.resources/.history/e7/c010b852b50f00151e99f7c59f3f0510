@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) {
+	System.out
+		.println("Printing numbers between 0 and 100 with difficulty 8...");
+	System.out.println(findDifficulties(8, 0, 100));
+    }
+
+    /**
+     * Post: Returns a List of all numbers with "difficulty" between "min" and
+     * "max" (inclusive).
+     */
+    private static List<Integer> findDifficulties(int difficulty, int min,
+						  int max) {
+	List<Integer> result = new ArrayList<Integer>();
+	for (int n = Math.max(0, min); n <= max; n++) {
+	    if (difficultyMatches(0, difficulty, n)) {
+	    }
+	}
+	return result;
+    }
+
+    private static boolean difficultyMatches(int i, int difficulty, int n) {
+	// Single digit with "difficulty".
+	if (n < 10 && i == difficulty) {
+	    return true;
+	} else if (n >= 10) {
+
+	}
+	return false;
+    }
+}

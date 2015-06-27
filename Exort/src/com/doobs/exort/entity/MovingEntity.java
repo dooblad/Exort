@@ -4,6 +4,7 @@ import com.doobs.exort.level.*;
 
 public class MovingEntity extends Entity {
 	public double xa, ya, za;
+	protected float direction;
 
 	public MovingEntity() {
 		this(0, 0, 0, null);
@@ -32,27 +33,27 @@ public class MovingEntity extends Entity {
 		this.za = za;
 	}
 
-	protected void tick(int delta) {
-		this.x += xa * delta;
-		this.y += ya * delta;
-		this.z += za * delta;
-		
-		bb.move((float) x, (float) z);
+	public void tick(int delta) {
+		this.x += this.xa * delta;
+		this.y += this.ya * delta;
+		this.z += this.za * delta;
+
+		this.bb.move((float) this.x, (float) this.z);
 	}
 
-	protected void render() {
+	public void render() {
 
 	}
-	
+
 	public void stop() {
-		xa = 0;
-		ya = 0;
-		za = 0;
+		this.xa = 0;
+		this.ya = 0;
+		this.za = 0;
 	}
 
 	// Getters and setters
 	public double getXA() {
-		return xa;
+		return this.xa;
 	}
 
 	public void setXA(double xa) {
@@ -60,7 +61,7 @@ public class MovingEntity extends Entity {
 	}
 
 	public double getYA() {
-		return ya;
+		return this.ya;
 	}
 
 	public void setYA(double ya) {
@@ -68,10 +69,18 @@ public class MovingEntity extends Entity {
 	}
 
 	public double getZA() {
-		return za;
+		return this.za;
 	}
 
 	public void setZA(double za) {
 		this.za = za;
+	}
+
+	public float getDirection() {
+		return this.direction;
+	}
+
+	public void setDirection(float direction) {
+		this.direction = direction;
 	}
 }

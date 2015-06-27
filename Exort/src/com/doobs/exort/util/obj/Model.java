@@ -12,41 +12,41 @@ public class Model {
 	private Texture texture;
 
 	private SimpleBatch batch;
-	
+
 	public float[] vertices, normals, texCoords;
 
 	public Model() {
 
 	}
-	
 
 	public Model(Vector3f[] vertices, Vector3f[] normals, Vector2f[] texCoords) {
-		generate();
+		this.generate();
 	}
-	
+
 	public void generate() {
-		batch = new SimpleBatch(GL_TRIANGLES, 3, vertices, null, normals, texCoords, null);
+		this.batch = new SimpleBatch(GL_TRIANGLES, 3, this.vertices, null, this.normals, this.texCoords, null);
 	}
 
 	public void draw() {
 		Shaders.current.setUniform1i("texture", 0);
-		if(texture != null)
-			texture.bind();
-		batch.draw(Shaders.current.getAttributeLocations());
+		if (this.texture != null) {
+			this.texture.bind();
+		}
+		this.batch.draw(Shaders.current.getAttributeLocations());
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	
+
 	// Getter and setters
 	public Texture getTexture() {
-		return texture;
+		return this.texture;
 	}
-	
+
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
 
 	public SimpleBatch getBatch() {
-		return batch;
+		return this.batch;
 	}
 
 	public void setBatch(SimpleBatch batch) {
@@ -54,7 +54,7 @@ public class Model {
 	}
 
 	public float[] getVertices() {
-		return vertices;
+		return this.vertices;
 	}
 
 	public void setVertices(float[] vertices) {
@@ -62,7 +62,7 @@ public class Model {
 	}
 
 	public float[] getNormals() {
-		return normals;
+		return this.normals;
 	}
 
 	public void setNormals(float[] normals) {
@@ -70,7 +70,7 @@ public class Model {
 	}
 
 	public float[] getTexCoords() {
-		return texCoords;
+		return this.texCoords;
 	}
 
 	public void setTexCoords(float[] texCoords) {

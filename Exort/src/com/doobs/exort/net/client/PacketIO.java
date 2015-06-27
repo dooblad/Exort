@@ -5,6 +5,7 @@ import java.net.*;
 
 import org.lwjgl.util.vector.*;
 
+import com.doobs.exort.*;
 import com.doobs.exort.gfx.*;
 import com.doobs.exort.level.*;
 import com.doobs.exort.net.*;
@@ -18,56 +19,55 @@ public class PacketIO extends Thread {
 	private InetAddress address;
 	private int port;
 
-	public PacketIO(Client client, GUI gui, String address, Level level) {
+	public PacketIO(Main main, Client client, GUI gui, String address, Level level) {
 		this.gui = gui;
-		port = NetVariables.PORT;
+		this.port = NetVariables.PORT;
 		try {
-			socket = new DatagramSocket();
+			this.socket = new DatagramSocket();
 			this.address = InetAddress.getByName(address);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		parser = new PacketParser(gui, client, level);
+		this.parser = new PacketParser(main, gui, client, level);
 	}
 
-	@Override
 	public void run() {
 		while (true) {
 			byte[] data = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			try {
-				socket.receive(packet);
+				this.socket.receive(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 				break;
 			}
-			gui.addMessage(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f, 0f, 1f)));
-			parser.parsePacket(data, packet.getAddress(), packet.getPort());
+			this.gui.addMessage(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f, 0f,
+					1f)));
+			this.parser.parsePacket(data, packet.getAddress(), packet.getPort());
 		}
 	}
 
 	public void sendData(byte[] data) {
-		DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
+		DatagramPacket packet = new DatagramPacket(data, data.length, this.address, this.port);
 		try {
-			socket.send(packet);
+			this.socket.send(packet);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void exit() {
-		socket.close();
+		this.socket.close();
 	}
 
-	// Getters and setters
 	public PacketParser getParser() {
-		return parser;
+		return this.parser;
 	}
 
 	public InetAddress getAddress() {
-		return address;
+		return this.address;
 	}
 
 	public void setAddress(InetAddress address) {
@@ -75,6 +75,6 @@ public class PacketIO extends Thread {
 	}
 
 	public int getPort() {
-		return port;
+		return this.port;
 	}
 }

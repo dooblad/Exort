@@ -22,34 +22,38 @@ public class PacketParser {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		switch (type) {
-		case INVALID:
-			break;
-		case LOGIN:
-			Packet00Login loginPacket = new Packet00Login(data);
-			if (loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH)
-				loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
-			gui.addMessage(loginPacket.getUsername() + " has joined the game.");
-			NetPlayer player = new NetPlayer(null, loginPacket.getUsername(), address, port, level);
-			server.addConnection(player, loginPacket);
-			break;
-		case DISCONNECT:
-			Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-			if (server.getPlayer(disconnectPacket.getUsername()) != null) {
-				gui.addMessage(disconnectPacket.getUsername() + " has left the game.");
-				server.removeConnection(disconnectPacket);
-			}
-			break;
-		case MOVE:
-			server.handleMove(new Packet02Move(data));
-			break;
-		case CHAT:
-			server.sendDataToAllClients(data);
-			break;
-		case Q:
-			server.sendDataToAllClients(data);
-			break;
-		default:
-			break;
+			case INVALID:
+				break;
+			case LOGIN:
+				Packet00Login loginPacket = new Packet00Login(data);
+				if (loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH) {
+					loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
+				}
+				this.gui.addMessage(loginPacket.getUsername() + " has joined the game.");
+				NetPlayer player = new NetPlayer(null, loginPacket.getUsername(), address, port, this.level, null);
+				this.server.addConnection(player, loginPacket);
+				break;
+			case DISCONNECT:
+				Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
+				if (this.server.getPlayer(disconnectPacket.getUsername()) != null) {
+					this.gui.addMessage(disconnectPacket.getUsername() + " has left the game.");
+					this.server.removeConnection(disconnectPacket);
+				}
+				break;
+			case MOVE:
+				this.server.handleMove(new Packet02Move(data));
+				break;
+			case CHAT:
+				this.server.sendDataToAllClients(data);
+				break;
+			case SONIC_WAVE:
+				this.server.sendDataToAllClients(data);
+				break;
+			case ROCK_WALL:
+				this.server.sendDataToAllClients(data);
+				break;
+			default:
+				break;
 		}
 	}
 }

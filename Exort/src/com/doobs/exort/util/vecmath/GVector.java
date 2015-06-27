@@ -31,11 +31,10 @@
 
 package com.doobs.exort.util.vecmath;
 
-import java.lang.Math;
 
 /**
- * A double precision, general, dynamically-resizable, one-dimensional vector
- * class. Index numbering begins with zero.
+ * A double precision, general, dynamically-resizable, one-dimensional vector class. Index
+ * numbering begins with zero.
  */
 
 public class GVector implements java.io.Serializable, Cloneable {
@@ -49,154 +48,151 @@ public class GVector implements java.io.Serializable, Cloneable {
 	/**
 	 * Constructs a new GVector of the specified length with all vector elements
 	 * initialized to 0.
-	 * 
+	 *
 	 * @param length
-	 *            the number of elements in this GVector.
+	 *        the number of elements in this GVector.
 	 */
 	public GVector(int length) {
 		int i;
 
 		this.length = length;
-		values = new double[length];
-		for (i = 0; i < length; i++)
-			values[i] = 0.0;
+		this.values = new double[length];
+		for (i = 0; i < length; i++) {
+			this.values[i] = 0.0;
+		}
 	}
 
 	/**
-	 * Constructs a new GVector from the specified array elements. The length of
-	 * this GVector is set to the length of the specified array. The array
-	 * elements are copied into this new GVector.
-	 * 
+	 * Constructs a new GVector from the specified array elements. The length of this
+	 * GVector is set to the length of the specified array. The array elements are copied
+	 * into this new GVector.
+	 *
 	 * @param vector
-	 *            the values for the new GVector.
+	 *        the values for the new GVector.
 	 */
 	public GVector(double[] vector) {
 		int i;
 
-		length = vector.length;
-		values = new double[vector.length];
-		for (i = 0; i < length; i++)
-			values[i] = vector[i];
+		this.length = vector.length;
+		this.values = new double[vector.length];
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = vector[i];
+		}
 	}
 
 	/**
-	 * Constructs a new GVector from the specified vector. The vector elements
-	 * are copied into this new GVector.
-	 * 
+	 * Constructs a new GVector from the specified vector. The vector elements are copied
+	 * into this new GVector.
+	 *
 	 * @param vector
-	 *            the source GVector for this new GVector.
+	 *        the source GVector for this new GVector.
 	 */
 	public GVector(GVector vector) {
 		int i;
 
-		values = new double[vector.length];
-		length = vector.length;
-		for (i = 0; i < length; i++)
-			values[i] = vector.values[i];
+		this.values = new double[vector.length];
+		this.length = vector.length;
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = vector.values[i];
+		}
 	}
 
 	/**
-	 * Constructs a new GVector and copies the initial values from the specified
-	 * tuple.
-	 * 
+	 * Constructs a new GVector and copies the initial values from the specified tuple.
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's initial values
+	 *        the source for the new GVector's initial values
 	 */
 	public GVector(Tuple2f tuple) {
-		values = new double[2];
-		values[0] = (double) tuple.x;
-		values[1] = (double) tuple.y;
-		length = 2;
+		this.values = new double[2];
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.length = 2;
 	}
 
 	/**
-	 * Constructs a new GVector and copies the initial values from the specified
-	 * tuple.
-	 * 
+	 * Constructs a new GVector and copies the initial values from the specified tuple.
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's initial values
+	 *        the source for the new GVector's initial values
 	 */
 	public GVector(Tuple3f tuple) {
-		values = new double[3];
-		values[0] = (double) tuple.x;
-		values[1] = (double) tuple.y;
-		values[2] = (double) tuple.z;
-		length = 3;
+		this.values = new double[3];
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		this.length = 3;
 	}
 
 	/**
-	 * Constructs a new GVector and copies the initial values from the specified
-	 * tuple.
-	 * 
+	 * Constructs a new GVector and copies the initial values from the specified tuple.
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's initial values
+	 *        the source for the new GVector's initial values
 	 */
 	public GVector(Tuple3d tuple) {
-		values = new double[3];
-		values[0] = tuple.x;
-		values[1] = tuple.y;
-		values[2] = tuple.z;
-		length = 3;
+		this.values = new double[3];
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		this.length = 3;
 	}
 
 	/**
-	 * Constructs a new GVector and copies the initial values from the specified
-	 * tuple.
-	 * 
+	 * Constructs a new GVector and copies the initial values from the specified tuple.
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's initial values
+	 *        the source for the new GVector's initial values
 	 */
 	public GVector(Tuple4f tuple) {
-		values = new double[4];
-		values[0] = (double) tuple.x;
-		values[1] = (double) tuple.y;
-		values[2] = (double) tuple.z;
-		values[3] = (double) tuple.w;
-		length = 4;
+		this.values = new double[4];
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		this.values[3] = tuple.w;
+		this.length = 4;
 	}
 
 	/**
-	 * Constructs a new GVector and copies the initial values from the specified
-	 * tuple.
-	 * 
+	 * Constructs a new GVector and copies the initial values from the specified tuple.
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's initial values
+	 *        the source for the new GVector's initial values
 	 */
 	public GVector(Tuple4d tuple) {
-		values = new double[4];
-		values[0] = tuple.x;
-		values[1] = tuple.y;
-		values[2] = tuple.z;
-		values[3] = tuple.w;
-		length = 4;
+		this.values = new double[4];
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		this.values[3] = tuple.w;
+		this.length = 4;
 	}
 
 	/**
-	 * Constructs a new GVector of the specified length and initializes it by
-	 * copying the specified number of elements from the specified array. The
-	 * array must contain at least <code>length</code> elements (i.e.,
-	 * <code>vector.length</code> >= <code>length</code>. The length of this new
-	 * GVector is set to the specified length.
-	 * 
+	 * Constructs a new GVector of the specified length and initializes it by copying the
+	 * specified number of elements from the specified array. The array must contain at
+	 * least <code>length</code> elements (i.e., <code>vector.length</code> >=
+	 * <code>length</code>. The length of this new GVector is set to the specified length.
+	 *
 	 * @param vector
-	 *            The array from which the values will be copied.
+	 *        The array from which the values will be copied.
 	 * @param length
-	 *            The number of values copied from the array.
+	 *        The number of values copied from the array.
 	 */
 	public GVector(double vector[], int length) {
 		int i;
 
 		this.length = length;
-		values = new double[length];
+		this.values = new double[length];
 		for (i = 0; i < length; i++) {
-			values[i] = vector[i];
+			this.values[i] = vector[i];
 		}
 	}
 
 	/**
-	 * Returns the square root of the sum of the squares of this vector (its
-	 * length in n-dimensional space).
-	 * 
+	 * Returns the square root of the sum of the squares of this vector (its length in
+	 * n-dimensional space).
+	 *
 	 * @return length of this vector
 	 */
 
@@ -204,8 +200,8 @@ public class GVector implements java.io.Serializable, Cloneable {
 		double sq = 0.0;
 		int i;
 
-		for (i = 0; i < length; i++) {
-			sq += values[i] * values[i];
+		for (i = 0; i < this.length; i++) {
+			sq += this.values[i] * this.values[i];
 		}
 
 		return (Math.sqrt(sq));
@@ -213,17 +209,17 @@ public class GVector implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns the sum of the squares of this vector (its length squared in
-	 * n-dimensional space).
-	 * 
+	 * Returns the sum of the squares of this vector (its length squared in n-dimensional
+	 * space).
+	 *
 	 * @return length squared of this vector
 	 */
 	public final double normSquared() {
 		double sq = 0.0;
 		int i;
 
-		for (i = 0; i < length; i++) {
-			sq += values[i] * values[i];
+		for (i = 0; i < this.length; i++) {
+			sq += this.values[i] * this.values[i];
 		}
 
 		return (sq);
@@ -231,26 +227,27 @@ public class GVector implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this vector to the normalization of vector v1.
-	 * 
+	 *
 	 * @param v1
-	 *            the un-normalized vector
+	 *        the un-normalized vector
 	 */
 	public final void normalize(GVector v1) {
 		double sq = 0.0;
 		int i;
 
-		if (length != v1.length)
+		if (this.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector0"));
+		}
 
-		for (i = 0; i < length; i++) {
+		for (i = 0; i < this.length; i++) {
 			sq += v1.values[i] * v1.values[i];
 		}
 
 		double invMag;
 		invMag = 1.0 / Math.sqrt(sq);
 
-		for (i = 0; i < length; i++) {
-			values[i] = v1.values[i] * invMag;
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = v1.values[i] * invMag;
 		}
 	}
 
@@ -261,218 +258,231 @@ public class GVector implements java.io.Serializable, Cloneable {
 		double sq = 0.0;
 		int i;
 
-		for (i = 0; i < length; i++) {
-			sq += values[i] * values[i];
+		for (i = 0; i < this.length; i++) {
+			sq += this.values[i] * this.values[i];
 		}
 
 		double invMag;
 		invMag = 1.0 / Math.sqrt(sq);
 
-		for (i = 0; i < length; i++) {
-			values[i] = values[i] * invMag;
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = this.values[i] * invMag;
 		}
 
 	}
 
 	/**
-	 * Sets the value of this vector to the scalar multiplication of the scale
-	 * factor with the vector v1.
-	 * 
+	 * Sets the value of this vector to the scalar multiplication of the scale factor with
+	 * the vector v1.
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param v1
-	 *            the source vector
+	 *        the source vector
 	 */
 	public final void scale(double s, GVector v1) {
 		int i;
-		if (length != v1.length)
+		if (this.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector1"));
+		}
 
-		for (i = 0; i < length; i++) {
-			values[i] = v1.values[i] * s;
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = v1.values[i] * s;
 		}
 	}
 
 	/**
 	 * Scales this vector by the scale factor s.
-	 * 
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 */
 	public final void scale(double s) {
 		int i;
 
-		for (i = 0; i < length; i++) {
-			values[i] = values[i] * s;
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = this.values[i] * s;
 		}
 	}
 
 	/**
-	 * Sets the value of this vector to the scalar multiplication by s of vector
-	 * v1 plus vector v2 (this = s*v1 + v2).
-	 * 
+	 * Sets the value of this vector to the scalar multiplication by s of vector v1 plus
+	 * vector v2 (this = s*v1 + v2).
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param v1
-	 *            the vector to be multiplied
+	 *        the vector to be multiplied
 	 * @param v2
-	 *            the vector to be added
+	 *        the vector to be added
 	 */
 	public final void scaleAdd(double s, GVector v1, GVector v2) {
 
 		int i;
 
-		if (v2.length != v1.length)
+		if (v2.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector2"));
+		}
 
-		if (length != v1.length)
+		if (this.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector3"));
+		}
 
-		for (i = 0; i < length; i++) {
-			values[i] = v1.values[i] * s + v2.values[i];
+		for (i = 0; i < this.length; i++) {
+			this.values[i] = (v1.values[i] * s) + v2.values[i];
 		}
 	}
 
 	/**
 	 * Sets the value of this vector to sum of itself and the specified vector
-	 * 
+	 *
 	 * @param vector
-	 *            the second vector
+	 *        the second vector
 	 */
 	public final void add(GVector vector) {
 		int i;
 
-		if (length != vector.length)
+		if (this.length != vector.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector4"));
+		}
 
-		for (i = 0; i < length; i++) {
+		for (i = 0; i < this.length; i++) {
 			this.values[i] += vector.values[i];
 		}
 	}
 
 	/**
-	 * Sets the value of this vector to the vector sum of vectors vector1 and
-	 * vector2.
-	 * 
+	 * Sets the value of this vector to the vector sum of vectors vector1 and vector2.
+	 *
 	 * @param vector1
-	 *            the first vector
+	 *        the first vector
 	 * @param vector2
-	 *            the second vector
+	 *        the second vector
 	 */
 	public final void add(GVector vector1, GVector vector2) {
 		int i;
 
-		if (vector1.length != vector2.length)
+		if (vector1.length != vector2.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector5"));
+		}
 
-		if (length != vector1.length)
+		if (this.length != vector1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector6"));
+		}
 
-		for (i = 0; i < length; i++)
+		for (i = 0; i < this.length; i++) {
 			this.values[i] = vector1.values[i] + vector2.values[i];
+		}
 	}
 
 	/**
-	 * Sets the value of this vector to the vector difference of itself and
-	 * vector (this = this - vector).
-	 * 
+	 * Sets the value of this vector to the vector difference of itself and vector (this =
+	 * this - vector).
+	 *
 	 * @param vector
-	 *            the other vector
+	 *        the other vector
 	 */
 	public final void sub(GVector vector) {
 		int i;
 
-		if (length != vector.length)
+		if (this.length != vector.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector7"));
+		}
 
-		for (i = 0; i < length; i++) {
+		for (i = 0; i < this.length; i++) {
 			this.values[i] -= vector.values[i];
 		}
 	}
 
 	/**
-	 * Sets the value of this vector to the vector difference of vectors vector1
-	 * and vector2 (this = vector1 - vector2).
-	 * 
+	 * Sets the value of this vector to the vector difference of vectors vector1 and
+	 * vector2 (this = vector1 - vector2).
+	 *
 	 * @param vector1
-	 *            the first vector
+	 *        the first vector
 	 * @param vector2
-	 *            the second vector
+	 *        the second vector
 	 */
 	public final void sub(GVector vector1, GVector vector2) {
 		int i;
 
-		if (vector1.length != vector2.length)
+		if (vector1.length != vector2.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector8"));
+		}
 
-		if (length != vector1.length)
+		if (this.length != vector1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector9"));
+		}
 
-		for (i = 0; i < length; i++)
+		for (i = 0; i < this.length; i++) {
 			this.values[i] = vector1.values[i] - vector2.values[i];
+		}
 	}
 
 	/**
-	 * Multiplies matrix m1 times Vector v1 and places the result into this
-	 * vector (this = m1*v1).
-	 * 
+	 * Multiplies matrix m1 times Vector v1 and places the result into this vector (this =
+	 * m1*v1).
+	 *
 	 * @param m1
-	 *            The matrix in the multiplication
+	 *        The matrix in the multiplication
 	 * @param v1
-	 *            The vector that is multiplied
+	 *        The vector that is multiplied
 	 */
 	public final void mul(GMatrix m1, GVector v1) {
-		if (m1.getNumCol() != v1.length)
+		if (m1.getNumCol() != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector10"));
+		}
 
-		if (length != m1.getNumRow())
+		if (this.length != m1.getNumRow()) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector11"));
+		}
 
 		double v[];
 		if (v1 != this) {
 			v = v1.values;
 		} else {
-			v = values.clone();
+			v = this.values.clone();
 		}
 
-		for (int j = length - 1; j >= 0; j--) {
-			values[j] = 0.0;
+		for (int j = this.length - 1; j >= 0; j--) {
+			this.values[j] = 0.0;
 			for (int i = v1.length - 1; i >= 0; i--) {
-				values[j] += m1.values[j][i] * v[i];
+				this.values[j] += m1.values[j][i] * v[i];
 			}
 		}
 	}
 
 	/**
-	 * Multiplies the transpose of vector v1 (ie, v1 becomes a row vector with
-	 * respect to the multiplication) times matrix m1 and places the result into
-	 * this vector (this = transpose(v1)*m1). The result is technically a row
-	 * vector, but the GVector class only knows about column vectors, and so the
-	 * result is stored as a column vector.
-	 * 
+	 * Multiplies the transpose of vector v1 (ie, v1 becomes a row vector with respect to
+	 * the multiplication) times matrix m1 and places the result into this vector (this =
+	 * transpose(v1)*m1). The result is technically a row vector, but the GVector class
+	 * only knows about column vectors, and so the result is stored as a column vector.
+	 *
 	 * @param m1
-	 *            The matrix in the multiplication
+	 *        The matrix in the multiplication
 	 * @param v1
-	 *            The vector that is temporarily transposed
+	 *        The vector that is temporarily transposed
 	 */
 	public final void mul(GVector v1, GMatrix m1) {
-		if (m1.getNumRow() != v1.length)
+		if (m1.getNumRow() != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector12"));
+		}
 
-		if (length != m1.getNumCol())
+		if (this.length != m1.getNumCol()) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector13"));
+		}
 
 		double v[];
 		if (v1 != this) {
 			v = v1.values;
 		} else {
-			v = values.clone();
+			v = this.values.clone();
 		}
 
-		for (int j = length - 1; j >= 0; j--) {
-			values[j] = 0.0;
+		for (int j = this.length - 1; j >= 0; j--) {
+			this.values[j] = 0.0;
 			for (int i = v1.length - 1; i >= 0; i--) {
-				values[j] += m1.values[i][j] * v[i];
+				this.values[j] += m1.values[i][j] * v[i];
 			}
 		}
 	}
@@ -481,7 +491,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 * Negates the value of this vector: this = -this.
 	 */
 	public final void negate() {
-		for (int i = length - 1; i >= 0; i--) {
+		for (int i = this.length - 1; i >= 0; i--) {
 			this.values[i] *= -1.0;
 		}
 	}
@@ -496,203 +506,212 @@ public class GVector implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Changes the size of this vector dynamically. If the size is increased no
-	 * data values will be lost. If the size is decreased, only those data
-	 * values whose vector positions were eliminated will be lost.
-	 * 
+	 * Changes the size of this vector dynamically. If the size is increased no data
+	 * values will be lost. If the size is decreased, only those data values whose vector
+	 * positions were eliminated will be lost.
+	 *
 	 * @param length
-	 *            number of desired elements in this vector
+	 *        number of desired elements in this vector
 	 */
 	public final void setSize(int length) {
 		double[] tmp = new double[length];
 		int i, max;
 
-		if (this.length < length)
+		if (this.length < length) {
 			max = this.length;
-		else
+		} else {
 			max = length;
+		}
 
 		for (i = 0; i < max; i++) {
-			tmp[i] = values[i];
+			tmp[i] = this.values[i];
 		}
 		this.length = length;
 
-		values = tmp;
+		this.values = tmp;
 
 	}
 
 	/**
-	 * Sets the value of this vector to the values found in the array parameter.
-	 * The array should be at least equal in length to the number of elements in
-	 * the vector.
-	 * 
+	 * Sets the value of this vector to the values found in the array parameter. The array
+	 * should be at least equal in length to the number of elements in the vector.
+	 *
 	 * @param vector
-	 *            the source array
+	 *        the source array
 	 */
 	public final void set(double[] vector) {
-		for (int i = length - 1; i >= 0; i--)
-			values[i] = vector[i];
+		for (int i = this.length - 1; i >= 0; i--) {
+			this.values[i] = vector[i];
+		}
 	}
 
 	/**
 	 * Sets the value of this vector to the values found in vector vector.
-	 * 
+	 *
 	 * @param vector
-	 *            the source vector
+	 *        the source vector
 	 */
 	public final void set(GVector vector) {
 		int i;
 
-		if (length < vector.length) {
-			length = vector.length;
-			values = new double[length];
-			for (i = 0; i < length; i++)
-				values[i] = vector.values[i];
+		if (this.length < vector.length) {
+			this.length = vector.length;
+			this.values = new double[this.length];
+			for (i = 0; i < this.length; i++) {
+				this.values[i] = vector.values[i];
+			}
 		} else {
-			for (i = 0; i < vector.length; i++)
-				values[i] = vector.values[i];
-			for (i = vector.length; i < length; i++)
-				values[i] = 0.0;
+			for (i = 0; i < vector.length; i++) {
+				this.values[i] = vector.values[i];
+			}
+			for (i = vector.length; i < this.length; i++) {
+				this.values[i] = 0.0;
+			}
 		}
 	}
 
 	/**
 	 * Sets the value of this vector to the values in tuple
-	 * 
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's new values
+	 *        the source for the new GVector's new values
 	 */
 	public final void set(Tuple2f tuple) {
-		if (length < 2) {
-			length = 2;
-			values = new double[2];
+		if (this.length < 2) {
+			this.length = 2;
+			this.values = new double[2];
 		}
-		values[0] = (double) tuple.x;
-		values[1] = (double) tuple.y;
-		for (int i = 2; i < length; i++)
-			values[i] = 0.0;
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		for (int i = 2; i < this.length; i++) {
+			this.values[i] = 0.0;
+		}
 
 	}
 
 	/**
 	 * Sets the value of this vector to the values in tuple
-	 * 
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's new values
+	 *        the source for the new GVector's new values
 	 */
 	public final void set(Tuple3f tuple) {
-		if (length < 3) {
-			length = 3;
-			values = new double[3];
+		if (this.length < 3) {
+			this.length = 3;
+			this.values = new double[3];
 		}
-		values[0] = (double) tuple.x;
-		values[1] = (double) tuple.y;
-		values[2] = (double) tuple.z;
-		for (int i = 3; i < length; i++)
-			values[i] = 0.0;
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		for (int i = 3; i < this.length; i++) {
+			this.values[i] = 0.0;
+		}
 	}
 
 	/**
 	 * Sets the value of this vector to the values in tuple
-	 * 
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's new values
+	 *        the source for the new GVector's new values
 	 */
 	public final void set(Tuple3d tuple) {
-		if (length < 3) {
-			length = 3;
-			values = new double[3];
+		if (this.length < 3) {
+			this.length = 3;
+			this.values = new double[3];
 		}
-		values[0] = tuple.x;
-		values[1] = tuple.y;
-		values[2] = tuple.z;
-		for (int i = 3; i < length; i++)
-			values[i] = 0.0;
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		for (int i = 3; i < this.length; i++) {
+			this.values[i] = 0.0;
+		}
 	}
 
 	/**
 	 * Sets the value of this vector to the values in tuple
-	 * 
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's new values
+	 *        the source for the new GVector's new values
 	 */
 	public final void set(Tuple4f tuple) {
-		if (length < 4) {
-			length = 4;
-			values = new double[4];
+		if (this.length < 4) {
+			this.length = 4;
+			this.values = new double[4];
 		}
-		values[0] = (double) tuple.x;
-		values[1] = (double) tuple.y;
-		values[2] = (double) tuple.z;
-		values[3] = (double) tuple.w;
-		for (int i = 4; i < length; i++)
-			values[i] = 0.0;
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		this.values[3] = tuple.w;
+		for (int i = 4; i < this.length; i++) {
+			this.values[i] = 0.0;
+		}
 	}
 
 	/**
 	 * Sets the value of this vector to the values in tuple
-	 * 
+	 *
 	 * @param tuple
-	 *            the source for the new GVector's new values
+	 *        the source for the new GVector's new values
 	 */
 	public final void set(Tuple4d tuple) {
-		if (length < 4) {
-			length = 4;
-			values = new double[4];
+		if (this.length < 4) {
+			this.length = 4;
+			this.values = new double[4];
 		}
-		values[0] = tuple.x;
-		values[1] = tuple.y;
-		values[2] = tuple.z;
-		values[3] = tuple.w;
-		for (int i = 4; i < length; i++)
-			values[i] = 0.0;
+		this.values[0] = tuple.x;
+		this.values[1] = tuple.y;
+		this.values[2] = tuple.z;
+		this.values[3] = tuple.w;
+		for (int i = 4; i < this.length; i++) {
+			this.values[i] = 0.0;
+		}
 	}
 
 	/**
 	 * Returns the number of elements in this vector.
-	 * 
+	 *
 	 * @return number of elements in this vector
 	 */
 	public final int getSize() {
-		return values.length;
+		return this.values.length;
 	}
 
 	/**
 	 * Retrieves the value at the specified index value of this vector.
-	 * 
+	 *
 	 * @param index
-	 *            the index of the element to retrieve (zero indexed)
+	 *        the index of the element to retrieve (zero indexed)
 	 * @return the value at the indexed element
 	 */
 	public final double getElement(int index) {
-		return values[index];
+		return this.values[index];
 	}
 
 	/**
 	 * Modifies the value at the specified index of this vector.
-	 * 
+	 *
 	 * @param index
-	 *            the index if the element to modify (zero indexed)
+	 *        the index if the element to modify (zero indexed)
 	 * @param value
-	 *            the new vector element value
+	 *        the new vector element value
 	 */
 	public final void setElement(int index, double value) {
-		values[index] = value;
+		this.values[index] = value;
 	}
 
 	/**
 	 * Returns a string that contains the values of this GVector.
-	 * 
+	 *
 	 * @return the String representation
 	 */
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer(length * 8);
+		StringBuffer buffer = new StringBuffer(this.length * 8);
 
 		int i;
 
-		for (i = 0; i < length; i++) {
-			buffer.append(values[i]).append(" ");
+		for (i = 0; i < this.length; i++) {
+			buffer.append(this.values[i]).append(" ");
 		}
 
 		return buffer.toString();
@@ -700,41 +719,42 @@ public class GVector implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns a hash code value based on the data values in this object. Two
-	 * different GVector objects with identical data values (i.e.,
-	 * GVector.equals returns true) will return the same hash number. Two
-	 * GVector objects with different data members may return the same hash
-	 * value, although this is not likely.
-	 * 
+	 * Returns a hash code value based on the data values in this object. Two different
+	 * GVector objects with identical data values (i.e., GVector.equals returns true) will
+	 * return the same hash number. Two GVector objects with different data members may
+	 * return the same hash value, although this is not likely.
+	 *
 	 * @return the integer hash code value
 	 */
 	@Override
 	public int hashCode() {
 		long bits = 1L;
 
-		for (int i = 0; i < length; i++) {
-			bits = 31L * bits + VecMathUtil.doubleToLongBits(values[i]);
+		for (int i = 0; i < this.length; i++) {
+			bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.values[i]);
 		}
 
 		return (int) (bits ^ (bits >> 32));
 	}
 
 	/**
-	 * Returns true if all of the data members of GVector vector1 are equal to
-	 * the corresponding data members in this GVector.
-	 * 
+	 * Returns true if all of the data members of GVector vector1 are equal to the
+	 * corresponding data members in this GVector.
+	 *
 	 * @param vector1
-	 *            The vector with which the comparison is made.
+	 *        The vector with which the comparison is made.
 	 * @return true or false
 	 */
 	public boolean equals(GVector vector1) {
 		try {
-			if (length != vector1.length)
+			if (this.length != vector1.length) {
 				return false;
+			}
 
-			for (int i = 0; i < length; i++) {
-				if (values[i] != vector1.values[i])
+			for (int i = 0; i < this.length; i++) {
+				if (this.values[i] != vector1.values[i]) {
 					return false;
+				}
 			}
 
 			return true;
@@ -745,12 +765,11 @@ public class GVector implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the Object o1 is of type GMatrix and all of the data
-	 * members of o1 are equal to the corresponding data members in this
-	 * GMatrix.
-	 * 
+	 * Returns true if the Object o1 is of type GMatrix and all of the data members of o1
+	 * are equal to the corresponding data members in this GMatrix.
+	 *
 	 * @param o1
-	 *            The object with which the comparison is made.
+	 *        The object with which the comparison is made.
 	 * @return true or false
 	 */
 	@Override
@@ -758,12 +777,14 @@ public class GVector implements java.io.Serializable, Cloneable {
 		try {
 			GVector v2 = (GVector) o1;
 
-			if (length != v2.length)
+			if (this.length != v2.length) {
 				return false;
+			}
 
-			for (int i = 0; i < length; i++) {
-				if (values[i] != v2.values[i])
+			for (int i = 0; i < this.length; i++) {
+				if (this.values[i] != v2.values[i]) {
 					return false;
+				}
 			}
 			return true;
 		} catch (ClassCastException e1) {
@@ -775,68 +796,70 @@ public class GVector implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the L-infinite distance between this vector and vector v1
-	 * is less than or equal to the epsilon parameter, otherwise returns false.
-	 * The L-infinite distance is equal to MAX[abs(x1-x2), abs(y1-y2), . . . ].
-	 * 
+	 * Returns true if the L-infinite distance between this vector and vector v1 is less
+	 * than or equal to the epsilon parameter, otherwise returns false. The L-infinite
+	 * distance is equal to MAX[abs(x1-x2), abs(y1-y2), . . . ].
+	 *
 	 * @param v1
-	 *            The vector to be compared to this vector
+	 *        The vector to be compared to this vector
 	 * @param epsilon
-	 *            the threshold value
+	 *        the threshold value
 	 */
 	public boolean epsilonEquals(GVector v1, double epsilon) {
 		double diff;
 
-		if (length != v1.length)
+		if (this.length != v1.length) {
 			return false;
+		}
 
-		for (int i = 0; i < length; i++) {
-			diff = values[i] - v1.values[i];
-			if ((diff < 0 ? -diff : diff) > epsilon)
+		for (int i = 0; i < this.length; i++) {
+			diff = this.values[i] - v1.values[i];
+			if ((diff < 0 ? -diff : diff) > epsilon) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	/**
 	 * Returns the dot product of this vector and vector v1.
-	 * 
+	 *
 	 * @param v1
-	 *            the other vector
+	 *        the other vector
 	 * @return the dot product of this and v1
 	 */
 	public final double dot(GVector v1) {
-		if (length != v1.length)
+		if (this.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector14"));
+		}
 
 		double result = 0.0;
-		for (int i = 0; i < length; i++) {
-			result += values[i] * v1.values[i];
+		for (int i = 0; i < this.length; i++) {
+			result += this.values[i] * v1.values[i];
 		}
 		return result;
 	}
 
 	/**
-	 * Solves for x in Ax = b, where x is this vector (nx1), A is mxn, b is mx1,
-	 * and A = U*W*transpose(V); U,W,V must be precomputed and can be found by
-	 * taking the singular value decomposition (SVD) of A using the method SVD
-	 * found in the GMatrix class.
-	 * 
+	 * Solves for x in Ax = b, where x is this vector (nx1), A is mxn, b is mx1, and A =
+	 * U*W*transpose(V); U,W,V must be precomputed and can be found by taking the singular
+	 * value decomposition (SVD) of A using the method SVD found in the GMatrix class.
+	 *
 	 * @param U
-	 *            The U matrix produced by the GMatrix method SVD
+	 *        The U matrix produced by the GMatrix method SVD
 	 * @param W
-	 *            The W matrix produced by the GMatrix method SVD
+	 *        The W matrix produced by the GMatrix method SVD
 	 * @param V
-	 *            The V matrix produced by the GMatrix method SVD
+	 *        The V matrix produced by the GMatrix method SVD
 	 * @param b
-	 *            The b vector in the linear equation Ax = b
+	 *        The b vector in the linear equation Ax = b
 	 */
 	public final void SVDBackSolve(GMatrix U, GMatrix W, GMatrix V, GVector b) {
-		if (!(U.nRow == b.getSize() && U.nRow == U.nCol && U.nRow == W.nRow)) {
+		if (!((U.nRow == b.getSize()) && (U.nRow == U.nCol) && (U.nRow == W.nRow))) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector15"));
 		}
 
-		if (!(W.nCol == values.length && W.nCol == V.nCol && W.nCol == V.nRow)) {
+		if (!((W.nCol == this.values.length) && (W.nCol == V.nCol) && (W.nCol == V.nRow))) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector23"));
 		}
 
@@ -844,24 +867,22 @@ public class GVector implements java.io.Serializable, Cloneable {
 		tmp.mul(U, V);
 		tmp.mulTransposeRight(U, W);
 		tmp.invert();
-		mul(tmp, b);
+		this.mul(tmp, b);
 
 	}
 
 	/**
-	 * LU Decomposition Back Solve; this method takes the LU matrix and the
-	 * permutation vector produced by the GMatrix method LUD and solves the
-	 * equation (LU)*x = b by placing the solution vector x into this vector.
-	 * This vector should be the same length or longer than b.
-	 * 
+	 * LU Decomposition Back Solve; this method takes the LU matrix and the permutation
+	 * vector produced by the GMatrix method LUD and solves the equation (LU)*x = b by
+	 * placing the solution vector x into this vector. This vector should be the same
+	 * length or longer than b.
+	 *
 	 * @param LU
-	 *            The matrix into which the lower and upper decompostions have
-	 *            been placed
+	 *        The matrix into which the lower and upper decompostions have been placed
 	 * @param b
-	 *            The b vector in the equation (LU)*x = b
+	 *        The b vector in the equation (LU)*x = b
 	 * @param permutation
-	 *            The row permuations that were necessary to produce the LU
-	 *            matrix parameter
+	 *        The row permuations that were necessary to produce the LU matrix parameter
 	 */
 	public final void LUDBackSolve(GMatrix LU, GVector b, GVector permutation) {
 		int size = LU.nRow * LU.nCol;
@@ -885,29 +906,33 @@ public class GVector implements java.io.Serializable, Cloneable {
 
 		for (i = 0; i < LU.nRow; i++) {
 			for (j = 0; j < LU.nCol; j++) {
-				temp[i * LU.nCol + j] = LU.values[i][j];
+				temp[(i * LU.nCol) + j] = LU.values[i][j];
 			}
 		}
 
-		for (i = 0; i < size; i++)
+		for (i = 0; i < size; i++) {
 			result[i] = 0.0;
-		for (i = 0; i < LU.nRow; i++)
+		}
+		for (i = 0; i < LU.nRow; i++) {
 			result[i * LU.nCol] = b.values[i];
-		for (i = 0; i < LU.nCol; i++)
+		}
+		for (i = 0; i < LU.nCol; i++) {
 			row_perm[i] = (int) permutation.values[i];
+		}
 
 		GMatrix.luBacksubstitution(LU.nRow, temp, row_perm, result);
 
-		for (i = 0; i < LU.nRow; i++)
+		for (i = 0; i < LU.nRow; i++) {
 			this.values[i] = result[i * LU.nCol];
+		}
 	}
 
 	/**
 	 * Returns the (n-space) angle in radians between this vector and the vector
 	 * parameter; the return value is constrained to the range [0,PI].
-	 * 
+	 *
 	 * @param v1
-	 *            The other vector
+	 *        The other vector
 	 * @return The angle in radians in the range [0,PI]
 	 */
 	public final double angle(GVector v1) {
@@ -919,7 +944,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 */
 	@Deprecated
 	public final void interpolate(GVector v1, GVector v2, float alpha) {
-		interpolate(v1, v2, (double) alpha);
+		this.interpolate(v1, v2, (double) alpha);
 	}
 
 	/**
@@ -927,56 +952,59 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 */
 	@Deprecated
 	public final void interpolate(GVector v1, float alpha) {
-		interpolate(v1, (double) alpha);
+		this.interpolate(v1, (double) alpha);
 	}
 
 	/**
-	 * Linearly interpolates between vectors v1 and v2 and places the result
-	 * into this tuple: this = (1-alpha)*v1 + alpha*v2.
-	 * 
+	 * Linearly interpolates between vectors v1 and v2 and places the result into this
+	 * tuple: this = (1-alpha)*v1 + alpha*v2.
+	 *
 	 * @param v1
-	 *            the first vector
+	 *        the first vector
 	 * @param v2
-	 *            the second vector
+	 *        the second vector
 	 * @param alpha
-	 *            the alpha interpolation parameter
+	 *        the alpha interpolation parameter
 	 */
 	public final void interpolate(GVector v1, GVector v2, double alpha) {
-		if (v2.length != v1.length)
+		if (v2.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector20"));
+		}
 
-		if (length != v1.length)
+		if (this.length != v1.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector21"));
+		}
 
-		for (int i = 0; i < length; i++) {
-			values[i] = (1 - alpha) * v1.values[i] + alpha * v2.values[i];
+		for (int i = 0; i < this.length; i++) {
+			this.values[i] = ((1 - alpha) * v1.values[i]) + (alpha * v2.values[i]);
 		}
 	}
 
 	/**
-	 * Linearly interpolates between this vector and vector v1 and places the
-	 * result into this tuple: this = (1-alpha)*this + alpha*v1.
-	 * 
+	 * Linearly interpolates between this vector and vector v1 and places the result into
+	 * this tuple: this = (1-alpha)*this + alpha*v1.
+	 *
 	 * @param v1
-	 *            the first vector
+	 *        the first vector
 	 * @param alpha
-	 *            the alpha interpolation parameter
+	 *        the alpha interpolation parameter
 	 */
 	public final void interpolate(GVector v1, double alpha) {
-		if (v1.length != length)
+		if (v1.length != this.length) {
 			throw new MismatchedSizeException(VecMathI18N.getString("GVector22"));
+		}
 
-		for (int i = 0; i < length; i++) {
-			values[i] = (1 - alpha) * values[i] + alpha * v1.values[i];
+		for (int i = 0; i < this.length; i++) {
+			this.values[i] = ((1 - alpha) * this.values[i]) + (alpha * v1.values[i]);
 		}
 	}
 
 	/**
 	 * Creates a new object of the same class as this object.
-	 * 
+	 *
 	 * @return a clone of this instance.
 	 * @exception OutOfMemoryError
-	 *                if there is not enough memory.
+	 *            if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
@@ -991,9 +1019,9 @@ public class GVector implements java.io.Serializable, Cloneable {
 		}
 
 		// Also need to clone array of values
-		v1.values = new double[length];
-		for (int i = 0; i < length; i++) {
-			v1.values[i] = values[i];
+		v1.values = new double[this.length];
+		for (int i = 0; i < this.length; i++) {
+			v1.values[i] = this.values[i];
 		}
 
 		return v1;

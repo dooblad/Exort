@@ -31,12 +31,10 @@
 
 package com.doobs.exort.util.vecmath;
 
-import java.lang.Math;
 
 /**
- * A 4-element vector represented by single-precision floating point x,y,z,w
- * coordinates.
- * 
+ * A 4-element vector represented by single-precision floating point x,y,z,w coordinates.
+ *
  */
 public class Vector4f extends Tuple4f implements java.io.Serializable {
 
@@ -44,17 +42,16 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 	static final long serialVersionUID = 8749319902347760659L;
 
 	/**
-	 * Constructs and initializes a Vector4f from the specified xyzw
-	 * coordinates.
-	 * 
+	 * Constructs and initializes a Vector4f from the specified xyzw coordinates.
+	 *
 	 * @param x
-	 *            the x coordinate
+	 *        the x coordinate
 	 * @param y
-	 *            the y coordinate
+	 *        the y coordinate
 	 * @param z
-	 *            the z coordinate
+	 *        the z coordinate
 	 * @param w
-	 *            the w coordinate
+	 *        the w coordinate
 	 */
 	public Vector4f(float x, float y, float z, float w) {
 		super(x, y, z, w);
@@ -62,9 +59,9 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Vector4f from the array of length 4.
-	 * 
+	 *
 	 * @param v
-	 *            the array of length 4 containing xyzw in order
+	 *        the array of length 4 containing xyzw in order
 	 */
 	public Vector4f(float[] v) {
 		super(v);
@@ -72,9 +69,9 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Vector4f from the specified Vector4f.
-	 * 
+	 *
 	 * @param v1
-	 *            the Vector4f containing the initialization x y z w data
+	 *        the Vector4f containing the initialization x y z w data
 	 */
 	public Vector4f(Vector4f v1) {
 		super(v1);
@@ -82,9 +79,9 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Vector4f from the specified Vector4d.
-	 * 
+	 *
 	 * @param v1
-	 *            the Vector4d containing the initialization x y z w data
+	 *        the Vector4d containing the initialization x y z w data
 	 */
 	public Vector4f(Vector4d v1) {
 		super(v1);
@@ -92,9 +89,9 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Vector4f from the specified Tuple4f.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple4f containing the initialization x y z w data
+	 *        the Tuple4f containing the initialization x y z w data
 	 */
 	public Vector4f(Tuple4f t1) {
 		super(t1);
@@ -102,22 +99,22 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Vector4f from the specified Tuple4d.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple4d containing the initialization x y z w data
+	 *        the Tuple4d containing the initialization x y z w data
 	 */
 	public Vector4f(Tuple4d t1) {
 		super(t1);
 	}
 
 	/**
-	 * Constructs and initializes a Vector4f from the specified Tuple3f. The
-	 * x,y,z components of this vector are set to the corresponding components
-	 * of tuple t1. The w component of this vector is set to 0.
-	 * 
+	 * Constructs and initializes a Vector4f from the specified Tuple3f. The x,y,z
+	 * components of this vector are set to the corresponding components of tuple t1. The
+	 * w component of this vector is set to 0.
+	 *
 	 * @param t1
-	 *            the tuple to be copied
-	 * 
+	 *        the tuple to be copied
+	 *
 	 * @since vecmath 1.2
 	 */
 	public Vector4f(Tuple3f t1) {
@@ -132,12 +129,12 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the x,y,z components of this vector to the corresponding components
-	 * of tuple t1. The w component of this vector is set to 0.
-	 * 
+	 * Sets the x,y,z components of this vector to the corresponding components of tuple
+	 * t1. The w component of this vector is set to 0.
+	 *
 	 * @param t1
-	 *            the tuple to be copied
-	 * 
+	 *        the tuple to be copied
+	 *
 	 * @since vecmath 1.2
 	 */
 	public final void set(Tuple3f t1) {
@@ -149,43 +146,43 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 
 	/**
 	 * Returns the length of this vector.
-	 * 
+	 *
 	 * @return the length of this vector as a float
 	 */
 	public final float length() {
-		return (float) Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
+		return (float) Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z) + (this.w * this.w));
 	}
 
 	/**
 	 * Returns the squared length of this vector
-	 * 
+	 *
 	 * @return the squared length of this vector as a float
 	 */
 	public final float lengthSquared() {
-		return (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
+		return ((this.x * this.x) + (this.y * this.y) + (this.z * this.z) + (this.w * this.w));
 	}
 
 	/**
 	 * returns the dot product of this vector and v1
-	 * 
+	 *
 	 * @param v1
-	 *            the other vector
+	 *        the other vector
 	 * @return the dot product of this vector and v1
 	 */
 	public final float dot(Vector4f v1) {
-		return (this.x * v1.x + this.y * v1.y + this.z * v1.z + this.w * v1.w);
+		return ((this.x * v1.x) + (this.y * v1.y) + (this.z * v1.z) + (this.w * v1.w));
 	}
 
 	/**
 	 * Sets the value of this vector to the normalization of vector v1.
-	 * 
+	 *
 	 * @param v1
-	 *            the un-normalized vector
+	 *        the un-normalized vector
 	 */
 	public final void normalize(Vector4f v1) {
 		float norm;
 
-		norm = (float) (1.0 / Math.sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z + v1.w * v1.w));
+		norm = (float) (1.0 / Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w)));
 		this.x = v1.x * norm;
 		this.y = v1.y * norm;
 		this.z = v1.z * norm;
@@ -198,7 +195,7 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 	public final void normalize() {
 		float norm;
 
-		norm = (float) (1.0 / Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w));
+		norm = (float) (1.0 / Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z) + (this.w * this.w)));
 		this.x *= norm;
 		this.y *= norm;
 		this.z *= norm;
@@ -208,17 +205,19 @@ public class Vector4f extends Tuple4f implements java.io.Serializable {
 	/**
 	 * Returns the (4-space) angle in radians between this vector and the vector
 	 * parameter; the return value is constrained to the range [0,PI].
-	 * 
+	 *
 	 * @param v1
-	 *            the other vector
+	 *        the other vector
 	 * @return the angle in radians in the range [0,PI]
 	 */
 	public final float angle(Vector4f v1) {
 		double vDot = this.dot(v1) / (this.length() * v1.length());
-		if (vDot < -1.0)
+		if (vDot < -1.0) {
 			vDot = -1.0;
-		if (vDot > 1.0)
+		}
+		if (vDot > 1.0) {
 			vDot = 1.0;
+		}
 		return ((float) (Math.acos(vDot)));
 	}
 

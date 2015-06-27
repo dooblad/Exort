@@ -10,7 +10,7 @@ public class Packet02Move extends Packet {
 
 	public Packet02Move(byte[] data) {
 		super(02);
-		String[] dataArray = readData(data).split(",");
+		String[] dataArray = this.readData(data).split(",");
 		this.username = dataArray[0];
 		this.x = Float.parseFloat(dataArray[1]);
 		this.z = Float.parseFloat(dataArray[2]);
@@ -24,11 +24,11 @@ public class Packet02Move extends Packet {
 	}
 
 	public void sendData(Client client) {
-		super.sendData(client, getData());
+		super.sendData(client, this.getData());
 	}
 
 	public void sendData(Server server) {
-		super.sendData(server, getData());
+		super.sendData(server, this.getData());
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class Packet02Move extends Packet {
 
 	// Getters and setters
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public float getX() {

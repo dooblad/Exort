@@ -7,14 +7,12 @@ import com.doobs.modern.util.texture.*;
 
 public class Textures {
 	private static final String DIRECTORY = "res/textures/";
-	
+
 	public static Map<String, Texture> textures = new HashMap<String, Texture>();
 
 	public static void init() {
-		System.err.println("----------------------\n" +
-					       "|  LOADING  TEXTURES |\n" +
-		              	   "----------------------");
-		
+		System.err.println("----------------------\n" + "|  LOADING  TEXTURES |\n" + "----------------------");
+
 		File directory = new File(DIRECTORY);
 		File[] files = directory.listFiles();
 		String[] temp;

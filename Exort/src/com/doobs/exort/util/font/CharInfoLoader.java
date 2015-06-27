@@ -23,13 +23,14 @@ public class CharInfoLoader {
 					temp = new double[8];
 
 					for (int i = 0; i < line.length(); i++) {
-						if (line.charAt(i) >= 48 && line.charAt(i) <= 57 || line.charAt(i) == '.')
+						if (((line.charAt(i) >= 48) && (line.charAt(i) <= 57)) || (line.charAt(i) == '.')) {
 							number += line.charAt(i);
-						else if (!number.equals("")) {
+						} else if (!number.equals("")) {
 							temp[numbers] = Double.valueOf(number);
 							number = "";
-							if (numbers >= temp.length - 1)
+							if (numbers >= (temp.length - 1)) {
 								break;
+							}
 							numbers++;
 						}
 					}

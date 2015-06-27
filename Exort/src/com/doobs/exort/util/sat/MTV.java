@@ -11,10 +11,12 @@ public class MTV {
 		this.overlap = overlap;
 
 		if (smallest != null) {
-			if (Math.abs(smallest.x) > 2000000000)
+			if (Math.abs(smallest.x) > 2000000000) {
 				smallest.x = 0;
-			if (Math.abs(smallest.y) > 2000000000)
+			}
+			if (Math.abs(smallest.y) > 2000000000) {
 				smallest.y = 0;
+			}
 		}
 	}
 
@@ -24,7 +26,7 @@ public class MTV {
 
 	// Getters and setters
 	public Vector2f getSmallest() {
-		return smallest;
+		return this.smallest;
 	}
 
 	public void setSmallest(Vector2f smallest) {
@@ -32,7 +34,7 @@ public class MTV {
 	}
 
 	public double getOverlap() {
-		return overlap;
+		return this.overlap;
 	}
 
 	public void setOverlap(double overlap) {

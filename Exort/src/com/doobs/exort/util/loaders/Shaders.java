@@ -9,15 +9,14 @@ import com.doobs.modern.util.shader.*;
 
 public class Shaders {
 	private static final String DIRECTORY = "res/shaders/";
-	
+
 	public static Shader current;
-	public static Map<String, Shader> shaders = new HashMap<String, Shader>();
+	public static Map<String, Shader> shaders;
 
 	public static void init() {
-		System.err.println("----------------------\n" +
-						   "|  LOADING  SHADERS  |\n" +
-		                   "----------------------");
-		
+		shaders = new HashMap<String, Shader>();
+		System.err.println("----------------------\n" + "|  LOADING  SHADERS  |\n" + "----------------------");
+
 		File directory = new File(DIRECTORY);
 		File[] files = directory.listFiles();
 		String[] temp;

@@ -32,13 +32,13 @@
 package com.doobs.exort.util.vecmath;
 
 /**
- * Indicates that an operation cannot be completed properly because of a
- * mismatch in the sizes of object attributes.
+ * Indicates that an operation cannot be completed properly because of a mismatch in the
+ * sizes of object attributes.
  */
 public class MismatchedSizeException extends RuntimeException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -50,9 +50,9 @@ public class MismatchedSizeException extends RuntimeException {
 
 	/**
 	 * Create the exception object that outputs a message.
-	 * 
+	 *
 	 * @param str
-	 *            the message string to be output.
+	 *        the message string to be output.
 	 */
 	public MismatchedSizeException(String str) {
 

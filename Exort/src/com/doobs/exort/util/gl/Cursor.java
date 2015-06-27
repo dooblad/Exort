@@ -22,7 +22,7 @@ public class Cursor {
 			int[] temp = new int[width * height];
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					temp[x + (height - y - 1) * width] = cursorImage.getRGB(x, y);
+					temp[x + ((height - y - 1) * width)] = cursorImage.getRGB(x, y);
 				}
 			}
 			buffer.put(temp);
@@ -31,7 +31,7 @@ public class Cursor {
 			org.lwjgl.input.Cursor cursor = new org.lwjgl.input.Cursor(width, height, 0, height - 1, 1, buffer, null);
 
 			Mouse.setNativeCursor(cursor);
-		} catch (IOException | LWJGLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

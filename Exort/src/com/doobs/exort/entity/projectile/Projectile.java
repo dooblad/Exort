@@ -29,16 +29,16 @@ public class Projectile extends MovingEntity {
 		this(0, 0, 0, 0, 0, 0, 0, null);
 	}
 
-	@Override
-	protected void tick(int delta) {
+	public void tick(int delta) {
 		super.tick(delta);
-		if (currentLife-- <= 0)
-			remove();
+		if (this.currentLife-- <= 0) {
+			this.remove();
+		}
 	}
 
 	// Getters and setters
 	public int getCurrentLife() {
-		return currentLife;
+		return this.currentLife;
 	}
 
 	public void setCurrentLife(int life) {
@@ -46,7 +46,7 @@ public class Projectile extends MovingEntity {
 	}
 
 	public int getMaxLife() {
-		return maxLife;
+		return this.maxLife;
 	}
 
 	public void setMaxLife(int life) {

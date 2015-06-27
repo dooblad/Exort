@@ -37,7 +37,7 @@ package com.doobs.exort.util.vecmath;
 public class SingularMatrixException extends RuntimeException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -49,9 +49,9 @@ public class SingularMatrixException extends RuntimeException {
 
 	/**
 	 * Create the exception object that outputs message.
-	 * 
+	 *
 	 * @param str
-	 *            the message string to be output.
+	 *        the message string to be output.
 	 */
 	public SingularMatrixException(String str) {
 

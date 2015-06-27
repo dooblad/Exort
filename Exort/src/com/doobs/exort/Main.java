@@ -10,77 +10,107 @@ import com.doobs.exort.util.loaders.*;
 import com.doobs.modern.*;
 import com.doobs.modern.util.*;
 
+/**
+ * Initializes and manages the game's loop.
+ */
 public class Main implements GameLoop {
 	public static final String TITLE = "Exort Test";
 
-	private static GraphicsContext context;
-
-	public static InputHandler input;
+	public GraphicsContext context;
+	public InputHandler input;
 
 	private GameState state;
 
+	/**
+	 * Post: Initializes a GraphicsContext, loads all game assets, then runs the game.
+	 */
 	public Main() {
-		context = new GraphicsContext(this);
+		this.context = new GraphicsContext(this);
+
+		// Initialization in particular order.
 		Shaders.init();
 		Lighting.init();
 		Cursor.init();
 		Textures.init();
-		Fonts.init();
+		Fonts.init(this);
 		Models.init();
 
-		input = new InputHandler();
+		this.input = new InputHandler();
+		this.state = new MainMenuState(this);
 
-		state = new MainMenuState(this);
-
-		context.run();
+		this.context.run();
 	}
 
-	@Override
+	/**
+	 * Post: Handles the majority of the per-frame game logic, taking into account the
+	 * time elapsed ("delta").
+	 */
 	public void tick(int delta) {
-		if(GLTools.wasResized())
-			resize();
-		
-		input.tick();
+		if (GLTools.wasResized()) {
+			this.resize();
+		}
 
-		if (input.isKeyPressed(Keyboard.KEY_F11))
+		this.input.tick();
+
+		if (this.input.isKeyPressed(Keyboard.KEY_F11)) {
 			GLTools.toggleFullscreen();
+		}
 
-		state.tick(delta);
+		this.state.tick(delta);
 	}
 
-	@Override
+	/**
+	 * Post: Renders the contents of the current game "state".
+	 */
 	public void render() {
-		state.render();
+		this.state.render();
 	}
-	
+
+	/**
+	 * Post: Performs any necessary recalculations if the window is resized.
+	 */
 	private void resize() {
-		if(state instanceof DuelState) {
-			((DuelState) state).getGUI().recalculatePositions();
+		if (this.state instanceof DuelState) {
+			((DuelState) this.state).getGUI().recalculatePositions();
 		}
 	}
 
+	/**
+	 * Post: Changes the current GameState to "state".
+	 */
 	public void changeState(GameState state) {
 		this.state = state;
 	}
 
+	/**
+	 * Post: Attempts to exit the game.
+	 */
 	public void exit() {
-		context.requestExit();
+		this.context.requestExit();
+	}
+
+	/**
+	 * Post: Returns the width of this game's GraphicsContext.
+	 */
+	public int getWidth() {
+		return this.context.getWidth();
+	}
+
+	/**
+	 * Post: Returns the height of this game's GraphicsContext.
+	 */
+	public int getHeight() {
+		return this.context.getHeight();
+	}
+
+	/**
+	 * Post: Returns the current GameState.
+	 */
+	public GameState getCurrentState() {
+		return this.state;
 	}
 
 	public static void main(String[] args) {
 		new Main();
-	}
-
-	// Getters and setters
-	public static int getWidth() {
-		return context.getWidth();
-	}
-
-	public static int getHeight() {
-		return context.getHeight();
-	}
-
-	public GameState getCurrentState() {
-		return state;
 	}
 }

@@ -31,12 +31,10 @@
 
 package com.doobs.exort.util.vecmath;
 
-import java.lang.Math;
 
 /**
- * A double precision floating point 3 by 3 matrix. Primarily to support 3D
- * rotations.
- * 
+ * A double precision floating point 3 by 3 matrix. Primarily to support 3D rotations.
+ *
  */
 public class Matrix3d implements java.io.Serializable, Cloneable {
 
@@ -95,25 +93,25 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Matrix3d from the specified nine values.
-	 * 
+	 *
 	 * @param m00
-	 *            the [0][0] element
+	 *        the [0][0] element
 	 * @param m01
-	 *            the [0][1] element
+	 *        the [0][1] element
 	 * @param m02
-	 *            the [0][2] element
+	 *        the [0][2] element
 	 * @param m10
-	 *            the [1][0] element
+	 *        the [1][0] element
 	 * @param m11
-	 *            the [1][1] element
+	 *        the [1][1] element
 	 * @param m12
-	 *            the [1][2] element
+	 *        the [1][2] element
 	 * @param m20
-	 *            the [2][0] element
+	 *        the [2][0] element
 	 * @param m21
-	 *            the [2][1] element
+	 *        the [2][1] element
 	 * @param m22
-	 *            the [2][2] element
+	 *        the [2][2] element
 	 */
 	public Matrix3d(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
 		this.m00 = m00;
@@ -131,11 +129,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Constructs and initializes a Matrix3d from the specified nine- element
-	 * array.
-	 * 
+	 * Constructs and initializes a Matrix3d from the specified nine- element array.
+	 *
 	 * @param v
-	 *            the array of length 9 containing in order
+	 *        the array of length 9 containing in order
 	 */
 	public Matrix3d(double[] v) {
 		this.m00 = v[0];
@@ -154,9 +151,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs a new matrix with the same values as the Matrix3d parameter.
-	 * 
+	 *
 	 * @param m1
-	 *            the source matrix
+	 *        the source matrix
 	 */
 	public Matrix3d(Matrix3d m1) {
 		this.m00 = m1.m00;
@@ -175,9 +172,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs a new matrix with the same values as the Matrix3f parameter.
-	 * 
+	 *
 	 * @param m1
-	 *            the source matrix
+	 *        the source matrix
 	 */
 	public Matrix3d(Matrix3f m1) {
 		this.m00 = m1.m00;
@@ -214,7 +211,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Returns a string that contains the values of this Matrix3d.
-	 * 
+	 *
 	 * @return the String representation
 	 */
 	@Override
@@ -241,18 +238,18 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the scale component of the current matrix by factoring out the
-	 * current scale (by doing an SVD) and multiplying by the new scale.
-	 * 
+	 * Sets the scale component of the current matrix by factoring out the current scale
+	 * (by doing an SVD) and multiplying by the new scale.
+	 *
 	 * @param scale
-	 *            the new scale amount
+	 *        the new scale amount
 	 */
 	public final void setScale(double scale) {
 
 		double[] tmp_rot = new double[9]; // scratch matrix
 		double[] tmp_scale = new double[3]; // scratch matrix
 
-		getScaleRotate(tmp_scale, tmp_rot);
+		this.getScaleRotate(tmp_scale, tmp_rot);
 
 		this.m00 = tmp_rot[0] * scale;
 		this.m01 = tmp_rot[1] * scale;
@@ -269,121 +266,120 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the specified element of this matrix3f to the value provided.
-	 * 
+	 *
 	 * @param row
-	 *            the row number to be modified (zero indexed)
+	 *        the row number to be modified (zero indexed)
 	 * @param column
-	 *            the column number to be modified (zero indexed)
+	 *        the column number to be modified (zero indexed)
 	 * @param value
-	 *            the new value
+	 *        the new value
 	 */
 	public final void setElement(int row, int column, double value) {
 		switch (row) {
-		case 0:
-			switch (column) {
 			case 0:
-				this.m00 = value;
+				switch (column) {
+					case 0:
+						this.m00 = value;
+						break;
+					case 1:
+						this.m01 = value;
+						break;
+					case 2:
+						this.m02 = value;
+						break;
+					default:
+						throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
+				}
 				break;
+
 			case 1:
-				this.m01 = value;
+				switch (column) {
+					case 0:
+						this.m10 = value;
+						break;
+					case 1:
+						this.m11 = value;
+						break;
+					case 2:
+						this.m12 = value;
+						break;
+					default:
+						throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
+				}
 				break;
+
 			case 2:
-				this.m02 = value;
+				switch (column) {
+					case 0:
+						this.m20 = value;
+						break;
+					case 1:
+						this.m21 = value;
+						break;
+					case 2:
+						this.m22 = value;
+						break;
+					default:
+						throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
+				}
 				break;
+
 			default:
 				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
-			}
-			break;
-
-		case 1:
-			switch (column) {
-			case 0:
-				this.m10 = value;
-				break;
-			case 1:
-				this.m11 = value;
-				break;
-			case 2:
-				this.m12 = value;
-				break;
-			default:
-				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
-			}
-			break;
-
-		case 2:
-			switch (column) {
-			case 0:
-				this.m20 = value;
-				break;
-			case 1:
-				this.m21 = value;
-				break;
-			case 2:
-				this.m22 = value;
-				break;
-			default:
-				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
-			}
-			break;
-
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d0"));
 		}
 	}
 
 	/**
-	 * Retrieves the value at the specified row and column of the specified
-	 * matrix.
-	 * 
+	 * Retrieves the value at the specified row and column of the specified matrix.
+	 *
 	 * @param row
-	 *            the row number to be retrieved (zero indexed)
+	 *        the row number to be retrieved (zero indexed)
 	 * @param column
-	 *            the column number to be retrieved (zero indexed)
+	 *        the column number to be retrieved (zero indexed)
 	 * @return the value at the indexed element.
 	 */
 	public final double getElement(int row, int column) {
 		switch (row) {
-		case 0:
-			switch (column) {
 			case 0:
-				return (this.m00);
-			case 1:
-				return (this.m01);
-			case 2:
-				return (this.m02);
-			default:
+				switch (column) {
+					case 0:
+						return (this.m00);
+					case 1:
+						return (this.m01);
+					case 2:
+						return (this.m02);
+					default:
+						break;
+				}
 				break;
-			}
-			break;
-		case 1:
-			switch (column) {
-			case 0:
-				return (this.m10);
 			case 1:
-				return (this.m11);
-			case 2:
-				return (this.m12);
-			default:
+				switch (column) {
+					case 0:
+						return (this.m10);
+					case 1:
+						return (this.m11);
+					case 2:
+						return (this.m12);
+					default:
+						break;
+				}
 				break;
-			}
-			break;
 
-		case 2:
-			switch (column) {
-			case 0:
-				return (this.m20);
-			case 1:
-				return (this.m21);
 			case 2:
-				return (this.m22);
+				switch (column) {
+					case 0:
+						return (this.m20);
+					case 1:
+						return (this.m21);
+					case 2:
+						return (this.m22);
+					default:
+						break;
+				}
+				break;
+
 			default:
 				break;
-			}
-			break;
-
-		default:
-			break;
 		}
 
 		throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d1"));
@@ -391,25 +387,25 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Copies the matrix values in the specified row into the vector parameter.
-	 * 
+	 *
 	 * @param row
-	 *            the matrix row
+	 *        the matrix row
 	 * @param v
-	 *            the vector into which the matrix row values will be copied
+	 *        the vector into which the matrix row values will be copied
 	 */
 	public final void getRow(int row, Vector3d v) {
 		if (row == 0) {
-			v.x = m00;
-			v.y = m01;
-			v.z = m02;
+			v.x = this.m00;
+			v.y = this.m01;
+			v.z = this.m02;
 		} else if (row == 1) {
-			v.x = m10;
-			v.y = m11;
-			v.z = m12;
+			v.x = this.m10;
+			v.y = this.m11;
+			v.z = this.m12;
 		} else if (row == 2) {
-			v.x = m20;
-			v.y = m21;
-			v.z = m22;
+			v.x = this.m20;
+			v.y = this.m21;
+			v.z = this.m22;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d2"));
 		}
@@ -418,25 +414,25 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Copies the matrix values in the specified row into the array parameter.
-	 * 
+	 *
 	 * @param row
-	 *            the matrix row
+	 *        the matrix row
 	 * @param v
-	 *            the array into which the matrix row values will be copied
+	 *        the array into which the matrix row values will be copied
 	 */
 	public final void getRow(int row, double v[]) {
 		if (row == 0) {
-			v[0] = m00;
-			v[1] = m01;
-			v[2] = m02;
+			v[0] = this.m00;
+			v[1] = this.m01;
+			v[2] = this.m02;
 		} else if (row == 1) {
-			v[0] = m10;
-			v[1] = m11;
-			v[2] = m12;
+			v[0] = this.m10;
+			v[1] = this.m11;
+			v[2] = this.m12;
 		} else if (row == 2) {
-			v[0] = m20;
-			v[1] = m21;
-			v[2] = m22;
+			v[0] = this.m20;
+			v[1] = this.m21;
+			v[2] = this.m22;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d2"));
 		}
@@ -444,27 +440,26 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Copies the matrix values in the specified column into the vector
-	 * parameter.
-	 * 
+	 * Copies the matrix values in the specified column into the vector parameter.
+	 *
 	 * @param column
-	 *            the matrix column
+	 *        the matrix column
 	 * @param v
-	 *            the vector into which the matrix row values will be copied
+	 *        the vector into which the matrix row values will be copied
 	 */
 	public final void getColumn(int column, Vector3d v) {
 		if (column == 0) {
-			v.x = m00;
-			v.y = m10;
-			v.z = m20;
+			v.x = this.m00;
+			v.y = this.m10;
+			v.z = this.m20;
 		} else if (column == 1) {
-			v.x = m01;
-			v.y = m11;
-			v.z = m21;
+			v.x = this.m01;
+			v.y = this.m11;
+			v.z = this.m21;
 		} else if (column == 2) {
-			v.x = m02;
-			v.y = m12;
-			v.z = m22;
+			v.x = this.m02;
+			v.y = this.m12;
+			v.z = this.m22;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d4"));
 		}
@@ -472,27 +467,26 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Copies the matrix values in the specified column into the array
-	 * parameter.
-	 * 
+	 * Copies the matrix values in the specified column into the array parameter.
+	 *
 	 * @param column
-	 *            the matrix column
+	 *        the matrix column
 	 * @param v
-	 *            the array into which the matrix row values will be copied
+	 *        the array into which the matrix row values will be copied
 	 */
 	public final void getColumn(int column, double v[]) {
 		if (column == 0) {
-			v[0] = m00;
-			v[1] = m10;
-			v[2] = m20;
+			v[0] = this.m00;
+			v[1] = this.m10;
+			v[2] = this.m20;
 		} else if (column == 1) {
-			v[0] = m01;
-			v[1] = m11;
-			v[2] = m21;
+			v[0] = this.m01;
+			v[1] = this.m11;
+			v[2] = this.m21;
 		} else if (column == 2) {
-			v[0] = m02;
-			v[1] = m12;
-			v[2] = m22;
+			v[0] = this.m02;
+			v[1] = this.m12;
+			v[2] = this.m22;
 		} else {
 			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d4"));
 		}
@@ -501,223 +495,222 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the specified row of this matrix3d to the 4 values provided.
-	 * 
+	 *
 	 * @param row
-	 *            the row number to be modified (zero indexed)
+	 *        the row number to be modified (zero indexed)
 	 * @param x
-	 *            the first column element
+	 *        the first column element
 	 * @param y
-	 *            the second column element
+	 *        the second column element
 	 * @param z
-	 *            the third column element
+	 *        the third column element
 	 */
 	public final void setRow(int row, double x, double y, double z) {
 		switch (row) {
-		case 0:
-			this.m00 = x;
-			this.m01 = y;
-			this.m02 = z;
-			break;
+			case 0:
+				this.m00 = x;
+				this.m01 = y;
+				this.m02 = z;
+				break;
 
-		case 1:
-			this.m10 = x;
-			this.m11 = y;
-			this.m12 = z;
-			break;
+			case 1:
+				this.m10 = x;
+				this.m11 = y;
+				this.m12 = z;
+				break;
 
-		case 2:
-			this.m20 = x;
-			this.m21 = y;
-			this.m22 = z;
-			break;
+			case 2:
+				this.m20 = x;
+				this.m21 = y;
+				this.m22 = z;
+				break;
 
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d6"));
+			default:
+				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d6"));
 		}
 	}
 
 	/**
 	 * Sets the specified row of this matrix3d to the Vector provided.
-	 * 
+	 *
 	 * @param row
-	 *            the row number to be modified (zero indexed)
+	 *        the row number to be modified (zero indexed)
 	 * @param v
-	 *            the replacement row
+	 *        the replacement row
 	 */
 	public final void setRow(int row, Vector3d v) {
 		switch (row) {
-		case 0:
-			this.m00 = v.x;
-			this.m01 = v.y;
-			this.m02 = v.z;
-			break;
+			case 0:
+				this.m00 = v.x;
+				this.m01 = v.y;
+				this.m02 = v.z;
+				break;
 
-		case 1:
-			this.m10 = v.x;
-			this.m11 = v.y;
-			this.m12 = v.z;
-			break;
+			case 1:
+				this.m10 = v.x;
+				this.m11 = v.y;
+				this.m12 = v.z;
+				break;
 
-		case 2:
-			this.m20 = v.x;
-			this.m21 = v.y;
-			this.m22 = v.z;
-			break;
+			case 2:
+				this.m20 = v.x;
+				this.m21 = v.y;
+				this.m22 = v.z;
+				break;
 
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d6"));
+			default:
+				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d6"));
 		}
 	}
 
 	/**
 	 * Sets the specified row of this matrix3d to the three values provided.
-	 * 
+	 *
 	 * @param row
-	 *            the row number to be modified (zero indexed)
+	 *        the row number to be modified (zero indexed)
 	 * @param v
-	 *            the replacement row
+	 *        the replacement row
 	 */
 	public final void setRow(int row, double v[]) {
 		switch (row) {
-		case 0:
-			this.m00 = v[0];
-			this.m01 = v[1];
-			this.m02 = v[2];
-			break;
+			case 0:
+				this.m00 = v[0];
+				this.m01 = v[1];
+				this.m02 = v[2];
+				break;
 
-		case 1:
-			this.m10 = v[0];
-			this.m11 = v[1];
-			this.m12 = v[2];
-			break;
+			case 1:
+				this.m10 = v[0];
+				this.m11 = v[1];
+				this.m12 = v[2];
+				break;
 
-		case 2:
-			this.m20 = v[0];
-			this.m21 = v[1];
-			this.m22 = v[2];
-			break;
+			case 2:
+				this.m20 = v[0];
+				this.m21 = v[1];
+				this.m22 = v[2];
+				break;
 
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d6"));
+			default:
+				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d6"));
 		}
 	}
 
 	/**
 	 * Sets the specified column of this matrix3d to the three values provided.
-	 * 
+	 *
 	 * @param column
-	 *            the column number to be modified (zero indexed)
+	 *        the column number to be modified (zero indexed)
 	 * @param x
-	 *            the first row element
+	 *        the first row element
 	 * @param y
-	 *            the second row element
+	 *        the second row element
 	 * @param z
-	 *            the third row element
+	 *        the third row element
 	 */
 	public final void setColumn(int column, double x, double y, double z) {
 		switch (column) {
-		case 0:
-			this.m00 = x;
-			this.m10 = y;
-			this.m20 = z;
-			break;
+			case 0:
+				this.m00 = x;
+				this.m10 = y;
+				this.m20 = z;
+				break;
 
-		case 1:
-			this.m01 = x;
-			this.m11 = y;
-			this.m21 = z;
-			break;
+			case 1:
+				this.m01 = x;
+				this.m11 = y;
+				this.m21 = z;
+				break;
 
-		case 2:
-			this.m02 = x;
-			this.m12 = y;
-			this.m22 = z;
-			break;
+			case 2:
+				this.m02 = x;
+				this.m12 = y;
+				this.m22 = z;
+				break;
 
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d9"));
+			default:
+				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d9"));
 		}
 	}
 
 	/**
 	 * Sets the specified column of this matrix3d to the vector provided.
-	 * 
+	 *
 	 * @param column
-	 *            the column number to be modified (zero indexed)
+	 *        the column number to be modified (zero indexed)
 	 * @param v
-	 *            the replacement column
+	 *        the replacement column
 	 */
 	public final void setColumn(int column, Vector3d v) {
 		switch (column) {
-		case 0:
-			this.m00 = v.x;
-			this.m10 = v.y;
-			this.m20 = v.z;
-			break;
+			case 0:
+				this.m00 = v.x;
+				this.m10 = v.y;
+				this.m20 = v.z;
+				break;
 
-		case 1:
-			this.m01 = v.x;
-			this.m11 = v.y;
-			this.m21 = v.z;
-			break;
+			case 1:
+				this.m01 = v.x;
+				this.m11 = v.y;
+				this.m21 = v.z;
+				break;
 
-		case 2:
-			this.m02 = v.x;
-			this.m12 = v.y;
-			this.m22 = v.z;
-			break;
+			case 2:
+				this.m02 = v.x;
+				this.m12 = v.y;
+				this.m22 = v.z;
+				break;
 
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d9"));
+			default:
+				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d9"));
 		}
 	}
 
 	/**
 	 * Sets the specified column of this matrix3d to the three values provided.
-	 * 
+	 *
 	 * @param column
-	 *            the column number to be modified (zero indexed)
+	 *        the column number to be modified (zero indexed)
 	 * @param v
-	 *            the replacement column
+	 *        the replacement column
 	 */
 	public final void setColumn(int column, double v[]) {
 		switch (column) {
-		case 0:
-			this.m00 = v[0];
-			this.m10 = v[1];
-			this.m20 = v[2];
-			break;
+			case 0:
+				this.m00 = v[0];
+				this.m10 = v[1];
+				this.m20 = v[2];
+				break;
 
-		case 1:
-			this.m01 = v[0];
-			this.m11 = v[1];
-			this.m21 = v[2];
-			break;
+			case 1:
+				this.m01 = v[0];
+				this.m11 = v[1];
+				this.m21 = v[2];
+				break;
 
-		case 2:
-			this.m02 = v[0];
-			this.m12 = v[1];
-			this.m22 = v[2];
-			break;
+			case 2:
+				this.m02 = v[0];
+				this.m12 = v[1];
+				this.m22 = v[2];
+				break;
 
-		default:
-			throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d9"));
+			default:
+				throw new ArrayIndexOutOfBoundsException(VecMathI18N.getString("Matrix3d9"));
 		}
 	}
 
 	/**
-	 * Performs an SVD normalization of this matrix to calculate and return the
-	 * uniform scale factor. If the matrix has non-uniform scale factors, the
-	 * largest of the x, y, and z scale factors will be returned. This matrix is
-	 * not modified.
-	 * 
+	 * Performs an SVD normalization of this matrix to calculate and return the uniform
+	 * scale factor. If the matrix has non-uniform scale factors, the largest of the x, y,
+	 * and z scale factors will be returned. This matrix is not modified.
+	 *
 	 * @return the scale factor of this matrix
 	 */
 	public final double getScale() {
 
 		double[] tmp_scale = new double[3]; // scratch matrix
 		double[] tmp_rot = new double[9]; // scratch matrix
-		getScaleRotate(tmp_scale, tmp_rot);
+		this.getScaleRotate(tmp_scale, tmp_rot);
 
 		return (max3(tmp_scale));
 
@@ -725,33 +718,33 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Adds a scalar to each component of this matrix.
-	 * 
+	 *
 	 * @param scalar
-	 *            the scalar adder
+	 *        the scalar adder
 	 */
 	public final void add(double scalar) {
-		m00 += scalar;
-		m01 += scalar;
-		m02 += scalar;
+		this.m00 += scalar;
+		this.m01 += scalar;
+		this.m02 += scalar;
 
-		m10 += scalar;
-		m11 += scalar;
-		m12 += scalar;
+		this.m10 += scalar;
+		this.m11 += scalar;
+		this.m12 += scalar;
 
-		m20 += scalar;
-		m21 += scalar;
-		m22 += scalar;
+		this.m20 += scalar;
+		this.m21 += scalar;
+		this.m22 += scalar;
 
 	}
 
 	/**
-	 * Adds a scalar to each component of the matrix m1 and places the result
-	 * into this. Matrix m1 is not modified.
-	 * 
+	 * Adds a scalar to each component of the matrix m1 and places the result into this.
+	 * Matrix m1 is not modified.
+	 *
 	 * @param scalar
-	 *            the scalar adder
+	 *        the scalar adder
 	 * @param m1
-	 *            the original matrix values
+	 *        the original matrix values
 	 */
 	public final void add(double scalar, Matrix3d m1) {
 		this.m00 = m1.m00 + scalar;
@@ -769,11 +762,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this matrix to the matrix sum of matrices m1 and m2.
-	 * 
+	 *
 	 * @param m1
-	 *            the first matrix
+	 *        the first matrix
 	 * @param m2
-	 *            the second matrix
+	 *        the second matrix
 	 */
 	public final void add(Matrix3d m1, Matrix3d m2) {
 		this.m00 = m1.m00 + m2.m00;
@@ -791,9 +784,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this matrix to the sum of itself and matrix m1.
-	 * 
+	 *
 	 * @param m1
-	 *            the other matrix
+	 *        the other matrix
 	 */
 	public final void add(Matrix3d m1) {
 		this.m00 += m1.m00;
@@ -810,13 +803,12 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix difference of matrices m1 and
-	 * m2.
-	 * 
+	 * Sets the value of this matrix to the matrix difference of matrices m1 and m2.
+	 *
 	 * @param m1
-	 *            the first matrix
+	 *        the first matrix
 	 * @param m2
-	 *            the second matrix
+	 *        the second matrix
 	 */
 	public final void sub(Matrix3d m1, Matrix3d m2) {
 		this.m00 = m1.m00 - m2.m00;
@@ -833,11 +825,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix difference of itself and
-	 * matrix m1 (this = this - m1).
-	 * 
+	 * Sets the value of this matrix to the matrix difference of itself and matrix m1
+	 * (this = this - m1).
+	 *
 	 * @param m1
-	 *            the other matrix
+	 *        the other matrix
 	 */
 	public final void sub(Matrix3d m1) {
 		this.m00 -= m1.m00;
@@ -874,9 +866,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this matrix to the transpose of the argument matrix.
-	 * 
+	 *
 	 * @param m1
-	 *            the matrix to be transposed
+	 *        the matrix to be transposed
 	 */
 	public final void transpose(Matrix3d m1) {
 		if (this != m1) {
@@ -891,53 +883,54 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			this.m20 = m1.m02;
 			this.m21 = m1.m12;
 			this.m22 = m1.m22;
-		} else
+		} else {
 			this.transpose();
+		}
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix conversion of the double
-	 * precision quaternion argument.
-	 * 
+	 * Sets the value of this matrix to the matrix conversion of the double precision
+	 * quaternion argument.
+	 *
 	 * @param q1
-	 *            the quaternion to be converted
+	 *        the quaternion to be converted
 	 */
 	public final void set(Quat4d q1) {
-		this.m00 = (1.0 - 2.0 * q1.y * q1.y - 2.0 * q1.z * q1.z);
-		this.m10 = (2.0 * (q1.x * q1.y + q1.w * q1.z));
-		this.m20 = (2.0 * (q1.x * q1.z - q1.w * q1.y));
+		this.m00 = (1.0 - (2.0 * q1.y * q1.y) - (2.0 * q1.z * q1.z));
+		this.m10 = (2.0 * ((q1.x * q1.y) + (q1.w * q1.z)));
+		this.m20 = (2.0 * ((q1.x * q1.z) - (q1.w * q1.y)));
 
-		this.m01 = (2.0 * (q1.x * q1.y - q1.w * q1.z));
-		this.m11 = (1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.z * q1.z);
-		this.m21 = (2.0 * (q1.y * q1.z + q1.w * q1.x));
+		this.m01 = (2.0 * ((q1.x * q1.y) - (q1.w * q1.z)));
+		this.m11 = (1.0 - (2.0 * q1.x * q1.x) - (2.0 * q1.z * q1.z));
+		this.m21 = (2.0 * ((q1.y * q1.z) + (q1.w * q1.x)));
 
-		this.m02 = (2.0 * (q1.x * q1.z + q1.w * q1.y));
-		this.m12 = (2.0 * (q1.y * q1.z - q1.w * q1.x));
-		this.m22 = (1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.y * q1.y);
+		this.m02 = (2.0 * ((q1.x * q1.z) + (q1.w * q1.y)));
+		this.m12 = (2.0 * ((q1.y * q1.z) - (q1.w * q1.x)));
+		this.m22 = (1.0 - (2.0 * q1.x * q1.x) - (2.0 * q1.y * q1.y));
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix conversion of the double
-	 * precision axis and angle argument.
-	 * 
+	 * Sets the value of this matrix to the matrix conversion of the double precision axis
+	 * and angle argument.
+	 *
 	 * @param a1
-	 *            the axis and angle to be converted
+	 *        the axis and angle to be converted
 	 */
 	public final void set(AxisAngle4d a1) {
-		double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
+		double mag = Math.sqrt((a1.x * a1.x) + (a1.y * a1.y) + (a1.z * a1.z));
 
 		if (mag < EPS) {
-			m00 = 1.0;
-			m01 = 0.0;
-			m02 = 0.0;
+			this.m00 = 1.0;
+			this.m01 = 0.0;
+			this.m02 = 0.0;
 
-			m10 = 0.0;
-			m11 = 1.0;
-			m12 = 0.0;
+			this.m10 = 0.0;
+			this.m11 = 1.0;
+			this.m12 = 0.0;
 
-			m20 = 0.0;
-			m21 = 0.0;
-			m22 = 1.0;
+			this.m20 = 0.0;
+			this.m21 = 0.0;
+			this.m22 = 1.0;
 		} else {
 			mag = 1.0 / mag;
 			double ax = a1.x * mag;
@@ -952,62 +945,62 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			double xy = ax * ay;
 			double yz = ay * az;
 
-			m00 = t * ax * ax + cosTheta;
-			m01 = t * xy - sinTheta * az;
-			m02 = t * xz + sinTheta * ay;
+			this.m00 = (t * ax * ax) + cosTheta;
+			this.m01 = (t * xy) - (sinTheta * az);
+			this.m02 = (t * xz) + (sinTheta * ay);
 
-			m10 = t * xy + sinTheta * az;
-			m11 = t * ay * ay + cosTheta;
-			m12 = t * yz - sinTheta * ax;
+			this.m10 = (t * xy) + (sinTheta * az);
+			this.m11 = (t * ay * ay) + cosTheta;
+			this.m12 = (t * yz) - (sinTheta * ax);
 
-			m20 = t * xz - sinTheta * ay;
-			m21 = t * yz + sinTheta * ax;
-			m22 = t * az * az + cosTheta;
+			this.m20 = (t * xz) - (sinTheta * ay);
+			this.m21 = (t * yz) + (sinTheta * ax);
+			this.m22 = (t * az * az) + cosTheta;
 		}
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix conversion of the single
-	 * precision quaternion argument.
-	 * 
+	 * Sets the value of this matrix to the matrix conversion of the single precision
+	 * quaternion argument.
+	 *
 	 * @param q1
-	 *            the quaternion to be converted
+	 *        the quaternion to be converted
 	 */
 	public final void set(Quat4f q1) {
-		this.m00 = (1.0 - 2.0 * q1.y * q1.y - 2.0 * q1.z * q1.z);
-		this.m10 = (2.0 * (q1.x * q1.y + q1.w * q1.z));
-		this.m20 = (2.0 * (q1.x * q1.z - q1.w * q1.y));
+		this.m00 = (1.0 - (2.0 * q1.y * q1.y) - (2.0 * q1.z * q1.z));
+		this.m10 = (2.0 * ((q1.x * q1.y) + (q1.w * q1.z)));
+		this.m20 = (2.0 * ((q1.x * q1.z) - (q1.w * q1.y)));
 
-		this.m01 = (2.0 * (q1.x * q1.y - q1.w * q1.z));
-		this.m11 = (1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.z * q1.z);
-		this.m21 = (2.0 * (q1.y * q1.z + q1.w * q1.x));
+		this.m01 = (2.0 * ((q1.x * q1.y) - (q1.w * q1.z)));
+		this.m11 = (1.0 - (2.0 * q1.x * q1.x) - (2.0 * q1.z * q1.z));
+		this.m21 = (2.0 * ((q1.y * q1.z) + (q1.w * q1.x)));
 
-		this.m02 = (2.0 * (q1.x * q1.z + q1.w * q1.y));
-		this.m12 = (2.0 * (q1.y * q1.z - q1.w * q1.x));
-		this.m22 = (1.0 - 2.0 * q1.x * q1.x - 2.0 * q1.y * q1.y);
+		this.m02 = (2.0 * ((q1.x * q1.z) + (q1.w * q1.y)));
+		this.m12 = (2.0 * ((q1.y * q1.z) - (q1.w * q1.x)));
+		this.m22 = (1.0 - (2.0 * q1.x * q1.x) - (2.0 * q1.y * q1.y));
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix conversion of the single
-	 * precision axis and angle argument.
-	 * 
+	 * Sets the value of this matrix to the matrix conversion of the single precision axis
+	 * and angle argument.
+	 *
 	 * @param a1
-	 *            the axis and angle to be converted
+	 *        the axis and angle to be converted
 	 */
 	public final void set(AxisAngle4f a1) {
-		double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
+		double mag = Math.sqrt((a1.x * a1.x) + (a1.y * a1.y) + (a1.z * a1.z));
 		if (mag < EPS) {
-			m00 = 1.0;
-			m01 = 0.0;
-			m02 = 0.0;
+			this.m00 = 1.0;
+			this.m01 = 0.0;
+			this.m02 = 0.0;
 
-			m10 = 0.0;
-			m11 = 1.0;
-			m12 = 0.0;
+			this.m10 = 0.0;
+			this.m11 = 1.0;
+			this.m12 = 0.0;
 
-			m20 = 0.0;
-			m21 = 0.0;
-			m22 = 1.0;
+			this.m20 = 0.0;
+			this.m21 = 0.0;
+			this.m22 = 1.0;
 		} else {
 			mag = 1.0 / mag;
 			double ax = a1.x * mag;
@@ -1021,26 +1014,25 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			double xy = ax * ay;
 			double yz = ay * az;
 
-			m00 = t * ax * ax + cosTheta;
-			m01 = t * xy - sinTheta * az;
-			m02 = t * xz + sinTheta * ay;
+			this.m00 = (t * ax * ax) + cosTheta;
+			this.m01 = (t * xy) - (sinTheta * az);
+			this.m02 = (t * xz) + (sinTheta * ay);
 
-			m10 = t * xy + sinTheta * az;
-			m11 = t * ay * ay + cosTheta;
-			m12 = t * yz - sinTheta * ax;
+			this.m10 = (t * xy) + (sinTheta * az);
+			this.m11 = (t * ay * ay) + cosTheta;
+			this.m12 = (t * yz) - (sinTheta * ax);
 
-			m20 = t * xz - sinTheta * ay;
-			m21 = t * yz + sinTheta * ax;
-			m22 = t * az * az + cosTheta;
+			this.m20 = (t * xz) - (sinTheta * ay);
+			this.m21 = (t * yz) + (sinTheta * ax);
+			this.m22 = (t * az * az) + cosTheta;
 		}
 	}
 
 	/**
-	 * Sets the value of this matrix to the double value of the Matrix3f
-	 * argument.
-	 * 
+	 * Sets the value of this matrix to the double value of the Matrix3f argument.
+	 *
 	 * @param m1
-	 *            the matrix3d to be converted to double
+	 *        the matrix3d to be converted to double
 	 */
 	public final void set(Matrix3f m1) {
 		this.m00 = m1.m00;
@@ -1058,9 +1050,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this matrix to the value of the Matrix3d argument.
-	 * 
+	 *
 	 * @param m1
-	 *            the source matrix3d
+	 *        the source matrix3d
 	 */
 	public final void set(Matrix3d m1) {
 		this.m00 = m1.m00;
@@ -1077,53 +1069,51 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the values in this Matrix3d equal to the row-major array parameter
-	 * (ie, the first three elements of the array will be copied into the first
-	 * row of this matrix, etc.).
-	 * 
+	 * Sets the values in this Matrix3d equal to the row-major array parameter (ie, the
+	 * first three elements of the array will be copied into the first row of this matrix,
+	 * etc.).
+	 *
 	 * @param m
-	 *            the double precision array of length 9
+	 *        the double precision array of length 9
 	 */
 	public final void set(double[] m) {
-		m00 = m[0];
-		m01 = m[1];
-		m02 = m[2];
+		this.m00 = m[0];
+		this.m01 = m[1];
+		this.m02 = m[2];
 
-		m10 = m[3];
-		m11 = m[4];
-		m12 = m[5];
+		this.m10 = m[3];
+		this.m11 = m[4];
+		this.m12 = m[5];
 
-		m20 = m[6];
-		m21 = m[7];
-		m22 = m[8];
+		this.m20 = m[6];
+		this.m21 = m[7];
+		this.m22 = m[8];
 
 	}
 
 	/**
-	 * Sets the value of this matrix to the matrix inverse of the passed matrix
-	 * m1.
-	 * 
+	 * Sets the value of this matrix to the matrix inverse of the passed matrix m1.
+	 *
 	 * @param m1
-	 *            the matrix to be inverted
+	 *        the matrix to be inverted
 	 */
 	public final void invert(Matrix3d m1) {
-		invertGeneral(m1);
+		this.invertGeneral(m1);
 	}
 
 	/**
 	 * Inverts this matrix in place.
 	 */
 	public final void invert() {
-		invertGeneral(this);
+		this.invertGeneral(this);
 	}
 
 	/**
-	 * General invert routine. Inverts m1 and places the result in "this". Note
-	 * that this routine handles both the "this" version and the non-"this"
-	 * version.
-	 * 
-	 * Also note that since this routine is slow anyway, we won't worry about
-	 * allocating a little bit of garbage.
+	 * General invert routine. Inverts m1 and places the result in "this". Note that this
+	 * routine handles both the "this" version and the non-"this" version.
+	 *
+	 * Also note that since this routine is slow anyway, we won't worry about allocating a
+	 * little bit of garbage.
 	 */
 	private final void invertGeneral(Matrix3d m1) {
 		double result[] = new double[9];
@@ -1154,8 +1144,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		}
 
 		// Perform back substitution on the identity matrix
-		for (i = 0; i < 9; i++)
+		for (i = 0; i < 9; i++) {
 			result[i] = 0.0;
+		}
 		result[0] = 1.0;
 		result[4] = 1.0;
 		result[8] = 1.0;
@@ -1176,17 +1167,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Given a 3x3 array "matrix0", this function replaces it with the LU
-	 * decomposition of a row-wise permutation of itself. The input parameters
-	 * are "matrix0" and "dimen". The array "matrix0" is also an output
-	 * parameter. The vector "row_perm[3]" is an output parameter that contains
-	 * the row permutations resulting from partial pivoting. The output
-	 * parameter "even_row_xchg" is 1 when the number of row exchanges is even,
-	 * or -1 otherwise. Assumes data type is always double.
-	 * 
-	 * This function is similar to luDecomposition, except that it is tuned
-	 * specifically for 3x3 matrices.
-	 * 
+	 * Given a 3x3 array "matrix0", this function replaces it with the LU decomposition of
+	 * a row-wise permutation of itself. The input parameters are "matrix0" and "dimen".
+	 * The array "matrix0" is also an output parameter. The vector "row_perm[3]" is an
+	 * output parameter that contains the row permutations resulting from partial
+	 * pivoting. The output parameter "even_row_xchg" is 1 when the number of row
+	 * exchanges is even, or -1 otherwise. Assumes data type is always double.
+	 *
+	 * This function is similar to luDecomposition, except that it is tuned specifically
+	 * for 3x3 matrices.
+	 *
 	 * @return true if the matrix is nonsingular, or false otherwise.
 	 */
 	//
@@ -1326,17 +1316,15 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Solves a set of linear equations. The input parameters "matrix1", and
-	 * "row_perm" come from luDecompostionD3x3 and do not change here. The
-	 * parameter "matrix2" is a set of column vectors assembled into a 3x3
-	 * matrix of floating-point values. The procedure takes each column of
-	 * "matrix2" in turn and treats it as the right-hand side of the matrix
-	 * equation Ax = LUx = b. The solution vector replaces the original column
-	 * of the matrix.
-	 * 
-	 * If "matrix2" is the identity matrix, the procedure replaces its contents
-	 * with the inverse of the matrix from which "matrix1" was originally
-	 * derived.
+	 * Solves a set of linear equations. The input parameters "matrix1", and "row_perm"
+	 * come from luDecompostionD3x3 and do not change here. The parameter "matrix2" is a
+	 * set of column vectors assembled into a 3x3 matrix of floating-point values. The
+	 * procedure takes each column of "matrix2" in turn and treats it as the right-hand
+	 * side of the matrix equation Ax = LUx = b. The solution vector replaces the original
+	 * column of the matrix.
+	 *
+	 * If "matrix2" is the identity matrix, the procedure replaces its contents with the
+	 * inverse of the matrix from which "matrix1" was originally derived.
 	 */
 	//
 	// Reference: Press, Flannery, Teukolsky, Vetterling,
@@ -1363,53 +1351,53 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 				double sum;
 
 				ip = row_perm[rp + i];
-				sum = matrix2[cv + 3 * ip];
-				matrix2[cv + 3 * ip] = matrix2[cv + 3 * i];
+				sum = matrix2[cv + (3 * ip)];
+				matrix2[cv + (3 * ip)] = matrix2[cv + (3 * i)];
 				if (ii >= 0) {
 					// rv = &(matrix1[i][0]);
 					rv = i * 3;
-					for (j = ii; j <= i - 1; j++) {
-						sum -= matrix1[rv + j] * matrix2[cv + 3 * j];
+					for (j = ii; j <= (i - 1); j++) {
+						sum -= matrix1[rv + j] * matrix2[cv + (3 * j)];
 					}
 				} else if (sum != 0.0) {
 					ii = i;
 				}
-				matrix2[cv + 3 * i] = sum;
+				matrix2[cv + (3 * i)] = sum;
 			}
 
 			// Backsubstitution
 			// rv = &(matrix1[3][0]);
 			rv = 2 * 3;
-			matrix2[cv + 3 * 2] /= matrix1[rv + 2];
+			matrix2[cv + (3 * 2)] /= matrix1[rv + 2];
 
 			rv -= 3;
-			matrix2[cv + 3 * 1] = (matrix2[cv + 3 * 1] - matrix1[rv + 2] * matrix2[cv + 3 * 2]) / matrix1[rv + 1];
+			matrix2[cv + (3 * 1)] = (matrix2[cv + (3 * 1)] - (matrix1[rv + 2] * matrix2[cv + (3 * 2)])) / matrix1[rv + 1];
 
 			rv -= 3;
-			matrix2[cv + 4 * 0] = (matrix2[cv + 3 * 0] - matrix1[rv + 1] * matrix2[cv + 3 * 1] - matrix1[rv + 2] * matrix2[cv + 3 * 2]) / matrix1[rv + 0];
+			matrix2[cv + (4 * 0)] = (matrix2[cv + (3 * 0)] - (matrix1[rv + 1] * matrix2[cv + (3 * 1)]) - (matrix1[rv + 2] * matrix2[cv + (3 * 2)]))
+					/ matrix1[rv + 0];
 
 		}
 	}
 
 	/**
 	 * Computes the determinant of this matrix.
-	 * 
+	 *
 	 * @return the determinant of the matrix
 	 */
 	public final double determinant() {
 		double total;
 
-		total = this.m00 * (this.m11 * this.m22 - this.m12 * this.m21) + this.m01 * (this.m12 * this.m20 - this.m10 * this.m22) + this.m02
-				* (this.m10 * this.m21 - this.m11 * this.m20);
+		total = (this.m00 * ((this.m11 * this.m22) - (this.m12 * this.m21))) + (this.m01 * ((this.m12 * this.m20) - (this.m10 * this.m22)))
+				+ (this.m02 * ((this.m10 * this.m21) - (this.m11 * this.m20)));
 		return total;
 	}
 
 	/**
-	 * Sets the value of this matrix to a scale matrix with the passed scale
-	 * amount.
-	 * 
+	 * Sets the value of this matrix to a scale matrix with the passed scale amount.
+	 *
 	 * @param scale
-	 *            the scale factor for the matrix
+	 *        the scale factor for the matrix
 	 */
 	public final void set(double scale) {
 		this.m00 = scale;
@@ -1426,11 +1414,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to a counter clockwise rotation about the x
-	 * axis.
-	 * 
+	 * Sets the value of this matrix to a counter clockwise rotation about the x axis.
+	 *
 	 * @param angle
-	 *            the angle to rotate about the X axis in radians
+	 *        the angle to rotate about the X axis in radians
 	 */
 	public final void rotX(double angle) {
 		double sinAngle, cosAngle;
@@ -1452,11 +1439,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to a counter clockwise rotation about the y
-	 * axis.
-	 * 
+	 * Sets the value of this matrix to a counter clockwise rotation about the y axis.
+	 *
 	 * @param angle
-	 *            the angle to rotate about the Y axis in radians
+	 *        the angle to rotate about the Y axis in radians
 	 */
 	public final void rotY(double angle) {
 		double sinAngle, cosAngle;
@@ -1478,11 +1464,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to a counter clockwise rotation about the z
-	 * axis.
-	 * 
+	 * Sets the value of this matrix to a counter clockwise rotation about the z axis.
+	 *
 	 * @param angle
-	 *            the angle to rotate about the Z axis in radians
+	 *        the angle to rotate about the Z axis in radians
 	 */
 	public final void rotZ(double angle) {
 		double sinAngle, cosAngle;
@@ -1505,33 +1490,33 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Multiplies each element of this matrix by a scalar.
-	 * 
+	 *
 	 * @param scalar
-	 *            The scalar multiplier.
+	 *        The scalar multiplier.
 	 */
 	public final void mul(double scalar) {
-		m00 *= scalar;
-		m01 *= scalar;
-		m02 *= scalar;
+		this.m00 *= scalar;
+		this.m01 *= scalar;
+		this.m02 *= scalar;
 
-		m10 *= scalar;
-		m11 *= scalar;
-		m12 *= scalar;
+		this.m10 *= scalar;
+		this.m11 *= scalar;
+		this.m12 *= scalar;
 
-		m20 *= scalar;
-		m21 *= scalar;
-		m22 *= scalar;
+		this.m20 *= scalar;
+		this.m21 *= scalar;
+		this.m22 *= scalar;
 
 	}
 
 	/**
-	 * Multiplies each element of matrix m1 by a scalar and places the result
-	 * into this. Matrix m1 is not modified.
-	 * 
+	 * Multiplies each element of matrix m1 by a scalar and places the result into this.
+	 * Matrix m1 is not modified.
+	 *
 	 * @param scalar
-	 *            the scalar multiplier
+	 *        the scalar multiplier
 	 * @param m1
-	 *            the original matrix
+	 *        the original matrix
 	 */
 	public final void mul(double scalar, Matrix3d m1) {
 		this.m00 = scalar * m1.m00;
@@ -1549,26 +1534,25 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to the result of multiplying itself with
-	 * matrix m1.
-	 * 
+	 * Sets the value of this matrix to the result of multiplying itself with matrix m1.
+	 *
 	 * @param m1
-	 *            the other matrix
+	 *        the other matrix
 	 */
 	public final void mul(Matrix3d m1) {
 		double m00, m01, m02, m10, m11, m12, m20, m21, m22;
 
-		m00 = this.m00 * m1.m00 + this.m01 * m1.m10 + this.m02 * m1.m20;
-		m01 = this.m00 * m1.m01 + this.m01 * m1.m11 + this.m02 * m1.m21;
-		m02 = this.m00 * m1.m02 + this.m01 * m1.m12 + this.m02 * m1.m22;
+		m00 = (this.m00 * m1.m00) + (this.m01 * m1.m10) + (this.m02 * m1.m20);
+		m01 = (this.m00 * m1.m01) + (this.m01 * m1.m11) + (this.m02 * m1.m21);
+		m02 = (this.m00 * m1.m02) + (this.m01 * m1.m12) + (this.m02 * m1.m22);
 
-		m10 = this.m10 * m1.m00 + this.m11 * m1.m10 + this.m12 * m1.m20;
-		m11 = this.m10 * m1.m01 + this.m11 * m1.m11 + this.m12 * m1.m21;
-		m12 = this.m10 * m1.m02 + this.m11 * m1.m12 + this.m12 * m1.m22;
+		m10 = (this.m10 * m1.m00) + (this.m11 * m1.m10) + (this.m12 * m1.m20);
+		m11 = (this.m10 * m1.m01) + (this.m11 * m1.m11) + (this.m12 * m1.m21);
+		m12 = (this.m10 * m1.m02) + (this.m11 * m1.m12) + (this.m12 * m1.m22);
 
-		m20 = this.m20 * m1.m00 + this.m21 * m1.m10 + this.m22 * m1.m20;
-		m21 = this.m20 * m1.m01 + this.m21 * m1.m11 + this.m22 * m1.m21;
-		m22 = this.m20 * m1.m02 + this.m21 * m1.m12 + this.m22 * m1.m22;
+		m20 = (this.m20 * m1.m00) + (this.m21 * m1.m10) + (this.m22 * m1.m20);
+		m21 = (this.m20 * m1.m01) + (this.m21 * m1.m11) + (this.m22 * m1.m21);
+		m22 = (this.m20 * m1.m02) + (this.m21 * m1.m12) + (this.m22 * m1.m22);
 
 		this.m00 = m00;
 		this.m01 = m01;
@@ -1582,42 +1566,42 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix to the result of multiplying the two
-	 * argument matrices together.
-	 * 
+	 * Sets the value of this matrix to the result of multiplying the two argument
+	 * matrices together.
+	 *
 	 * @param m1
-	 *            the first matrix
+	 *        the first matrix
 	 * @param m2
-	 *            the second matrix
+	 *        the second matrix
 	 */
 	public final void mul(Matrix3d m1, Matrix3d m2) {
-		if (this != m1 && this != m2) {
-			this.m00 = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20;
-			this.m01 = m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21;
-			this.m02 = m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22;
+		if ((this != m1) && (this != m2)) {
+			this.m00 = (m1.m00 * m2.m00) + (m1.m01 * m2.m10) + (m1.m02 * m2.m20);
+			this.m01 = (m1.m00 * m2.m01) + (m1.m01 * m2.m11) + (m1.m02 * m2.m21);
+			this.m02 = (m1.m00 * m2.m02) + (m1.m01 * m2.m12) + (m1.m02 * m2.m22);
 
-			this.m10 = m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20;
-			this.m11 = m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21;
-			this.m12 = m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22;
+			this.m10 = (m1.m10 * m2.m00) + (m1.m11 * m2.m10) + (m1.m12 * m2.m20);
+			this.m11 = (m1.m10 * m2.m01) + (m1.m11 * m2.m11) + (m1.m12 * m2.m21);
+			this.m12 = (m1.m10 * m2.m02) + (m1.m11 * m2.m12) + (m1.m12 * m2.m22);
 
-			this.m20 = m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20;
-			this.m21 = m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21;
-			this.m22 = m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22;
+			this.m20 = (m1.m20 * m2.m00) + (m1.m21 * m2.m10) + (m1.m22 * m2.m20);
+			this.m21 = (m1.m20 * m2.m01) + (m1.m21 * m2.m11) + (m1.m22 * m2.m21);
+			this.m22 = (m1.m20 * m2.m02) + (m1.m21 * m2.m12) + (m1.m22 * m2.m22);
 		} else {
 			double m00, m01, m02, m10, m11, m12, m20, m21, m22; // vars for temp
-																// result matrix
+			// result matrix
 
-			m00 = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20;
-			m01 = m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21;
-			m02 = m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22;
+			m00 = (m1.m00 * m2.m00) + (m1.m01 * m2.m10) + (m1.m02 * m2.m20);
+			m01 = (m1.m00 * m2.m01) + (m1.m01 * m2.m11) + (m1.m02 * m2.m21);
+			m02 = (m1.m00 * m2.m02) + (m1.m01 * m2.m12) + (m1.m02 * m2.m22);
 
-			m10 = m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20;
-			m11 = m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21;
-			m12 = m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22;
+			m10 = (m1.m10 * m2.m00) + (m1.m11 * m2.m10) + (m1.m12 * m2.m20);
+			m11 = (m1.m10 * m2.m01) + (m1.m11 * m2.m11) + (m1.m12 * m2.m21);
+			m12 = (m1.m10 * m2.m02) + (m1.m11 * m2.m12) + (m1.m12 * m2.m22);
 
-			m20 = m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20;
-			m21 = m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21;
-			m22 = m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22;
+			m20 = (m1.m20 * m2.m00) + (m1.m21 * m2.m10) + (m1.m22 * m2.m20);
+			m21 = (m1.m20 * m2.m01) + (m1.m21 * m2.m11) + (m1.m22 * m2.m21);
+			m22 = (m1.m20 * m2.m02) + (m1.m21 * m2.m12) + (m1.m22 * m2.m22);
 
 			this.m00 = m00;
 			this.m01 = m01;
@@ -1632,12 +1616,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Multiplies this matrix by matrix m1, does an SVD normalization of the
-	 * result, and places the result back into this matrix this =
-	 * SVDnorm(this*m1).
-	 * 
+	 * Multiplies this matrix by matrix m1, does an SVD normalization of the result, and
+	 * places the result back into this matrix this = SVDnorm(this*m1).
+	 *
 	 * @param m1
-	 *            the matrix on the right hand side of the multiplication
+	 *        the matrix on the right hand side of the multiplication
 	 */
 	public final void mulNormalize(Matrix3d m1) {
 
@@ -1645,17 +1628,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		double[] tmp_rot = new double[9]; // scratch matrix
 		double[] tmp_scale = new double[3]; // scratch matrix
 
-		tmp[0] = this.m00 * m1.m00 + this.m01 * m1.m10 + this.m02 * m1.m20;
-		tmp[1] = this.m00 * m1.m01 + this.m01 * m1.m11 + this.m02 * m1.m21;
-		tmp[2] = this.m00 * m1.m02 + this.m01 * m1.m12 + this.m02 * m1.m22;
+		tmp[0] = (this.m00 * m1.m00) + (this.m01 * m1.m10) + (this.m02 * m1.m20);
+		tmp[1] = (this.m00 * m1.m01) + (this.m01 * m1.m11) + (this.m02 * m1.m21);
+		tmp[2] = (this.m00 * m1.m02) + (this.m01 * m1.m12) + (this.m02 * m1.m22);
 
-		tmp[3] = this.m10 * m1.m00 + this.m11 * m1.m10 + this.m12 * m1.m20;
-		tmp[4] = this.m10 * m1.m01 + this.m11 * m1.m11 + this.m12 * m1.m21;
-		tmp[5] = this.m10 * m1.m02 + this.m11 * m1.m12 + this.m12 * m1.m22;
+		tmp[3] = (this.m10 * m1.m00) + (this.m11 * m1.m10) + (this.m12 * m1.m20);
+		tmp[4] = (this.m10 * m1.m01) + (this.m11 * m1.m11) + (this.m12 * m1.m21);
+		tmp[5] = (this.m10 * m1.m02) + (this.m11 * m1.m12) + (this.m12 * m1.m22);
 
-		tmp[6] = this.m20 * m1.m00 + this.m21 * m1.m10 + this.m22 * m1.m20;
-		tmp[7] = this.m20 * m1.m01 + this.m21 * m1.m11 + this.m22 * m1.m21;
-		tmp[8] = this.m20 * m1.m02 + this.m21 * m1.m12 + this.m22 * m1.m22;
+		tmp[6] = (this.m20 * m1.m00) + (this.m21 * m1.m10) + (this.m22 * m1.m20);
+		tmp[7] = (this.m20 * m1.m01) + (this.m21 * m1.m11) + (this.m22 * m1.m21);
+		tmp[8] = (this.m20 * m1.m02) + (this.m21 * m1.m12) + (this.m22 * m1.m22);
 
 		compute_svd(tmp, tmp_scale, tmp_rot);
 
@@ -1674,13 +1657,13 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Multiplies matrix m1 by matrix m2, does an SVD normalization of the
-	 * result, and places the result into this matrix this = SVDnorm(m1*m2).
-	 * 
+	 * Multiplies matrix m1 by matrix m2, does an SVD normalization of the result, and
+	 * places the result into this matrix this = SVDnorm(m1*m2).
+	 *
 	 * @param m1
-	 *            the matrix on the left hand side of the multiplication
+	 *        the matrix on the left hand side of the multiplication
 	 * @param m2
-	 *            the matrix on the right hand side of the multiplication
+	 *        the matrix on the right hand side of the multiplication
 	 */
 	public final void mulNormalize(Matrix3d m1, Matrix3d m2) {
 
@@ -1688,17 +1671,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		double[] tmp_rot = new double[9]; // scratch matrix
 		double[] tmp_scale = new double[3]; // scratch matrix
 
-		tmp[0] = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20;
-		tmp[1] = m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21;
-		tmp[2] = m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22;
+		tmp[0] = (m1.m00 * m2.m00) + (m1.m01 * m2.m10) + (m1.m02 * m2.m20);
+		tmp[1] = (m1.m00 * m2.m01) + (m1.m01 * m2.m11) + (m1.m02 * m2.m21);
+		tmp[2] = (m1.m00 * m2.m02) + (m1.m01 * m2.m12) + (m1.m02 * m2.m22);
 
-		tmp[3] = m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20;
-		tmp[4] = m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21;
-		tmp[5] = m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22;
+		tmp[3] = (m1.m10 * m2.m00) + (m1.m11 * m2.m10) + (m1.m12 * m2.m20);
+		tmp[4] = (m1.m10 * m2.m01) + (m1.m11 * m2.m11) + (m1.m12 * m2.m21);
+		tmp[5] = (m1.m10 * m2.m02) + (m1.m11 * m2.m12) + (m1.m12 * m2.m22);
 
-		tmp[6] = m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20;
-		tmp[7] = m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21;
-		tmp[8] = m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22;
+		tmp[6] = (m1.m20 * m2.m00) + (m1.m21 * m2.m10) + (m1.m22 * m2.m20);
+		tmp[7] = (m1.m20 * m2.m01) + (m1.m21 * m2.m11) + (m1.m22 * m2.m21);
+		tmp[8] = (m1.m20 * m2.m02) + (m1.m21 * m2.m12) + (m1.m22 * m2.m22);
 
 		compute_svd(tmp, tmp_scale, tmp_rot);
 
@@ -1717,42 +1700,42 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Multiplies the transpose of matrix m1 times the transpose of matrix m2,
-	 * and places the result into this.
-	 * 
+	 * Multiplies the transpose of matrix m1 times the transpose of matrix m2, and places
+	 * the result into this.
+	 *
 	 * @param m1
-	 *            the matrix on the left hand side of the multiplication
+	 *        the matrix on the left hand side of the multiplication
 	 * @param m2
-	 *            the matrix on the right hand side of the multiplication
+	 *        the matrix on the right hand side of the multiplication
 	 */
 	public final void mulTransposeBoth(Matrix3d m1, Matrix3d m2) {
-		if (this != m1 && this != m2) {
-			this.m00 = m1.m00 * m2.m00 + m1.m10 * m2.m01 + m1.m20 * m2.m02;
-			this.m01 = m1.m00 * m2.m10 + m1.m10 * m2.m11 + m1.m20 * m2.m12;
-			this.m02 = m1.m00 * m2.m20 + m1.m10 * m2.m21 + m1.m20 * m2.m22;
+		if ((this != m1) && (this != m2)) {
+			this.m00 = (m1.m00 * m2.m00) + (m1.m10 * m2.m01) + (m1.m20 * m2.m02);
+			this.m01 = (m1.m00 * m2.m10) + (m1.m10 * m2.m11) + (m1.m20 * m2.m12);
+			this.m02 = (m1.m00 * m2.m20) + (m1.m10 * m2.m21) + (m1.m20 * m2.m22);
 
-			this.m10 = m1.m01 * m2.m00 + m1.m11 * m2.m01 + m1.m21 * m2.m02;
-			this.m11 = m1.m01 * m2.m10 + m1.m11 * m2.m11 + m1.m21 * m2.m12;
-			this.m12 = m1.m01 * m2.m20 + m1.m11 * m2.m21 + m1.m21 * m2.m22;
+			this.m10 = (m1.m01 * m2.m00) + (m1.m11 * m2.m01) + (m1.m21 * m2.m02);
+			this.m11 = (m1.m01 * m2.m10) + (m1.m11 * m2.m11) + (m1.m21 * m2.m12);
+			this.m12 = (m1.m01 * m2.m20) + (m1.m11 * m2.m21) + (m1.m21 * m2.m22);
 
-			this.m20 = m1.m02 * m2.m00 + m1.m12 * m2.m01 + m1.m22 * m2.m02;
-			this.m21 = m1.m02 * m2.m10 + m1.m12 * m2.m11 + m1.m22 * m2.m12;
-			this.m22 = m1.m02 * m2.m20 + m1.m12 * m2.m21 + m1.m22 * m2.m22;
+			this.m20 = (m1.m02 * m2.m00) + (m1.m12 * m2.m01) + (m1.m22 * m2.m02);
+			this.m21 = (m1.m02 * m2.m10) + (m1.m12 * m2.m11) + (m1.m22 * m2.m12);
+			this.m22 = (m1.m02 * m2.m20) + (m1.m12 * m2.m21) + (m1.m22 * m2.m22);
 		} else {
 			double m00, m01, m02, m10, m11, m12, m20, m21, m22; // vars for temp
-																// result matrix
+			// result matrix
 
-			m00 = m1.m00 * m2.m00 + m1.m10 * m2.m01 + m1.m20 * m2.m02;
-			m01 = m1.m00 * m2.m10 + m1.m10 * m2.m11 + m1.m20 * m2.m12;
-			m02 = m1.m00 * m2.m20 + m1.m10 * m2.m21 + m1.m20 * m2.m22;
+			m00 = (m1.m00 * m2.m00) + (m1.m10 * m2.m01) + (m1.m20 * m2.m02);
+			m01 = (m1.m00 * m2.m10) + (m1.m10 * m2.m11) + (m1.m20 * m2.m12);
+			m02 = (m1.m00 * m2.m20) + (m1.m10 * m2.m21) + (m1.m20 * m2.m22);
 
-			m10 = m1.m01 * m2.m00 + m1.m11 * m2.m01 + m1.m21 * m2.m02;
-			m11 = m1.m01 * m2.m10 + m1.m11 * m2.m11 + m1.m21 * m2.m12;
-			m12 = m1.m01 * m2.m20 + m1.m11 * m2.m21 + m1.m21 * m2.m22;
+			m10 = (m1.m01 * m2.m00) + (m1.m11 * m2.m01) + (m1.m21 * m2.m02);
+			m11 = (m1.m01 * m2.m10) + (m1.m11 * m2.m11) + (m1.m21 * m2.m12);
+			m12 = (m1.m01 * m2.m20) + (m1.m11 * m2.m21) + (m1.m21 * m2.m22);
 
-			m20 = m1.m02 * m2.m00 + m1.m12 * m2.m01 + m1.m22 * m2.m02;
-			m21 = m1.m02 * m2.m10 + m1.m12 * m2.m11 + m1.m22 * m2.m12;
-			m22 = m1.m02 * m2.m20 + m1.m12 * m2.m21 + m1.m22 * m2.m22;
+			m20 = (m1.m02 * m2.m00) + (m1.m12 * m2.m01) + (m1.m22 * m2.m02);
+			m21 = (m1.m02 * m2.m10) + (m1.m12 * m2.m11) + (m1.m22 * m2.m12);
+			m22 = (m1.m02 * m2.m20) + (m1.m12 * m2.m21) + (m1.m22 * m2.m22);
 
 			this.m00 = m00;
 			this.m01 = m01;
@@ -1768,42 +1751,42 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Multiplies matrix m1 times the transpose of matrix m2, and places the
-	 * result into this.
-	 * 
+	 * Multiplies matrix m1 times the transpose of matrix m2, and places the result into
+	 * this.
+	 *
 	 * @param m1
-	 *            the matrix on the left hand side of the multiplication
+	 *        the matrix on the left hand side of the multiplication
 	 * @param m2
-	 *            the matrix on the right hand side of the multiplication
+	 *        the matrix on the right hand side of the multiplication
 	 */
 	public final void mulTransposeRight(Matrix3d m1, Matrix3d m2) {
-		if (this != m1 && this != m2) {
-			this.m00 = m1.m00 * m2.m00 + m1.m01 * m2.m01 + m1.m02 * m2.m02;
-			this.m01 = m1.m00 * m2.m10 + m1.m01 * m2.m11 + m1.m02 * m2.m12;
-			this.m02 = m1.m00 * m2.m20 + m1.m01 * m2.m21 + m1.m02 * m2.m22;
+		if ((this != m1) && (this != m2)) {
+			this.m00 = (m1.m00 * m2.m00) + (m1.m01 * m2.m01) + (m1.m02 * m2.m02);
+			this.m01 = (m1.m00 * m2.m10) + (m1.m01 * m2.m11) + (m1.m02 * m2.m12);
+			this.m02 = (m1.m00 * m2.m20) + (m1.m01 * m2.m21) + (m1.m02 * m2.m22);
 
-			this.m10 = m1.m10 * m2.m00 + m1.m11 * m2.m01 + m1.m12 * m2.m02;
-			this.m11 = m1.m10 * m2.m10 + m1.m11 * m2.m11 + m1.m12 * m2.m12;
-			this.m12 = m1.m10 * m2.m20 + m1.m11 * m2.m21 + m1.m12 * m2.m22;
+			this.m10 = (m1.m10 * m2.m00) + (m1.m11 * m2.m01) + (m1.m12 * m2.m02);
+			this.m11 = (m1.m10 * m2.m10) + (m1.m11 * m2.m11) + (m1.m12 * m2.m12);
+			this.m12 = (m1.m10 * m2.m20) + (m1.m11 * m2.m21) + (m1.m12 * m2.m22);
 
-			this.m20 = m1.m20 * m2.m00 + m1.m21 * m2.m01 + m1.m22 * m2.m02;
-			this.m21 = m1.m20 * m2.m10 + m1.m21 * m2.m11 + m1.m22 * m2.m12;
-			this.m22 = m1.m20 * m2.m20 + m1.m21 * m2.m21 + m1.m22 * m2.m22;
+			this.m20 = (m1.m20 * m2.m00) + (m1.m21 * m2.m01) + (m1.m22 * m2.m02);
+			this.m21 = (m1.m20 * m2.m10) + (m1.m21 * m2.m11) + (m1.m22 * m2.m12);
+			this.m22 = (m1.m20 * m2.m20) + (m1.m21 * m2.m21) + (m1.m22 * m2.m22);
 		} else {
 			double m00, m01, m02, m10, m11, m12, m20, m21, m22; // vars for temp
-																// result matrix
+			// result matrix
 
-			m00 = m1.m00 * m2.m00 + m1.m01 * m2.m01 + m1.m02 * m2.m02;
-			m01 = m1.m00 * m2.m10 + m1.m01 * m2.m11 + m1.m02 * m2.m12;
-			m02 = m1.m00 * m2.m20 + m1.m01 * m2.m21 + m1.m02 * m2.m22;
+			m00 = (m1.m00 * m2.m00) + (m1.m01 * m2.m01) + (m1.m02 * m2.m02);
+			m01 = (m1.m00 * m2.m10) + (m1.m01 * m2.m11) + (m1.m02 * m2.m12);
+			m02 = (m1.m00 * m2.m20) + (m1.m01 * m2.m21) + (m1.m02 * m2.m22);
 
-			m10 = m1.m10 * m2.m00 + m1.m11 * m2.m01 + m1.m12 * m2.m02;
-			m11 = m1.m10 * m2.m10 + m1.m11 * m2.m11 + m1.m12 * m2.m12;
-			m12 = m1.m10 * m2.m20 + m1.m11 * m2.m21 + m1.m12 * m2.m22;
+			m10 = (m1.m10 * m2.m00) + (m1.m11 * m2.m01) + (m1.m12 * m2.m02);
+			m11 = (m1.m10 * m2.m10) + (m1.m11 * m2.m11) + (m1.m12 * m2.m12);
+			m12 = (m1.m10 * m2.m20) + (m1.m11 * m2.m21) + (m1.m12 * m2.m22);
 
-			m20 = m1.m20 * m2.m00 + m1.m21 * m2.m01 + m1.m22 * m2.m02;
-			m21 = m1.m20 * m2.m10 + m1.m21 * m2.m11 + m1.m22 * m2.m12;
-			m22 = m1.m20 * m2.m20 + m1.m21 * m2.m21 + m1.m22 * m2.m22;
+			m20 = (m1.m20 * m2.m00) + (m1.m21 * m2.m01) + (m1.m22 * m2.m02);
+			m21 = (m1.m20 * m2.m10) + (m1.m21 * m2.m11) + (m1.m22 * m2.m12);
+			m22 = (m1.m20 * m2.m20) + (m1.m21 * m2.m21) + (m1.m22 * m2.m22);
 
 			this.m00 = m00;
 			this.m01 = m01;
@@ -1818,42 +1801,42 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Multiplies the transpose of matrix m1 times matrix m2, and places the
-	 * result into this.
-	 * 
+	 * Multiplies the transpose of matrix m1 times matrix m2, and places the result into
+	 * this.
+	 *
 	 * @param m1
-	 *            the matrix on the left hand side of the multiplication
+	 *        the matrix on the left hand side of the multiplication
 	 * @param m2
-	 *            the matrix on the right hand side of the multiplication
+	 *        the matrix on the right hand side of the multiplication
 	 */
 	public final void mulTransposeLeft(Matrix3d m1, Matrix3d m2) {
-		if (this != m1 && this != m2) {
-			this.m00 = m1.m00 * m2.m00 + m1.m10 * m2.m10 + m1.m20 * m2.m20;
-			this.m01 = m1.m00 * m2.m01 + m1.m10 * m2.m11 + m1.m20 * m2.m21;
-			this.m02 = m1.m00 * m2.m02 + m1.m10 * m2.m12 + m1.m20 * m2.m22;
+		if ((this != m1) && (this != m2)) {
+			this.m00 = (m1.m00 * m2.m00) + (m1.m10 * m2.m10) + (m1.m20 * m2.m20);
+			this.m01 = (m1.m00 * m2.m01) + (m1.m10 * m2.m11) + (m1.m20 * m2.m21);
+			this.m02 = (m1.m00 * m2.m02) + (m1.m10 * m2.m12) + (m1.m20 * m2.m22);
 
-			this.m10 = m1.m01 * m2.m00 + m1.m11 * m2.m10 + m1.m21 * m2.m20;
-			this.m11 = m1.m01 * m2.m01 + m1.m11 * m2.m11 + m1.m21 * m2.m21;
-			this.m12 = m1.m01 * m2.m02 + m1.m11 * m2.m12 + m1.m21 * m2.m22;
+			this.m10 = (m1.m01 * m2.m00) + (m1.m11 * m2.m10) + (m1.m21 * m2.m20);
+			this.m11 = (m1.m01 * m2.m01) + (m1.m11 * m2.m11) + (m1.m21 * m2.m21);
+			this.m12 = (m1.m01 * m2.m02) + (m1.m11 * m2.m12) + (m1.m21 * m2.m22);
 
-			this.m20 = m1.m02 * m2.m00 + m1.m12 * m2.m10 + m1.m22 * m2.m20;
-			this.m21 = m1.m02 * m2.m01 + m1.m12 * m2.m11 + m1.m22 * m2.m21;
-			this.m22 = m1.m02 * m2.m02 + m1.m12 * m2.m12 + m1.m22 * m2.m22;
+			this.m20 = (m1.m02 * m2.m00) + (m1.m12 * m2.m10) + (m1.m22 * m2.m20);
+			this.m21 = (m1.m02 * m2.m01) + (m1.m12 * m2.m11) + (m1.m22 * m2.m21);
+			this.m22 = (m1.m02 * m2.m02) + (m1.m12 * m2.m12) + (m1.m22 * m2.m22);
 		} else {
 			double m00, m01, m02, m10, m11, m12, m20, m21, m22; // vars for temp
-																// result matrix
+			// result matrix
 
-			m00 = m1.m00 * m2.m00 + m1.m10 * m2.m10 + m1.m20 * m2.m20;
-			m01 = m1.m00 * m2.m01 + m1.m10 * m2.m11 + m1.m20 * m2.m21;
-			m02 = m1.m00 * m2.m02 + m1.m10 * m2.m12 + m1.m20 * m2.m22;
+			m00 = (m1.m00 * m2.m00) + (m1.m10 * m2.m10) + (m1.m20 * m2.m20);
+			m01 = (m1.m00 * m2.m01) + (m1.m10 * m2.m11) + (m1.m20 * m2.m21);
+			m02 = (m1.m00 * m2.m02) + (m1.m10 * m2.m12) + (m1.m20 * m2.m22);
 
-			m10 = m1.m01 * m2.m00 + m1.m11 * m2.m10 + m1.m21 * m2.m20;
-			m11 = m1.m01 * m2.m01 + m1.m11 * m2.m11 + m1.m21 * m2.m21;
-			m12 = m1.m01 * m2.m02 + m1.m11 * m2.m12 + m1.m21 * m2.m22;
+			m10 = (m1.m01 * m2.m00) + (m1.m11 * m2.m10) + (m1.m21 * m2.m20);
+			m11 = (m1.m01 * m2.m01) + (m1.m11 * m2.m11) + (m1.m21 * m2.m21);
+			m12 = (m1.m01 * m2.m02) + (m1.m11 * m2.m12) + (m1.m21 * m2.m22);
 
-			m20 = m1.m02 * m2.m00 + m1.m12 * m2.m10 + m1.m22 * m2.m20;
-			m21 = m1.m02 * m2.m01 + m1.m12 * m2.m11 + m1.m22 * m2.m21;
-			m22 = m1.m02 * m2.m02 + m1.m12 * m2.m12 + m1.m22 * m2.m22;
+			m20 = (m1.m02 * m2.m00) + (m1.m12 * m2.m10) + (m1.m22 * m2.m20);
+			m21 = (m1.m02 * m2.m01) + (m1.m12 * m2.m11) + (m1.m22 * m2.m21);
+			m22 = (m1.m02 * m2.m02) + (m1.m12 * m2.m12) + (m1.m22 * m2.m22);
 
 			this.m00 = m00;
 			this.m01 = m01;
@@ -1874,7 +1857,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		double[] tmp_rot = new double[9]; // scratch matrix
 		double[] tmp_scale = new double[3]; // scratch matrix
 
-		getScaleRotate(tmp_scale, tmp_rot);
+		this.getScaleRotate(tmp_scale, tmp_rot);
 
 		this.m00 = tmp_rot[0];
 		this.m01 = tmp_rot[1];
@@ -1891,11 +1874,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Perform singular value decomposition normalization of matrix m1 and place
-	 * the normalized values into this.
-	 * 
+	 * Perform singular value decomposition normalization of matrix m1 and place the
+	 * normalized values into this.
+	 *
 	 * @param m1
-	 *            Provides the matrix values to be normalized
+	 *        Provides the matrix values to be normalized
 	 */
 	public final void normalize(Matrix3d m1) {
 
@@ -1935,56 +1918,56 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	 */
 
 	public final void normalizeCP() {
-		double mag = 1.0 / Math.sqrt(m00 * m00 + m10 * m10 + m20 * m20);
-		m00 = m00 * mag;
-		m10 = m10 * mag;
-		m20 = m20 * mag;
+		double mag = 1.0 / Math.sqrt((this.m00 * this.m00) + (this.m10 * this.m10) + (this.m20 * this.m20));
+		this.m00 = this.m00 * mag;
+		this.m10 = this.m10 * mag;
+		this.m20 = this.m20 * mag;
 
-		mag = 1.0 / Math.sqrt(m01 * m01 + m11 * m11 + m21 * m21);
-		m01 = m01 * mag;
-		m11 = m11 * mag;
-		m21 = m21 * mag;
+		mag = 1.0 / Math.sqrt((this.m01 * this.m01) + (this.m11 * this.m11) + (this.m21 * this.m21));
+		this.m01 = this.m01 * mag;
+		this.m11 = this.m11 * mag;
+		this.m21 = this.m21 * mag;
 
-		m02 = m10 * m21 - m11 * m20;
-		m12 = m01 * m20 - m00 * m21;
-		m22 = m00 * m11 - m01 * m10;
+		this.m02 = (this.m10 * this.m21) - (this.m11 * this.m20);
+		this.m12 = (this.m01 * this.m20) - (this.m00 * this.m21);
+		this.m22 = (this.m00 * this.m11) - (this.m01 * this.m10);
 	}
 
 	/**
-	 * Perform cross product normalization of matrix m1 and place the normalized
-	 * values into this.
-	 * 
+	 * Perform cross product normalization of matrix m1 and place the normalized values
+	 * into this.
+	 *
 	 * @param m1
-	 *            Provides the matrix values to be normalized
+	 *        Provides the matrix values to be normalized
 	 */
 	public final void normalizeCP(Matrix3d m1) {
-		double mag = 1.0 / Math.sqrt(m1.m00 * m1.m00 + m1.m10 * m1.m10 + m1.m20 * m1.m20);
-		m00 = m1.m00 * mag;
-		m10 = m1.m10 * mag;
-		m20 = m1.m20 * mag;
+		double mag = 1.0 / Math.sqrt((m1.m00 * m1.m00) + (m1.m10 * m1.m10) + (m1.m20 * m1.m20));
+		this.m00 = m1.m00 * mag;
+		this.m10 = m1.m10 * mag;
+		this.m20 = m1.m20 * mag;
 
-		mag = 1.0 / Math.sqrt(m1.m01 * m1.m01 + m1.m11 * m1.m11 + m1.m21 * m1.m21);
-		m01 = m1.m01 * mag;
-		m11 = m1.m11 * mag;
-		m21 = m1.m21 * mag;
+		mag = 1.0 / Math.sqrt((m1.m01 * m1.m01) + (m1.m11 * m1.m11) + (m1.m21 * m1.m21));
+		this.m01 = m1.m01 * mag;
+		this.m11 = m1.m11 * mag;
+		this.m21 = m1.m21 * mag;
 
-		m02 = m10 * m21 - m11 * m20;
-		m12 = m01 * m20 - m00 * m21;
-		m22 = m00 * m11 - m01 * m10;
+		this.m02 = (this.m10 * this.m21) - (this.m11 * this.m20);
+		this.m12 = (this.m01 * this.m20) - (this.m00 * this.m21);
+		this.m22 = (this.m00 * this.m11) - (this.m01 * this.m10);
 	}
 
 	/**
 	 * Returns true if all of the data members of Matrix3d m1 are equal to the
 	 * corresponding data members in this Matrix3d.
-	 * 
+	 *
 	 * @param m1
-	 *            the matrix with which the comparison is made
+	 *        the matrix with which the comparison is made
 	 * @return true or false
 	 */
 	public boolean equals(Matrix3d m1) {
 		try {
-			return (this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m10 == m1.m10 && this.m11 == m1.m11 && this.m12 == m1.m12
-					&& this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22);
+			return ((this.m00 == m1.m00) && (this.m01 == m1.m01) && (this.m02 == m1.m02) && (this.m10 == m1.m10) && (this.m11 == m1.m11)
+					&& (this.m12 == m1.m12) && (this.m20 == m1.m20) && (this.m21 == m1.m21) && (this.m22 == m1.m22));
 		} catch (NullPointerException e2) {
 			return false;
 		}
@@ -1992,20 +1975,19 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the Object t1 is of type Matrix3d and all of the data
-	 * members of t1 are equal to the corresponding data members in this
-	 * Matrix3d.
-	 * 
+	 * Returns true if the Object t1 is of type Matrix3d and all of the data members of t1
+	 * are equal to the corresponding data members in this Matrix3d.
+	 *
 	 * @param t1
-	 *            the matrix with which the comparison is made
+	 *        the matrix with which the comparison is made
 	 * @return true or false
 	 */
 	@Override
 	public boolean equals(Object t1) {
 		try {
 			Matrix3d m2 = (Matrix3d) t1;
-			return (this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m10 == m2.m10 && this.m11 == m2.m11 && this.m12 == m2.m12
-					&& this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22);
+			return ((this.m00 == m2.m00) && (this.m01 == m2.m01) && (this.m02 == m2.m02) && (this.m10 == m2.m10) && (this.m11 == m2.m11)
+					&& (this.m12 == m2.m12) && (this.m20 == m2.m20) && (this.m21 == m2.m21) && (this.m22 == m2.m22));
 		} catch (ClassCastException e1) {
 			return false;
 		} catch (NullPointerException e2) {
@@ -2015,79 +1997,86 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the L-infinite distance between this matrix and matrix m1
-	 * is less than or equal to the epsilon parameter, otherwise returns false.
-	 * The L-infinite distance is equal to MAX[i=0,1,2 ; j=0,1,2 ;
-	 * abs(this.m(i,j) - m1.m(i,j)]
-	 * 
+	 * Returns true if the L-infinite distance between this matrix and matrix m1 is less
+	 * than or equal to the epsilon parameter, otherwise returns false. The L-infinite
+	 * distance is equal to MAX[i=0,1,2 ; j=0,1,2 ; abs(this.m(i,j) - m1.m(i,j)]
+	 *
 	 * @param m1
-	 *            the matrix to be compared to this matrix
+	 *        the matrix to be compared to this matrix
 	 * @param epsilon
-	 *            the threshold value
+	 *        the threshold value
 	 */
 	public boolean epsilonEquals(Matrix3d m1, double epsilon) {
 		double diff;
 
-		diff = m00 - m1.m00;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m00 - m1.m00;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m01 - m1.m01;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m01 - m1.m01;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m02 - m1.m02;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m02 - m1.m02;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m10 - m1.m10;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m10 - m1.m10;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m11 - m1.m11;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m11 - m1.m11;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m12 - m1.m12;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m12 - m1.m12;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m20 - m1.m20;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m20 - m1.m20;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m21 - m1.m21;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m21 - m1.m21;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = m22 - m1.m22;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		diff = this.m22 - m1.m22;
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
 		return true;
 	}
 
 	/**
-	 * Returns a hash code value based on the data values in this object. Two
-	 * different Matrix3d objects with identical data values (i.e.,
-	 * Matrix3d.equals returns true) will return the same hash code value. Two
-	 * objects with different data members may return the same hash value,
-	 * although this is not likely.
-	 * 
+	 * Returns a hash code value based on the data values in this object. Two different
+	 * Matrix3d objects with identical data values (i.e., Matrix3d.equals returns true)
+	 * will return the same hash code value. Two objects with different data members may
+	 * return the same hash value, although this is not likely.
+	 *
 	 * @return the integer hash code value
 	 */
 	@Override
 	public int hashCode() {
 		long bits = 1L;
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m00);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m01);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m02);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m10);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m11);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m12);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m20);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m21);
-		bits = 31L * bits + VecMathUtil.doubleToLongBits(m22);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m00);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m01);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m02);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m10);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m11);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m12);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m20);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m21);
+		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m22);
 		return (int) (bits ^ (bits >> 32));
 	}
 
@@ -2095,17 +2084,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	 * Sets this matrix to all zeros.
 	 */
 	public final void setZero() {
-		m00 = 0.0;
-		m01 = 0.0;
-		m02 = 0.0;
+		this.m00 = 0.0;
+		this.m01 = 0.0;
+		this.m02 = 0.0;
 
-		m10 = 0.0;
-		m11 = 0.0;
-		m12 = 0.0;
+		this.m10 = 0.0;
+		this.m11 = 0.0;
+		this.m12 = 0.0;
 
-		m20 = 0.0;
-		m21 = 0.0;
-		m22 = 0.0;
+		this.m20 = 0.0;
+		this.m21 = 0.0;
+		this.m22 = 0.0;
 
 	}
 
@@ -2128,11 +2117,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this matrix equal to the negation of of the Matrix3d
-	 * parameter.
-	 * 
+	 * Sets the value of this matrix equal to the negation of of the Matrix3d parameter.
+	 *
 	 * @param m1
-	 *            the source matrix
+	 *        the source matrix
 	 */
 	public final void negate(Matrix3d m1) {
 		this.m00 = -m1.m00;
@@ -2150,34 +2138,34 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Multiply this matrix by the tuple t and place the result back into the
-	 * tuple (t = this*t).
-	 * 
+	 * Multiply this matrix by the tuple t and place the result back into the tuple (t =
+	 * this*t).
+	 *
 	 * @param t
-	 *            the tuple to be multiplied by this matrix and then replaced
+	 *        the tuple to be multiplied by this matrix and then replaced
 	 */
 	public final void transform(Tuple3d t) {
 		double x, y, z;
-		x = m00 * t.x + m01 * t.y + m02 * t.z;
-		y = m10 * t.x + m11 * t.y + m12 * t.z;
-		z = m20 * t.x + m21 * t.y + m22 * t.z;
+		x = (this.m00 * t.x) + (this.m01 * t.y) + (this.m02 * t.z);
+		y = (this.m10 * t.x) + (this.m11 * t.y) + (this.m12 * t.z);
+		z = (this.m20 * t.x) + (this.m21 * t.y) + (this.m22 * t.z);
 		t.set(x, y, z);
 	}
 
 	/**
-	 * Multiply this matrix by the tuple t and and place the result into the
-	 * tuple "result" (result = this*t).
-	 * 
+	 * Multiply this matrix by the tuple t and and place the result into the tuple
+	 * "result" (result = this*t).
+	 *
 	 * @param t
-	 *            the tuple to be multiplied by this matrix
+	 *        the tuple to be multiplied by this matrix
 	 * @param result
-	 *            the tuple into which the product is placed
+	 *        the tuple into which the product is placed
 	 */
 	public final void transform(Tuple3d t, Tuple3d result) {
 		double x, y;
-		x = m00 * t.x + m01 * t.y + m02 * t.z;
-		y = m10 * t.x + m11 * t.y + m12 * t.z;
-		result.z = m20 * t.x + m21 * t.y + m22 * t.z;
+		x = (this.m00 * t.x) + (this.m01 * t.y) + (this.m02 * t.z);
+		y = (this.m10 * t.x) + (this.m11 * t.y) + (this.m12 * t.z);
+		result.z = (this.m20 * t.x) + (this.m21 * t.y) + (this.m22 * t.z);
 		result.x = x;
 		result.y = y;
 	}
@@ -2189,17 +2177,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 		double[] tmp = new double[9]; // scratch matrix
 
-		tmp[0] = m00;
-		tmp[1] = m01;
-		tmp[2] = m02;
+		tmp[0] = this.m00;
+		tmp[1] = this.m01;
+		tmp[2] = this.m02;
 
-		tmp[3] = m10;
-		tmp[4] = m11;
-		tmp[5] = m12;
+		tmp[3] = this.m10;
+		tmp[4] = this.m11;
+		tmp[5] = this.m12;
 
-		tmp[6] = m20;
-		tmp[7] = m21;
-		tmp[8] = m22;
+		tmp[6] = this.m20;
+		tmp[7] = this.m21;
+		tmp[8] = this.m22;
 		compute_svd(tmp, scales, rots);
 
 		return;
@@ -2224,10 +2212,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		double c1, c2, c3, c4;
 		double s1, s2, s3, s4;
 
-		for (i = 0; i < 9; i++)
+		for (i = 0; i < 9; i++) {
 			rot[i] = m[i];
+		}
 
-		if (m[3] * m[3] < EPS) {
+		if ((m[3] * m[3]) < EPS) {
 			u1[0] = 1.0;
 			u1[1] = 0.0;
 			u1[2] = 0.0;
@@ -2237,7 +2226,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			u1[6] = 0.0;
 			u1[7] = 0.0;
 			u1[8] = 1.0;
-		} else if (m[0] * m[0] < EPS) {
+		} else if ((m[0] * m[0]) < EPS) {
 			tmp[0] = m[0];
 			tmp[1] = m[1];
 			tmp[2] = m[2];
@@ -2259,16 +2248,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			u1[7] = 0.0;
 			u1[8] = 1.0;
 		} else {
-			g = 1.0 / Math.sqrt(m[0] * m[0] + m[3] * m[3]);
+			g = 1.0 / Math.sqrt((m[0] * m[0]) + (m[3] * m[3]));
 			c1 = m[0] * g;
 			s1 = m[3] * g;
-			tmp[0] = c1 * m[0] + s1 * m[3];
-			tmp[1] = c1 * m[1] + s1 * m[4];
-			tmp[2] = c1 * m[2] + s1 * m[5];
+			tmp[0] = (c1 * m[0]) + (s1 * m[3]);
+			tmp[1] = (c1 * m[1]) + (s1 * m[4]);
+			tmp[2] = (c1 * m[2]) + (s1 * m[5]);
 
-			m[3] = -s1 * m[0] + c1 * m[3];
-			m[4] = -s1 * m[1] + c1 * m[4];
-			m[5] = -s1 * m[2] + c1 * m[5];
+			m[3] = (-s1 * m[0]) + (c1 * m[3]);
+			m[4] = (-s1 * m[1]) + (c1 * m[4]);
+			m[5] = (-s1 * m[2]) + (c1 * m[5]);
 
 			m[0] = tmp[0];
 			m[1] = tmp[1];
@@ -2286,8 +2275,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 		// u2
 
-		if (m[6] * m[6] < EPS) {
-		} else if (m[0] * m[0] < EPS) {
+		if ((m[6] * m[6]) < EPS) {
+		} else if ((m[0] * m[0]) < EPS) {
 			tmp[0] = m[0];
 			tmp[1] = m[1];
 			tmp[2] = m[2];
@@ -2310,16 +2299,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			u1[7] = -tmp[1];
 			u1[8] = -tmp[2];
 		} else {
-			g = 1.0 / Math.sqrt(m[0] * m[0] + m[6] * m[6]);
+			g = 1.0 / Math.sqrt((m[0] * m[0]) + (m[6] * m[6]));
 			c2 = m[0] * g;
 			s2 = m[6] * g;
-			tmp[0] = c2 * m[0] + s2 * m[6];
-			tmp[1] = c2 * m[1] + s2 * m[7];
-			tmp[2] = c2 * m[2] + s2 * m[8];
+			tmp[0] = (c2 * m[0]) + (s2 * m[6]);
+			tmp[1] = (c2 * m[1]) + (s2 * m[7]);
+			tmp[2] = (c2 * m[2]) + (s2 * m[8]);
 
-			m[6] = -s2 * m[0] + c2 * m[6];
-			m[7] = -s2 * m[1] + c2 * m[7];
-			m[8] = -s2 * m[2] + c2 * m[8];
+			m[6] = (-s2 * m[0]) + (c2 * m[6]);
+			m[7] = (-s2 * m[1]) + (c2 * m[7]);
+			m[8] = (-s2 * m[2]) + (c2 * m[8]);
 			m[0] = tmp[0];
 			m[1] = tmp[1];
 			m[2] = tmp[2];
@@ -2339,7 +2328,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 		// v1
 
-		if (m[2] * m[2] < EPS) {
+		if ((m[2] * m[2]) < EPS) {
 			v1[0] = 1.0;
 			v1[1] = 0.0;
 			v1[2] = 0.0;
@@ -2349,7 +2338,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			v1[6] = 0.0;
 			v1[7] = 0.0;
 			v1[8] = 1.0;
-		} else if (m[1] * m[1] < EPS) {
+		} else if ((m[1] * m[1]) < EPS) {
 			tmp[2] = m[2];
 			tmp[5] = m[5];
 			tmp[8] = m[8];
@@ -2371,19 +2360,19 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			v1[7] = 1.0;
 			v1[8] = 0.0;
 		} else {
-			g = 1.0 / Math.sqrt(m[1] * m[1] + m[2] * m[2]);
+			g = 1.0 / Math.sqrt((m[1] * m[1]) + (m[2] * m[2]));
 			c3 = m[1] * g;
 			s3 = m[2] * g;
-			tmp[1] = c3 * m[1] + s3 * m[2]; // can assign to m[1]?
-			m[2] = -s3 * m[1] + c3 * m[2]; // zero
+			tmp[1] = (c3 * m[1]) + (s3 * m[2]); // can assign to m[1]?
+			m[2] = (-s3 * m[1]) + (c3 * m[2]); // zero
 			m[1] = tmp[1];
 
-			tmp[4] = c3 * m[4] + s3 * m[5];
-			m[5] = -s3 * m[4] + c3 * m[5];
+			tmp[4] = (c3 * m[4]) + (s3 * m[5]);
+			m[5] = (-s3 * m[4]) + (c3 * m[5]);
 			m[4] = tmp[4];
 
-			tmp[7] = c3 * m[7] + s3 * m[8];
-			m[8] = -s3 * m[7] + c3 * m[8];
+			tmp[7] = (c3 * m[7]) + (s3 * m[8]);
+			m[8] = (-s3 * m[7]) + (c3 * m[8]);
 			m[7] = tmp[7];
 
 			v1[0] = 1.0;
@@ -2399,8 +2388,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 		// u3
 
-		if (m[7] * m[7] < EPS) {
-		} else if (m[4] * m[4] < EPS) {
+		if ((m[7] * m[7]) < EPS) {
+		} else if ((m[4] * m[4]) < EPS) {
 			tmp[3] = m[3];
 			tmp[4] = m[4];
 			tmp[5] = m[5];
@@ -2424,31 +2413,31 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			u1[8] = -tmp[5];
 
 		} else {
-			g = 1.0 / Math.sqrt(m[4] * m[4] + m[7] * m[7]);
+			g = 1.0 / Math.sqrt((m[4] * m[4]) + (m[7] * m[7]));
 			c4 = m[4] * g;
 			s4 = m[7] * g;
-			tmp[3] = c4 * m[3] + s4 * m[6];
-			m[6] = -s4 * m[3] + c4 * m[6]; // zero
+			tmp[3] = (c4 * m[3]) + (s4 * m[6]);
+			m[6] = (-s4 * m[3]) + (c4 * m[6]); // zero
 			m[3] = tmp[3];
 
-			tmp[4] = c4 * m[4] + s4 * m[7];
-			m[7] = -s4 * m[4] + c4 * m[7];
+			tmp[4] = (c4 * m[4]) + (s4 * m[7]);
+			m[7] = (-s4 * m[4]) + (c4 * m[7]);
 			m[4] = tmp[4];
 
-			tmp[5] = c4 * m[5] + s4 * m[8];
-			m[8] = -s4 * m[5] + c4 * m[8];
+			tmp[5] = (c4 * m[5]) + (s4 * m[8]);
+			m[8] = (-s4 * m[5]) + (c4 * m[8]);
 			m[5] = tmp[5];
 
-			tmp[3] = c4 * u1[3] + s4 * u1[6];
-			u1[6] = -s4 * u1[3] + c4 * u1[6];
+			tmp[3] = (c4 * u1[3]) + (s4 * u1[6]);
+			u1[6] = (-s4 * u1[3]) + (c4 * u1[6]);
 			u1[3] = tmp[3];
 
-			tmp[4] = c4 * u1[4] + s4 * u1[7];
-			u1[7] = -s4 * u1[4] + c4 * u1[7];
+			tmp[4] = (c4 * u1[4]) + (s4 * u1[7]);
+			u1[7] = (-s4 * u1[4]) + (c4 * u1[7]);
 			u1[4] = tmp[4];
 
-			tmp[5] = c4 * u1[5] + s4 * u1[8];
-			u1[8] = -s4 * u1[5] + c4 * u1[8];
+			tmp[5] = (c4 * u1[5]) + (s4 * u1[8]);
+			u1[8] = (-s4 * u1[5]) + (c4 * u1[8]);
 			u1[5] = tmp[5];
 		}
 
@@ -2458,7 +2447,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		e[0] = m[1];
 		e[1] = m[5];
 
-		if (e[0] * e[0] < EPS && e[1] * e[1] < EPS) {
+		if (((e[0] * e[0]) < EPS) && ((e[1] * e[1]) < EPS)) {
 
 		} else {
 			compute_qr(single_values, e, u1, v1);
@@ -2473,15 +2462,18 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		if (almostEqual(Math.abs(scales[0]), 1.0) && almostEqual(Math.abs(scales[1]), 1.0) && almostEqual(Math.abs(scales[2]), 1.0)) {
 			// System.out.println("Scale components almost to 1.0");
 
-			for (i = 0; i < 3; i++)
-				if (scales[i] < 0.0)
+			for (i = 0; i < 3; i++) {
+				if (scales[i] < 0.0) {
 					negCnt++;
+				}
+			}
 
 			if ((negCnt == 0) || (negCnt == 2)) {
 				// System.out.println("Optimize!!");
 				outScale[0] = outScale[1] = outScale[2] = 1.0;
-				for (i = 0; i < 9; i++)
+				for (i = 0; i < 9; i++) {
 					outRot[i] = rot[i];
+				}
 
 				return;
 			}
@@ -2495,7 +2487,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		 * System.out.println("t1="+t1[0]+" "+t1[1]+" "+t1[2]);
 		 * System.out.println("t1="+t1[3]+" "+t1[4]+" "+t1[5]);
 		 * System.out.println("t1="+t1[6]+" "+t1[7]+" "+t1[8]);
-		 * 
+		 *
 		 * System.out.println("t2 is \n" + t2);
 		 * System.out.println("t2="+t2[0]+" "+t2[1]+" "+t2[2]);
 		 * System.out.println("t2="+t2[3]+" "+t2[4]+" "+t2[5]);
@@ -2582,16 +2574,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			}
 
 			/*
-			 * System.out.println("\nscales="+scales[0]+" "+scales[1]+" "+scales[
-			 * 2]); System.out.println("\nrot="+rot[0]+" "+rot[1]+" "+rot[2]);
+			 * System.out.println("\nscales="+scales[0]+" "+scales[1]+" "+scales[ 2]);
+			 * System.out.println("\nrot="+rot[0]+" "+rot[1]+" "+rot[2]);
 			 * System.out.println("rot="+rot[3]+" "+rot[4]+" "+rot[5]);
 			 * System.out.println("rot="+rot[6]+" "+rot[7]+" "+rot[8]);
 			 */
 
 			// sort the order of the input matrix
-			mag[0] = (m[0] * m[0] + m[1] * m[1] + m[2] * m[2]);
-			mag[1] = (m[3] * m[3] + m[4] * m[4] + m[5] * m[5]);
-			mag[2] = (m[6] * m[6] + m[7] * m[7] + m[8] * m[8]);
+			mag[0] = ((m[0] * m[0]) + (m[1] * m[1]) + (m[2] * m[2]));
+			mag[1] = ((m[3] * m[3]) + (m[4] * m[4]) + (m[5] * m[5]));
+			mag[2] = ((m[6] * m[6]) + (m[7] * m[7]) + (m[8] * m[8]));
 
 			if (mag[0] > mag[1]) {
 				if (mag[0] > mag[2]) {
@@ -2694,82 +2686,83 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 		first = 1;
 
-		if (Math.abs(e[1]) < CONVERGE_TOL || Math.abs(e[0]) < CONVERGE_TOL)
+		if ((Math.abs(e[1]) < CONVERGE_TOL) || (Math.abs(e[0]) < CONVERGE_TOL)) {
 			converged = true;
+		}
 
-		for (k = 0; k < MAX_INTERATIONS && !converged; k++) {
+		for (k = 0; (k < MAX_INTERATIONS) && !converged; k++) {
 			shift = compute_shift(s[1], e[1], s[2]);
-			f = (Math.abs(s[0]) - shift) * (d_sign(c_b48, s[0]) + shift / s[0]);
+			f = (Math.abs(s[0]) - shift) * (d_sign(c_b48, s[0]) + (shift / s[0]));
 			g = e[0];
 			r = compute_rot(f, g, sinr, cosr, 0, first);
-			f = cosr[0] * s[0] + sinr[0] * e[0];
-			e[0] = cosr[0] * e[0] - sinr[0] * s[0];
+			f = (cosr[0] * s[0]) + (sinr[0] * e[0]);
+			e[0] = (cosr[0] * e[0]) - (sinr[0] * s[0]);
 			g = sinr[0] * s[1];
 			s[1] = cosr[0] * s[1];
 
 			r = compute_rot(f, g, sinl, cosl, 0, first);
 			first = 0;
 			s[0] = r;
-			f = cosl[0] * e[0] + sinl[0] * s[1];
-			s[1] = cosl[0] * s[1] - sinl[0] * e[0];
+			f = (cosl[0] * e[0]) + (sinl[0] * s[1]);
+			s[1] = (cosl[0] * s[1]) - (sinl[0] * e[0]);
 			g = sinl[0] * e[1];
 			e[1] = cosl[0] * e[1];
 
 			r = compute_rot(f, g, sinr, cosr, 1, first);
 			e[0] = r;
-			f = cosr[1] * s[1] + sinr[1] * e[1];
-			e[1] = cosr[1] * e[1] - sinr[1] * s[1];
+			f = (cosr[1] * s[1]) + (sinr[1] * e[1]);
+			e[1] = (cosr[1] * e[1]) - (sinr[1] * s[1]);
 			g = sinr[1] * s[2];
 			s[2] = cosr[1] * s[2];
 
 			r = compute_rot(f, g, sinl, cosl, 1, first);
 			s[1] = r;
-			f = cosl[1] * e[1] + sinl[1] * s[2];
-			s[2] = cosl[1] * s[2] - sinl[1] * e[1];
+			f = (cosl[1] * e[1]) + (sinl[1] * s[2]);
+			s[2] = (cosl[1] * s[2]) - (sinl[1] * e[1]);
 			e[1] = f;
 
 			// update u matrices
 			utemp = u[0];
-			u[0] = cosl[0] * utemp + sinl[0] * u[3];
-			u[3] = -sinl[0] * utemp + cosl[0] * u[3];
+			u[0] = (cosl[0] * utemp) + (sinl[0] * u[3]);
+			u[3] = (-sinl[0] * utemp) + (cosl[0] * u[3]);
 			utemp = u[1];
-			u[1] = cosl[0] * utemp + sinl[0] * u[4];
-			u[4] = -sinl[0] * utemp + cosl[0] * u[4];
+			u[1] = (cosl[0] * utemp) + (sinl[0] * u[4]);
+			u[4] = (-sinl[0] * utemp) + (cosl[0] * u[4]);
 			utemp = u[2];
-			u[2] = cosl[0] * utemp + sinl[0] * u[5];
-			u[5] = -sinl[0] * utemp + cosl[0] * u[5];
+			u[2] = (cosl[0] * utemp) + (sinl[0] * u[5]);
+			u[5] = (-sinl[0] * utemp) + (cosl[0] * u[5]);
 
 			utemp = u[3];
-			u[3] = cosl[1] * utemp + sinl[1] * u[6];
-			u[6] = -sinl[1] * utemp + cosl[1] * u[6];
+			u[3] = (cosl[1] * utemp) + (sinl[1] * u[6]);
+			u[6] = (-sinl[1] * utemp) + (cosl[1] * u[6]);
 			utemp = u[4];
-			u[4] = cosl[1] * utemp + sinl[1] * u[7];
-			u[7] = -sinl[1] * utemp + cosl[1] * u[7];
+			u[4] = (cosl[1] * utemp) + (sinl[1] * u[7]);
+			u[7] = (-sinl[1] * utemp) + (cosl[1] * u[7]);
 			utemp = u[5];
-			u[5] = cosl[1] * utemp + sinl[1] * u[8];
-			u[8] = -sinl[1] * utemp + cosl[1] * u[8];
+			u[5] = (cosl[1] * utemp) + (sinl[1] * u[8]);
+			u[8] = (-sinl[1] * utemp) + (cosl[1] * u[8]);
 
 			// update v matrices
 
 			vtemp = v[0];
-			v[0] = cosr[0] * vtemp + sinr[0] * v[1];
-			v[1] = -sinr[0] * vtemp + cosr[0] * v[1];
+			v[0] = (cosr[0] * vtemp) + (sinr[0] * v[1]);
+			v[1] = (-sinr[0] * vtemp) + (cosr[0] * v[1]);
 			vtemp = v[3];
-			v[3] = cosr[0] * vtemp + sinr[0] * v[4];
-			v[4] = -sinr[0] * vtemp + cosr[0] * v[4];
+			v[3] = (cosr[0] * vtemp) + (sinr[0] * v[4]);
+			v[4] = (-sinr[0] * vtemp) + (cosr[0] * v[4]);
 			vtemp = v[6];
-			v[6] = cosr[0] * vtemp + sinr[0] * v[7];
-			v[7] = -sinr[0] * vtemp + cosr[0] * v[7];
+			v[6] = (cosr[0] * vtemp) + (sinr[0] * v[7]);
+			v[7] = (-sinr[0] * vtemp) + (cosr[0] * v[7]);
 
 			vtemp = v[1];
-			v[1] = cosr[1] * vtemp + sinr[1] * v[2];
-			v[2] = -sinr[1] * vtemp + cosr[1] * v[2];
+			v[1] = (cosr[1] * vtemp) + (sinr[1] * v[2]);
+			v[2] = (-sinr[1] * vtemp) + (cosr[1] * v[2]);
 			vtemp = v[4];
-			v[4] = cosr[1] * vtemp + sinr[1] * v[5];
-			v[5] = -sinr[1] * vtemp + cosr[1] * v[5];
+			v[4] = (cosr[1] * vtemp) + (sinr[1] * v[5]);
+			v[5] = (-sinr[1] * vtemp) + (cosr[1] * v[5]);
 			vtemp = v[7];
-			v[7] = cosr[1] * vtemp + sinr[1] * v[8];
-			v[8] = -sinr[1] * vtemp + cosr[1] * v[8];
+			v[7] = (cosr[1] * vtemp) + (sinr[1] * v[8]);
+			v[8] = (-sinr[1] * vtemp) + (cosr[1] * v[8]);
 
 			m[0] = s[0];
 			m[1] = e[0];
@@ -2781,75 +2774,78 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			m[7] = 0.0;
 			m[8] = s[2];
 
-			if (Math.abs(e[1]) < CONVERGE_TOL || Math.abs(e[0]) < CONVERGE_TOL)
+			if ((Math.abs(e[1]) < CONVERGE_TOL) || (Math.abs(e[0]) < CONVERGE_TOL)) {
 				converged = true;
+			}
 		}
 
 		if (Math.abs(e[1]) < CONVERGE_TOL) {
 			compute_2X2(s[0], e[0], s[1], s, sinl, cosl, sinr, cosr, 0);
 
 			utemp = u[0];
-			u[0] = cosl[0] * utemp + sinl[0] * u[3];
-			u[3] = -sinl[0] * utemp + cosl[0] * u[3];
+			u[0] = (cosl[0] * utemp) + (sinl[0] * u[3]);
+			u[3] = (-sinl[0] * utemp) + (cosl[0] * u[3]);
 			utemp = u[1];
-			u[1] = cosl[0] * utemp + sinl[0] * u[4];
-			u[4] = -sinl[0] * utemp + cosl[0] * u[4];
+			u[1] = (cosl[0] * utemp) + (sinl[0] * u[4]);
+			u[4] = (-sinl[0] * utemp) + (cosl[0] * u[4]);
 			utemp = u[2];
-			u[2] = cosl[0] * utemp + sinl[0] * u[5];
-			u[5] = -sinl[0] * utemp + cosl[0] * u[5];
+			u[2] = (cosl[0] * utemp) + (sinl[0] * u[5]);
+			u[5] = (-sinl[0] * utemp) + (cosl[0] * u[5]);
 
 			// update v matrices
 
 			vtemp = v[0];
-			v[0] = cosr[0] * vtemp + sinr[0] * v[1];
-			v[1] = -sinr[0] * vtemp + cosr[0] * v[1];
+			v[0] = (cosr[0] * vtemp) + (sinr[0] * v[1]);
+			v[1] = (-sinr[0] * vtemp) + (cosr[0] * v[1]);
 			vtemp = v[3];
-			v[3] = cosr[0] * vtemp + sinr[0] * v[4];
-			v[4] = -sinr[0] * vtemp + cosr[0] * v[4];
+			v[3] = (cosr[0] * vtemp) + (sinr[0] * v[4]);
+			v[4] = (-sinr[0] * vtemp) + (cosr[0] * v[4]);
 			vtemp = v[6];
-			v[6] = cosr[0] * vtemp + sinr[0] * v[7];
-			v[7] = -sinr[0] * vtemp + cosr[0] * v[7];
+			v[6] = (cosr[0] * vtemp) + (sinr[0] * v[7]);
+			v[7] = (-sinr[0] * vtemp) + (cosr[0] * v[7]);
 		} else {
 			compute_2X2(s[1], e[1], s[2], s, sinl, cosl, sinr, cosr, 1);
 
 			utemp = u[3];
-			u[3] = cosl[0] * utemp + sinl[0] * u[6];
-			u[6] = -sinl[0] * utemp + cosl[0] * u[6];
+			u[3] = (cosl[0] * utemp) + (sinl[0] * u[6]);
+			u[6] = (-sinl[0] * utemp) + (cosl[0] * u[6]);
 			utemp = u[4];
-			u[4] = cosl[0] * utemp + sinl[0] * u[7];
-			u[7] = -sinl[0] * utemp + cosl[0] * u[7];
+			u[4] = (cosl[0] * utemp) + (sinl[0] * u[7]);
+			u[7] = (-sinl[0] * utemp) + (cosl[0] * u[7]);
 			utemp = u[5];
-			u[5] = cosl[0] * utemp + sinl[0] * u[8];
-			u[8] = -sinl[0] * utemp + cosl[0] * u[8];
+			u[5] = (cosl[0] * utemp) + (sinl[0] * u[8]);
+			u[8] = (-sinl[0] * utemp) + (cosl[0] * u[8]);
 
 			// update v matrices
 
 			vtemp = v[1];
-			v[1] = cosr[0] * vtemp + sinr[0] * v[2];
-			v[2] = -sinr[0] * vtemp + cosr[0] * v[2];
+			v[1] = (cosr[0] * vtemp) + (sinr[0] * v[2]);
+			v[2] = (-sinr[0] * vtemp) + (cosr[0] * v[2]);
 			vtemp = v[4];
-			v[4] = cosr[0] * vtemp + sinr[0] * v[5];
-			v[5] = -sinr[0] * vtemp + cosr[0] * v[5];
+			v[4] = (cosr[0] * vtemp) + (sinr[0] * v[5]);
+			v[5] = (-sinr[0] * vtemp) + (cosr[0] * v[5]);
 			vtemp = v[7];
-			v[7] = cosr[0] * vtemp + sinr[0] * v[8];
-			v[8] = -sinr[0] * vtemp + cosr[0] * v[8];
+			v[7] = (cosr[0] * vtemp) + (sinr[0] * v[8]);
+			v[8] = (-sinr[0] * vtemp) + (cosr[0] * v[8]);
 		}
 
 		return (0);
 	}
 
 	static double max(double a, double b) {
-		if (a > b)
+		if (a > b) {
 			return (a);
-		else
+		} else {
 			return (b);
+		}
 	}
 
 	static double min(double a, double b) {
-		if (a < b)
+		if (a < b) {
 			return (a);
-		else
+		} else {
 			return (b);
+		}
 	}
 
 	static double d_sign(double a, double b) {
@@ -2876,22 +2872,22 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 			}
 		} else {
 			if (ga < fhmx) {
-				as = fhmn / fhmx + 1.;
+				as = (fhmn / fhmx) + 1.;
 				at = (fhmx - fhmn) / fhmx;
 				d__1 = ga / fhmx;
 				au = d__1 * d__1;
-				c = 2. / (Math.sqrt(as * as + au) + Math.sqrt(at * at + au));
+				c = 2. / (Math.sqrt((as * as) + au) + Math.sqrt((at * at) + au));
 				ssmin = fhmn * c;
 			} else {
 				au = fhmx / ga;
 				if (au == 0.) {
-					ssmin = fhmn * fhmx / ga;
+					ssmin = (fhmn * fhmx) / ga;
 				} else {
-					as = fhmn / fhmx + 1.;
+					as = (fhmn / fhmx) + 1.;
 					at = (fhmx - fhmn) / fhmx;
 					d__1 = as * au;
 					d__2 = at * au;
-					c = 1. / (Math.sqrt(d__1 * d__1 + 1.) + Math.sqrt(d__2 * d__2 + 1.));
+					c = 1. / (Math.sqrt((d__1 * d__1) + 1.) + Math.sqrt((d__2 * d__2) + 1.));
 					ssmin = fhmn * c * au;
 					ssmin += ssmin;
 				}
@@ -2930,10 +2926,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		ha = Math.abs(h);
 
 		pmax = 1;
-		if (ha > fa)
+		if (ha > fa) {
 			swap = true;
-		else
+		} else {
 			swap = false;
+		}
 
 		if (swap) {
 			pmax = 3;
@@ -2960,14 +2957,14 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 			if (ga > fa) {
 				pmax = 2;
-				if (fa / ga < EPS) {
+				if ((fa / ga) < EPS) {
 
 					gasmal = false;
 					ssmax = ga;
 					if (ha > 1.) {
 						ssmin = fa / (ga / ha);
 					} else {
-						ssmin = fa / ga * ha;
+						ssmin = (fa / ga) * ha;
 					}
 					clt = 1.;
 					slt = ht / gt;
@@ -2996,21 +2993,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 				if (l == 0.) {
 					r = Math.abs(m);
 				} else {
-					r = Math.sqrt(l * l + mm);
+					r = Math.sqrt((l * l) + mm);
 				}
 
 				a = (s + r) * .5;
 
 				if (ga > fa) {
 					pmax = 2;
-					if (fa / ga < EPS) {
+					if ((fa / ga) < EPS) {
 
 						gasmal = false;
 						ssmax = ga;
 						if (ha > 1.) {
 							ssmin = fa / (ga / ha);
 						} else {
-							ssmin = fa / ga * ha;
+							ssmin = (fa / ga) * ha;
 						}
 						clt = 1.;
 						slt = ht / gt;
@@ -3039,7 +3036,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 					if (l == 0.) {
 						r = Math.abs(m);
 					} else {
-						r = Math.sqrt(l * l + mm);
+						r = Math.sqrt((l * l) + mm);
 					}
 
 					a = (s + r) * .5;
@@ -3051,16 +3048,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 						if (l == 0.) {
 							t = d_sign(c_b3, ft) * d_sign(c_b4, gt);
 						} else {
-							t = gt / d_sign(d, ft) + m / t;
+							t = (gt / d_sign(d, ft)) + (m / t);
 						}
 					} else {
-						t = (m / (s + t) + m / (r + l)) * (a + 1.);
+						t = ((m / (s + t)) + (m / (r + l))) * (a + 1.);
 					}
-					l = Math.sqrt(t * t + 4.);
+					l = Math.sqrt((t * t) + 4.);
 					crt = 2. / l;
 					srt = t / l;
-					clt = (crt + srt * m) / a;
-					slt = ht / ft * srt / a;
+					clt = (crt + (srt * m)) / a;
+					slt = ((ht / ft) * srt) / a;
 				}
 			}
 			if (swap) {
@@ -3122,7 +3119,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 					g1 *= safmn2;
 					scale = max(Math.abs(f1), Math.abs(g1));
 				}
-				r = Math.sqrt(f1 * f1 + g1 * g1);
+				r = Math.sqrt((f1 * f1) + (g1 * g1));
 				cs = f1 / r;
 				sn = g1 / r;
 				for (i = 1; i <= count; ++i) {
@@ -3136,18 +3133,18 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 					g1 *= safmx2;
 					scale = max(Math.abs(f1), Math.abs(g1));
 				}
-				r = Math.sqrt(f1 * f1 + g1 * g1);
+				r = Math.sqrt((f1 * f1) + (g1 * g1));
 				cs = f1 / r;
 				sn = g1 / r;
 				for (i = 1; i <= count; ++i) {
 					r *= safmn2;
 				}
 			} else {
-				r = Math.sqrt(f1 * f1 + g1 * g1);
+				r = Math.sqrt((f1 * f1) + (g1 * g1));
 				cs = f1 / r;
 				sn = g1 / r;
 			}
-			if (Math.abs(f) > Math.abs(g) && cs < 0.) {
+			if ((Math.abs(f) > Math.abs(g)) && (cs < 0.)) {
 				cs = -cs;
 				sn = -sn;
 				r = -r;
@@ -3162,7 +3159,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	static void print_mat(double[] mat) {
 		int i;
 		for (i = 0; i < 3; i++) {
-			System.out.println(mat[i * 3 + 0] + " " + mat[i * 3 + 1] + " " + mat[i * 3 + 2] + "\n");
+			System.out.println(mat[(i * 3) + 0] + " " + mat[(i * 3) + 1] + " " + mat[(i * 3) + 2] + "\n");
 		}
 
 	}
@@ -3170,8 +3167,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	static void print_det(double[] mat) {
 		double det;
 
-		det = mat[0] * mat[4] * mat[8] + mat[1] * mat[5] * mat[6] + mat[2] * mat[3] * mat[7] - mat[2] * mat[4] * mat[6] - mat[0] * mat[5] * mat[7] - mat[1]
-				* mat[3] * mat[8];
+		det = ((mat[0] * mat[4] * mat[8]) + (mat[1] * mat[5] * mat[6]) + (mat[2] * mat[3] * mat[7])) - (mat[2] * mat[4] * mat[6]) - (mat[0] * mat[5] * mat[7])
+				- (mat[1] * mat[3] * mat[8]);
 		System.out.println("det= " + det);
 	}
 
@@ -3179,17 +3176,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		int i;
 		double[] tmp = new double[9];
 
-		tmp[0] = m1[0] * m2[0] + m1[1] * m2[3] + m1[2] * m2[6];
-		tmp[1] = m1[0] * m2[1] + m1[1] * m2[4] + m1[2] * m2[7];
-		tmp[2] = m1[0] * m2[2] + m1[1] * m2[5] + m1[2] * m2[8];
+		tmp[0] = (m1[0] * m2[0]) + (m1[1] * m2[3]) + (m1[2] * m2[6]);
+		tmp[1] = (m1[0] * m2[1]) + (m1[1] * m2[4]) + (m1[2] * m2[7]);
+		tmp[2] = (m1[0] * m2[2]) + (m1[1] * m2[5]) + (m1[2] * m2[8]);
 
-		tmp[3] = m1[3] * m2[0] + m1[4] * m2[3] + m1[5] * m2[6];
-		tmp[4] = m1[3] * m2[1] + m1[4] * m2[4] + m1[5] * m2[7];
-		tmp[5] = m1[3] * m2[2] + m1[4] * m2[5] + m1[5] * m2[8];
+		tmp[3] = (m1[3] * m2[0]) + (m1[4] * m2[3]) + (m1[5] * m2[6]);
+		tmp[4] = (m1[3] * m2[1]) + (m1[4] * m2[4]) + (m1[5] * m2[7]);
+		tmp[5] = (m1[3] * m2[2]) + (m1[4] * m2[5]) + (m1[5] * m2[8]);
 
-		tmp[6] = m1[6] * m2[0] + m1[7] * m2[3] + m1[8] * m2[6];
-		tmp[7] = m1[6] * m2[1] + m1[7] * m2[4] + m1[8] * m2[7];
-		tmp[8] = m1[6] * m2[2] + m1[7] * m2[5] + m1[8] * m2[8];
+		tmp[6] = (m1[6] * m2[0]) + (m1[7] * m2[3]) + (m1[8] * m2[6]);
+		tmp[7] = (m1[6] * m2[1]) + (m1[7] * m2[4]) + (m1[8] * m2[7]);
+		tmp[8] = (m1[6] * m2[2]) + (m1[7] * m2[5]) + (m1[8] * m2[8]);
 
 		for (i = 0; i < 9; i++) {
 			m3[i] = tmp[i];
@@ -3212,21 +3209,24 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	static double max3(double[] values) {
 		if (values[0] > values[1]) {
-			if (values[0] > values[2])
+			if (values[0] > values[2]) {
 				return (values[0]);
-			else
+			} else {
 				return (values[2]);
+			}
 		} else {
-			if (values[1] > values[2])
+			if (values[1] > values[2]) {
 				return (values[1]);
-			else
+			} else {
 				return (values[2]);
+			}
 		}
 	}
 
 	private static final boolean almostEqual(double a, double b) {
-		if (a == b)
+		if (a == b) {
 			return true;
+		}
 
 		final double EPSILON_ABSOLUTE = 1.0e-6;
 		final double EPSILON_RELATIVE = 1.0e-4;
@@ -3235,21 +3235,23 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		double absB = Math.abs(b);
 		double max = (absA >= absB) ? absA : absB;
 
-		if (diff < EPSILON_ABSOLUTE)
+		if (diff < EPSILON_ABSOLUTE) {
 			return true;
+		}
 
-		if ((diff / max) < EPSILON_RELATIVE)
+		if ((diff / max) < EPSILON_RELATIVE) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Creates a new object of the same class as this object.
-	 * 
+	 *
 	 * @return a clone of this instance.
 	 * @exception OutOfMemoryError
-	 *                if there is not enough memory.
+	 *            if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
@@ -3269,20 +3271,20 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the first matrix element in the first row.
-	 * 
+	 *
 	 * @return Returns the m00.
 	 * @since vecmath 1.5
 	 */
 	public final double getM00() {
-		return m00;
+		return this.m00;
 	}
 
 	/**
 	 * Set the first matrix element in the first row.
-	 * 
+	 *
 	 * @param m00
-	 *            The m00 to set.
-	 * 
+	 *        The m00 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM00(double m00) {
@@ -3291,21 +3293,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the second matrix element in the first row.
-	 * 
+	 *
 	 * @return Returns the m01.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM01() {
-		return m01;
+		return this.m01;
 	}
 
 	/**
 	 * Set the second matrix element in the first row.
-	 * 
+	 *
 	 * @param m01
-	 *            The m01 to set.
-	 * 
+	 *        The m01 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM01(double m01) {
@@ -3314,21 +3316,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the third matrix element in the first row.
-	 * 
+	 *
 	 * @return Returns the m02.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM02() {
-		return m02;
+		return this.m02;
 	}
 
 	/**
 	 * Set the third matrix element in the first row.
-	 * 
+	 *
 	 * @param m02
-	 *            The m02 to set.
-	 * 
+	 *        The m02 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM02(double m02) {
@@ -3337,21 +3339,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get first matrix element in the second row.
-	 * 
+	 *
 	 * @return Returns the m10.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM10() {
-		return m10;
+		return this.m10;
 	}
 
 	/**
 	 * Set first matrix element in the second row.
-	 * 
+	 *
 	 * @param m10
-	 *            The m10 to set.
-	 * 
+	 *        The m10 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM10(double m10) {
@@ -3360,21 +3362,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get second matrix element in the second row.
-	 * 
+	 *
 	 * @return Returns the m11.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM11() {
-		return m11;
+		return this.m11;
 	}
 
 	/**
 	 * Set the second matrix element in the second row.
-	 * 
+	 *
 	 * @param m11
-	 *            The m11 to set.
-	 * 
+	 *        The m11 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM11(double m11) {
@@ -3383,21 +3385,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the third matrix element in the second row.
-	 * 
+	 *
 	 * @return Returns the m12.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM12() {
-		return m12;
+		return this.m12;
 	}
 
 	/**
 	 * Set the third matrix element in the second row.
-	 * 
+	 *
 	 * @param m12
-	 *            The m12 to set.
-	 * 
+	 *        The m12 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM12(double m12) {
@@ -3406,21 +3408,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the first matrix element in the third row.
-	 * 
+	 *
 	 * @return Returns the m20.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM20() {
-		return m20;
+		return this.m20;
 	}
 
 	/**
 	 * Set the first matrix element in the third row.
-	 * 
+	 *
 	 * @param m20
-	 *            The m20 to set.
-	 * 
+	 *        The m20 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM20(double m20) {
@@ -3429,21 +3431,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the second matrix element in the third row.
-	 * 
+	 *
 	 * @return Returns the m21.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM21() {
-		return m21;
+		return this.m21;
 	}
 
 	/**
 	 * Set the second matrix element in the third row.
-	 * 
+	 *
 	 * @param m21
-	 *            The m21 to set.
-	 * 
+	 *        The m21 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM21(double m21) {
@@ -3452,21 +3454,21 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the third matrix element in the third row .
-	 * 
+	 *
 	 * @return Returns the m22.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final double getM22() {
-		return m22;
+		return this.m22;
 	}
 
 	/**
 	 * Set the third matrix element in the third row.
-	 * 
+	 *
 	 * @param m22
-	 *            The m22 to set.
-	 * 
+	 *        The m22 to set.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setM22(double m22) {

@@ -18,6 +18,8 @@ import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
 public class DuelState implements GameState {
+	private static final int CHAT_CHAR_LIMIT = 256;
+
 	private Main main;
 	private GUI gui;
 	private Level level;
@@ -30,83 +32,89 @@ public class DuelState implements GameState {
 	private boolean paused;
 
 	private boolean typing;
-	private String message;
+	private StringBuilder message;
 
 	public DuelState(Main main, boolean isServer, String username, String address) {
 		this.main = main;
 
-		gui = new GUI();
+		this.gui = new GUI(main);
 
-		level = new Level();
+		this.level = new Level();
 
-		if (isServer)
-			server = new Server(this, gui, new Level());
+		if (isServer) {
+			this.server = new Server(this, this.gui, new Level());
+		}
 
-		client = new Client(main, gui, level, address);
+		this.client = new Client(main, this.gui, this.level, address);
 
 		if (!isServer) {
-			level.addMainPlayer(player);
-			player = new NetPlayer(client, username, address, client.getPort(), level);
+			this.level.addMainPlayer(this.player);
+			this.player = new NetPlayer(this.client, username, address, this.client.getPort(), this.level, main.input);
 		}
 
 		new Packet00Login(username).sendData(this.client);
 
-		camera = new Camera(0.0f, 6.5f, 0.0f);
+		this.camera = new Camera(0.0f, 6.5f, 0.0f);
 
-		typing = false;
-		message = "";
+		this.typing = false;
+		this.message = new StringBuilder(CHAT_CHAR_LIMIT);
 
 		Mouse.setGrabbed(true);
 	}
 
 	@Override
 	public void tick(int delta) {
-		if (this.player == null && level.getMainPlayer() != null) {
-			this.player = level.getMainPlayer();
-			player.setClient(client);
+		if ((this.player == null) && (this.level.getMainPlayer() != null)) {
+			this.player = this.level.getMainPlayer();
+			this.player.setClient(this.client);
 		}
 
-		if (gui.exitDuel.isFull()) {
-			if (server != null) ;
-				server.exit();
-			client.sendData(new Packet01Disconnect(player.getUsername()).getData());
-			client.exit();
-			main.changeState(new MainMenuState(main));
-		}
-
-		gui.tick(paused, delta);
-
-		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
-			paused = !paused;
-			gui.chatFade.fill();
-			Mouse.setGrabbed(false);
-		} else if (Main.input.isKeyPressed(Keyboard.KEY_LMENU))
-			Mouse.setGrabbed(!Mouse.isGrabbed());
-		else if (Main.input.isKeyPressed(Keyboard.KEY_R) && !typing)
-			camera.reset();
-		else if (Main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
-			if (typing && message.length() != 0) {
-				new Packet03Chat(player.getUsername(), message).sendData(client);
-				message = "";
+		if (this.gui.exitDuel.isFull()) {
+			if (this.server != null) {
+				;
 			}
-			typing = !typing;
-		} else if(Main.input.isKeyPressed(Keyboard.KEY_F5))
+			this.server.exit();
+			this.client.sendData(new Packet01Disconnect(this.player.getUsername()).getData());
+			this.client.exit();
+			this.main.changeState(new MainMenuState(this.main));
+		}
+
+		this.gui.tick(this.paused, delta);
+
+		if (this.main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
+			this.paused = !this.paused;
+			this.gui.chatFade.fill();
+			Mouse.setGrabbed(false);
+		} else if (this.main.input.isKeyPressed(Keyboard.KEY_LMENU)) {
+			Mouse.setGrabbed(!Mouse.isGrabbed());
+		} else if (this.main.input.isKeyPressed(Keyboard.KEY_R) && !this.typing) {
+			this.camera.reset();
+		} else if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
+			if (this.typing && (this.message.length() != 0)) {
+				new Packet03Chat(this.player.getUsername(), this.message.toString()).sendData(this.client);
+				this.message = new StringBuilder(CHAT_CHAR_LIMIT);
+			}
+			this.typing = !this.typing;
+		} else if (this.main.input.isKeyPressed(Keyboard.KEY_F5)) {
 			Models.init();
-		
-		if(Main.input.isKeyDown(Keyboard.KEY_V))
+		}
+
+		if (this.main.input.isKeyDown(Keyboard.KEY_V)) {
 			Camera.moveSpeed = 0.01f;
-		else
+		} else {
 			Camera.moveSpeed = 0.0015f;
+		}
 
-		if (!paused) {
-			if (typing)
-				message = Main.input.handleTyping(message, Fonts.centuryGothic);
-			else
-				camera.tick(delta);
-
-			level.tick(delta);
-		} else
-			typing = false;
+		if (!this.paused) {
+			if (this.typing) {
+				this.main.input.handleTyping(this.message, Fonts.centuryGothic);
+			} else {
+				this.camera.tick(delta);
+			}
+			this.level.tick(delta);
+		} else {
+			this.typing = false;
+		}
 	}
 
 	@Override
@@ -116,44 +124,46 @@ public class DuelState implements GameState {
 		Shaders.use("lighting");
 		Color.set(Shaders.current, 1f, 1f, 1f, 1f);
 		Matrices.loadIdentity();
-		
-		camera.applyTransformations();
+
+		this.camera.applyTransformations();
 
 		Lighting.setTextured(true);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Matrices.sendMVMatrix(Shaders.current);
-		level.renderLevel();
-		
-		if (!paused)
-			RayCast.tick(camera);
+		this.level.renderLevel();
+
+		// Raycast before rendering entities to pick position by terrain only.
+		if (!this.paused) {
+			RayCast.tick(this.camera);
+		}
 		Lighting.setTextured(false);
-		level.renderEntities();
+		this.level.renderEntities();
 
 		// GUI rendering
 		glEnable(GL_BLEND);
-		gui.render(message, paused, typing);
+		this.gui.render(this.message.toString(), this.paused, this.typing);
 		Shaders.useDefault();
 		glDisable(GL_BLEND);
 	}
 
 	// Getters and setters
 	public GUI getGUI() {
-		return gui;
+		return this.gui;
 	}
 
 	public Level getLevel() {
-		return level;
+		return this.level;
 	}
 
 	public Player getPlayer() {
-		return player;
+		return this.player;
 	}
 
 	public Camera getCamera() {
-		return camera;
+		return this.camera;
 	}
 
 	public Client getClient() {
-		return client;
+		return this.client;
 	}
 }

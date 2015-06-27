@@ -9,7 +9,7 @@ import com.doobs.modern.util.shader.*;
 
 /**
  * A helper class for lighting
- * 
+ *
  * @author Logan
  */
 public class Lighting {
@@ -41,14 +41,16 @@ public class Lighting {
 	}
 
 	public static void moveLight(Vector3f position, boolean usingShader) {
-		if (!usingShader)
+		if (!usingShader) {
 			Shaders.get("lighting").use();
+		}
 
 		int location = glGetUniformLocation(Shaders.get("lighting").getID(), "lightPosition");
 		glUniform3f(location, position.getX(), position.getY(), position.getZ());
 
-		if (!usingShader)
+		if (!usingShader) {
 			Shaders.useDefault();
+		}
 	}
 
 	public static void setTextured(boolean textured) {

@@ -15,8 +15,8 @@ public class Client {
 
 	private Level level;
 	private Map<String, NetPlayer> players; // Keeping this here just for the
-											// sake of having the usernames of
-											// all connected players
+	// sake of having the usernames of
+	// all connected players.
 
 	private PacketIO handler;
 
@@ -24,67 +24,70 @@ public class Client {
 		this.main = main;
 
 		this.level = level;
-		players = new HashMap<String, NetPlayer>();
+		this.players = new HashMap<String, NetPlayer>();
 
-		handler = new PacketIO(this, gui, address, level);
-		handler.start();
+		this.handler = new PacketIO(main, this, gui, address, level);
+		this.handler.start();
 	}
 
 	public void handleMove(Packet02Move packet) {
-		if (main.getCurrentState() instanceof DuelState)
-			((DuelState) main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), 0, packet.getZ());
+		if (this.main.getCurrentState() instanceof DuelState) {
+			((DuelState) this.main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), 0, packet.getZ());
+		}
 	}
 
 	public void addConnection(NetPlayer player, Packet00Login packet) {
-		if (players.isEmpty()) {
+		if (this.players.isEmpty()) {
 			player.setClient(this);
-			level.setMainPlayer(player);
+			this.level.setMainPlayer(player);
 		}
 
-		if (players.containsKey(player.getUsername())) {
-			NetPlayer p = players.get(packet.getUsername());
-			if (p.getAddress() == null)
-				p.setAddress(player.getAddress());
-		} else
-			addPlayer(player);
+		if (this.players.containsKey(player.getUsername())) {
+			NetPlayer p = this.players.get(packet.getUsername());
+			if (p.getAddress() == null) {
+				p.setUsername(player.getAddress());
+			}
+		} else {
+			this.addPlayer(player);
+		}
 	}
 
 	public void removeConnection(Packet01Disconnect packet) {
-		players.remove(packet.getUsername());
-		level.removePlayer(packet.getUsername());
+		this.players.remove(packet.getUsername());
+		this.level.removePlayer(packet.getUsername());
 	}
 
 	public NetPlayer getNetPlayer(String username) {
-		return players.get(username);
+		return this.players.get(username);
 	}
 
 	public void addPlayer(NetPlayer player) {
-		players.put(player.getUsername(), player);
-		level.addEntity(player);
+		this.players.put(player.getUsername(), player);
+		this.level.addEntity(player);
 	}
 
 	public void sendData(byte[] data) {
-		handler.sendData(data);
+		this.handler.sendData(data);
 	}
 
 	public void exit() {
-		handler.exit();
+		this.handler.exit();
 	}
 
 	// Getters and Setters
 	public PacketIO getHandler() {
-		return handler;
+		return this.handler;
 	}
 
 	public InetAddress getAddress() {
-		return handler.getAddress();
+		return this.handler.getAddress();
 	}
 
 	public void setAddress(InetAddress address) {
-		handler.setAddress(address);
+		this.handler.setAddress(address);
 	}
 
 	public int getPort() {
-		return handler.getPort();
+		return this.handler.getPort();
 	}
 }

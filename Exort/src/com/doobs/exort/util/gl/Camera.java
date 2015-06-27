@@ -1,11 +1,8 @@
 package com.doobs.exort.util.gl;
 
-import static org.lwjgl.input.Keyboard.KEY_LSHIFT;
-import static org.lwjgl.input.Keyboard.KEY_SPACE;
-import static org.lwjgl.input.Keyboard.isKeyDown;
+import static org.lwjgl.input.Keyboard.*;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.input.*;
 import org.lwjgl.util.vector.*;
 
 import com.doobs.modern.util.matrix.*;
@@ -37,78 +34,81 @@ public class Camera {
 
 	public void tick(int delta) {
 		if (Mouse.isGrabbed()) {
-			rotX -= Mouse.getDY() / rotModifier * delta;
-			rotY += Mouse.getDX() / rotModifier * delta;
-			if (rotX < -90)
-				rotX = -90;
-			else if (rotX > 90)
-				rotX = 90;
-			if (rotY <= 0)
-				rotY += 360.0f;
-			else if (rotY >= 360)
-				rotY -= 360.0f;
+			this.rotX -= (Mouse.getDY() / rotModifier) * delta;
+			this.rotY += (Mouse.getDX() / rotModifier) * delta;
+			if (this.rotX < -90) {
+				this.rotX = -90;
+			} else if (this.rotX > 90) {
+				this.rotX = 90;
+			}
+			if (this.rotY <= 0) {
+				this.rotY += 360.0f;
+			} else if (this.rotY >= 360) {
+				this.rotY -= 360.0f;
+			}
 
 			if ((Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard
 					.isKeyDown(Keyboard.KEY_D))
 					|| (Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A) && Keyboard
 							.isKeyDown(Keyboard.KEY_D))) { // W || W + A + D
-				xa += (float) (Math.sin(Math.toRadians(rotY)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY)) * moveSpeed * delta);
 			} else if ((!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A) && !Keyboard
 					.isKeyDown(Keyboard.KEY_D))
 					|| (!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A) && Keyboard
 							.isKeyDown(Keyboard.KEY_D))) { // S || S + A + D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 180.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 180.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY + 180.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY + 180.0f)) * moveSpeed * delta);
 			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& !Keyboard.isKeyDown(Keyboard.KEY_D)) { // A
-				xa += (float) (Math.sin(Math.toRadians(rotY - 90.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY - 90.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY - 90.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY - 90.0f)) * moveSpeed * delta);
 			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& Keyboard.isKeyDown(Keyboard.KEY_D)) { // D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 90.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 90.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY + 90.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY + 90.0f)) * moveSpeed * delta);
 			} else if (Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& !Keyboard.isKeyDown(Keyboard.KEY_D)) { // W + A
-				xa += (float) (Math.sin(Math.toRadians(rotY - 45.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY - 45.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY - 45.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY - 45.0f)) * moveSpeed * delta);
 			} else if (Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& Keyboard.isKeyDown(Keyboard.KEY_D)) { // W + D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 45.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 45.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY + 45.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY + 45.0f)) * moveSpeed * delta);
 			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& !Keyboard.isKeyDown(Keyboard.KEY_D)) { // S + A
-				xa += (float) (Math.sin(Math.toRadians(rotY - 135.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY - 135.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY - 135.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY - 135.0f)) * moveSpeed * delta);
 			} else if (!Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_S) && !Keyboard.isKeyDown(Keyboard.KEY_A)
 					&& Keyboard.isKeyDown(Keyboard.KEY_D)) { // S + D
-				xa += (float) (Math.sin(Math.toRadians(rotY + 135.0f)) * moveSpeed * delta);
-				za -= (float) (Math.cos(Math.toRadians(rotY + 135.0f)) * moveSpeed * delta);
+				this.xa += (float) (Math.sin(Math.toRadians(this.rotY + 135.0f)) * moveSpeed * delta);
+				this.za -= (float) (Math.cos(Math.toRadians(this.rotY + 135.0f)) * moveSpeed * delta);
 			}
 
-			if (isKeyDown(KEY_SPACE))
-				ya += moveSpeed * delta;
-			else if (isKeyDown(KEY_LSHIFT))
-				ya -= moveSpeed * delta;
+			if (isKeyDown(KEY_SPACE)) {
+				this.ya += moveSpeed * delta;
+			} else if (isKeyDown(KEY_LSHIFT)) {
+				this.ya -= moveSpeed * delta;
+			}
 		}
-		x += xa;
-		y += ya;
-		z += za;
+		this.x += this.xa;
+		this.y += this.ya;
+		this.z += this.za;
 
-		xa *= slowFactor;
-		ya *= slowFactor;
-		za *= slowFactor;
+		this.xa *= slowFactor;
+		this.ya *= slowFactor;
+		this.za *= slowFactor;
 	}
 
 	public void applyTransformations() {
-		Matrices.rotate((float) -rotX, 1, 0, 0);
-		Matrices.rotate((float) -rotY, 0, 1, 0);
-		Matrices.rotate((float) -rotZ, 0, 0, 1);
-		Matrices.translate(-x, -y, -z);
+		Matrices.rotate((float) -this.rotX, 1, 0, 0);
+		Matrices.rotate((float) -this.rotY, 0, 1, 0);
+		Matrices.rotate((float) -this.rotZ, 0, 0, 1);
+		Matrices.translate(-this.x, -this.y, -this.z);
 	}
 
 	public void reset() {
-		resetRotation();
+		this.resetRotation();
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
@@ -122,30 +122,30 @@ public class Camera {
 
 	// Getters and Setters
 	public Vector3f getPosition() {
-		return new Vector3f(x, y, z);
+		return new Vector3f(this.x, this.y, this.z);
 	}
 
 	public float getX() {
-		return x;
+		return this.x;
 	}
 
 	public float getY() {
-		return y;
+		return this.y;
 	}
 
 	public float getZ() {
-		return z;
+		return this.z;
 	}
 
 	public float getXA() {
-		return xa;
+		return this.xa;
 	}
 
 	public float getYA() {
-		return ya;
+		return this.ya;
 	}
 
 	public float getZA() {
-		return za;
+		return this.za;
 	}
 }

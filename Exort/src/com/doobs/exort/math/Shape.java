@@ -1,6 +1,6 @@
 package com.doobs.exort.math;
 
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.*;
 
 public class Shape {
 	private Vector3f[] vertices;
@@ -14,10 +14,10 @@ public class Shape {
 
 	// Getters and Setters
 	public Vector3f getVertex(int vertex) {
-		return vertices[vertex];
+		return this.vertices[vertex];
 	}
 
 	public Vector3f[] getVertices() {
-		return vertices;
+		return this.vertices;
 	}
 }

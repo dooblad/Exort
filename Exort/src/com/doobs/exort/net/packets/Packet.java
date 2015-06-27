@@ -6,7 +6,7 @@ import com.doobs.exort.net.server.*;
 public abstract class Packet {
 
 	public static enum PacketType {
-		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02), CHAT(03), Q(04);
+		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02), CHAT(03), SONIC_WAVE(04), ROCK_WALL(05);
 
 		private int id;
 
@@ -15,7 +15,7 @@ public abstract class Packet {
 		}
 
 		public int getId() {
-			return id;
+			return this.id;
 		}
 	}
 

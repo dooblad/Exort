@@ -1,6 +1,6 @@
 package com.doobs.exort.math;
 
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.*;
 
 public class SAT {
 
@@ -12,7 +12,7 @@ public class SAT {
 		Vector3f[] axes = new Vector3f[shape.getVertices().length];
 		for (int i = 0; i < shape.getVertices().length; i++) {
 			Vector3f edge = new Vector3f();
-			Vector3f.sub(shape.getVertex(i), shape.getVertex(i + 1 == shape.getVertices().length ? 0 : i + 1), edge);
+			Vector3f.sub(shape.getVertex(i), shape.getVertex((i + 1) == shape.getVertices().length ? 0 : i + 1), edge);
 			axes[i] = (Vector3f) MathUtil.perpendicular(edge).normalise();
 			// RIDDENCE
 			System.out.println("Axis[" + axes[i].getX() + ", " + axes[i].getY() + ", " + axes[i].getZ() + "]");
@@ -27,10 +27,11 @@ public class SAT {
 
 		for (int i = 1; i < shape.getVertices().length; i++) {
 			float p = Vector3f.dot(axis, shape.getVertex(i));
-			if (p < min)
+			if (p < min) {
 				min = p;
-			else if (p > max)
+			} else if (p > max) {
 				max = p;
+			}
 		}
 
 		Projection projection = new Projection(min, max);
@@ -52,8 +53,9 @@ public class SAT {
 			// RIDDENCE
 			System.out.println();
 
-			if (!proj1.overlaps(proj2))
+			if (!proj1.overlaps(proj2)) {
 				return false;
+			}
 		}
 
 		// RIDDENCE
@@ -69,8 +71,9 @@ public class SAT {
 			// RIDDENCE
 			System.out.println();
 
-			if (!proj1.overlaps(proj2))
+			if (!proj1.overlaps(proj2)) {
 				return false;
+			}
 		}
 		return true;
 	}

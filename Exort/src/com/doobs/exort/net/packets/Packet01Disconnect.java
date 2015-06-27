@@ -9,7 +9,7 @@ public class Packet01Disconnect extends Packet {
 
 	public Packet01Disconnect(byte[] data) {
 		super(01);
-		this.username = readData(data);
+		this.username = this.readData(data);
 	}
 
 	public Packet01Disconnect(String username) {
@@ -18,11 +18,11 @@ public class Packet01Disconnect extends Packet {
 	}
 
 	public void sendData(Client client) {
-		super.sendData(client, getData());
+		super.sendData(client, this.getData());
 	}
 
 	public void sendData(Server server) {
-		super.sendData(server, getData());
+		super.sendData(server, this.getData());
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class Packet01Disconnect extends Packet {
 
 	// Getters and setters
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 }

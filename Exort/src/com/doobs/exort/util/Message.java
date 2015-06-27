@@ -24,13 +24,13 @@ public class Message {
 	}
 
 	public void draw(int x, int y) {
-		Fonts.centuryGothic.setColor(color.x, color.y, color.z, color.w);
-		Fonts.centuryGothic.draw(text, x, y);
+		Fonts.centuryGothic.setColor(this.color.x, this.color.y, this.color.z, this.color.w);
+		Fonts.centuryGothic.draw(this.text, x, y);
 	}
 
 	// Getters and setters
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
 	public void setText(String text) {
@@ -38,7 +38,7 @@ public class Message {
 	}
 
 	public Vector4f getColors() {
-		return color;
+		return this.color;
 	}
 
 	public void setColors(Vector4f color) {

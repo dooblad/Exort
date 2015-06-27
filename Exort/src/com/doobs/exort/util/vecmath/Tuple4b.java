@@ -32,18 +32,14 @@
 package com.doobs.exort.util.vecmath;
 
 /**
- * A four byte tuple. Note that Java defines a byte as a signed integer in the
- * range [-128, 127]. However, colors are more typically represented by values
- * in the range [0, 255]. Java 3D recognizes this and, in those cases where
- * Tuple4b is used to represent color, treats the bytes as if the range were [0,
- * 255]---in other words, as if the bytes were unsigned. Values greater than 127
- * can be assigned to a byte variable using a type cast. For example:
- * <ul>
- * byteVariable = (byte) intValue; // intValue can be > 127
- * </ul>
- * If intValue is greater than 127, then byteVariable will be negative. The
- * correct value will be extracted when it is used (by masking off the upper
- * bits).
+ * A four byte tuple. Note that Java defines a byte as a signed integer in the range
+ * [-128, 127]. However, colors are more typically represented by values in the range [0,
+ * 255]. Java 3D recognizes this and, in those cases where Tuple4b is used to represent
+ * color, treats the bytes as if the range were [0, 255]---in other words, as if the bytes
+ * were unsigned. Values greater than 127 can be assigned to a byte variable using a type
+ * cast. For example: <ul> byteVariable = (byte) intValue; // intValue can be > 127 </ul>
+ * If intValue is greater than 127, then byteVariable will be negative. The correct value
+ * will be extracted when it is used (by masking off the upper bits).
  */
 public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
@@ -71,15 +67,15 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple4b from the specified four values.
-	 * 
+	 *
 	 * @param b1
-	 *            the first value
+	 *        the first value
 	 * @param b2
-	 *            the second value
+	 *        the second value
 	 * @param b3
-	 *            the third value
+	 *        the third value
 	 * @param b4
-	 *            the fourth value
+	 *        the fourth value
 	 */
 	public Tuple4b(byte b1, byte b2, byte b3, byte b4) {
 		this.x = b1;
@@ -90,9 +86,9 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple4b from the array of length 4.
-	 * 
+	 *
 	 * @param t
-	 *            the array of length 4 containing b1 b2 b3 b4 in order
+	 *        the array of length 4 containing b1 b2 b3 b4 in order
 	 */
 	public Tuple4b(byte[] t) {
 		this.x = t[0];
@@ -103,9 +99,9 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple4b from the specified Tuple4b.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple4b containing the initialization x y z w data
+	 *        the Tuple4b containing the initialization x y z w data
 	 */
 	public Tuple4b(Tuple4b t1) {
 		this.x = t1.x;
@@ -126,19 +122,19 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Returns a string that contains the values of this Tuple4b.
-	 * 
+	 *
 	 * @return the String representation
 	 */
 	public String toString() {
-		return ("(" + ((int) this.x & 0xff) + ", " + ((int) this.y & 0xff) + ", " + ((int) this.z & 0xff) + ", " + ((int) this.w & 0xff) + ")");
+		return ("(" + (this.x & 0xff) + ", " + (this.y & 0xff) + ", " + (this.z & 0xff) + ", " + (this.w & 0xff) + ")");
 	}
 
 	/**
-	 * Places the value of the x,y,z,w components of this Tuple4b into the array
-	 * of length 4.
-	 * 
+	 * Places the value of the x,y,z,w components of this Tuple4b into the array of length
+	 * 4.
+	 *
 	 * @param b
-	 *            array of length 4 into which the values are placed
+	 *        array of length 4 into which the values are placed
 	 */
 	public final void get(byte[] b) {
 		b[0] = this.x;
@@ -148,11 +144,10 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Places the value of the x,y,z,w components of this Tuple4b into the tuple
-	 * t1.
-	 * 
+	 * Places the value of the x,y,z,w components of this Tuple4b into the tuple t1.
+	 *
 	 * @param t1
-	 *            tuple into which the values are placed
+	 *        tuple into which the values are placed
 	 */
 	public final void get(Tuple4b t1) {
 		t1.x = this.x;
@@ -162,11 +157,11 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of the data members of this tuple to the value of the
-	 * argument tuple t1.
-	 * 
+	 * Sets the value of the data members of this tuple to the value of the argument tuple
+	 * t1.
+	 *
 	 * @param t1
-	 *            the source tuple
+	 *        the source tuple
 	 */
 	public final void set(Tuple4b t1) {
 		this.x = t1.x;
@@ -176,11 +171,11 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of the data members of this tuple to the value of the
-	 * array b of length 4.
-	 * 
+	 * Sets the value of the data members of this tuple to the value of the array b of
+	 * length 4.
+	 *
 	 * @param b
-	 *            the source array of length 4
+	 *        the source array of length 4
 	 */
 	public final void set(byte[] b) {
 		this.x = b[0];
@@ -190,15 +185,15 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if all of the data members of tuple t1 are equal to the
-	 * corresponding data members in this tuple.
-	 * 
+	 * Returns true if all of the data members of tuple t1 are equal to the corresponding
+	 * data members in this tuple.
+	 *
 	 * @param t1
-	 *            the tuple with which the comparison is made
+	 *        the tuple with which the comparison is made
 	 */
 	public boolean equals(Tuple4b t1) {
 		try {
-			return (this.x == t1.x && this.y == t1.y && this.z == t1.z && this.w == t1.w);
+			return ((this.x == t1.x) && (this.y == t1.y) && (this.z == t1.z) && (this.w == t1.w));
 		} catch (NullPointerException e2) {
 			return false;
 		}
@@ -206,17 +201,16 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the Object t1 is of type Tuple4b and all of the data
-	 * members of t1 are equal to the corresponding data members in this
-	 * Tuple4b.
-	 * 
+	 * Returns true if the Object t1 is of type Tuple4b and all of the data members of t1
+	 * are equal to the corresponding data members in this Tuple4b.
+	 *
 	 * @param t1
-	 *            the object with which the comparison is made
+	 *        the object with which the comparison is made
 	 */
 	public boolean equals(Object t1) {
 		try {
 			Tuple4b t2 = (Tuple4b) t1;
-			return (this.x == t2.x && this.y == t2.y && this.z == t2.z && this.w == t2.w);
+			return ((this.x == t2.x) && (this.y == t2.y) && (this.z == t2.z) && (this.w == t2.w));
 		} catch (NullPointerException e2) {
 			return false;
 		} catch (ClassCastException e1) {
@@ -226,24 +220,23 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns a hash code value based on the data values in this object. Two
-	 * different Tuple4b objects with identical data values (i.e.,
-	 * Tuple4b.equals returns true) will return the same hash code value. Two
-	 * objects with different data members may return the same hash value,
-	 * although this is not likely.
-	 * 
+	 * Returns a hash code value based on the data values in this object. Two different
+	 * Tuple4b objects with identical data values (i.e., Tuple4b.equals returns true) will
+	 * return the same hash code value. Two objects with different data members may return
+	 * the same hash value, although this is not likely.
+	 *
 	 * @return the integer hash code value
 	 */
 	public int hashCode() {
-		return ((((int) x & 0xff) << 0) | (((int) y & 0xff) << 8) | (((int) z & 0xff) << 16) | (((int) w & 0xff) << 24));
+		return (((this.x & 0xff) << 0) | ((this.y & 0xff) << 8) | ((this.z & 0xff) << 16) | ((this.w & 0xff) << 24));
 	}
 
 	/**
 	 * Creates a new object of the same class as this object.
-	 * 
+	 *
 	 * @return a clone of this instance.
 	 * @exception OutOfMemoryError
-	 *                if there is not enough memory.
+	 *            if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
@@ -259,21 +252,21 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get <i>x</i>, the first value.
-	 * 
+	 *
 	 * @return Returns <i>x</i>, the first value.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final byte getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
 	 * Set <i>x</i>, the first value.
-	 * 
+	 *
 	 * @param x
-	 *            the first value.
-	 * 
+	 *        the first value.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setX(byte x) {
@@ -282,21 +275,21 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get <i>y</i>, the second value.
-	 * 
+	 *
 	 * @return Returns <i>y</i>, the second value.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final byte getY() {
-		return y;
+		return this.y;
 	}
 
 	/**
 	 * Set <i>y</i>, the second value.
-	 * 
+	 *
 	 * @param y
-	 *            the second value.
-	 * 
+	 *        the second value.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setY(byte y) {
@@ -305,21 +298,21 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get <i>z</i>, the third value.
-	 * 
+	 *
 	 * @return Returns <i>z</i>, the third value.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final byte getZ() {
-		return z;
+		return this.z;
 	}
 
 	/**
 	 * Set <i>z</i>, the third value.
-	 * 
+	 *
 	 * @param z
-	 *            the third value.
-	 * 
+	 *        the third value.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setZ(byte z) {
@@ -328,21 +321,21 @@ public abstract class Tuple4b implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get <i>w</i>, the fourth value.
-	 * 
+	 *
 	 * @return Returns <i>w</i> - the fourth value.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final byte getW() {
-		return w;
+		return this.w;
 	}
 
 	/**
 	 * Set <i>w</i>, the fourth value.
-	 * 
+	 *
 	 * @param w
-	 *            the fourth value.
-	 * 
+	 *        the fourth value.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setW(byte w) {

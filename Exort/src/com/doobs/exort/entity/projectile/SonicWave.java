@@ -14,7 +14,8 @@ public class SonicWave extends Projectile {
 
 	public SonicWave(double x, double y, double z, double xa, double ya, double za, Level level) {
 		super(x, y, z, xa, ya, za, LIFE, level);
-		bb = new BB((float) x, 1f, (float) y, 1f);
+		this.bb = new BB((float) x, 1f, (float) y, 1f);
+		this.direction = (float) Math.toDegrees(Math.atan(za / xa));
 	}
 
 	public SonicWave(Vector3f position, double xa, double ya, double za, Level level) {
@@ -32,15 +33,17 @@ public class SonicWave extends Projectile {
 
 	@Override
 	public void render() {
-		bb.render();
-		
+		this.bb.render();
+
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);
+		Matrices.rotate(this.direction, 0, 1, 0);
 		Matrices.sendMVPMatrix(Shaders.current);
-		Color.set(Shaders.current, 0.3f, 0.3f, 1.0f, 1.0f);
+		Color.set(Shaders.current, 0f, 1f, 1f, 1f);
 		Models.get("sonicWave").draw();
 
 		// Reset
+		Matrices.rotate(this.direction, 0, -1, 0);
 		Matrices.translate(-this.x, -this.y, -this.z);
 	}
 }

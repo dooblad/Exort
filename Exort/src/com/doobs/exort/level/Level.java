@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.doobs.exort.entity.*;
 import com.doobs.exort.entity.creature.*;
-import com.doobs.exort.entity.projectile.*;
 import com.doobs.exort.util.loaders.*;
 
 public class Level {
@@ -16,10 +15,11 @@ public class Level {
 
 	public Level(NetPlayer player) {
 		this.player = player;
-		if (player != null)
-			entities.add(player);
-		entities = new ArrayList<Entity>();
-		entitiesLocked = false;
+		if (player != null) {
+			this.entities.add(player);
+		}
+		this.entities = new ArrayList<Entity>();
+		this.entitiesLocked = false;
 	}
 
 	public Level() {
@@ -27,26 +27,24 @@ public class Level {
 	}
 
 	public void tick(int delta) {
-		entitiesLocked = true;
-		Iterator<Entity> iterator = entities.iterator();
+		this.entitiesLocked = true;
+		Iterator<Entity> iterator = this.entities.iterator();
 		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
 
 			if (entity != null) {
-				if (entity.isRemoved())
+				if (entity.isRemoved()) {
 					iterator.remove();
-				else if (entity instanceof NetPlayer)
-					((NetPlayer) entity).tick(delta);
-				else if (entity instanceof SonicWave)
-					((SonicWave) entity).tick(delta);
+				}
+				entity.tick(delta);
 			}
 		}
-		entitiesLocked = false;
+		this.entitiesLocked = false;
 	}
 
 	public void render() {
-		renderLevel();
-		renderEntities();
+		this.renderLevel();
+		this.renderEntities();
 	}
 
 	public void renderLevel() {
@@ -54,65 +52,62 @@ public class Level {
 	}
 
 	public void renderEntities() {
-		entitiesLocked = true;
-		Iterator<Entity> iterator = entities.iterator();
+		this.entitiesLocked = true;
+		Iterator<Entity> iterator = this.entities.iterator();
 		while (iterator.hasNext()) {
-			Entity entity = iterator.next();
-
-			if (entity instanceof NetPlayer)
-				((NetPlayer) entity).render();
-			else if (entity instanceof SonicWave)
-				((SonicWave) entity).render();
+			iterator.next().render();
 		}
-		entitiesLocked = false;
+		this.entitiesLocked = false;
 	}
 
 	// Getters and setters
 	public synchronized void movePlayer(String username, float x, float y, float z) {
-		int index = getPlayerIndex(username);
-		NetPlayer player = (NetPlayer) entities.get(index);
+		int index = this.getPlayerIndex(username);
+		NetPlayer player = (NetPlayer) this.entities.get(index);
 		player.setTargetPosition(x, z);
 	}
 
 	public synchronized void addEntity(Entity entity) {
-		while (entitiesLocked)
+		while (this.entitiesLocked) {
 			;
-		entities.add(entity);
+		}
+		this.entities.add(entity);
 	}
 
 	public synchronized void addMainPlayer(NetPlayer player) {
-		while (entitiesLocked)
+		while (this.entitiesLocked) {
 			;
+		}
 		this.player = player;
-		entities.add(player);
+		this.entities.add(player);
 	}
 
 	public NetPlayer getPlayer(String username) {
 		int index = 0;
-		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(username)) {
+		for (Entity entity : this.entities) {
+			if ((entity instanceof NetPlayer) && ((NetPlayer) entity).getUsername().equals(username)) {
 				break;
 			}
 			index++;
 		}
-		return (NetPlayer) entities.get(index);
+		return (NetPlayer) this.entities.get(index);
 	}
 
 	public synchronized void removePlayer(String username) {
 		int index = 0;
-		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(username)) {
+		for (Entity entity : this.entities) {
+			if ((entity instanceof NetPlayer) && ((NetPlayer) entity).getUsername().equals(username)) {
 				break;
 			}
 			index++;
 		}
-		entities.remove(index);
+		this.entities.remove(index);
 	}
 
 	private int getPlayerIndex(String name) {
 		int index = 0;
-		for (Entity entity : entities) {
-			if (entity instanceof NetPlayer && ((NetPlayer) entity).getUsername().equals(name)) {
+		for (Entity entity : this.entities) {
+			if ((entity instanceof NetPlayer) && ((NetPlayer) entity).getUsername().equals(name)) {
 				break;
 			}
 			index++;
@@ -122,18 +117,18 @@ public class Level {
 
 	// Getters and Setters
 	public NetPlayer getMainPlayer() {
-		return player;
+		return this.player;
 	}
 
 	public void setMainPlayer(NetPlayer player) {
 		this.player = player;
 	}
-	
+
 	public List<Entity> getEntities() {
-		return entities;
+		return this.entities;
 	}
-	
+
 	public boolean entitiesLocked() {
-		return entitiesLocked;
+		return this.entitiesLocked;
 	}
 }

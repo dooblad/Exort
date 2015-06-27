@@ -15,57 +15,64 @@ public class MultiplayerSetupState implements GameState {
 
 	private boolean server, chosen;
 	private boolean typingName;
-	private String username, address;
+	private StringBuilder username, address;
 
 	private Animation toPlayerSetup, nameAddressSwitch;
 
 	public MultiplayerSetupState(Main main) {
 		this.main = main;
-		server = false;
-		chosen = false;
-		typingName = true;
-		username = "";
-		address = "";
-		toPlayerSetup = new Animation(10);
-		nameAddressSwitch = new Animation(10);
-		
+		this.server = false;
+		this.chosen = false;
+		this.typingName = true;
+		this.username = new StringBuilder();
+		this.address = new StringBuilder();
+		this.toPlayerSetup = new Animation(10);
+		this.nameAddressSwitch = new Animation(10);
+
 		Matrices.loadIdentity();
 	}
 
 	@Override
 	public void tick(int delta) {
-		if (Main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
-			if (chosen) {
-				if ((server && username != ""))
-					main.changeState(new DuelState(main, server, username, NetVariables.LOCALHOST));
-				else if (!server && username != "" && address != "")
-					main.changeState(new DuelState(main, server, username, address));
-			} else
-				chosen = true;
-		} else if (!chosen && (Main.input.isKeyPressed(Keyboard.KEY_LEFT) || Main.input.isKeyPressed(Keyboard.KEY_RIGHT)))
-			server = !server;
-		else if (chosen
-				&& (Main.input.isKeyPressed(Keyboard.KEY_UP) || Main.input.isKeyPressed(Keyboard.KEY_DOWN) || Main.input.isKeyPressed(Keyboard.KEY_TAB)))
-			typingName = !typingName;
-		else if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
-			if (chosen)
-				chosen = false;
-			else
-				main.changeState(new MainMenuState(main));
+		if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
+			if (this.chosen) {
+				if (this.username.length() != 0) {
+					if (this.server) {
+						this.main.changeState(new DuelState(this.main, this.server, this.username.toString(), NetVariables.LOCALHOST));
+					} else if (this.address.length() != 0) {
+						this.main.changeState(new DuelState(this.main, this.server, this.username.toString(), this.address.toString()));
+					}
+				}
+			} else {
+				this.chosen = true;
+			}
+		} else if (!this.chosen && (this.main.input.isKeyPressed(Keyboard.KEY_LEFT) || this.main.input.isKeyPressed(Keyboard.KEY_RIGHT))) {
+			this.server = !this.server;
+		} else if (this.chosen
+				&& (this.main.input.isKeyPressed(Keyboard.KEY_UP) || this.main.input.isKeyPressed(Keyboard.KEY_DOWN) || this.main.input
+						.isKeyPressed(Keyboard.KEY_TAB))) {
+			this.typingName = !this.typingName;
+		} else if (this.main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
+			if (this.chosen) {
+				this.chosen = false;
+			} else {
+				this.main.changeState(new MainMenuState(this.main));
+			}
 		}
 
-		if (chosen) {
-			toPlayerSetup.tickUp(delta);
+		if (this.chosen) {
+			this.toPlayerSetup.tickUp(delta);
 
-			if (typingName) {
-				username = Main.input.handleTyping(username, Fonts.centuryGothic);
-				nameAddressSwitch.tickUp(delta);
+			if (this.typingName) {
+				this.main.input.handleTyping(this.username, Fonts.centuryGothic);
+				this.nameAddressSwitch.tickUp(delta);
 			} else {
-				address = Main.input.handleTyping(address, Fonts.centuryGothic);
-				nameAddressSwitch.tickDown(delta);
+				this.main.input.handleTyping(this.address, Fonts.centuryGothic);
+				this.nameAddressSwitch.tickDown(delta);
 			}
-		} else
-			toPlayerSetup.tickDown(delta);
+		} else {
+			this.toPlayerSetup.tickDown(delta);
+		}
 
 	}
 
@@ -75,12 +82,12 @@ public class MultiplayerSetupState implements GameState {
 		Matrices.switchToOrtho();
 		Shaders.use("font");
 
-		float percent = toPlayerSetup.getPercentage();
+		float percent = this.toPlayerSetup.getPercentage();
 		int yo;
 		String phrase;
 
-		if (!toPlayerSetup.isFull()) {
-			yo = (int) (Math.sin(percent * Math.PI / 2) * 200);
+		if (!this.toPlayerSetup.isFull()) {
+			yo = (int) (Math.sin((percent * Math.PI) / 2) * 200);
 			phrase = "Server or Client";
 			Fonts.centuryGothic.setSize(30);
 			Fonts.centuryGothic.setColor(1f, 1f, 0f, 1f - percent);
@@ -90,36 +97,37 @@ public class MultiplayerSetupState implements GameState {
 			phrase = "v";
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f - percent);
 			int x;
-			if (!server)
+			if (!this.server) {
 				x = (Fonts.centuryGothic.getPhraseWidth("or Clientv")) / 2;
-			else
+			} else {
 				x = (-Fonts.centuryGothic.getPhraseWidth("Server v")) / 2;
+			}
 			Fonts.centuryGothic.drawCentered(phrase, x, (int) (Math.sin(System.currentTimeMillis() / 200.0) * 15) + 55 + yo);
 		}
 
-		if (!toPlayerSetup.isEmpty()) {
-			yo = -(int) (Math.cos(percent * Math.PI / 2) * 200);
+		if (!this.toPlayerSetup.isEmpty()) {
+			yo = -(int) (Math.cos((percent * Math.PI) / 2) * 200);
 
-			if (server) {
+			if (this.server) {
 				Fonts.centuryGothic.setColor(1f, 1f, 1f, percent);
 				Fonts.centuryGothic.setSize(35);
 				Fonts.centuryGothic.drawCentered("Username", 0, yo + 35);
 
 				Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
 				Fonts.centuryGothic.setSize(25);
-				Fonts.centuryGothic.drawCentered(username, 0, yo - 35);
+				Fonts.centuryGothic.drawCentered(this.username.toString(), 0, yo - 35);
 			} else {
 				Fonts.centuryGothic.setColor(1f, 1f, 1f, percent);
-				Fonts.centuryGothic.setSize(20 + nameAddressSwitch.getPercentage() * 15);
-				Fonts.centuryGothic.drawCentered("Username", 0, 110 + yo + (int) (nameAddressSwitch.getPercentage() * 15));
-				Fonts.centuryGothic.setSize(20 + (1 - nameAddressSwitch.getPercentage()) * 15);
-				Fonts.centuryGothic.drawCentered("Server IP", 0, -5 + yo + (int) (1 - nameAddressSwitch.getPercentage() * 15));
+				Fonts.centuryGothic.setSize(20 + (this.nameAddressSwitch.getPercentage() * 15));
+				Fonts.centuryGothic.drawCentered("Username", 0, 110 + yo + (int) (this.nameAddressSwitch.getPercentage() * 15));
+				Fonts.centuryGothic.setSize(20 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
+				Fonts.centuryGothic.drawCentered("Server IP", 0, -5 + yo + (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
 
 				Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
-				Fonts.centuryGothic.setSize(10 + nameAddressSwitch.getPercentage() * 15);
-				Fonts.centuryGothic.drawCentered(username, 0, 75 + yo - (int) (nameAddressSwitch.getPercentage() * 15));
-				Fonts.centuryGothic.setSize(10 + (1 - nameAddressSwitch.getPercentage()) * 15);
-				Fonts.centuryGothic.drawCentered(address, 0, -75 + yo - (int) (1 - nameAddressSwitch.getPercentage() * 15));
+				Fonts.centuryGothic.setSize(10 + (this.nameAddressSwitch.getPercentage() * 15));
+				Fonts.centuryGothic.drawCentered(this.username.toString(), 0, (75 + yo) - (int) (this.nameAddressSwitch.getPercentage() * 15));
+				Fonts.centuryGothic.setSize(10 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
+				Fonts.centuryGothic.drawCentered(this.address.toString(), 0, (-75 + yo) - (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
 			}
 		}
 

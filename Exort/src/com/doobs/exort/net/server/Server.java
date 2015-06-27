@@ -23,77 +23,78 @@ public class Server {
 		this.duelState = duelState;
 
 		this.level = level;
-		players = new HashMap<String, NetPlayer>();
+		this.players = new HashMap<String, NetPlayer>();
 
-		handler = new PacketIO(gui, this, level);
-		handler.start();
+		this.handler = new PacketIO(gui, this, level);
+		this.handler.start();
 
-		gui.addMessage("Started server on port " + handler.getPort());
+		gui.addMessage("Started server on port " + this.handler.getPort());
 	}
 
 	public void handleMove(Packet02Move packet) {
-		level.movePlayer(packet.getUsername(), packet.getX(), 0, packet.getZ());
+		this.level.movePlayer(packet.getUsername(), packet.getX(), 0, packet.getZ());
 		packet.sendData(this);
 	}
 
 	public void addConnection(NetPlayer player, Packet00Login packet) {
 		// Confirm the login (to the player)
-		handler.sendData(new Packet00Login(player.getUsername()).getData(), player.getAddress(), player.getPort());
+		this.handler.sendData(new Packet00Login(player.getUsername()).getData(), player.getAddress(), player.getPort());
 
-		if (players.isEmpty()) {
-			player.setClient(duelState.getClient());
-			level.setMainPlayer(player);
+		if (this.players.isEmpty()) {
+			player.setClient(this.duelState.getClient());
+			this.level.setMainPlayer(player);
 		}
 
-		if (players.containsKey(player.getUsername())) {
-			NetPlayer p = players.get(player.getUsername());
-			if (p.getAddress() == null)
-				p.setAddress(player.getAddress());
+		if (this.players.containsKey(player.getUsername())) {
+			NetPlayer p = this.players.get(player.getUsername());
+			if (p.getAddress() == null) {
+				p.setUsername(player.getAddress());
+			}
 		} else {
-			Iterator<Entry<String, NetPlayer>> iterator = players.entrySet().iterator();
+			Iterator<Entry<String, NetPlayer>> iterator = this.players.entrySet().iterator();
 			while (iterator.hasNext()) {
 				Map.Entry<String, NetPlayer> pairs = iterator.next();
 				NetPlayer p = pairs.getValue();
 
 				// Inform new player of existing players
-				handler.sendData(new Packet00Login(p.getUsername()).getData(), player.getAddress(), player.getPort());
-				handler.sendData(new Packet02Move(p.getUsername(), (float) p.getX(), (float) p.getZ()).getData(), player.getAddress(), player.getPort());
+				this.handler.sendData(new Packet00Login(p.getUsername()).getData(), player.getAddress(), player.getPort());
+				this.handler.sendData(new Packet02Move(p.getUsername(), (float) p.getX(), (float) p.getZ()).getData(), player.getAddress(), player.getPort());
 				// Inform existing players of new player
-				handler.sendData(new Packet00Login(player.getUsername()).getData(), p.getAddress(), p.getPort());
+				this.handler.sendData(new Packet00Login(player.getUsername()).getData(), p.getAddress(), p.getPort());
 
 				// iterator.remove();
 			}
 
-			addPlayer(player);
+			this.addPlayer(player);
 		}
 	}
 
 	public void addPlayer(NetPlayer player) {
-		players.put(player.getUsername(), player);
-		level.addEntity(player);
+		this.players.put(player.getUsername(), player);
+		this.level.addEntity(player);
 	}
 
 	public void removeConnection(Packet01Disconnect packet) {
-		players.remove(packet.getUsername());
+		this.players.remove(packet.getUsername());
 		packet.sendData(this);
-		level.removePlayer(packet.getUsername());
+		this.level.removePlayer(packet.getUsername());
 	}
 
 	public NetPlayer getPlayer(String username) {
-		return players.get(username);
+		return this.players.get(username);
 	}
 
 	public void sendDataToAllClients(byte[] data) {
-		Iterator<Entry<String, NetPlayer>> iterator = players.entrySet().iterator();
+		Iterator<Entry<String, NetPlayer>> iterator = this.players.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<String, NetPlayer> pairs = iterator.next();
 			NetPlayer player = pairs.getValue();
-			handler.sendData(data, player.getAddress(), player.getPort());
+			this.handler.sendData(data, player.getAddress(), player.getPort());
 			// iterator.remove();
 		}
 	}
 
 	public void exit() {
-		handler.exit();
+		this.handler.exit();
 	}
 }

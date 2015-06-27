@@ -9,7 +9,7 @@ public class Packet00Login extends Packet {
 
 	public Packet00Login(byte[] data) {
 		super(00);
-		String[] dataArray = readData(data).split(",");
+		String[] dataArray = this.readData(data).split(",");
 		this.username = dataArray[0];
 	}
 
@@ -19,11 +19,11 @@ public class Packet00Login extends Packet {
 	}
 
 	public void sendData(Client client) {
-		super.sendData(client, getData());
+		super.sendData(client, this.getData());
 	}
 
 	public void sendData(Server server) {
-		super.sendData(server, getData());
+		super.sendData(server, this.getData());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class Packet00Login extends Packet {
 
 	// Getters and setters
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {

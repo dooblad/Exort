@@ -34,7 +34,7 @@ package com.doobs.exort.util.vecmath;
 /**
  * A 4-element quaternion represented by double precision floating point x,y,z,w
  * coordinates. The quaternion is always normalized.
- * 
+ *
  */
 public class Quat4d extends Tuple4d implements java.io.Serializable {
 
@@ -48,19 +48,19 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Quat4d from the specified xyzw coordinates.
-	 * 
+	 *
 	 * @param x
-	 *            the x coordinate
+	 *        the x coordinate
 	 * @param y
-	 *            the y coordinate
+	 *        the y coordinate
 	 * @param z
-	 *            the z coordinate
+	 *        the z coordinate
 	 * @param w
-	 *            the w scalar component
+	 *        the w scalar component
 	 */
 	public Quat4d(double x, double y, double z, double w) {
 		double mag;
-		mag = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+		mag = 1.0 / Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
 		this.x = x * mag;
 		this.y = y * mag;
 		this.z = z * mag;
@@ -70,25 +70,25 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Quat4d from the array of length 4.
-	 * 
+	 *
 	 * @param q
-	 *            the array of length 4 containing xyzw in order
+	 *        the array of length 4 containing xyzw in order
 	 */
 	public Quat4d(double[] q) {
 		double mag;
-		mag = 1.0 / Math.sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
-		x = q[0] * mag;
-		y = q[1] * mag;
-		z = q[2] * mag;
-		w = q[3] * mag;
+		mag = 1.0 / Math.sqrt((q[0] * q[0]) + (q[1] * q[1]) + (q[2] * q[2]) + (q[3] * q[3]));
+		this.x = q[0] * mag;
+		this.y = q[1] * mag;
+		this.z = q[2] * mag;
+		this.w = q[3] * mag;
 
 	}
 
 	/**
 	 * Constructs and initializes a Quat4d from the specified Quat4d.
-	 * 
+	 *
 	 * @param q1
-	 *            the Quat4d containing the initialization x y z w data
+	 *        the Quat4d containing the initialization x y z w data
 	 */
 	public Quat4d(Quat4d q1) {
 		super(q1);
@@ -96,9 +96,9 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Quat4d from the specified Quat4f.
-	 * 
+	 *
 	 * @param q1
-	 *            the Quat4f containing the initialization x y z w data
+	 *        the Quat4f containing the initialization x y z w data
 	 */
 	public Quat4d(Quat4f q1) {
 		super(q1);
@@ -106,33 +106,33 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 
 	/**
 	 * Constructs and initializes a Quat4d from the specified Tuple4f.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple4f containing the initialization x y z w data
+	 *        the Tuple4f containing the initialization x y z w data
 	 */
 	public Quat4d(Tuple4f t1) {
 		double mag;
-		mag = 1.0 / Math.sqrt(t1.x * t1.x + t1.y * t1.y + t1.z * t1.z + t1.w * t1.w);
-		x = t1.x * mag;
-		y = t1.y * mag;
-		z = t1.z * mag;
-		w = t1.w * mag;
+		mag = 1.0 / Math.sqrt((t1.x * t1.x) + (t1.y * t1.y) + (t1.z * t1.z) + (t1.w * t1.w));
+		this.x = t1.x * mag;
+		this.y = t1.y * mag;
+		this.z = t1.z * mag;
+		this.w = t1.w * mag;
 
 	}
 
 	/**
 	 * Constructs and initializes a Quat4d from the specified Tuple4d.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple4d containing the initialization x y z w data
+	 *        the Tuple4d containing the initialization x y z w data
 	 */
 	public Quat4d(Tuple4d t1) {
 		double mag;
-		mag = 1.0 / Math.sqrt(t1.x * t1.x + t1.y * t1.y + t1.z * t1.z + t1.w * t1.w);
-		x = t1.x * mag;
-		y = t1.y * mag;
-		z = t1.z * mag;
-		w = t1.w * mag;
+		mag = 1.0 / Math.sqrt((t1.x * t1.x) + (t1.y * t1.y) + (t1.z * t1.z) + (t1.w * t1.w));
+		this.x = t1.x * mag;
+		this.y = t1.y * mag;
+		this.z = t1.z * mag;
+		this.w = t1.w * mag;
 	}
 
 	/**
@@ -144,9 +144,9 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 
 	/**
 	 * Sets the value of this quaternion to the conjugate of quaternion q1.
-	 * 
+	 *
 	 * @param q1
-	 *            the source vector
+	 *        the source vector
 	 */
 	public final void conjugate(Quat4d q1) {
 		this.x = -q1.x;
@@ -156,8 +156,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Negate the value of of each of this quaternion's x,y,z coordinates in
-	 * place.
+	 * Negate the value of of each of this quaternion's x,y,z coordinates in place.
 	 */
 	public final void conjugate() {
 		this.x = -this.x;
@@ -166,28 +165,28 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the quaternion product of
-	 * quaternions q1 and q2 (this = q1 * q2). Note that this is safe for
-	 * aliasing (e.g. this can be q1 or q2).
-	 * 
+	 * Sets the value of this quaternion to the quaternion product of quaternions q1 and
+	 * q2 (this = q1 * q2). Note that this is safe for aliasing (e.g. this can be q1 or
+	 * q2).
+	 *
 	 * @param q1
-	 *            the first quaternion
+	 *        the first quaternion
 	 * @param q2
-	 *            the second quaternion
+	 *        the second quaternion
 	 */
 	public final void mul(Quat4d q1, Quat4d q2) {
-		if (this != q1 && this != q2) {
-			this.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
-			this.x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
-			this.y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
-			this.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
+		if ((this != q1) && (this != q2)) {
+			this.w = (q1.w * q2.w) - (q1.x * q2.x) - (q1.y * q2.y) - (q1.z * q2.z);
+			this.x = ((q1.w * q2.x) + (q2.w * q1.x) + (q1.y * q2.z)) - (q1.z * q2.y);
+			this.y = (((q1.w * q2.y) + (q2.w * q1.y)) - (q1.x * q2.z)) + (q1.z * q2.x);
+			this.z = ((q1.w * q2.z) + (q2.w * q1.z) + (q1.x * q2.y)) - (q1.y * q2.x);
 		} else {
 			double x, y, w;
 
-			w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
-			x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
-			y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
-			this.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
+			w = (q1.w * q2.w) - (q1.x * q2.x) - (q1.y * q2.y) - (q1.z * q2.z);
+			x = ((q1.w * q2.x) + (q2.w * q1.x) + (q1.y * q2.z)) - (q1.z * q2.y);
+			y = (((q1.w * q2.y) + (q2.w * q1.y)) - (q1.x * q2.z)) + (q1.z * q2.x);
+			this.z = ((q1.w * q2.z) + (q2.w * q1.z) + (q1.x * q2.y)) - (q1.y * q2.x);
 			this.w = w;
 			this.x = x;
 			this.y = y;
@@ -195,33 +194,33 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the quaternion product of itself and
-	 * q1 (this = this * q1).
-	 * 
+	 * Sets the value of this quaternion to the quaternion product of itself and q1 (this
+	 * = this * q1).
+	 *
 	 * @param q1
-	 *            the other quaternion
+	 *        the other quaternion
 	 */
 	public final void mul(Quat4d q1) {
 		double x, y, w;
 
-		w = this.w * q1.w - this.x * q1.x - this.y * q1.y - this.z * q1.z;
-		x = this.w * q1.x + q1.w * this.x + this.y * q1.z - this.z * q1.y;
-		y = this.w * q1.y + q1.w * this.y - this.x * q1.z + this.z * q1.x;
-		this.z = this.w * q1.z + q1.w * this.z + this.x * q1.y - this.y * q1.x;
+		w = (this.w * q1.w) - (this.x * q1.x) - (this.y * q1.y) - (this.z * q1.z);
+		x = ((this.w * q1.x) + (q1.w * this.x) + (this.y * q1.z)) - (this.z * q1.y);
+		y = (((this.w * q1.y) + (q1.w * this.y)) - (this.x * q1.z)) + (this.z * q1.x);
+		this.z = ((this.w * q1.z) + (q1.w * this.z) + (this.x * q1.y)) - (this.y * q1.x);
 		this.w = w;
 		this.x = x;
 		this.y = y;
 	}
 
 	/**
-	 * Multiplies quaternion q1 by the inverse of quaternion q2 and places the
-	 * value into this quaternion. The value of both argument quaternions is
-	 * preservered (this = q1 * q2^-1).
-	 * 
+	 * Multiplies quaternion q1 by the inverse of quaternion q2 and places the value into
+	 * this quaternion. The value of both argument quaternions is preservered (this = q1 *
+	 * q2^-1).
+	 *
 	 * @param q1
-	 *            the first quaternion
+	 *        the first quaternion
 	 * @param q2
-	 *            the second quaternion
+	 *        the second quaternion
 	 */
 	public final void mulInverse(Quat4d q1, Quat4d q2) {
 		Quat4d tempQuat = new Quat4d(q2);
@@ -231,12 +230,12 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Multiplies this quaternion by the inverse of quaternion q1 and places the
-	 * value into this quaternion. The value of the argument quaternion is
-	 * preserved (this = this * q^-1).
-	 * 
+	 * Multiplies this quaternion by the inverse of quaternion q1 and places the value
+	 * into this quaternion. The value of the argument quaternion is preserved (this =
+	 * this * q^-1).
+	 *
 	 * @param q1
-	 *            the other quaternion
+	 *        the other quaternion
 	 */
 	public final void mulInverse(Quat4d q1) {
 		Quat4d tempQuat = new Quat4d(q1);
@@ -247,14 +246,14 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 
 	/**
 	 * Sets the value of this quaternion to quaternion inverse of quaternion q1.
-	 * 
+	 *
 	 * @param q1
-	 *            the quaternion to be inverted
+	 *        the quaternion to be inverted
 	 */
 	public final void inverse(Quat4d q1) {
 		double norm;
 
-		norm = 1.0 / (q1.w * q1.w + q1.x * q1.x + q1.y * q1.y + q1.z * q1.z);
+		norm = 1.0 / ((q1.w * q1.w) + (q1.x * q1.x) + (q1.y * q1.y) + (q1.z * q1.z));
 		this.w = norm * q1.w;
 		this.x = -norm * q1.x;
 		this.y = -norm * q1.y;
@@ -267,7 +266,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	public final void inverse() {
 		double norm;
 
-		norm = 1.0 / (this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z);
+		norm = 1.0 / ((this.w * this.w) + (this.x * this.x) + (this.y * this.y) + (this.z * this.z));
 		this.w *= norm;
 		this.x *= -norm;
 		this.y *= -norm;
@@ -275,16 +274,15 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the normalized value of quaternion
-	 * q1.
-	 * 
+	 * Sets the value of this quaternion to the normalized value of quaternion q1.
+	 *
 	 * @param q1
-	 *            the quaternion to be normalized.
+	 *        the quaternion to be normalized.
 	 */
 	public final void normalize(Quat4d q1) {
 		double norm;
 
-		norm = (q1.x * q1.x + q1.y * q1.y + q1.z * q1.z + q1.w * q1.w);
+		norm = ((q1.x * q1.x) + (q1.y * q1.y) + (q1.z * q1.z) + (q1.w * q1.w));
 
 		if (norm > 0.0) {
 			norm = 1.0 / Math.sqrt(norm);
@@ -306,7 +304,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	public final void normalize() {
 		double norm;
 
-		norm = (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
+		norm = ((this.x * this.x) + (this.y * this.y) + (this.z * this.z) + (this.w * this.w));
 
 		if (norm > 0.0) {
 			norm = 1.0 / Math.sqrt(norm);
@@ -323,11 +321,10 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the rotational component of the
-	 * passed matrix.
-	 * 
+	 * Sets the value of this quaternion to the rotational component of the passed matrix.
+	 *
 	 * @param m1
-	 *            the matrix4f
+	 *        the matrix4f
 	 */
 	public final void set(Matrix4f m1) {
 		double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
@@ -379,11 +376,10 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the rotational component of the
-	 * passed matrix.
-	 * 
+	 * Sets the value of this quaternion to the rotational component of the passed matrix.
+	 *
 	 * @param m1
-	 *            the matrix4d
+	 *        the matrix4d
 	 */
 	public final void set(Matrix4d m1) {
 		double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
@@ -435,11 +431,10 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the rotational component of the
-	 * passed matrix.
-	 * 
+	 * Sets the value of this quaternion to the rotational component of the passed matrix.
+	 *
 	 * @param m1
-	 *            the matrix3f
+	 *        the matrix3f
 	 */
 	public final void set(Matrix3f m1) {
 		double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + 1.0);
@@ -490,11 +485,10 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the rotational component of the
-	 * passed matrix.
-	 * 
+	 * Sets the value of this quaternion to the rotational component of the passed matrix.
+	 *
 	 * @param m1
-	 *            the matrix3d
+	 *        the matrix3d
 	 */
 	public final void set(Matrix3d m1) {
 		double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + 1.0);
@@ -546,69 +540,69 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 	}
 
 	/**
-	 * Sets the value of this quaternion to the equivalent rotation of the
-	 * AxisAngle argument.
-	 * 
+	 * Sets the value of this quaternion to the equivalent rotation of the AxisAngle
+	 * argument.
+	 *
 	 * @param a
-	 *            the AxisAngle to be emulated
+	 *        the AxisAngle to be emulated
 	 */
 	public final void set(AxisAngle4f a) {
 		double mag, amag;
 		// Quat = cos(theta/2) + sin(theta/2)(roation_axis)
 
-		amag = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+		amag = Math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
 		if (amag < EPS) {
-			w = 0.0;
-			x = 0.0;
-			y = 0.0;
-			z = 0.0;
+			this.w = 0.0;
+			this.x = 0.0;
+			this.y = 0.0;
+			this.z = 0.0;
 		} else {
 			mag = Math.sin(a.angle / 2.0);
 			amag = 1.0 / amag;
-			w = Math.cos(a.angle / 2.0);
-			x = a.x * amag * mag;
-			y = a.y * amag * mag;
-			z = a.z * amag * mag;
+			this.w = Math.cos(a.angle / 2.0);
+			this.x = a.x * amag * mag;
+			this.y = a.y * amag * mag;
+			this.z = a.z * amag * mag;
 		}
 
 	}
 
 	/**
-	 * Sets the value of this quaternion to the equivalent rotation of the
-	 * AxisAngle argument.
-	 * 
+	 * Sets the value of this quaternion to the equivalent rotation of the AxisAngle
+	 * argument.
+	 *
 	 * @param a
-	 *            the AxisAngle to be emulated
+	 *        the AxisAngle to be emulated
 	 */
 	public final void set(AxisAngle4d a) {
 		double mag, amag;
 		// Quat = cos(theta/2) + sin(theta/2)(roation_axis)
 
-		amag = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+		amag = Math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
 		if (amag < EPS) {
-			w = 0.0;
-			x = 0.0;
-			y = 0.0;
-			z = 0.0;
+			this.w = 0.0;
+			this.x = 0.0;
+			this.y = 0.0;
+			this.z = 0.0;
 		} else {
 			amag = 1.0 / amag;
 			mag = Math.sin(a.angle / 2.0);
-			w = Math.cos(a.angle / 2.0);
-			x = a.x * amag * mag;
-			y = a.y * amag * mag;
-			z = a.z * amag * mag;
+			this.w = Math.cos(a.angle / 2.0);
+			this.x = a.x * amag * mag;
+			this.y = a.y * amag * mag;
+			this.z = a.z * amag * mag;
 		}
 
 	}
 
 	/**
-	 * Performs a great circle interpolation between this quaternion and the
-	 * quaternion parameter and places the result into this quaternion.
-	 * 
+	 * Performs a great circle interpolation between this quaternion and the quaternion
+	 * parameter and places the result into this quaternion.
+	 *
 	 * @param q1
-	 *            the other quaternion
+	 *        the other quaternion
 	 * @param alpha
-	 *            the alpha interpolation parameter
+	 *        the alpha interpolation parameter
 	 */
 	public final void interpolate(Quat4d q1, double alpha) {
 		// From "Advanced Animation and Rendering Techniques"
@@ -619,7 +613,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 		// dot product of q1 and this is negative. Second case was not needed.
 		double dot, s1, s2, om, sinom;
 
-		dot = x * q1.x + y * q1.y + z * q1.z + w * q1.w;
+		dot = (this.x * q1.x) + (this.y * q1.y) + (this.z * q1.z) + (this.w * q1.w);
 
 		if (dot < 0) {
 			// negate quaternion
@@ -640,22 +634,22 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 			s2 = alpha;
 		}
 
-		w = s1 * w + s2 * q1.w;
-		x = s1 * x + s2 * q1.x;
-		y = s1 * y + s2 * q1.y;
-		z = s1 * z + s2 * q1.z;
+		this.w = (s1 * this.w) + (s2 * q1.w);
+		this.x = (s1 * this.x) + (s2 * q1.x);
+		this.y = (s1 * this.y) + (s2 * q1.y);
+		this.z = (s1 * this.z) + (s2 * q1.z);
 	}
 
 	/**
-	 * Performs a great circle interpolation between quaternion q1 and
-	 * quaternion q2 and places the result into this quaternion.
-	 * 
+	 * Performs a great circle interpolation between quaternion q1 and quaternion q2 and
+	 * places the result into this quaternion.
+	 *
 	 * @param q1
-	 *            the first quaternion
+	 *        the first quaternion
 	 * @param q2
-	 *            the second quaternion
+	 *        the second quaternion
 	 * @param alpha
-	 *            the alpha interpolation parameter
+	 *        the alpha interpolation parameter
 	 */
 	public final void interpolate(Quat4d q1, Quat4d q2, double alpha) {
 		// From "Advanced Animation and Rendering Techniques"
@@ -666,7 +660,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 		// dot product of q1 and this is negative. Second case was not needed.
 		double dot, s1, s2, om, sinom;
 
-		dot = q2.x * q1.x + q2.y * q1.y + q2.z * q1.z + q2.w * q1.w;
+		dot = (q2.x * q1.x) + (q2.y * q1.y) + (q2.z * q1.z) + (q2.w * q1.w);
 
 		if (dot < 0) {
 			// negate quaternion
@@ -686,10 +680,10 @@ public class Quat4d extends Tuple4d implements java.io.Serializable {
 			s1 = 1.0 - alpha;
 			s2 = alpha;
 		}
-		w = s1 * q1.w + s2 * q2.w;
-		x = s1 * q1.x + s2 * q2.x;
-		y = s1 * q1.y + s2 * q2.y;
-		z = s1 * q1.z + s2 * q2.z;
+		this.w = (s1 * q1.w) + (s2 * q2.w);
+		this.x = (s1 * q1.x) + (s2 * q2.x);
+		this.y = (s1 * q1.y) + (s2 * q2.y);
+		this.z = (s1 * q1.z) + (s2 * q2.z);
 	}
 
 }

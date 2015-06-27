@@ -5,7 +5,7 @@ import com.doobs.exort.util.sat.*;
 
 public class Entity {
 	protected BB bb;
-	
+
 	public double x, y, z;
 
 	protected Level level;
@@ -33,32 +33,32 @@ public class Entity {
 		this.y = y;
 		this.z = z;
 		this.level = level;
-		removed = false;
+		this.removed = false;
 	}
-	
-	protected void tick(int delta) {
-		
+
+	public void tick(int delta) {
+
 	}
-	
-	protected void render() {
-		
+
+	public void render() {
+
 	}
 
 	public void remove() {
-		removed = true;
+		this.removed = true;
 	}
 
 	// Getters and Setters
 	public BB getBB() {
-		return bb;
+		return this.bb;
 	}
-	
+
 	public void setBB(BB bb) {
 		this.bb = bb;
 	}
-	
+
 	public double getX() {
-		return x;
+		return this.x;
 	}
 
 	public void setX(double x) {
@@ -66,7 +66,7 @@ public class Entity {
 	}
 
 	public double getY() {
-		return y;
+		return this.y;
 	}
 
 	public void setY(double y) {
@@ -74,7 +74,7 @@ public class Entity {
 	}
 
 	public double getZ() {
-		return z;
+		return this.z;
 	}
 
 	public void setZ(double z) {
@@ -82,6 +82,6 @@ public class Entity {
 	}
 
 	public boolean isRemoved() {
-		return removed;
+		return this.removed;
 	}
 }

@@ -18,10 +18,11 @@ public class MainMenuState implements GameState {
 
 	@Override
 	public void tick(int delta) {
-		if (Main.input.isKeyPressed(Keyboard.KEY_ESCAPE))
-			main.exit();
-		else if (Main.input.isKeyPressed(Keyboard.KEY_RETURN))
-			main.changeState(new MultiplayerSetupState(main));
+		if (this.main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
+			this.main.exit();
+		} else if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
+			this.main.changeState(new MultiplayerSetupState(this.main));
+		}
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class MainMenuState implements GameState {
 		Matrices.sendMVPMatrix(Shaders.current);
 		String phrase = "Welcome to Exort";
 		Fonts.centuryGothic.setSize(50);
-		Fonts.centuryGothic.setColor(1f, (float) Math.sin(System.currentTimeMillis() / 350.0) / 2f + 0.5f, 0f, 1f);
+		Fonts.centuryGothic.setColor(1f, ((float) Math.sin(System.currentTimeMillis() / 350.0) / 2f) + 0.5f, 0f, 1f);
 		Fonts.centuryGothic.drawCentered(phrase, 0, 0);
 		Shaders.useDefault();
 		glDisable(GL_BLEND);

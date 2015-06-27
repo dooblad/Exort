@@ -13,7 +13,6 @@ public class OBJLoader {
 			System.out.println(URL);
 			Model model = new Model();
 
-			
 			BufferedReader reader = new BufferedReader(new FileReader(URL));
 
 			List<Vector3f> vertices = new ArrayList<Vector3f>();
@@ -65,7 +64,7 @@ public class OBJLoader {
 				}
 			}
 			reader.close();
-			
+
 			dumpModelData(URL, vertices, verticesTemp, texCoords, texCoordsTemp, normals, normalsTemp, faces, facesTemp);
 
 			// Convert Lists to Vector Arrays
@@ -73,7 +72,7 @@ public class OBJLoader {
 			for (int i = 0; i < vertices.size(); i++) {
 				vertexArray[i] = vertices.get(i);
 			}
-			
+
 			Vector3f[] normalArray = new Vector3f[normals.size()];
 			for (int i = 0; i < normals.size(); i++) {
 				normalArray[i] = normals.get(i);
@@ -88,15 +87,14 @@ public class OBJLoader {
 			for (int i = 0; i < faces.size(); i++) {
 				faceArray[i] = faces.get(i);
 			}
-			
 
 			sortData(model, vertexArray, normalArray, texCoordArray, faceArray);
 			model.generate();
-			
+
 			// Find texture (if available)
 			String[] temp = URL.split("/");
 			model.setTexture(Textures.get(temp[temp.length - 1].split("\\.")[0]));
-			
+
 			return model;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -131,67 +129,68 @@ public class OBJLoader {
 		}
 		facesTemp.clear();
 	}
-	
+
 	private static void sortData(Model model, Vector3f[] vertices, Vector3f[] normals, Vector2f[] texCoords, Face[] faces) {
 		model.vertices = new float[faces.length * 9];
 		model.normals = new float[faces.length * 9];
 		model.texCoords = null;
-		if (texCoords != null && texCoords.length > 0)
+		if ((texCoords != null) && (texCoords.length > 0)) {
 			model.texCoords = new float[faces.length * 6];
+		}
 
 		int i = 0;
 		for (Face face : faces) {
 			{
 				Vector3f v1 = vertices[(int) face.getVertex().x - 1];
 				model.vertices[i * 9] = v1.x;
-				model.vertices[i * 9 + 1] = v1.y;
-				model.vertices[i * 9 + 2] = v1.z;
+				model.vertices[(i * 9) + 1] = v1.y;
+				model.vertices[(i * 9) + 2] = v1.z;
 
 				Vector3f n1 = normals[(int) face.getNormal().x - 1];
 				model.normals[i * 9] = n1.x;
-				model.normals[i * 9 + 1] = n1.y;
-				model.normals[i * 9 + 2] = n1.z;
+				model.normals[(i * 9) + 1] = n1.y;
+				model.normals[(i * 9) + 2] = n1.z;
 
 				if (model.texCoords != null) {
 					Vector2f t1 = texCoords[(int) face.getTexCoord().x - 1];
 					model.texCoords[i * 6] = t1.x;
-					model.texCoords[i * 6 + 1] = t1.y;
+					model.texCoords[(i * 6) + 1] = t1.y;
 				}
 			}
 
 			{
 				Vector3f v2 = vertices[(int) face.getVertex().y - 1];
-				model.vertices[i * 9 + 3] = v2.x;
-				model.vertices[i * 9 + 4] = v2.y;
-				model.vertices[i * 9 + 5] = v2.z;
+				model.vertices[(i * 9) + 3] = v2.x;
+				model.vertices[(i * 9) + 4] = v2.y;
+				model.vertices[(i * 9) + 5] = v2.z;
 
 				Vector3f n2 = normals[(int) face.getNormal().y - 1];
-				model.normals[i * 9 + 3] = n2.x;
-				model.normals[i * 9 + 4] = n2.y;
-				model.normals[i * 9 + 5] = n2.z;
+				model.normals[(i * 9) + 3] = n2.x;
+				model.normals[(i * 9) + 4] = n2.y;
+				model.normals[(i * 9) + 5] = n2.z;
 
 				if (model.texCoords != null) {
 					Vector2f t2 = texCoords[(int) face.getTexCoord().y - 1];
-					model.texCoords[i * 6 + 2] = t2.x;
-					model.texCoords[i * 6 + 3] = t2.y;
+					model.texCoords[(i * 6) + 2] = t2.x;
+					model.texCoords[(i * 6) + 3] = t2.y;
 				}
 			}
 
 			{
 				Vector3f v3 = vertices[(int) face.getVertex().z - 1];
-				model.vertices[i * 9 + 6] = v3.x;
-				model.vertices[i * 9 + 7] = v3.y;
-				model.vertices[i * 9 + 8] = v3.z;
+				model.vertices[(i * 9) + 6] = v3.x;
+				model.vertices[(i * 9) + 7] = v3.y;
+				model.vertices[(i * 9) + 8] = v3.z;
 
 				Vector3f n3 = normals[(int) face.getNormal().z - 1];
-				model.normals[i * 9 + 6] = n3.x;
-				model.normals[i * 9 + 7] = n3.y;
-				model.normals[i * 9 + 8] = n3.z;
+				model.normals[(i * 9) + 6] = n3.x;
+				model.normals[(i * 9) + 7] = n3.y;
+				model.normals[(i * 9) + 8] = n3.z;
 
 				if (model.texCoords != null) {
 					Vector2f t3 = texCoords[(int) face.getTexCoord().z - 1];
-					model.texCoords[i * 6 + 4] = t3.x;
-					model.texCoords[i * 6 + 5] = t3.y;
+					model.texCoords[(i * 6) + 4] = t3.x;
+					model.texCoords[(i * 6) + 5] = t3.y;
 				}
 			}
 

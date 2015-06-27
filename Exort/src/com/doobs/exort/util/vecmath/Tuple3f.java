@@ -31,12 +31,11 @@
 
 package com.doobs.exort.util.vecmath;
 
-import java.lang.Math;
 
 /**
- * A generic 3-element tuple that is represented by single precision-floating
- * point x,y,z coordinates.
- * 
+ * A generic 3-element tuple that is represented by single precision-floating point x,y,z
+ * coordinates.
+ *
  */
 public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
@@ -59,13 +58,13 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple3f from the specified xyz coordinates.
-	 * 
+	 *
 	 * @param x
-	 *            the x coordinate
+	 *        the x coordinate
 	 * @param y
-	 *            the y coordinate
+	 *        the y coordinate
 	 * @param z
-	 *            the z coordinate
+	 *        the z coordinate
 	 */
 	public Tuple3f(float x, float y, float z) {
 		this.x = x;
@@ -75,9 +74,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple3f from the array of length 3.
-	 * 
+	 *
 	 * @param t
-	 *            the array of length 3 containing xyz in order
+	 *        the array of length 3 containing xyz in order
 	 */
 	public Tuple3f(float[] t) {
 		this.x = t[0];
@@ -87,9 +86,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple3f from the specified Tuple3f.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple3f containing the initialization x y z data
+	 *        the Tuple3f containing the initialization x y z data
 	 */
 	public Tuple3f(Tuple3f t1) {
 		this.x = t1.x;
@@ -99,9 +98,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Constructs and initializes a Tuple3f from the specified Tuple3d.
-	 * 
+	 *
 	 * @param t1
-	 *            the Tuple3d containing the initialization x y z data
+	 *        the Tuple3d containing the initialization x y z data
 	 */
 	public Tuple3f(Tuple3d t1) {
 		this.x = (float) t1.x;
@@ -119,9 +118,8 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns a string that contains the values of this Tuple3f. The form is
-	 * (x,y,z).
-	 * 
+	 * Returns a string that contains the values of this Tuple3f. The form is (x,y,z).
+	 *
 	 * @return the String representation
 	 */
 	public String toString() {
@@ -130,13 +128,13 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the specified xyz coordinates.
-	 * 
+	 *
 	 * @param x
-	 *            the x coordinate
+	 *        the x coordinate
 	 * @param y
-	 *            the y coordinate
+	 *        the y coordinate
 	 * @param z
-	 *            the z coordinate
+	 *        the z coordinate
 	 */
 	public final void set(float x, float y, float z) {
 		this.x = x;
@@ -145,11 +143,11 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the xyz coordinates specified in the
-	 * array of length 3.
-	 * 
+	 * Sets the value of this tuple to the xyz coordinates specified in the array of
+	 * length 3.
+	 *
 	 * @param t
-	 *            the array of length 3 containing xyz in order
+	 *        the array of length 3 containing xyz in order
 	 */
 	public final void set(float[] t) {
 		this.x = t[0];
@@ -159,9 +157,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the value of tuple t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the tuple to be copied
+	 *        the tuple to be copied
 	 */
 	public final void set(Tuple3f t1) {
 		this.x = t1.x;
@@ -171,9 +169,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the value of tuple t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the tuple to be copied
+	 *        the tuple to be copied
 	 */
 	public final void set(Tuple3d t1) {
 		this.x = (float) t1.x;
@@ -183,9 +181,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Gets the value of this tuple and copies the values into t.
-	 * 
+	 *
 	 * @param t
-	 *            the array of length 3 into which the values are copied
+	 *        the array of length 3 into which the values are copied
 	 */
 	public final void get(float[] t) {
 		t[0] = this.x;
@@ -195,10 +193,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Gets the value of this tuple and copies the values into t.
-	 * 
+	 *
 	 * @param t
-	 *            the Tuple3f object into which the values of this object are
-	 *            copied
+	 *        the Tuple3f object into which the values of this object are copied
 	 */
 	public final void get(Tuple3f t) {
 		t.x = this.x;
@@ -208,11 +205,11 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the vector sum of tuples t1 and t2.
-	 * 
+	 *
 	 * @param t1
-	 *            the first tuple
+	 *        the first tuple
 	 * @param t2
-	 *            the second tuple
+	 *        the second tuple
 	 */
 	public final void add(Tuple3f t1, Tuple3f t2) {
 		this.x = t1.x + t2.x;
@@ -222,9 +219,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the vector sum of itself and tuple t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the other tuple
+	 *        the other tuple
 	 */
 	public final void add(Tuple3f t1) {
 		this.x += t1.x;
@@ -233,13 +230,13 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the vector difference of tuples t1 and t2
-	 * (this = t1 - t2).
-	 * 
+	 * Sets the value of this tuple to the vector difference of tuples t1 and t2 (this =
+	 * t1 - t2).
+	 *
 	 * @param t1
-	 *            the first tuple
+	 *        the first tuple
 	 * @param t2
-	 *            the second tuple
+	 *        the second tuple
 	 */
 	public final void sub(Tuple3f t1, Tuple3f t2) {
 		this.x = t1.x - t2.x;
@@ -248,11 +245,11 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the vector difference of itself and tuple
-	 * t1 (this = this - t1) .
-	 * 
+	 * Sets the value of this tuple to the vector difference of itself and tuple t1 (this
+	 * = this - t1) .
+	 *
 	 * @param t1
-	 *            the other tuple
+	 *        the other tuple
 	 */
 	public final void sub(Tuple3f t1) {
 		this.x -= t1.x;
@@ -262,9 +259,9 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this tuple to the negation of tuple t1.
-	 * 
+	 *
 	 * @param t1
-	 *            the source tuple
+	 *        the source tuple
 	 */
 	public final void negate(Tuple3f t1) {
 		this.x = -t1.x;
@@ -283,11 +280,11 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Sets the value of this vector to the scalar multiplication of tuple t1.
-	 * 
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param t1
-	 *            the source tuple
+	 *        the source tuple
 	 */
 	public final void scale(float s, Tuple3f t1) {
 		this.x = s * t1.x;
@@ -296,11 +293,11 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the scalar multiplication of the scale
-	 * factor with this.
-	 * 
+	 * Sets the value of this tuple to the scalar multiplication of the scale factor with
+	 * this.
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 */
 	public final void scale(float s) {
 		this.x *= s;
@@ -309,67 +306,65 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Sets the value of this tuple to the scalar multiplication of tuple t1 and
-	 * then adds tuple t2 (this = s*t1 + t2).
-	 * 
+	 * Sets the value of this tuple to the scalar multiplication of tuple t1 and then adds
+	 * tuple t2 (this = s*t1 + t2).
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param t1
-	 *            the tuple to be scaled and added
+	 *        the tuple to be scaled and added
 	 * @param t2
-	 *            the tuple to be added without a scale
+	 *        the tuple to be added without a scale
 	 */
 	public final void scaleAdd(float s, Tuple3f t1, Tuple3f t2) {
-		this.x = s * t1.x + t2.x;
-		this.y = s * t1.y + t2.y;
-		this.z = s * t1.z + t2.z;
+		this.x = (s * t1.x) + t2.x;
+		this.y = (s * t1.y) + t2.y;
+		this.z = (s * t1.z) + t2.z;
 	}
 
 	/**
-	 * Sets the value of this tuple to the scalar multiplication of itself and
-	 * then adds tuple t1 (this = s*this + t1).
-	 * 
+	 * Sets the value of this tuple to the scalar multiplication of itself and then adds
+	 * tuple t1 (this = s*this + t1).
+	 *
 	 * @param s
-	 *            the scalar value
+	 *        the scalar value
 	 * @param t1
-	 *            the tuple to be added
+	 *        the tuple to be added
 	 */
 	public final void scaleAdd(float s, Tuple3f t1) {
-		this.x = s * this.x + t1.x;
-		this.y = s * this.y + t1.y;
-		this.z = s * this.z + t1.z;
+		this.x = (s * this.x) + t1.x;
+		this.y = (s * this.y) + t1.y;
+		this.z = (s * this.z) + t1.z;
 	}
 
 	/**
-	 * Returns true if the Object t1 is of type Tuple3f and all of the data
-	 * members of t1 are equal to the corresponding data members in this
-	 * Tuple3f.
-	 * 
+	 * Returns true if the Object t1 is of type Tuple3f and all of the data members of t1
+	 * are equal to the corresponding data members in this Tuple3f.
+	 *
 	 * @param t1
-	 *            the vector with which the comparison is made
+	 *        the vector with which the comparison is made
 	 * @return true or false
 	 */
 	public boolean equals(Tuple3f t1) {
 		try {
-			return (this.x == t1.x && this.y == t1.y && this.z == t1.z);
+			return ((this.x == t1.x) && (this.y == t1.y) && (this.z == t1.z));
 		} catch (NullPointerException e2) {
 			return false;
 		}
 	}
 
 	/**
-	 * Returns true if the Object t1 is of type Tuple3f and all of the data
-	 * members of t1 are equal to the corresponding data members in this
-	 * Tuple3f.
-	 * 
+	 * Returns true if the Object t1 is of type Tuple3f and all of the data members of t1
+	 * are equal to the corresponding data members in this Tuple3f.
+	 *
 	 * @param t1
-	 *            the Object with which the comparison is made
+	 *        the Object with which the comparison is made
 	 * @return true or false
 	 */
 	public boolean equals(Object t1) {
 		try {
 			Tuple3f t2 = (Tuple3f) t1;
-			return (this.x == t2.x && this.y == t2.y && this.z == t2.z);
+			return ((this.x == t2.x) && (this.y == t2.y) && (this.z == t2.z));
 		} catch (NullPointerException e2) {
 			return false;
 		} catch (ClassCastException e1) {
@@ -378,228 +373,238 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Returns true if the L-infinite distance between this tuple and tuple t1
-	 * is less than or equal to the epsilon parameter, otherwise returns false.
-	 * The L-infinite distance is equal to MAX[abs(x1-x2), abs(y1-y2),
-	 * abs(z1-z2)].
-	 * 
+	 * Returns true if the L-infinite distance between this tuple and tuple t1 is less
+	 * than or equal to the epsilon parameter, otherwise returns false. The L-infinite
+	 * distance is equal to MAX[abs(x1-x2), abs(y1-y2), abs(z1-z2)].
+	 *
 	 * @param t1
-	 *            the tuple to be compared to this tuple
+	 *        the tuple to be compared to this tuple
 	 * @param epsilon
-	 *            the threshold value
+	 *        the threshold value
 	 * @return true or false
 	 */
 	public boolean epsilonEquals(Tuple3f t1, float epsilon) {
 		float diff;
 
-		diff = x - t1.x;
-		if (Float.isNaN(diff))
+		diff = this.x - t1.x;
+		if (Float.isNaN(diff)) {
 			return false;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		}
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = y - t1.y;
-		if (Float.isNaN(diff))
+		diff = this.y - t1.y;
+		if (Float.isNaN(diff)) {
 			return false;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		}
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
-		diff = z - t1.z;
-		if (Float.isNaN(diff))
+		diff = this.z - t1.z;
+		if (Float.isNaN(diff)) {
 			return false;
-		if ((diff < 0 ? -diff : diff) > epsilon)
+		}
+		if ((diff < 0 ? -diff : diff) > epsilon) {
 			return false;
+		}
 
 		return true;
 
 	}
 
 	/**
-	 * Returns a hash code value based on the data values in this object. Two
-	 * different Tuple3f objects with identical data values (i.e.,
-	 * Tuple3f.equals returns true) will return the same hash code value. Two
-	 * objects with different data members may return the same hash value,
-	 * although this is not likely.
-	 * 
+	 * Returns a hash code value based on the data values in this object. Two different
+	 * Tuple3f objects with identical data values (i.e., Tuple3f.equals returns true) will
+	 * return the same hash code value. Two objects with different data members may return
+	 * the same hash value, although this is not likely.
+	 *
 	 * @return the integer hash code value
 	 */
 	public int hashCode() {
 		long bits = 1L;
-		bits = 31L * bits + (long) VecMathUtil.floatToIntBits(x);
-		bits = 31L * bits + (long) VecMathUtil.floatToIntBits(y);
-		bits = 31L * bits + (long) VecMathUtil.floatToIntBits(z);
+		bits = (31L * bits) + VecMathUtil.floatToIntBits(this.x);
+		bits = (31L * bits) + VecMathUtil.floatToIntBits(this.y);
+		bits = (31L * bits) + VecMathUtil.floatToIntBits(this.z);
 		return (int) (bits ^ (bits >> 32));
 	}
 
 	/**
-	 * Clamps the tuple parameter to the range [low, high] and places the values
-	 * into this tuple.
-	 * 
+	 * Clamps the tuple parameter to the range [low, high] and places the values into this
+	 * tuple.
+	 *
 	 * @param min
-	 *            the lowest value in the tuple after clamping
+	 *        the lowest value in the tuple after clamping
 	 * @param max
-	 *            the highest value in the tuple after clamping
+	 *        the highest value in the tuple after clamping
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void clamp(float min, float max, Tuple3f t) {
 		if (t.x > max) {
-			x = max;
+			this.x = max;
 		} else if (t.x < min) {
-			x = min;
+			this.x = min;
 		} else {
-			x = t.x;
+			this.x = t.x;
 		}
 
 		if (t.y > max) {
-			y = max;
+			this.y = max;
 		} else if (t.y < min) {
-			y = min;
+			this.y = min;
 		} else {
-			y = t.y;
+			this.y = t.y;
 		}
 
 		if (t.z > max) {
-			z = max;
+			this.z = max;
 		} else if (t.z < min) {
-			z = min;
+			this.z = min;
 		} else {
-			z = t.z;
+			this.z = t.z;
 		}
 
 	}
 
 	/**
-	 * Clamps the minimum value of the tuple parameter to the min parameter and
-	 * places the values into this tuple.
-	 * 
+	 * Clamps the minimum value of the tuple parameter to the min parameter and places the
+	 * values into this tuple.
+	 *
 	 * @param min
-	 *            the lowest value in the tuple after clamping
+	 *        the lowest value in the tuple after clamping
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void clampMin(float min, Tuple3f t) {
 		if (t.x < min) {
-			x = min;
+			this.x = min;
 		} else {
-			x = t.x;
+			this.x = t.x;
 		}
 
 		if (t.y < min) {
-			y = min;
+			this.y = min;
 		} else {
-			y = t.y;
+			this.y = t.y;
 		}
 
 		if (t.z < min) {
-			z = min;
+			this.z = min;
 		} else {
-			z = t.z;
+			this.z = t.z;
 		}
 
 	}
 
 	/**
-	 * Clamps the maximum value of the tuple parameter to the max parameter and
-	 * places the values into this tuple.
-	 * 
+	 * Clamps the maximum value of the tuple parameter to the max parameter and places the
+	 * values into this tuple.
+	 *
 	 * @param max
-	 *            the highest value in the tuple after clamping
+	 *        the highest value in the tuple after clamping
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void clampMax(float max, Tuple3f t) {
 		if (t.x > max) {
-			x = max;
+			this.x = max;
 		} else {
-			x = t.x;
+			this.x = t.x;
 		}
 
 		if (t.y > max) {
-			y = max;
+			this.y = max;
 		} else {
-			y = t.y;
+			this.y = t.y;
 		}
 
 		if (t.z > max) {
-			z = max;
+			this.z = max;
 		} else {
-			z = t.z;
+			this.z = t.z;
 		}
 
 	}
 
 	/**
-	 * Sets each component of the tuple parameter to its absolute value and
-	 * places the modified values into this tuple.
-	 * 
+	 * Sets each component of the tuple parameter to its absolute value and places the
+	 * modified values into this tuple.
+	 *
 	 * @param t
-	 *            the source tuple, which will not be modified
+	 *        the source tuple, which will not be modified
 	 */
 	public final void absolute(Tuple3f t) {
-		x = Math.abs(t.x);
-		y = Math.abs(t.y);
-		z = Math.abs(t.z);
+		this.x = Math.abs(t.x);
+		this.y = Math.abs(t.y);
+		this.z = Math.abs(t.z);
 	}
 
 	/**
 	 * Clamps this tuple to the range [low, high].
-	 * 
+	 *
 	 * @param min
-	 *            the lowest value in this tuple after clamping
+	 *        the lowest value in this tuple after clamping
 	 * @param max
-	 *            the highest value in this tuple after clamping
+	 *        the highest value in this tuple after clamping
 	 */
 	public final void clamp(float min, float max) {
-		if (x > max) {
-			x = max;
-		} else if (x < min) {
-			x = min;
+		if (this.x > max) {
+			this.x = max;
+		} else if (this.x < min) {
+			this.x = min;
 		}
 
-		if (y > max) {
-			y = max;
-		} else if (y < min) {
-			y = min;
+		if (this.y > max) {
+			this.y = max;
+		} else if (this.y < min) {
+			this.y = min;
 		}
 
-		if (z > max) {
-			z = max;
-		} else if (z < min) {
-			z = min;
+		if (this.z > max) {
+			this.z = max;
+		} else if (this.z < min) {
+			this.z = min;
 		}
 
 	}
 
 	/**
 	 * Clamps the minimum value of this tuple to the min parameter.
-	 * 
+	 *
 	 * @param min
-	 *            the lowest value in this tuple after clamping
+	 *        the lowest value in this tuple after clamping
 	 */
 	public final void clampMin(float min) {
-		if (x < min)
-			x = min;
-		if (y < min)
-			y = min;
-		if (z < min)
-			z = min;
+		if (this.x < min) {
+			this.x = min;
+		}
+		if (this.y < min) {
+			this.y = min;
+		}
+		if (this.z < min) {
+			this.z = min;
+		}
 
 	}
 
 	/**
 	 * Clamps the maximum value of this tuple to the max parameter.
-	 * 
+	 *
 	 * @param max
-	 *            the highest value in the tuple after clamping
+	 *        the highest value in the tuple after clamping
 	 */
 	public final void clampMax(float max) {
-		if (x > max)
-			x = max;
-		if (y > max)
-			y = max;
-		if (z > max)
-			z = max;
+		if (this.x > max) {
+			this.x = max;
+		}
+		if (this.y > max) {
+			this.y = max;
+		}
+		if (this.z > max) {
+			this.z = max;
+		}
 
 	}
 
@@ -607,52 +612,52 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 	 * Sets each component of this tuple to its absolute value.
 	 */
 	public final void absolute() {
-		x = Math.abs(x);
-		y = Math.abs(y);
-		z = Math.abs(z);
+		this.x = Math.abs(this.x);
+		this.y = Math.abs(this.y);
+		this.z = Math.abs(this.z);
 
 	}
 
 	/**
-	 * Linearly interpolates between tuples t1 and t2 and places the result into
-	 * this tuple: this = (1-alpha)*t1 + alpha*t2.
-	 * 
+	 * Linearly interpolates between tuples t1 and t2 and places the result into this
+	 * tuple: this = (1-alpha)*t1 + alpha*t2.
+	 *
 	 * @param t1
-	 *            the first tuple
+	 *        the first tuple
 	 * @param t2
-	 *            the second tuple
+	 *        the second tuple
 	 * @param alpha
-	 *            the alpha interpolation parameter
+	 *        the alpha interpolation parameter
 	 */
 	public final void interpolate(Tuple3f t1, Tuple3f t2, float alpha) {
-		this.x = (1 - alpha) * t1.x + alpha * t2.x;
-		this.y = (1 - alpha) * t1.y + alpha * t2.y;
-		this.z = (1 - alpha) * t1.z + alpha * t2.z;
+		this.x = ((1 - alpha) * t1.x) + (alpha * t2.x);
+		this.y = ((1 - alpha) * t1.y) + (alpha * t2.y);
+		this.z = ((1 - alpha) * t1.z) + (alpha * t2.z);
 
 	}
 
 	/**
-	 * Linearly interpolates between this tuple and tuple t1 and places the
-	 * result into this tuple: this = (1-alpha)*this + alpha*t1.
-	 * 
+	 * Linearly interpolates between this tuple and tuple t1 and places the result into
+	 * this tuple: this = (1-alpha)*this + alpha*t1.
+	 *
 	 * @param t1
-	 *            the first tuple
+	 *        the first tuple
 	 * @param alpha
-	 *            the alpha interpolation parameter
+	 *        the alpha interpolation parameter
 	 */
 	public final void interpolate(Tuple3f t1, float alpha) {
-		this.x = (1 - alpha) * this.x + alpha * t1.x;
-		this.y = (1 - alpha) * this.y + alpha * t1.y;
-		this.z = (1 - alpha) * this.z + alpha * t1.z;
+		this.x = ((1 - alpha) * this.x) + (alpha * t1.x);
+		this.y = ((1 - alpha) * this.y) + (alpha * t1.y);
+		this.z = ((1 - alpha) * this.z) + (alpha * t1.z);
 
 	}
 
 	/**
 	 * Creates a new object of the same class as this object.
-	 * 
+	 *
 	 * @return a clone of this instance.
 	 * @exception OutOfMemoryError
-	 *                if there is not enough memory.
+	 *            if there is not enough memory.
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
@@ -668,21 +673,21 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>x</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>x</i> coordinate.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final float getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
 	 * Set the <i>x</i> coordinate.
-	 * 
+	 *
 	 * @param x
-	 *            value to <i>x</i> coordinate.
-	 * 
+	 *        value to <i>x</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setX(float x) {
@@ -691,21 +696,21 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>y</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>y</i> coordinate.
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final float getY() {
-		return y;
+		return this.y;
 	}
 
 	/**
 	 * Set the <i>y</i> coordinate.
-	 * 
+	 *
 	 * @param y
-	 *            value to <i>y</i> coordinate.
-	 * 
+	 *        value to <i>y</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setY(float y) {
@@ -714,21 +719,21 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable {
 
 	/**
 	 * Get the <i>z</i> coordinate.
-	 * 
+	 *
 	 * @return the <i>z</i> coordinate
-	 * 
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final float getZ() {
-		return z;
+		return this.z;
 	}
 
 	/**
 	 * Set the <i>Z</i> coordinate.
-	 * 
+	 *
 	 * @param z
-	 *            value to <i>z</i> coordinate.
-	 * 
+	 *        value to <i>z</i> coordinate.
+	 *
 	 * @since vecmath 1.5
 	 */
 	public final void setZ(float z) {

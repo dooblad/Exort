@@ -1,0 +1,25 @@
+public class Test {
+    public static void main(String[] args) {
+	printDifficulties(8, 0, 100);
+    }
+
+    /**
+     * Post: Prints all numbers with "difficulty" between "min" and "max"
+     * (inclusive).
+     */
+    private static void printDifficulties(int difficulty, int min, int max) {
+	for (int n = Math.max(0, min); n <= max; n++) {
+	    difficultyMatches(0, difficulty, n);
+	}
+    }
+
+    private static boolean difficultyMatches(int i, int difficulty, int n) {
+	// Single digit
+	if (n < 10 && i == difficulty) {
+	    return true;
+	} else if(n >= 10) {
+	    
+	}
+	return false;
+    }
+}

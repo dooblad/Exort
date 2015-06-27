@@ -16,14 +16,14 @@ public class Character {
 		float x2 = (float) (x + charWidth) / texWidth;
 		float y2 = (float) (texHeight - y) / texHeight;
 
-		texCoords[0] = x1;
-		texCoords[1] = y1;
-		texCoords[2] = x2;
-		texCoords[3] = y1;
-		texCoords[4] = x2;
-		texCoords[5] = y2;
-		texCoords[6] = x1;
-		texCoords[7] = y2;
+		this.texCoords[0] = x1;
+		this.texCoords[1] = y1;
+		this.texCoords[2] = x2;
+		this.texCoords[3] = y1;
+		this.texCoords[4] = x2;
+		this.texCoords[5] = y2;
+		this.texCoords[6] = x1;
+		this.texCoords[7] = y2;
 
 		this.xo = xOffset;
 		this.yo = yOffset - charHeight;
@@ -37,26 +37,26 @@ public class Character {
 
 	// Getters and setters
 	public float[] getTexCoords() {
-		return texCoords;
+		return this.texCoords;
 	}
 
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
 
 	public int getHeight() {
-		return height;
+		return this.height;
 	}
 
 	public int getXO() {
-		return xo;
+		return this.xo;
 	}
 
 	public int getYO() {
-		return yo;
+		return this.yo;
 	}
 
 	public int getXA() {
-		return xa;
+		return this.xa;
 	}
 }
