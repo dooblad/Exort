@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.*;
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
+import exort.*;
 import exort.entity.*;
 import exort.level.*;
 import exort.util.loaders.*;
@@ -29,22 +30,22 @@ public class RockWall extends Entity {
 		this(position.getX(), position.getZ(), direction, level);
 	}
 
-	@Override
 	public void tick(int delta) {
 		if (--this.currentLife < 0) {
 			this.remove();
 		}
 	}
 
-	@Override
 	public void render() {
-		this.bb.render();
+		if (Main.debug) {
+			this.bb.render();
+		}
 
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);
 		Matrices.rotate(this.direction, 0, 1, 0);
 		Matrices.sendMVPMatrix(Shaders.current);
-		Color.set(Shaders.current, 0.3f, 0.3f, 1.0f, 1.0f);
+		Color.set(Shaders.current, 0f, 1f, 1f, 1f);
 		Models.get("rockWall").draw();
 
 		// Reset

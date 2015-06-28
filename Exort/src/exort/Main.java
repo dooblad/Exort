@@ -16,6 +16,8 @@ import exort.util.loaders.*;
  */
 public class Main implements GameLoop {
 	public static final String TITLE = "Exort Test";
+	
+	public static boolean debug = false;
 
 	public GraphicsContext context;
 	public InputHandler input;
@@ -52,7 +54,10 @@ public class Main implements GameLoop {
 		}
 
 		this.input.tick();
-
+		
+		if(this.input.isKeyPressed(Keyboard.KEY_F4)) {
+			debug = !debug;
+		}
 		if (this.input.isKeyPressed(Keyboard.KEY_F11)) {
 			GLTools.toggleFullscreen();
 		}

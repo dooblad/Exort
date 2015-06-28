@@ -7,13 +7,13 @@ import exort.entity.creature.*;
 import exort.util.loaders.*;
 
 public class Level {
-	private NetPlayer player;
+	private Player player;
 
 	private List<Entity> entities;
 
 	private volatile boolean entitiesLocked;
 
-	public Level(NetPlayer player) {
+	public Level(Player player) {
 		this.player = player;
 		if (player != null) {
 			this.entities.add(player);
@@ -63,7 +63,7 @@ public class Level {
 	// Getters and setters
 	public synchronized void movePlayer(String username, float x, float y, float z) {
 		int index = this.getPlayerIndex(username);
-		NetPlayer player = (NetPlayer) this.entities.get(index);
+		Player player = (Player) this.entities.get(index);
 		player.setTargetPosition(x, z);
 	}
 
@@ -74,7 +74,7 @@ public class Level {
 		this.entities.add(entity);
 	}
 
-	public synchronized void addMainPlayer(NetPlayer player) {
+	public synchronized void addMainPlayer(Player player) {
 		while (this.entitiesLocked) {
 			;
 		}
@@ -82,21 +82,21 @@ public class Level {
 		this.entities.add(player);
 	}
 
-	public NetPlayer getPlayer(String username) {
+	public Player getPlayer(String username) {
 		int index = 0;
 		for (Entity entity : this.entities) {
-			if ((entity instanceof NetPlayer) && ((NetPlayer) entity).getUsername().equals(username)) {
+			if ((entity instanceof Player) && ((Player) entity).getUsername().equals(username)) {
 				break;
 			}
 			index++;
 		}
-		return (NetPlayer) this.entities.get(index);
+		return (Player) this.entities.get(index);
 	}
 
 	public synchronized void removePlayer(String username) {
 		int index = 0;
 		for (Entity entity : this.entities) {
-			if ((entity instanceof NetPlayer) && ((NetPlayer) entity).getUsername().equals(username)) {
+			if ((entity instanceof Player) && ((Player) entity).getUsername().equals(username)) {
 				break;
 			}
 			index++;
@@ -107,7 +107,7 @@ public class Level {
 	private int getPlayerIndex(String name) {
 		int index = 0;
 		for (Entity entity : this.entities) {
-			if ((entity instanceof NetPlayer) && ((NetPlayer) entity).getUsername().equals(name)) {
+			if ((entity instanceof Player) && ((Player) entity).getUsername().equals(name)) {
 				break;
 			}
 			index++;
@@ -116,11 +116,11 @@ public class Level {
 	}
 
 	// Getters and Setters
-	public NetPlayer getMainPlayer() {
+	public Player getMainPlayer() {
 		return this.player;
 	}
 
-	public void setMainPlayer(NetPlayer player) {
+	public void setMainPlayer(Player player) {
 		this.player = player;
 	}
 

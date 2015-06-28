@@ -24,7 +24,7 @@ public class DuelState implements GameState {
 	private Main main;
 	private GUI gui;
 	private Level level;
-	private NetPlayer player;
+	private Player player;
 	private Camera camera;
 
 	private Client client;
@@ -50,7 +50,7 @@ public class DuelState implements GameState {
 
 		if (!isServer) {
 			this.level.addMainPlayer(this.player);
-			this.player = new NetPlayer(this.client, username, address, this.client.getPort(), this.level, main.input);
+			this.player = new Player(main.input, this.level, this.client, username, address, this.client.getPort());
 		}
 
 		new Packet00Login(username).sendData(this.client);
@@ -63,7 +63,7 @@ public class DuelState implements GameState {
 		Mouse.setGrabbed(true);
 	}
 
-	@Override
+	
 	public void tick(int delta) {
 		if ((this.player == null) && (this.level.getMainPlayer() != null)) {
 			this.player = this.level.getMainPlayer();
@@ -118,7 +118,7 @@ public class DuelState implements GameState {
 		}
 	}
 
-	@Override
+	
 	public void render() {
 		// Level rendering
 		Matrices.switchToPerspective();

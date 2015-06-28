@@ -38,7 +38,7 @@ public class PacketParser {
 			case LOGIN:
 				Packet00Login packet = new Packet00Login(data);
 				this.gui.addMessage(packet.getUsername() + " has joined the game.");
-				NetPlayer player = new NetPlayer(null, packet.getUsername(), null, -1, this.level, this.main.input);
+				Player player = new Player(this.main.input, this.level, null, packet.getUsername(), null, -1);
 				this.client.addConnection(player, packet);
 				break;
 			case DISCONNECT:

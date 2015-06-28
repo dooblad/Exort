@@ -704,7 +704,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the String representation
 	 */
-	@Override
+	
 	public String toString() {
 		StringBuffer buffer = new StringBuffer(this.length * 8);
 
@@ -726,7 +726,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the integer hash code value
 	 */
-	@Override
+	
 	public int hashCode() {
 		long bits = 1L;
 
@@ -772,7 +772,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 *        The object with which the comparison is made.
 	 * @return true or false
 	 */
-	@Override
+	
 	public boolean equals(Object o1) {
 		try {
 			GVector v2 = (GVector) o1;
@@ -1008,7 +1008,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
-	@Override
+	
 	public Object clone() {
 		GVector v1 = null;
 		try {

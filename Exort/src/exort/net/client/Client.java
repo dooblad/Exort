@@ -14,7 +14,7 @@ public class Client {
 	private Main main;
 
 	private Level level;
-	private Map<String, NetPlayer> players; // Keeping this here just for the
+	private Map<String, Player> players; // Keeping this here just for the
 	// sake of having the usernames of
 	// all connected players.
 
@@ -24,7 +24,7 @@ public class Client {
 		this.main = main;
 
 		this.level = level;
-		this.players = new HashMap<String, NetPlayer>();
+		this.players = new HashMap<String, Player>();
 
 		this.handler = new PacketIO(main, this, gui, address, level);
 		this.handler.start();
@@ -36,14 +36,14 @@ public class Client {
 		}
 	}
 
-	public void addConnection(NetPlayer player, Packet00Login packet) {
+	public void addConnection(Player player, Packet00Login packet) {
 		if (this.players.isEmpty()) {
 			player.setClient(this);
 			this.level.setMainPlayer(player);
 		}
 
 		if (this.players.containsKey(player.getUsername())) {
-			NetPlayer p = this.players.get(packet.getUsername());
+			Player p = this.players.get(packet.getUsername());
 			if (p.getAddress() == null) {
 				p.setUsername(player.getAddress());
 			}
@@ -57,11 +57,11 @@ public class Client {
 		this.level.removePlayer(packet.getUsername());
 	}
 
-	public NetPlayer getNetPlayer(String username) {
+	public Player getPlayer(String username) {
 		return this.players.get(username);
 	}
 
-	public void addPlayer(NetPlayer player) {
+	public void addPlayer(Player player) {
 		this.players.put(player.getUsername(), player);
 		this.level.addEntity(player);
 	}

@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.*;
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
+import exort.*;
 import exort.level.*;
 import exort.util.loaders.*;
 import exort.util.sat.*;
@@ -27,14 +28,14 @@ public class SonicWave extends Projectile {
 		this(position.getX(), position.getY() + 1.5f, position.getZ(), SPEED * Math.cos(direction), 0, SPEED * Math.sin(direction), level);
 	}
 
-	@Override
 	public void tick(int delta) {
 		super.tick(delta);
 	}
 
-	@Override
 	public void render() {
-		this.bb.render();
+		if (Main.debug) {
+			this.bb.render();
+		}
 
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);

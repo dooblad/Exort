@@ -33,7 +33,7 @@ public class MultiplayerSetupState implements GameState {
 		Matrices.loadIdentity();
 	}
 
-	@Override
+	
 	public void tick(int delta) {
 		if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
 			if (this.chosen) {
@@ -77,7 +77,7 @@ public class MultiplayerSetupState implements GameState {
 
 	}
 
-	@Override
+	
 	public void render() {
 		glEnable(GL_BLEND);
 		Matrices.switchToOrtho();

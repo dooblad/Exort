@@ -31,7 +31,7 @@ public class Packet02Move extends Packet {
 		super.sendData(server, this.getData());
 	}
 
-	@Override
+	
 	public byte[] getData() {
 		return ("02" + this.username + "," + this.x + "," + this.z).getBytes();
 	}

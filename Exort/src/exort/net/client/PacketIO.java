@@ -43,8 +43,10 @@ public class PacketIO extends Thread {
 				e.printStackTrace();
 				break;
 			}
-			this.gui.addMessage(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f, 0f,
-					1f)));
+			if (Main.debug) {
+				this.gui.addMessage(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f,
+						0f, 1f)));
+			}
 			this.parser.parsePacket(data, packet.getAddress(), packet.getPort());
 		}
 	}

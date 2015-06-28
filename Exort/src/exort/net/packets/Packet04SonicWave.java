@@ -29,7 +29,7 @@ public class Packet04SonicWave extends Packet {
 		super.sendData(server, this.getData());
 	}
 
-	@Override
+	
 	public byte[] getData() {
 		return ("04" + this.username + "," + this.direction).getBytes();
 	}

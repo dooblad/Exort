@@ -30,7 +30,7 @@ public class PacketParser {
 					loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
 				}
 				this.gui.addMessage(loginPacket.getUsername() + " has joined the game.");
-				NetPlayer player = new NetPlayer(null, loginPacket.getUsername(), address, port, this.level, null);
+				Player player = new Player(null, this.level, null, loginPacket.getUsername(), address, port);
 				this.server.addConnection(player, loginPacket);
 				break;
 			case DISCONNECT:

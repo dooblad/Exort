@@ -17,13 +17,13 @@ public class Server {
 	private DuelState duelState;
 
 	private Level level;
-	private Map<String, NetPlayer> players;
+	private Map<String, Player> players;
 
 	public Server(DuelState duelState, GUI gui, Level level) {
 		this.duelState = duelState;
 
 		this.level = level;
-		this.players = new HashMap<String, NetPlayer>();
+		this.players = new HashMap<String, Player>();
 
 		this.handler = new PacketIO(gui, this, level);
 		this.handler.start();
@@ -36,7 +36,7 @@ public class Server {
 		packet.sendData(this);
 	}
 
-	public void addConnection(NetPlayer player, Packet00Login packet) {
+	public void addConnection(Player player, Packet00Login packet) {
 		// Confirm the login (to the player)
 		this.handler.sendData(new Packet00Login(player.getUsername()).getData(), player.getAddress(), player.getPort());
 
@@ -46,15 +46,15 @@ public class Server {
 		}
 
 		if (this.players.containsKey(player.getUsername())) {
-			NetPlayer p = this.players.get(player.getUsername());
+			Player p = this.players.get(player.getUsername());
 			if (p.getAddress() == null) {
 				p.setUsername(player.getAddress());
 			}
 		} else {
-			Iterator<Entry<String, NetPlayer>> iterator = this.players.entrySet().iterator();
+			Iterator<Entry<String, Player>> iterator = this.players.entrySet().iterator();
 			while (iterator.hasNext()) {
-				Map.Entry<String, NetPlayer> pairs = iterator.next();
-				NetPlayer p = pairs.getValue();
+				Map.Entry<String, Player> pairs = iterator.next();
+				Player p = pairs.getValue();
 
 				// Inform new player of existing players
 				this.handler.sendData(new Packet00Login(p.getUsername()).getData(), player.getAddress(), player.getPort());
@@ -69,7 +69,7 @@ public class Server {
 		}
 	}
 
-	public void addPlayer(NetPlayer player) {
+	public void addPlayer(Player player) {
 		this.players.put(player.getUsername(), player);
 		this.level.addEntity(player);
 	}
@@ -80,15 +80,15 @@ public class Server {
 		this.level.removePlayer(packet.getUsername());
 	}
 
-	public NetPlayer getPlayer(String username) {
+	public Player getPlayer(String username) {
 		return this.players.get(username);
 	}
 
 	public void sendDataToAllClients(byte[] data) {
-		Iterator<Entry<String, NetPlayer>> iterator = this.players.entrySet().iterator();
+		Iterator<Entry<String, Player>> iterator = this.players.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<String, NetPlayer> pairs = iterator.next();
-			NetPlayer player = pairs.getValue();
+			Map.Entry<String, Player> pairs = iterator.next();
+			Player player = pairs.getValue();
 			this.handler.sendData(data, player.getAddress(), player.getPort());
 			// iterator.remove();
 		}

@@ -26,7 +26,7 @@ public class Packet00Login extends Packet {
 		super.sendData(server, this.getData());
 	}
 
-	@Override
+	
 	public byte[] getData() {
 		return ("00" + this.username).getBytes();
 	}
