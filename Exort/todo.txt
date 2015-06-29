@@ -1,3 +1,18 @@
 model animation
 texture splatting
 multiplayer
+	Hold a constant cycle of the 64 most recent snapshots on both the client and the server.
+	The server determines what has changed in each update sent by each client, and sends a delta snapshot to every client.
+	To generate the delta snapshot, the server uses the last snapshot that the client acknowledged and uses that as a baseline.
+	The server calculates the differences between the master gamestate and the "baseline" snapshot, and uses a bit marker for every variable (e.g. x, y, z, health) 
+	that determines whether a particular field has changed. If it has, it sends the data for the variable. If it hasn't, then no further information about that field is sent.
+	
+	Say the format for a packet from the server to the client is: "[bit marker][x][bit marker][y][bit marker][z][bit marker][health]"
+	Brackets are used for clarity, but would be removed in practice.
+	If the master gamestate for information on client1 is (x:3, y:2, z:3, health:5), and client1 sends the information (x:5, y:2, z:3, health:5), then the server sends the packet
+	([1][5][0][0][0]).
+	
+	If a player hasn't received any recent snapshots, then the server uses a dummy packet (one where all fields are set to the default) as the baseline. Doing so makes the delta
+	snapshot a complete snapshot of the world.
+	
+	For adaptive Huffman coding, only use packets that have been acknowledged by both the client and the server for updating the Huffman codes.

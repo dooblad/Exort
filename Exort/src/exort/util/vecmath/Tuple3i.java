@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A 3-element tuple represented by signed integer x,y,z coordinates.
  *

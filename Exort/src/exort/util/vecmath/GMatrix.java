@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A double precision, general, dynamically-resizable, two-dimensional matrix class. Row
  * and column numbering begins with zero. The representation is row major.
@@ -1389,7 +1388,7 @@ public class GMatrix implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the String representation
 	 */
-	
+
 	public String toString() {
 		StringBuffer buffer = new StringBuffer(this.nRow * this.nCol * 8);
 
@@ -1413,7 +1412,7 @@ public class GMatrix implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the integer hash code value
 	 */
-	
+
 	public int hashCode() {
 		long bits = 1L;
 
@@ -1466,7 +1465,7 @@ public class GMatrix implements java.io.Serializable, Cloneable {
 	 *        The object with which the comparison is made.
 	 * @return true or false
 	 */
-	
+
 	public boolean equals(Object o1) {
 		try {
 			GMatrix m2 = (GMatrix) o1;
@@ -2846,7 +2845,7 @@ public class GMatrix implements java.io.Serializable, Cloneable {
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
-	
+
 	public Object clone() {
 		GMatrix m1 = null;
 		try {

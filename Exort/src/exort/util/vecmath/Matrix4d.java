@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A double precision floating point 4 by 4 matrix. Primarily to support 3D rotations.
  *
@@ -447,7 +446,7 @@ public class Matrix4d implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the String representation
 	 */
-	
+
 	public String toString() {
 		return this.m00 + ", " + this.m01 + ", " + this.m02 + ", " + this.m03 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + ", " + this.m13 + "\n"
 				+ this.m20 + ", " + this.m21 + ", " + this.m22 + ", " + this.m23 + "\n" + this.m30 + ", " + this.m31 + ", " + this.m32 + ", " + this.m33 + "\n";
@@ -3139,7 +3138,7 @@ public class Matrix4d implements java.io.Serializable, Cloneable {
 	 *        the matrix with which the comparison is made
 	 * @return true or false
 	 */
-	
+
 	public boolean equals(Object t1) {
 		try {
 			Matrix4d m2 = (Matrix4d) t1;
@@ -3265,7 +3264,7 @@ public class Matrix4d implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the integer hash code value
 	 */
-	
+
 	public int hashCode() {
 		long bits = 1L;
 		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m00);
@@ -3764,7 +3763,7 @@ public class Matrix4d implements java.io.Serializable, Cloneable {
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
-	
+
 	public Object clone() {
 		Matrix4d m1 = null;
 		try {

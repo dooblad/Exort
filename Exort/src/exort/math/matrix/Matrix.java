@@ -45,8 +45,7 @@ public class Matrix {
 	}
 
 	/**
-	 * Returns the minor of this Matrix by removing the row "row" and the column
-	 * "col".
+	 * Returns the minor of this Matrix by removing the row "row" and the column "col".
 	 */
 	public Matrix minor(int row, int col) {
 		Matrix minor = new Matrix(this.dimension - 1);

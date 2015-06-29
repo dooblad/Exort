@@ -13,24 +13,23 @@ public class Creature extends MovingEntity {
 	private int health;
 
 	/**
-	 * Creates a Creature at (0, 0, 0) with no initial velocity and no associated
-	 * Level.
+	 * Creates a Creature at (0, 0, 0) with no initial velocity and no associated Level.
 	 */
 	public Creature() {
 		this(0, 0, 0, 0, 0, 0, null);
 	}
 
 	/**
-	 * Creates a Creature at ("x", 0, "z") with no initial velocity and no
-	 * associated Level.
+	 * Creates a Creature at ("x", 0, "z") with no initial velocity and no associated
+	 * Level.
 	 */
 	public Creature(double x, double z) {
 		this(x, 0, z, 0, 0, 0, null);
 	}
 
 	/**
-	 * Creates a Creature at ("x", "y", "z") with no initial velocity and no
-	 * associated Level.
+	 * Creates a Creature at ("x", "y", "z") with no initial velocity and no associated
+	 * Level.
 	 */
 	public Creature(double x, double y, double z) {
 		this(x, y, z, 0, 0, 0, null);
@@ -51,8 +50,8 @@ public class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Creature at ("x", "y", "z") with initial velocity ("xa", "ya",
-	 * "za") and "level".
+	 * Creates a Creature at ("x", "y", "z") with initial velocity ("xa", "ya", "za") and
+	 * "level".
 	 */
 	public Creature(double x, double y, double z, float xa, float ya, float za, Level level) {
 		super(x, y, z, xa, ya, za, level);

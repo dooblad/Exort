@@ -34,7 +34,6 @@ public class Packet05RockWall extends Packet {
 		super.sendData(server, this.getData());
 	}
 
-	
 	public byte[] getData() {
 		return ("05" + this.username + "," + this.direction + "," + this.x + "," + this.z).getBytes();
 	}

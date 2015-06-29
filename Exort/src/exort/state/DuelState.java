@@ -63,7 +63,6 @@ public class DuelState implements GameState {
 		Mouse.setGrabbed(true);
 	}
 
-	
 	public void tick(int delta) {
 		if ((this.player == null) && (this.level.getMainPlayer() != null)) {
 			this.player = this.level.getMainPlayer();
@@ -118,7 +117,6 @@ public class DuelState implements GameState {
 		}
 	}
 
-	
 	public void render() {
 		// Level rendering
 		Matrices.switchToPerspective();

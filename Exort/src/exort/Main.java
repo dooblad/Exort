@@ -16,7 +16,7 @@ import exort.util.loaders.*;
  */
 public class Main implements GameLoop {
 	public static final String TITLE = "Exort Test";
-	
+
 	public static boolean debug = false;
 
 	public GraphicsContext context;
@@ -45,8 +45,8 @@ public class Main implements GameLoop {
 	}
 
 	/**
-	 * Handles the majority of the per-frame game logic, taking into account the
-	 * time elapsed ("delta").
+	 * Handles the majority of the per-frame game logic, taking into account the time
+	 * elapsed ("delta").
 	 */
 	public void tick(int delta) {
 		if (GLTools.wasResized()) {
@@ -54,8 +54,8 @@ public class Main implements GameLoop {
 		}
 
 		this.input.tick();
-		
-		if(this.input.isKeyPressed(Keyboard.KEY_F4)) {
+
+		if (this.input.isKeyPressed(Keyboard.KEY_F4)) {
 			debug = !debug;
 		}
 		if (this.input.isKeyPressed(Keyboard.KEY_F11)) {

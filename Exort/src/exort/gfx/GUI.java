@@ -143,14 +143,14 @@ public class GUI {
 					(this.main.getWidth() * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
 							* inverseExit), (this.main.getHeight() * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
 
-							(this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
-							this.exitBounds.y * inverseExit, 0f,
+					(this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
+					this.exitBounds.y * inverseExit, 0f,
 
-							(this.main.getWidth() * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
-									* inverseExit), (this.main.getHeight() * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
+					(this.main.getWidth() * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
+							* inverseExit), (this.main.getHeight() * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
 
-									this.exitBounds.x * inverseExit, // 3
-									(this.main.getHeight() * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f }, null, null, null, null)
+					this.exitBounds.x * inverseExit, // 3
+					(this.main.getHeight() * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f }, null, null, null, null)
 					.draw(Shaders.current.getAttributeLocations());
 
 			Shaders.use("font");

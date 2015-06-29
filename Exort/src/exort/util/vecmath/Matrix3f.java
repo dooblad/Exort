@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A single precision floating point 3 by 3 matrix. Primarily to support 3D rotations.
  *
@@ -215,7 +214,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the String representation
 	 */
-	
+
 	public String toString() {
 		return this.m00 + ", " + this.m01 + ", " + this.m02 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + "\n" + this.m20 + ", " + this.m21 + ", "
 				+ this.m22 + "\n";
@@ -1981,7 +1980,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
 	 *        the object with which the comparison is made
 	 * @return true or false
 	 */
-	
+
 	public boolean equals(Object o1) {
 		try {
 
@@ -2050,7 +2049,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the integer hash code value
 	 */
-	
+
 	public int hashCode() {
 		long bits = 1L;
 		bits = (31L * bits) + VecMathUtil.floatToIntBits(this.m00);
@@ -2185,7 +2184,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable {
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
-	
+
 	public Object clone() {
 		Matrix3f m1 = null;
 		try {

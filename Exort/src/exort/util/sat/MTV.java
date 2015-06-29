@@ -23,7 +23,7 @@ public class MTV {
 		this.smallest = smallest;
 		this.overlap = overlap;
 	}
-	
+
 	/**
 	 * Returns the vector for this MTV.
 	 */

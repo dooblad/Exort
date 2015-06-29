@@ -59,7 +59,7 @@ public class BB {
 		 * Math.sin(angle)) + width / 2; transformed[3].x = (float) ((original[3].x -
 		 * width / 2) * Math.cos(angle) - (original[3].y - length / 2) * Math.sin(angle))
 		 * + width / 2;
-		 *
+		 * 
 		 * transformed[0].y = (float) ((original[0].x - width / 2) * Math.sin(angle) +
 		 * (original[0].y - length / 2) * Math.cos(angle)) + length / 2; transformed[1].y
 		 * = (float) ((original[1].x - width / 2) * Math.sin(angle) + (original[1].y -

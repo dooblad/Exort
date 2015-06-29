@@ -1,22 +1,29 @@
 package exort.util.compression;
 
-import java.io.*;
 import java.util.*;
 
 /**
- * Creates HuffmanCodes from letter frequencies, a Scanner, or a File.
+ * Creates HuffmanCodes from letter frequencies, compresses Strings, and decompresses byte arrays.
  */
-public class HuffmanCode {
+public class HuffmanCompressor {
 	private HuffmanNode root;
 
+	// Fast mapping from a character to its Huffman code in the form of a bit String.
 	private Map<Character, String> charToCode;
+
+	/**
+	 * Creates a HuffmanCompressor without any initial Huffman tree.
+	 */
+	public HuffmanCompressor() {
+		
+	}
 
 	/**
 	 * Pre: "phrase" must not be empty. Otherwise, throws IllegalArgumentException.
 	 * 
 	 * Creates Huffman codes from the of characters in "phrase".
 	 */
-	public HuffmanCode(String phrase) {
+	public HuffmanCompressor(String phrase) {
 		if (phrase.isEmpty()) {
 			throw new IllegalArgumentException("\"phrase\" must not be empty.");
 		}
@@ -90,56 +97,11 @@ public class HuffmanCode {
 	}
 
 	/**
-	 * Recursively returns a HuffmanNode defined by the contents of "input".
-	 */
-	private HuffmanNode readCodes(HuffmanNode current, char n, String code, Scanner input) {
-		if (code.length() == 0) { // Reached the location of the code.
-			current = new HuffmanNode(n);
-		} else {
-			if (current == null) { // Rebuild the structural nodes.
-				current = new HuffmanNode();
-			}
-			// Check the first charcter.
-			char ch = code.charAt(0);
-			code = code.substring(1);
-			// Go down the '0' or '1' branch.
-			if (ch == '0') {
-				current.left = this.readCodes(current.left, n, code, input);
-			} else {
-				current.right = this.readCodes(current.right, n, code, input);
-			}
-		}
-		return current;
-	}
-
-	/**
-	 * Writes the Huffman codes for each character to "output" (in standard format).
-	 */
-	public void save(PrintStream output) {
-		this.save(this.root, "", output);
-	}
-
-	/**
-	 * Starting at "current", recurses through the tree and accumulates the bit patterns
-	 * into "code". Once a node with a character is reached, the character and the "code"
-	 * are written to "output".
-	 */
-	private void save(HuffmanNode current, String code, PrintStream output) {
-		if (current.character != null) {
-			// Print in standard format.
-			output.println(current.character);
-			output.println(code);
-		} else {
-			this.save(current.left, code + "0", output);
-			this.save(current.right, code + "1", output);
-		}
-	}
-
-	/**
 	 * Returns the decompressed String from "input".
 	 */
 	public String translate(byte[] input) {
-		BitInputStream bits = new BitInputStream(input);
+		StringBuilder result = new StringBuilder();
+		BitReader bits = new BitReader(input);
 		while (bits.hasNextBit()) {
 			HuffmanNode current = this.root;
 			while (current.character == null) {
@@ -149,13 +111,33 @@ public class HuffmanCode {
 					current = current.right;
 				}
 			}
+			result.append(current.character);
 		}
+		return result.toString();
 	}
 
 	/**
-	 * Returns the Huffman code associated with "ch".
+	 * Returns the compressed "input".
 	 */
-	public String getCode(char ch) {
-		return this.charToCode.get(ch);
+	public byte[] compress(String input) {
+		BitString result = new BitString();
+		for (int i = 0; i < input.length(); i++) {
+			char ch = input.charAt(i);
+			result.add(this.charToCode.get(ch));
+		}
+		return result.toByteArray();
+	}
+
+	/**
+	 * Returns the decompressed "input", if decompression is required. Otherwise, returns
+	 * the input (except for the first compression flag bit) as a String.
+	 */
+	public String decompress(byte[] input) {
+		BitReader reader = new BitReader(input);
+		if (reader.nextBit() == 0) { // Compressed flag is 0.
+			return reader.restToString();
+		} else {
+			return this.translate(input);
+		}
 	}
 }

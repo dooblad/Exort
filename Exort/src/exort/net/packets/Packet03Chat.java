@@ -29,7 +29,6 @@ public class Packet03Chat extends Packet {
 		super.sendData(server, this.getData());
 	}
 
-	
 	public byte[] getData() {
 		return ("03" + this.username + "," + this.message).getBytes();
 	}

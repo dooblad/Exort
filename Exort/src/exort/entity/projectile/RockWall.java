@@ -42,8 +42,8 @@ public class RockWall extends Entity {
 	}
 
 	/**
-	 * Handles the behavior of this RockWall, adjusting certain values in
-	 * accordance with "delta".
+	 * Handles the behavior of this RockWall, adjusting certain values in accordance with
+	 * "delta".
 	 */
 	public void tick(int delta) {
 		this.currentLife -= 1;

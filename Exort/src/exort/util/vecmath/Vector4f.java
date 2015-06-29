@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A 4-element vector represented by single-precision floating point x,y,z,w coordinates.
  *

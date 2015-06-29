@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A 4 element tuple represented by double precision floating point x,y,z,w coordinates.
  *

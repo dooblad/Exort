@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A 3 element point that is represented by single precision floating point x,y,z
  * coordinates.

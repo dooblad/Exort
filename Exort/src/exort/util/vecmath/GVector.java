@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A double precision, general, dynamically-resizable, one-dimensional vector class. Index
  * numbering begins with zero.
@@ -704,7 +703,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the String representation
 	 */
-	
+
 	public String toString() {
 		StringBuffer buffer = new StringBuffer(this.length * 8);
 
@@ -726,7 +725,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the integer hash code value
 	 */
-	
+
 	public int hashCode() {
 		long bits = 1L;
 
@@ -772,7 +771,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 *        The object with which the comparison is made.
 	 * @return true or false
 	 */
-	
+
 	public boolean equals(Object o1) {
 		try {
 			GVector v2 = (GVector) o1;
@@ -1008,7 +1007,7 @@ public class GVector implements java.io.Serializable, Cloneable {
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
-	
+
 	public Object clone() {
 		GVector v1 = null;
 		try {

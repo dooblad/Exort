@@ -47,8 +47,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Player at ("x", "y", "z") on "level" with movement specified by
-	 * "input".
+	 * Creates a Player at ("x", "y", "z") on "level" with movement specified by "input".
 	 */
 	public Player(double x, double y, double z, InputHandler input, Level level) {
 		this(x, y, z, input, level, null, null, null, -1);
@@ -62,16 +61,16 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Player with networking capabilities at the origin on "level"
-	 * with movement specified by "input".
+	 * Creates a Player with networking capabilities at the origin on "level" with
+	 * movement specified by "input".
 	 */
 	public Player(InputHandler input, Level level, Client client, String username, String address, int port) {
 		this(0, 0, 0, input, level, client, username, address, port);
 	}
 
 	/**
-	 * Creates a Player with networking capabilites at ("x", "y", "z") on
-	 * "level" with movement specified by "input".
+	 * Creates a Player with networking capabilites at ("x", "y", "z") on "level" with
+	 * movement specified by "input".
 	 */
 	public Player(double x, double y, double z, InputHandler input, Level level, Client client, String username, String address, int port) {
 		this.targetX = 0;
@@ -233,8 +232,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Calculates the component-wise velocities required to reach this Player's
-	 * target.
+	 * Calculates the component-wise velocities required to reach this Player's target.
 	 */
 	public void calculateSpeeds() {
 		Vector3f target = new Vector3f((float) (this.targetX - this.x), 0f, (float) (this.targetZ - this.z));
@@ -246,8 +244,8 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Returns the angle (in radians) of the line from the origin to ("x", 0, "z"),
-	 * with respect to the y-axis.
+	 * Returns the angle (in radians) of the line from the origin to ("x", 0, "z"), with
+	 * respect to the y-axis.
 	 */
 	private float calculateAngle(double x, double z) {
 		float result = (float) Math.atan(z / x);

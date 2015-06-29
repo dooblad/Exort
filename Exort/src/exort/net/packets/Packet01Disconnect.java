@@ -25,7 +25,6 @@ public class Packet01Disconnect extends Packet {
 		super.sendData(server, this.getData());
 	}
 
-	
 	public byte[] getData() {
 		return ("01" + this.username).getBytes();
 	}

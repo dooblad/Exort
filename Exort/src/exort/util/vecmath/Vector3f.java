@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A 3-element vector that is represented by single-precision floating point x,y,z
  * coordinates. If this value represents a normal, then it should be normalized.

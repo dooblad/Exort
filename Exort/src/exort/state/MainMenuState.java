@@ -17,7 +17,6 @@ public class MainMenuState implements GameState {
 		Matrices.loadIdentity();
 	}
 
-	
 	public void tick(int delta) {
 		if (this.main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			this.main.exit();
@@ -26,7 +25,6 @@ public class MainMenuState implements GameState {
 		}
 	}
 
-	
 	public void render() {
 		glEnable(GL_BLEND);
 		Matrices.switchToOrtho();

@@ -30,6 +30,17 @@ public class BitString {
 	}
 
 	/**
+	 * Adds the bits represented by "bitString" (e.g. "1011") to the end of this
+	 * BitString.
+	 */
+	public void add(String bitString) {
+		for (int i = 0; i < bitString.length(); i++) {
+			int bit = bitString.charAt(i) == '1' ? 1 : 0;
+			this.add(bit);
+		}
+	}
+
+	/**
 	 * Returns the contents of this BitString that have been converted to a byte array.
 	 */
 	public byte[] toByteArray() {
@@ -38,6 +49,14 @@ public class BitString {
 			result[i] = this.data.get(i);
 		}
 		return result;
+	}
+
+	/**
+	 * Returns a String created from converting each byte in this BitString to a
+	 * character.
+	 */
+	public String toString() {
+		return new String(this.toByteArray());
 	}
 
 	/**

@@ -31,7 +31,6 @@
 
 package exort.util.vecmath;
 
-
 /**
  * A double precision floating point 3 by 3 matrix. Primarily to support 3D rotations.
  *
@@ -214,7 +213,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the String representation
 	 */
-	
+
 	public String toString() {
 		return this.m00 + ", " + this.m01 + ", " + this.m02 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + "\n" + this.m20 + ", " + this.m21 + ", "
 				+ this.m22 + "\n";
@@ -1982,7 +1981,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	 *        the matrix with which the comparison is made
 	 * @return true or false
 	 */
-	
+
 	public boolean equals(Object t1) {
 		try {
 			Matrix3d m2 = (Matrix3d) t1;
@@ -2065,7 +2064,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	 *
 	 * @return the integer hash code value
 	 */
-	
+
 	public int hashCode() {
 		long bits = 1L;
 		bits = (31L * bits) + VecMathUtil.doubleToLongBits(this.m00);
@@ -2487,7 +2486,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		 * System.out.println("t1="+t1[0]+" "+t1[1]+" "+t1[2]);
 		 * System.out.println("t1="+t1[3]+" "+t1[4]+" "+t1[5]);
 		 * System.out.println("t1="+t1[6]+" "+t1[7]+" "+t1[8]);
-		 *
+		 * 
 		 * System.out.println("t2 is \n" + t2);
 		 * System.out.println("t2="+t2[0]+" "+t2[1]+" "+t2[2]);
 		 * System.out.println("t2="+t2[3]+" "+t2[4]+" "+t2[5]);
@@ -3255,7 +3254,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 	 * @see java.lang.Cloneable
 	 * @since vecmath 1.3
 	 */
-	
+
 	public Object clone() {
 		Matrix3d m1 = null;
 		try {
