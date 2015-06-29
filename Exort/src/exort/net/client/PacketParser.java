@@ -17,7 +17,7 @@ public class PacketParser {
 	private Level level;
 
 	/**
-	 * Post: Initializes a PacketParser for "client" with "level".
+	 * Initializes a PacketParser for "client" with "level".
 	 */
 	public PacketParser(Main main, GUI gui, Client client, Level level) {
 		this.main = main;
@@ -27,7 +27,7 @@ public class PacketParser {
 	}
 
 	/**
-	 * Post: Handles the incoming packet defined by "data" from "address" on "port".
+	 * Handles the incoming packet defined by "data" from "address" on "port".
 	 */
 	public void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();

@@ -11,7 +11,7 @@ public class Matrix {
 	private int dimension;
 
 	/**
-	 * Post: Creates an "n" by "n" identity Matrix.
+	 * Creates an "n" by "n" identity Matrix.
 	 */
 	public Matrix(int n) {
 		this.data = new double[n * n];
@@ -22,7 +22,7 @@ public class Matrix {
 	/**
 	 * Pre: "data" represents a square Matrix.
 	 *
-	 * Post: Creates a Matrix with "data" as its entries.
+	 * Creates a Matrix with "data" as its entries.
 	 */
 	public Matrix(double[] data) {
 		this.data = data;
@@ -30,7 +30,7 @@ public class Matrix {
 	}
 
 	/**
-	 * Post: Replaces this Matrix with the identity Matrix.
+	 * Replaces this Matrix with the identity Matrix.
 	 */
 	public void loadIdentity() {
 		for (int i = 0; i < this.dimension; i++) {
@@ -45,7 +45,7 @@ public class Matrix {
 	}
 
 	/**
-	 * Post: Returns the minor of this Matrix by removing the row "row" and the column
+	 * Returns the minor of this Matrix by removing the row "row" and the column
 	 * "col".
 	 */
 	public Matrix minor(int row, int col) {
@@ -70,7 +70,7 @@ public class Matrix {
 	}
 
 	/**
-	 * Post: Returns the resulting Matrix from this Matrix multiplied by "other".
+	 * Returns the resulting Matrix from this Matrix multiplied by "other".
 	 */
 	public Matrix multiply(Matrix other) {
 		if (this.dimension != other.dimension) {
@@ -93,7 +93,7 @@ public class Matrix {
 	}
 
 	/**
-	 * Post: Returns a String representation of this Matrix.
+	 * Returns a String representation of this Matrix.
 	 */
 	public String toString() {
 		String result = "";

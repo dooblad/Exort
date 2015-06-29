@@ -10,28 +10,48 @@ import exort.level.*;
 import exort.util.loaders.*;
 import exort.util.sat.*;
 
+// TODO: Update this class description.
+/**
+ * A Projectile with mysterious purposes.
+ */
 public class SonicWave extends Projectile {
 	public static final double SPEED = 1.0 / 25.0;
 	public static final int LIFE = 28;
 
+	/**
+	 * Creates a SonicWave on "level" at "position" with initial "direction" (in radians).
+	 */
+	public SonicWave(Vector3f position, double direction, Level level) {
+		this(position.getX(), position.getY() + 1.5f, position.getZ(), SPEED * Math.cos(direction), 0, SPEED * Math.sin(direction), level);
+	}
+
+	/**
+	 * Creates a SonicWave on "level" at "position" with velocity ("xa", "ya", "za).
+	 */
+	public SonicWave(Vector3f position, double xa, double ya, double za, Level level) {
+		this(position.getX(), position.getY(), position.getZ(), xa, ya, za, level);
+	}
+
+	/**
+	 * Creates a SonicWave on "level" at ("x", "y", "z") with velocity ("xa", "ya", "za").
+	 */
 	public SonicWave(double x, double y, double z, double xa, double ya, double za, Level level) {
 		super(x, y, z, xa, ya, za, LIFE, level);
 		this.bb = new BB((float) x, 1f, (float) y, 1f);
 		this.direction = (float) Math.toDegrees(Math.atan(za / xa));
 	}
 
-	public SonicWave(Vector3f position, double xa, double ya, double za, Level level) {
-		this(position.getX(), position.getY(), position.getZ(), xa, ya, za, level);
-	}
-
-	public SonicWave(Vector3f position, double direction, Level level) {
-		this(position.getX(), position.getY() + 1.5f, position.getZ(), SPEED * Math.cos(direction), 0, SPEED * Math.sin(direction), level);
-	}
-
+	/**
+	 * Handles the behavior of this RockWall, adjusting certain values in
+	 * accordance with "delta".
+	 */
 	public void tick(int delta) {
 		super.tick(delta);
 	}
 
+	/**
+	 * Renders this SonicWave.
+	 */
 	public void render() {
 		if (Main.debug) {
 			this.bb.render();

@@ -40,14 +40,14 @@ public class Player extends MovingEntity {
 	private int port;
 
 	/**
-	 * Post: Creates a Player at the origin with no associated Level or InputHandler.
+	 * Creates a Player at the origin with no associated Level or InputHandler.
 	 */
 	public Player() {
 		this(0, 0, 0, null, null, null, null, null, -1);
 	}
 
 	/**
-	 * Post: Creates a Player at ("x", "y", "z") on "level" with movement specified by
+	 * Creates a Player at ("x", "y", "z") on "level" with movement specified by
 	 * "input".
 	 */
 	public Player(double x, double y, double z, InputHandler input, Level level) {
@@ -55,14 +55,14 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Creates a Player at the origin with networking capabilities.
+	 * Creates a Player at the origin with networking capabilities.
 	 */
 	public Player(Client client, String username, String address, int port) {
 		this(0, 0, 0, null, null, client, username, address, port);
 	}
 
 	/**
-	 * Post: Creates a Player with networking capabilities at the origin on "level"
+	 * Creates a Player with networking capabilities at the origin on "level"
 	 * with movement specified by "input".
 	 */
 	public Player(InputHandler input, Level level, Client client, String username, String address, int port) {
@@ -70,7 +70,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Creates a Player with networking capabilites at ("x", "y", "z") on
+	 * Creates a Player with networking capabilites at ("x", "y", "z") on
 	 * "level" with movement specified by "input".
 	 */
 	public Player(double x, double y, double z, InputHandler input, Level level, Client client, String username, String address, int port) {
@@ -90,7 +90,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Handles the majority of the logic of this Player, adjusting certain values in
+	 * Handles the majority of the logic of this Player, adjusting certain values in
 	 * accordance with "delta".
 	 */
 	public void tick(int delta) {
@@ -166,7 +166,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Renders this Player and all graphical entities associated with it.
+	 * Renders this Player and all graphical entities associated with it.
 	 */
 	public void render() {
 		if (Main.debug) {
@@ -221,7 +221,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Sets this Player's target to "position".
+	 * Sets this Player's target to "position".
 	 */
 	public void setTarget(Vector3f position) {
 		if ((position.getX() != this.x) || (position.getZ() != this.z)) {
@@ -233,7 +233,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Calculates the component-wise velocities required to reach this Player's
+	 * Calculates the component-wise velocities required to reach this Player's
 	 * target.
 	 */
 	public void calculateSpeeds() {
@@ -246,7 +246,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Returns the angle (in radians) of the line from the origin to ("x", 0, "z"),
+	 * Returns the angle (in radians) of the line from the origin to ("x", 0, "z"),
 	 * with respect to the y-axis.
 	 */
 	private float calculateAngle(double x, double z) {
@@ -258,14 +258,14 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Returns a Vector3f that represents this Player's current position.
+	 * Returns a Vector3f that represents this Player's current position.
 	 */
 	public Vector3f getPosition() {
 		return new Vector3f((float) this.x, (float) this.y, (float) this.z);
 	}
 
 	/**
-	 * Post: Sets the x-coordinate of this Player's target to "x".
+	 * Sets the x-coordinate of this Player's target to "x".
 	 */
 	public void setTargetX(float x) {
 		this.targetX = x;
@@ -273,7 +273,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Sets the z-coordinate of this Player's target to "z".
+	 * Sets the z-coordinate of this Player's target to "z".
 	 */
 	public void setTargetZ(float z) {
 		this.targetZ = z;
@@ -281,7 +281,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Sets the coordinates of this Player's target to ("x", "z").
+	 * Sets the coordinates of this Player's target to ("x", "z").
 	 */
 	public void setTargetPosition(float x, float z) {
 		this.targetX = x;
@@ -291,56 +291,56 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Post: Returns this Player's current move speed.
+	 * Returns this Player's current move speed.
 	 */
 	public float getMoveSpeed() {
 		return this.moveSpeed;
 	}
 
 	/**
-	 * Post: Sets this Player's move speed to "moveSpeed".
+	 * Sets this Player's move speed to "moveSpeed".
 	 */
 	public void setMoveSpeed(float moveSpeed) {
 		this.moveSpeed = moveSpeed;
 	}
 
 	/**
-	 * Post: Returns the Client associated with this Player.
+	 * Returns the Client associated with this Player.
 	 */
 	public Client getClient() {
 		return this.client;
 	}
 
 	/**
-	 * Post: Sets this Player's Client to "client".
+	 * Sets this Player's Client to "client".
 	 */
 	public void setClient(Client client) {
 		this.client = client;
 	}
 
 	/**
-	 * Post: Returns the username of this Player.
+	 * Returns the username of this Player.
 	 */
 	public String getUsername() {
 		return this.username;
 	}
 
 	/**
-	 * Post: Returns the IP address of this Player.
+	 * Returns the IP address of this Player.
 	 */
 	public String getAddress() {
 		return this.address;
 	}
 
 	/**
-	 * Post: Returns the port this Client is operating on.
+	 * Returns the port this Client is operating on.
 	 */
 	public int getPort() {
 		return this.port;
 	}
 
 	/**
-	 * Post: Sets this Client's username to "username".
+	 * Sets this Client's username to "username".
 	 */
 	public void setUsername(String username) {
 		this.username = username;

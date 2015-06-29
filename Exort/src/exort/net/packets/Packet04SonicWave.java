@@ -3,11 +3,18 @@ package exort.net.packets;
 import exort.net.client.*;
 import exort.net.server.*;
 
+/**
+ * A Packet containing information about a conjured SonicWave in the format
+ * 
+ * 04<username>,<direction>
+ */
 public class Packet04SonicWave extends Packet {
-
 	private String username;
 	private float direction;
 
+	/**
+	 * Creates a Packet04SonicWave with "data".
+	 */
 	public Packet04SonicWave(byte[] data) {
 		super(04);
 		String[] dataArray = this.readData(data).split(",");

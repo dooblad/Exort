@@ -25,7 +25,7 @@ public class Main implements GameLoop {
 	private GameState state;
 
 	/**
-	 * Post: Initializes a GraphicsContext, loads all game assets, then runs the game.
+	 * Initializes a GraphicsContext, loads all game assets, then runs the game.
 	 */
 	public Main() {
 		this.context = new GraphicsContext(this);
@@ -45,7 +45,7 @@ public class Main implements GameLoop {
 	}
 
 	/**
-	 * Post: Handles the majority of the per-frame game logic, taking into account the
+	 * Handles the majority of the per-frame game logic, taking into account the
 	 * time elapsed ("delta").
 	 */
 	public void tick(int delta) {
@@ -66,14 +66,14 @@ public class Main implements GameLoop {
 	}
 
 	/**
-	 * Post: Renders the contents of the current game "state".
+	 * Renders the contents of the current game "state".
 	 */
 	public void render() {
 		this.state.render();
 	}
 
 	/**
-	 * Post: Performs any necessary recalculations if the window is resized.
+	 * Performs any necessary recalculations if the window is resized.
 	 */
 	private void resize() {
 		if (this.state instanceof DuelState) {
@@ -82,35 +82,35 @@ public class Main implements GameLoop {
 	}
 
 	/**
-	 * Post: Changes the current GameState to "state".
+	 * Changes the current GameState to "state".
 	 */
 	public void changeState(GameState state) {
 		this.state = state;
 	}
 
 	/**
-	 * Post: Attempts to exit the game.
+	 * Attempts to exit the game.
 	 */
 	public void exit() {
 		this.context.requestExit();
 	}
 
 	/**
-	 * Post: Returns the width of this game's GraphicsContext.
+	 * Returns the width of this game's GraphicsContext.
 	 */
 	public int getWidth() {
 		return this.context.getWidth();
 	}
 
 	/**
-	 * Post: Returns the height of this game's GraphicsContext.
+	 * Returns the height of this game's GraphicsContext.
 	 */
 	public int getHeight() {
 		return this.context.getHeight();
 	}
 
 	/**
-	 * Post: Returns the current GameState.
+	 * Returns the current GameState.
 	 */
 	public GameState getCurrentState() {
 		return this.state;

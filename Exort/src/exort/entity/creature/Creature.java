@@ -13,7 +13,7 @@ public class Creature extends MovingEntity {
 	private int health;
 
 	/**
-	 * Post: Creates a Creature at (0, 0, 0) with no initial velocity and no associated
+	 * Creates a Creature at (0, 0, 0) with no initial velocity and no associated
 	 * Level.
 	 */
 	public Creature() {
@@ -21,7 +21,7 @@ public class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Post: Creates a Creature at ("x", 0, "z") with no initial velocity and no
+	 * Creates a Creature at ("x", 0, "z") with no initial velocity and no
 	 * associated Level.
 	 */
 	public Creature(double x, double z) {
@@ -29,7 +29,7 @@ public class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Post: Creates a Creature at ("x", "y", "z") with no initial velocity and no
+	 * Creates a Creature at ("x", "y", "z") with no initial velocity and no
 	 * associated Level.
 	 */
 	public Creature(double x, double y, double z) {
@@ -37,21 +37,21 @@ public class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Post: Creates a Creature at ("x", 0, "z") with no initial velocity and "level".
+	 * Creates a Creature at ("x", 0, "z") with no initial velocity and "level".
 	 */
 	public Creature(double x, double z, Level level) {
 		this(x, 0, z, 0, 0, 0, level);
 	}
 
 	/**
-	 * Post: Creates a Creature at ("x", "y", "z") with no initial velocity and "level".
+	 * Creates a Creature at ("x", "y", "z") with no initial velocity and "level".
 	 */
 	public Creature(double x, double y, double z, Level level) {
 		super(x, y, z, 0, 0, 0, level);
 	}
 
 	/**
-	 * Post: Creates a Creature at ("x", "y", "z") with initial velocity ("xa", "ya",
+	 * Creates a Creature at ("x", "y", "z") with initial velocity ("xa", "ya",
 	 * "za") and "level".
 	 */
 	public Creature(double x, double y, double z, float xa, float ya, float za, Level level) {
@@ -59,14 +59,14 @@ public class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Post: Returns the current health of this Creature.
+	 * Returns the current health of this Creature.
 	 */
 	public int getHealth() {
 		return this.health;
 	}
 
 	/**
-	 * Post: Sets the health of this Creature to "health".
+	 * Sets the health of this Creature to "health".
 	 */
 	public void setHealth(int health) {
 		this.health = health;
