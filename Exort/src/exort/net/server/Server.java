@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import exort.entity.creature.*;
-import exort.gfx.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
 import exort.state.*;
@@ -28,7 +28,7 @@ public class Server {
 		this.handler = new PacketIO(gui, this, level);
 		this.handler.start();
 
-		gui.addMessage("Started server on port " + this.handler.getPort());
+		gui.addToChat("Started server on port " + this.handler.getPort());
 	}
 
 	public void handleMove(Packet02Move packet) {

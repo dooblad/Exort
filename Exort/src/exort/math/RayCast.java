@@ -46,8 +46,8 @@ public class RayCast {
 		Vector3f coords = new Vector3f();
 
 		// Find inverse of ProjectionModelViewMatrix
-		Math3D.matrixMultiply4(a, projection, modelView);
-		a = Math3D.matrixInverse4(a);
+		Math3D.matrixMultiply4f(a, projection, modelView);
+		a = Math3D.matrixInverse4f(a);
 
 		// Get the depth component of the mouse pixel
 		FloatBuffer winZ = BufferUtils.createFloatBuffer(1);
@@ -59,7 +59,7 @@ public class RayCast {
 		in[2] = (2f * winZ.get(0)) - 1f;
 		in[3] = 1f;
 
-		out = Math3D.matrixMultiplyByVector4(a, in);
+		out = Math3D.matrixMultiplyByVector4f(a, in);
 
 		if (out[3] == 0f) {
 			return null;

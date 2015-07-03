@@ -42,8 +42,7 @@ public class SonicWave extends Projectile {
 	}
 
 	/**
-	 * Handles the behavior of this RockWall, adjusting certain values in accordance with
-	 * "delta".
+	 * Handles the behavior of this RockWall.
 	 */
 	public void tick(int delta) {
 		super.tick(delta);

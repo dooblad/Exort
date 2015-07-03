@@ -50,8 +50,7 @@ public class Projectile extends MovingEntity {
 	}
 
 	/**
-	 * Handles the behavior of this Projectile, adjusting certain values in accordance
-	 * with "delta".
+	 * Handles the behavior of this Projectile.
 	 */
 	public void tick(int delta) {
 		super.tick(delta);

@@ -1,7 +1,7 @@
 package exort.net.server;
 
 import exort.entity.creature.*;
-import exort.gfx.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
 import exort.net.packets.Packet.*;
@@ -29,14 +29,14 @@ public class PacketParser {
 				if (loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH) {
 					loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
 				}
-				this.gui.addMessage(loginPacket.getUsername() + " has joined the game.");
+				this.gui.addToChat(loginPacket.getUsername() + " has joined the game.");
 				Player player = new Player(null, this.level, null, loginPacket.getUsername(), address, port);
 				this.server.addConnection(player, loginPacket);
 				break;
 			case DISCONNECT:
 				Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
 				if (this.server.getPlayer(disconnectPacket.getUsername()) != null) {
-					this.gui.addMessage(disconnectPacket.getUsername() + " has left the game.");
+					this.gui.addToChat(disconnectPacket.getUsername() + " has left the game.");
 					this.server.removeConnection(disconnectPacket);
 				}
 				break;

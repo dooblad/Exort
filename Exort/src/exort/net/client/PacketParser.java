@@ -5,7 +5,7 @@ import java.net.*;
 import exort.*;
 import exort.entity.creature.*;
 import exort.entity.projectile.*;
-import exort.gfx.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
 import exort.net.packets.Packet.*;
@@ -37,13 +37,13 @@ public class PacketParser {
 				break;
 			case LOGIN:
 				Packet00Login packet = new Packet00Login(data);
-				this.gui.addMessage(packet.getUsername() + " has joined the game.");
+				this.gui.addToChat(packet.getUsername() + " has joined the game.");
 				Player player = new Player(this.main.input, this.level, null, packet.getUsername(), null, -1);
 				this.client.addConnection(player, packet);
 				break;
 			case DISCONNECT:
 				Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-				this.gui.addMessage(disconnectPacket.getUsername() + " has left the game.");
+				this.gui.addToChat(disconnectPacket.getUsername() + " has left the game.");
 				this.client.removeConnection(disconnectPacket);
 				break;
 			case MOVE:
@@ -52,7 +52,7 @@ public class PacketParser {
 				break;
 			case CHAT:
 				Packet03Chat chatPacket = new Packet03Chat(data);
-				this.gui.addMessage(chatPacket.getUsername() + ": " + chatPacket.getMessage());
+				this.gui.addToChat(chatPacket.getUsername() + ": " + chatPacket.getMessage());
 				break;
 			case SONIC_WAVE:
 				Packet04SonicWave qPacket = new Packet04SonicWave(data);

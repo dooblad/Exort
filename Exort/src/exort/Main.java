@@ -1,13 +1,15 @@
 package exort;
 
+import java.awt.*;
+
 import org.lwjgl.input.*;
 
 import com.doobs.modern.*;
 import com.doobs.modern.util.*;
 
-import exort.gfx.*;
 import exort.state.*;
 import exort.util.*;
+import exort.util.gl.*;
 import exort.util.gl.Cursor;
 import exort.util.loaders.*;
 
@@ -107,6 +109,13 @@ public class Main implements GameLoop {
 	 */
 	public int getHeight() {
 		return this.context.getHeight();
+	}
+
+	/**
+	 * Returns the size of the GraphicsContext as a Dimension.
+	 */
+	public Dimension getSize() {
+		return this.context.getSize();
 	}
 
 	/**

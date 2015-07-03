@@ -13,12 +13,12 @@ import com.doobs.modern.util.matrix.*;
 
 import exort.*;
 import exort.entity.*;
-import exort.gfx.*;
 import exort.level.*;
 import exort.math.*;
 import exort.net.client.*;
 import exort.net.packets.*;
 import exort.util.*;
+import exort.util.gl.*;
 import exort.util.loaders.*;
 import exort.util.sat.*;
 
@@ -89,8 +89,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Handles the majority of the logic of this Player, adjusting certain values in
-	 * accordance with "delta".
+	 * Handles the majority of the logic of this Player.
 	 */
 	public void tick(int delta) {
 		// Player movement.

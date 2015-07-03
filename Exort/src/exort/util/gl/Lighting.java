@@ -1,4 +1,4 @@
-package exort.gfx;
+package exort.util.gl;
 
 import static org.lwjgl.opengl.GL20.*;
 

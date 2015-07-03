@@ -16,7 +16,7 @@ public class MultiplayerSetupState implements GameState {
 
 	private boolean server, chosen;
 	private boolean typingName;
-	private StringBuilder username, address;
+	private StringBuffer username, address;
 
 	private Animation toPlayerSetup, nameAddressSwitch;
 
@@ -25,8 +25,8 @@ public class MultiplayerSetupState implements GameState {
 		this.server = false;
 		this.chosen = false;
 		this.typingName = true;
-		this.username = new StringBuilder();
-		this.address = new StringBuilder();
+		this.username = new StringBuffer();
+		this.address = new StringBuffer();
 		this.toPlayerSetup = new Animation(10);
 		this.nameAddressSwitch = new Animation(10);
 

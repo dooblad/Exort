@@ -37,6 +37,10 @@ public class Font {
 		this.characters = CharInfoLoader.load(this.texture, DIRECTORY + URL + ".txt");
 	}
 
+	public void draw(StringBuffer phrase, int x, int y) {
+		draw(phrase.toString(), x, y);
+	}
+
 	public void draw(String phrase, int x, int y) {
 		Shaders.use("font");
 		Color.set(Shaders.current, this.color[0], this.color[1], this.color[2], this.color[3]);
@@ -138,6 +142,10 @@ public class Font {
 		this.color[3] = alpha;
 	}
 
+	public Dimension getPhraseDimensions(StringBuffer phrase) {
+		return getPhraseDimensions(phrase.toString());
+	}
+
 	public Dimension getPhraseDimensions(String phrase) {
 		Character character;
 
@@ -161,6 +169,10 @@ public class Font {
 		return new Dimension(width, height);
 	}
 
+	public int getPhraseWidth(StringBuffer phrase) {
+		return getPhraseWidth(phrase.toString());
+	}
+
 	public int getPhraseWidth(String phrase) {
 		Character character;
 
@@ -177,6 +189,10 @@ public class Font {
 		}
 
 		return width;
+	}
+
+	public int getPhraseHeight(StringBuffer phrase) {
+		return getPhraseHeight(phrase.toString());
 	}
 
 	public int getPhraseHeight(String phrase) {

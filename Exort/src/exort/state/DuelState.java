@@ -9,19 +9,22 @@ import com.doobs.modern.util.matrix.*;
 
 import exort.*;
 import exort.entity.creature.*;
-import exort.gfx.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.math.*;
 import exort.net.client.*;
 import exort.net.packets.*;
 import exort.net.server.*;
+import exort.util.*;
 import exort.util.gl.*;
 import exort.util.loaders.*;
 
+/**
+ * GameState where two Players fight to the death.
+ */
 public class DuelState implements GameState {
-	private static final int CHAT_CHAR_LIMIT = 256;
-
 	private Main main;
+	private InputHandler input;
 	private GUI gui;
 	private Level level;
 	private Player player;
@@ -32,13 +35,11 @@ public class DuelState implements GameState {
 
 	private boolean paused;
 
-	private boolean typing;
-	private StringBuilder message;
-
 	public DuelState(Main main, boolean isServer, String username, String address) {
 		this.main = main;
+		this.input = main.input;
 
-		this.gui = new GUI(main);
+		this.gui = new GUI(main, this);
 
 		this.level = new Level();
 
@@ -50,15 +51,12 @@ public class DuelState implements GameState {
 
 		if (!isServer) {
 			this.level.addMainPlayer(this.player);
-			this.player = new Player(main.input, this.level, this.client, username, address, this.client.getPort());
+			this.player = new Player(input, this.level, this.client, username, address, this.client.getPort());
 		}
 
 		new Packet00Login(username).sendData(this.client);
 
 		this.camera = new Camera(0.0f, 6.5f, 0.0f);
-
-		this.typing = false;
-		this.message = new StringBuilder(CHAT_CHAR_LIMIT);
 
 		Mouse.setGrabbed(true);
 	}
@@ -69,11 +67,10 @@ public class DuelState implements GameState {
 			this.player.setClient(this.client);
 		}
 
-		if (this.gui.exitDuel.isFull()) {
+		if (this.gui.exitFlag()) {
 			if (this.server != null) {
-				;
+				this.server.exit();
 			}
-			this.server.exit();
 			this.client.sendData(new Packet01Disconnect(this.player.getUsername()).getData());
 			this.client.exit();
 			this.main.changeState(new MainMenuState(this.main));
@@ -81,39 +78,28 @@ public class DuelState implements GameState {
 
 		this.gui.tick(this.paused, delta);
 
-		if (this.main.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
-			this.paused = !this.paused;
-			this.gui.chatFade.fill();
-			Mouse.setGrabbed(false);
-		} else if (this.main.input.isKeyPressed(Keyboard.KEY_LMENU)) {
+		if (this.input.isKeyPressed(Keyboard.KEY_LMENU)) {
 			Mouse.setGrabbed(!Mouse.isGrabbed());
-		} else if (this.main.input.isKeyPressed(Keyboard.KEY_R) && !this.typing) {
+		} else if (this.input.isKeyPressed(Keyboard.KEY_R) && !this.gui.isTyping()) {
 			this.camera.reset();
-		} else if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
-			if (this.typing && (this.message.length() != 0)) {
-				new Packet03Chat(this.player.getUsername(), this.message.toString()).sendData(this.client);
-				this.message = new StringBuilder(CHAT_CHAR_LIMIT);
-			}
-			this.typing = !this.typing;
-		} else if (this.main.input.isKeyPressed(Keyboard.KEY_F5)) {
+		} else if (Main.debug && this.input.isKeyPressed(Keyboard.KEY_F5)) {
+			// For dynamically loading in models.
 			Models.init();
 		}
 
-		if (this.main.input.isKeyDown(Keyboard.KEY_V)) {
+		// You get speedy when you press 'V'.
+		if (this.input.isKeyDown(Keyboard.KEY_V)) {
 			Camera.moveSpeed = 0.01f;
 		} else {
 			Camera.moveSpeed = 0.0015f;
 		}
 
+		// Freeze certain components while paused.
 		if (!this.paused) {
-			if (this.typing) {
-				this.main.input.handleTyping(this.message, Fonts.centuryGothic);
-			} else {
+			if (!this.gui.isTyping()) { // Don't move the camera while typing.
 				this.camera.tick(delta);
 			}
 			this.level.tick(delta);
-		} else {
-			this.typing = false;
 		}
 	}
 
@@ -140,12 +126,15 @@ public class DuelState implements GameState {
 
 		// GUI rendering
 		glEnable(GL_BLEND);
-		this.gui.render(this.message.toString(), this.paused, this.typing);
+		this.gui.render();
 		Shaders.useDefault();
 		glDisable(GL_BLEND);
 	}
 
-	// Getters and setters
+	public void sendMessage(String message) {
+		new Packet03Chat(this.player.getUsername(), message).sendData(this.client);
+	}
+
 	public GUI getGUI() {
 		return this.gui;
 	}
@@ -164,5 +153,13 @@ public class DuelState implements GameState {
 
 	public Client getClient() {
 		return this.client;
+	}
+
+	public boolean isPaused() {
+		return this.paused;
+	}
+
+	public void togglePause() {
+		this.paused = !paused;
 	}
 }

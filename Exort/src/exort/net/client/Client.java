@@ -5,7 +5,7 @@ import java.util.*;
 
 import exort.*;
 import exort.entity.creature.*;
-import exort.gfx.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
 import exort.state.*;

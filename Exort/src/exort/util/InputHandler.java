@@ -53,7 +53,7 @@ public class InputHandler {
 
 	}
 
-	public void handleTyping(StringBuilder phrase, Font font) {
+	public void handleTyping(StringBuffer phrase, Font font) {
 		if (this.isKeyPressed(Keyboard.KEY_BACK) && (phrase.length() != 0)) {
 			phrase.deleteCharAt(phrase.length() - 1);
 		} else {

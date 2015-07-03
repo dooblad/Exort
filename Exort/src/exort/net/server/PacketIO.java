@@ -6,7 +6,7 @@ import java.net.*;
 import org.lwjgl.util.vector.*;
 
 import exort.*;
-import exort.gfx.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.net.*;
 import exort.util.*;
@@ -41,7 +41,7 @@ public class PacketIO extends Thread {
 				break;
 			}
 			if (Main.debug) {
-				this.gui.addMessage(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 0f,
+				this.gui.addToChat(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 0f,
 						0f, 1f)));
 			}
 			this.parser.parsePacket(packet.getData(), packet.getAddress().getHostAddress(), packet.getPort());
