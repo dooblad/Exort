@@ -1,21 +1,14 @@
 package exort.net.server;
 
-import exort.entity.creature.*;
-import exort.gui.*;
-import exort.level.*;
+import exort.net.*;
 import exort.net.packets.*;
-import exort.net.packets.Packet.*;
+import exort.net.packets.Packet.PacketType;
 
 public class PacketParser {
-	private GUI gui;
-
 	private Server server;
-	private Level level;
 
-	public PacketParser(GUI gui, Server server, Level level) {
-		this.gui = gui;
+	public PacketParser(Server server) {
 		this.server = server;
-		this.level = level;
 	}
 
 	public void parsePacket(byte[] data, String address, int port) {
@@ -26,19 +19,16 @@ public class PacketParser {
 				break;
 			case LOGIN:
 				Packet00Login loginPacket = new Packet00Login(data);
-				if (loginPacket.getUsername().length() > Server.USERNAME_MAX_LENGTH) {
-					loginPacket.setUsername(loginPacket.getUsername().substring(0, Server.USERNAME_MAX_LENGTH));
+				if (loginPacket.getUsername().length() > NetVariables.MAX_USERNAME_LENGTH) {
+					// Send it right back without an assigned ID to show the Player that
+					// they fucked up.
+					loginPacket.sendData(this.server);
+				} else {
+					this.server.addPlayer(loginPacket.getUsername(), address, port);
 				}
-				this.gui.addToChat(loginPacket.getUsername() + " has joined the game.");
-				Player player = new Player(null, this.level, null, loginPacket.getUsername(), address, port);
-				this.server.addConnection(player, loginPacket);
 				break;
 			case DISCONNECT:
-				Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-				if (this.server.getPlayer(disconnectPacket.getUsername()) != null) {
-					this.gui.addToChat(disconnectPacket.getUsername() + " has left the game.");
-					this.server.removeConnection(disconnectPacket);
-				}
+				this.server.removePlayer(new Packet01Disconnect(data));
 				break;
 			case MOVE:
 				this.server.handleMove(new Packet02Move(data));

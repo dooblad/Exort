@@ -5,11 +5,11 @@ import exort.net.server.*;
 
 /**
  * A Packet containing information about a conjured SonicWave in the format
- * 
+ *
  * 04<username>,<direction>
  */
 public class Packet04SonicWave extends Packet {
-	private String username;
+	private int id;
 	private float direction;
 
 	/**
@@ -18,13 +18,13 @@ public class Packet04SonicWave extends Packet {
 	public Packet04SonicWave(byte[] data) {
 		super(04);
 		String[] dataArray = this.readData(data).split(",");
-		this.username = dataArray[0];
+		this.id = Integer.parseInt(dataArray[0]);
 		this.direction = Float.valueOf(dataArray[1]);
 	}
 
-	public Packet04SonicWave(String username, float direction) {
+	public Packet04SonicWave(int id, float direction) {
 		super(04);
-		this.username = username;
+		this.id = id;
 		this.direction = direction;
 	}
 
@@ -37,12 +37,11 @@ public class Packet04SonicWave extends Packet {
 	}
 
 	public byte[] getData() {
-		return ("04" + this.username + "," + this.direction).getBytes();
+		return ("04" + this.id + "," + this.direction).getBytes();
 	}
 
-	// Getters and setters
-	public String getUsername() {
-		return this.username;
+	public int getID() {
+		return this.id;
 	}
 
 	public float getDirection() {

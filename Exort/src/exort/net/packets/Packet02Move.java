@@ -4,21 +4,20 @@ import exort.net.client.*;
 import exort.net.server.*;
 
 public class Packet02Move extends Packet {
-
-	private String username;
+	private int id;
 	private float x, z;
 
 	public Packet02Move(byte[] data) {
 		super(02);
 		String[] dataArray = this.readData(data).split(",");
-		this.username = dataArray[0];
+		this.id = Integer.parseInt(dataArray[0]);
 		this.x = Float.parseFloat(dataArray[1]);
 		this.z = Float.parseFloat(dataArray[2]);
 	}
 
-	public Packet02Move(String username, float x, float z) {
+	public Packet02Move(int id, float x, float z) {
 		super(02);
-		this.username = username;
+		this.id = id;
 		this.x = x;
 		this.z = z;
 	}
@@ -32,12 +31,11 @@ public class Packet02Move extends Packet {
 	}
 
 	public byte[] getData() {
-		return ("02" + this.username + "," + this.x + "," + this.z).getBytes();
+		return ("02" + this.id + "," + this.x + "," + this.z).getBytes();
 	}
 
-	// Getters and setters
-	public String getUsername() {
-		return this.username;
+	public int getID() {
+		return this.id;
 	}
 
 	public float getX() {

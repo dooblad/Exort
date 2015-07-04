@@ -101,15 +101,15 @@ public class PauseMenu {
 					(this.size.width * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
 							* inverseExit), (this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
 
-					(this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
-					this.exitBounds.y * inverseExit, 0f,
+							(this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
+							this.exitBounds.y * inverseExit, 0f,
 
-					(this.size.width * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
-							* inverseExit), (this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
+							(this.size.width * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
+									* inverseExit), (this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
 
-					this.exitBounds.x * inverseExit, // 3
-					(this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f }, null, null, null, null)
-					.draw(Shaders.current.getAttributeLocations());
+									this.exitBounds.x * inverseExit, // 3
+									(this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f }, null, null, null, null)
+			.draw(Shaders.current.getAttributeLocations());
 
 			Shaders.use("font");
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
@@ -122,8 +122,8 @@ public class PauseMenu {
 	 * Calculates the positions of components according to the size of the game window.
 	 */
 	public void calculatePositions() {
-		this.exitBounds = new Rectangle((size.width - EXIT_BUTTON_SIZE.width) / 2, (size.height - EXIT_BUTTON_SIZE.height) / 2, EXIT_BUTTON_SIZE.width,
-				EXIT_BUTTON_SIZE.height);
+		this.exitBounds = new Rectangle((this.size.width - EXIT_BUTTON_SIZE.width) / 2, (this.size.height - EXIT_BUTTON_SIZE.height) / 2,
+				EXIT_BUTTON_SIZE.width, EXIT_BUTTON_SIZE.height);
 	}
 
 	/**

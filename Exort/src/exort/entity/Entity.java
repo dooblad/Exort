@@ -1,5 +1,7 @@
 package exort.entity;
 
+import org.lwjgl.util.vector.*;
+
 import exort.level.*;
 import exort.util.sat.*;
 
@@ -84,6 +86,13 @@ public class Entity {
 	 */
 	public void setBB(BB bb) {
 		this.bb = bb;
+	}
+
+	/**
+	 * Returns a Vector3f that represents this Entity's current position.
+	 */
+	public Vector3f getPosition() {
+		return new Vector3f((float) this.x, (float) this.y, (float) this.z);
 	}
 
 	/**

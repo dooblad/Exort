@@ -43,7 +43,7 @@ public class BitReader {
 	public String restToString() {
 		// TODO: WRITE IT
 		BitString result = new BitString();
-		while(this.hasNextBit()) {
+		while (this.hasNextBit()) {
 			result.add(this.nextBit());
 		}
 		return result.toString();

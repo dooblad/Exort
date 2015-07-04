@@ -4,20 +4,19 @@ import exort.net.client.*;
 import exort.net.server.*;
 
 public class Packet03Chat extends Packet {
-
-	private String username;
+	private int id;
 	private String message;
 
 	public Packet03Chat(byte[] data) {
 		super(03);
 		String[] dataArray = this.readData(data).split(",");
-		this.username = dataArray[0];
+		this.id = Integer.parseInt(dataArray[0]);
 		this.message = dataArray[1];
 	}
 
-	public Packet03Chat(String username, String message) {
+	public Packet03Chat(int id, String message) {
 		super(03);
-		this.username = username;
+		this.id = id;
 		this.message = message;
 	}
 
@@ -30,12 +29,11 @@ public class Packet03Chat extends Packet {
 	}
 
 	public byte[] getData() {
-		return ("03" + this.username + "," + this.message).getBytes();
+		return ("03" + this.id + "," + this.message).getBytes();
 	}
 
-	// Getters and setters
-	public String getUsername() {
-		return this.username;
+	public int getID() {
+		return this.id;
 	}
 
 	public String getMessage() {

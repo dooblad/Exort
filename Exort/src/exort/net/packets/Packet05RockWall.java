@@ -4,23 +4,22 @@ import exort.net.client.*;
 import exort.net.server.*;
 
 public class Packet05RockWall extends Packet {
-
-	private String username;
+	private int id;
 	private float direction;
 	private float x, z;
 
 	public Packet05RockWall(byte[] data) {
 		super(05);
 		String[] dataArray = this.readData(data).split(",");
-		this.username = dataArray[0];
+		this.id = Integer.parseInt(dataArray[0]);
 		this.direction = Float.valueOf(dataArray[1]);
 		this.x = Float.parseFloat(dataArray[2]);
 		this.z = Float.parseFloat(dataArray[3]);
 	}
 
-	public Packet05RockWall(String username, float direction, float x, float z) {
+	public Packet05RockWall(int id, float direction, float x, float z) {
 		super(05);
-		this.username = username;
+		this.id = id;
 		this.direction = direction;
 		this.x = x;
 		this.z = z;
@@ -35,12 +34,11 @@ public class Packet05RockWall extends Packet {
 	}
 
 	public byte[] getData() {
-		return ("05" + this.username + "," + this.direction + "," + this.x + "," + this.z).getBytes();
+		return ("05" + this.id + "," + this.direction + "," + this.x + "," + this.z).getBytes();
 	}
 
-	// Getters and setters
-	public String getUsername() {
-		return this.username;
+	public int getID() {
+		return this.id;
 	}
 
 	public float getDirection() {

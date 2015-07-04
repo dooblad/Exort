@@ -44,7 +44,7 @@ public class BB {
 				this.transformed[2].x - (this.width / 2), 0.3f, this.transformed[2].y - (this.length / 2), this.transformed[3].x - (this.width / 2), 0.3f,
 				this.transformed[3].y - (this.length / 2), this.transformed[3].x - (this.width / 2), 0.3f, this.transformed[3].y - (this.length / 2),
 				this.transformed[0].x - (this.width / 2), 0.3f, this.transformed[0].y - (this.length / 2), }, null, null, null, null).draw(Shaders.current
-				.getAttributeLocations());
+						.getAttributeLocations());
 	}
 
 	public void rotate(double angle) {
@@ -59,7 +59,7 @@ public class BB {
 		 * Math.sin(angle)) + width / 2; transformed[3].x = (float) ((original[3].x -
 		 * width / 2) * Math.cos(angle) - (original[3].y - length / 2) * Math.sin(angle))
 		 * + width / 2;
-		 * 
+		 *
 		 * transformed[0].y = (float) ((original[0].x - width / 2) * Math.sin(angle) +
 		 * (original[0].y - length / 2) * Math.cos(angle)) + length / 2; transformed[1].y
 		 * = (float) ((original[1].x - width / 2) * Math.sin(angle) + (original[1].y -

@@ -3,7 +3,8 @@ package exort.util.compression;
 import java.util.*;
 
 /**
- * Creates HuffmanCodes from letter frequencies, compresses Strings, and decompresses byte arrays.
+ * Creates HuffmanCodes from letter frequencies, compresses Strings, and decompresses byte
+ * arrays.
  */
 public class HuffmanCompressor {
 	private HuffmanNode root;
@@ -15,12 +16,12 @@ public class HuffmanCompressor {
 	 * Creates a HuffmanCompressor without any initial Huffman tree.
 	 */
 	public HuffmanCompressor() {
-		
+
 	}
 
 	/**
 	 * Pre: "phrase" must not be empty. Otherwise, throws IllegalArgumentException.
-	 * 
+	 *
 	 * Creates Huffman codes from the of characters in "phrase".
 	 */
 	public HuffmanCompressor(String phrase) {

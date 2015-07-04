@@ -30,11 +30,10 @@ public class Chat {
 
 	private InputHandler input;
 
-	// History of messages.
-	private List<Message> messages;
+	private List<Message> messageHistory;
 
 	// Current message being typed.
-	private StringBuffer currentLine;
+	private StringBuffer message;
 
 	private boolean typing;
 
@@ -51,8 +50,8 @@ public class Chat {
 	public Chat(DuelState state, InputHandler input) {
 		this.state = state;
 		this.input = input;
-		this.messages = new ArrayList<Message>();
-		this.currentLine = new StringBuffer();
+		this.messageHistory = new ArrayList<Message>();
+		this.message = new StringBuffer();
 		this.typing = false;
 		this.chatFade = new Animation(120);
 		this.messageOffset = 0;
@@ -64,16 +63,16 @@ public class Chat {
 	public void tick(int delta) {
 		if (this.typing) {
 			// Message scrolling.
-			if (this.input.isKeyPressed(Keyboard.KEY_UP) && (this.messageOffset < (this.messages.size() - VISIBLE_MESSAGES))) {
+			if (this.input.isKeyPressed(Keyboard.KEY_UP) && (this.messageOffset < (this.messageHistory.size() - VISIBLE_MESSAGES))) {
 				this.messageOffset++;
 			} else if (this.input.isKeyPressed(Keyboard.KEY_DOWN) && (this.messageOffset != 0)) {
 				this.messageOffset--;
 			}
 
-			this.input.handleTyping(this.currentLine, Fonts.centuryGothic);
+			this.input.handleTyping(this.message, Fonts.centuryGothic);
 			// Keep message under CHAT_CHAR_LIMIT.
-			if (this.currentLine.length() > CHAT_CHAR_LIMIT) { // TODO: Fix possible bug?
-				this.currentLine.deleteCharAt(this.currentLine.length() - 1);
+			if (this.message.length() > CHAT_CHAR_LIMIT) { // TODO: Fix possible bug?
+				this.message.deleteCharAt(this.message.length() - 1);
 			}
 
 		} else { // Fade when not typing.
@@ -82,39 +81,39 @@ public class Chat {
 
 		// Toggle chat box.
 		if (this.input.isKeyPressed(Keyboard.KEY_RETURN)) {
-			this.typing = !typing;
+			this.typing = !this.typing;
 			this.chatFade.empty();
-			if (this.currentLine.length() != 0) {
-				this.state.sendMessage(this.currentLine.toString());
-				this.currentLine = new StringBuffer();
+			if (this.message.length() != 0) {
+				this.state.sendMessage(this.message.toString());
+				this.message = new StringBuffer();
 			}
 		}
 	}
 
 	/**
 	 * Pre: OpenGL is in a state configured for GUI rendering.
-	 * 
+	 *
 	 * Renders this Chat.
 	 */
 	public void render() {
-		if (typing) {
+		if (this.typing) {
 			// Draw background
 			Shaders.use("gui");
 			glActiveTexture(GL_TEXTURE0);
 			Textures.get("white").bind();
-			Dimension d = Fonts.centuryGothic.getPhraseDimensions(currentLine);
+			Dimension d = Fonts.centuryGothic.getPhraseDimensions(this.message);
 			renderChatBackground(d, 10, 10, 1f);
 			Shaders.use("font");
-			Fonts.centuryGothic.draw(currentLine, 10, 10);
+			Fonts.centuryGothic.draw(this.message, 10, 10);
 		}
 
 		if (!this.chatFade.isFull()) {
 			float alpha = Math.min(1f, 1f - ((this.chatFade.getPercentage() - 0.8f) * 5f));
 			Dimension d;
-			int y = 10 + Fonts.centuryGothic.getPhraseHeight(currentLine) + (PADDING * 2);
+			int y = 10 + Fonts.centuryGothic.getPhraseHeight(this.message) + (PADDING * 2);
 			for (int i = 0; i < VISIBLE_MESSAGES; i++) {
-				if (i < this.messages.size()) {
-					Message message = this.messages.get(this.messages.size() - i - this.messageOffset - 1);
+				if (i < this.messageHistory.size()) {
+					Message message = this.messageHistory.get(this.messageHistory.size() - i - this.messageOffset - 1);
 					d = Fonts.centuryGothic.getPhraseDimensions(message.getText());
 
 					// Draw chat background
@@ -134,7 +133,7 @@ public class Chat {
 
 	/**
 	 * Pre: OpenGL is in a state configured for GUI rendering.
-	 * 
+	 *
 	 * Renders the background of size "d" at ("x", "y") with opacity of "alpha"
 	 * (multiplied by the original alpha value).
 	 */
@@ -154,7 +153,7 @@ public class Chat {
 	 * Adds "message" to the Chat history.
 	 */
 	public void addMessage(Message message) {
-		this.messages.add(message);
+		this.messageHistory.add(message);
 		this.chatFade.empty();
 		this.messageOffset = 0;
 	}

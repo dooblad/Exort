@@ -27,7 +27,7 @@ public class PacketIO extends Thread {
 			e.printStackTrace();
 		}
 
-		this.parser = new PacketParser(gui, server, level);
+		this.parser = new PacketParser(server);
 	}
 
 	public void run() {

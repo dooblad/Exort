@@ -2057,8 +2057,8 @@ public class Matrix4f implements java.io.Serializable, Cloneable {
 
 			rv -= 4;
 			matrix2[cv + (4 * 0)] = (matrix2[cv + (4 * 0)] - (matrix1[rv + 1] * matrix2[cv + (4 * 1)]) - (matrix1[rv + 2] * matrix2[cv + (4 * 2)]) - (matrix1[rv + 3] * matrix2[cv
-					+ (4 * 3)]))
-					/ matrix1[rv + 0];
+			                                                                                                                                                                    + (4 * 3)]))
+			                                                                                                                                                                    / matrix1[rv + 0];
 		}
 	}
 

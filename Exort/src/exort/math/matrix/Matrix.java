@@ -1,10 +1,7 @@
 package exort.math.matrix;
 
 /**
- *
- * @author Doobs
- *
- *         Represents an square (nxn) matrix with doubles as entries.
+ * Represents a square (nxn) matrix with doubles as entries.
  */
 public class Matrix {
 	private double[] data;
@@ -104,10 +101,5 @@ public class Matrix {
 			result += "]\n";
 		}
 		return result;
-	}
-
-	public static void main(String[] args) {
-		Matrix m = new Matrix(3);
-		System.out.println(m.minor(0, 0));
 	}
 }

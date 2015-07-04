@@ -1,6 +1,8 @@
-package exort.math;
+package exort.math.SAT;
 
 import org.lwjgl.util.vector.*;
+
+import exort.math.*;
 
 public class SAT {
 
@@ -37,7 +39,7 @@ public class SAT {
 		Projection projection = new Projection(min, max);
 
 		// RIDDENCE
-		projection.print();
+		System.out.println(projection);
 
 		return projection;
 	}

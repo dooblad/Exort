@@ -43,15 +43,11 @@ public class DuelState implements GameState {
 
 		this.level = new Level();
 
+		this.client = new Client(this, address);
+
+		// TODO: Move this statement before 'this.client' statement if problems arise.
 		if (isServer) {
-			this.server = new Server(this, this.gui, new Level());
-		}
-
-		this.client = new Client(main, this.gui, this.level, address);
-
-		if (!isServer) {
-			this.level.addMainPlayer(this.player);
-			this.player = new Player(input, this.level, this.client, username, address, this.client.getPort());
+			this.server = new Server(this.gui, new Level());
 		}
 
 		new Packet00Login(username).sendData(this.client);
@@ -62,16 +58,11 @@ public class DuelState implements GameState {
 	}
 
 	public void tick(int delta) {
-		if ((this.player == null) && (this.level.getMainPlayer() != null)) {
-			this.player = this.level.getMainPlayer();
-			this.player.setClient(this.client);
-		}
-
 		if (this.gui.exitFlag()) {
 			if (this.server != null) {
 				this.server.exit();
 			}
-			this.client.sendData(new Packet01Disconnect(this.player.getUsername()).getData());
+			this.client.sendData(new Packet01Disconnect(this.player.getID()).getData());
 			this.client.exit();
 			this.main.changeState(new MainMenuState(this.main));
 		}
@@ -132,7 +123,11 @@ public class DuelState implements GameState {
 	}
 
 	public void sendMessage(String message) {
-		new Packet03Chat(this.player.getUsername(), message).sendData(this.client);
+		new Packet03Chat(this.player.getID(), message).sendData(this.client);
+	}
+
+	public InputHandler getInput() {
+		return this.input;
 	}
 
 	public GUI getGUI() {
@@ -145,6 +140,10 @@ public class DuelState implements GameState {
 
 	public Player getPlayer() {
 		return this.player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	public Camera getCamera() {
@@ -160,6 +159,6 @@ public class DuelState implements GameState {
 	}
 
 	public void togglePause() {
-		this.paused = !paused;
+		this.paused = !this.paused;
 	}
 }

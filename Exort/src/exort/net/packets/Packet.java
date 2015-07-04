@@ -35,6 +35,7 @@ public abstract class Packet {
 
 	public String readData(byte[] data) {
 		String message = new String(data).trim();
+		// Remove packet identifier.
 		return message.substring(2);
 	}
 

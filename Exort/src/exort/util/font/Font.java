@@ -38,7 +38,7 @@ public class Font {
 	}
 
 	public void draw(StringBuffer phrase, int x, int y) {
-		draw(phrase.toString(), x, y);
+		this.draw(phrase.toString(), x, y);
 	}
 
 	public void draw(String phrase, int x, int y) {
@@ -143,7 +143,7 @@ public class Font {
 	}
 
 	public Dimension getPhraseDimensions(StringBuffer phrase) {
-		return getPhraseDimensions(phrase.toString());
+		return this.getPhraseDimensions(phrase.toString());
 	}
 
 	public Dimension getPhraseDimensions(String phrase) {
@@ -170,7 +170,7 @@ public class Font {
 	}
 
 	public int getPhraseWidth(StringBuffer phrase) {
-		return getPhraseWidth(phrase.toString());
+		return this.getPhraseWidth(phrase.toString());
 	}
 
 	public int getPhraseWidth(String phrase) {
@@ -192,7 +192,7 @@ public class Font {
 	}
 
 	public int getPhraseHeight(StringBuffer phrase) {
-		return getPhraseHeight(phrase.toString());
+		return this.getPhraseHeight(phrase.toString());
 	}
 
 	public int getPhraseHeight(String phrase) {

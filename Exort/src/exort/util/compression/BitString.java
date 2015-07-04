@@ -24,7 +24,7 @@ public class BitString {
 			this.data.add((byte) 0);
 			this.index = 0;
 		}
-		int add = bit << 7 - this.index;
+		int add = bit << (7 - this.index);
 		this.setLast((byte) (this.getLast() + add));
 		this.index++;
 	}

@@ -19,7 +19,7 @@ public class PacketIO extends Thread {
 	private InetAddress address;
 	private int port;
 
-	public PacketIO(Main main, Client client, GUI gui, String address, Level level) {
+	public PacketIO(Client client, GUI gui, String address, Level level) {
 		this.gui = gui;
 		this.port = NetVariables.PORT;
 		try {
@@ -30,7 +30,7 @@ public class PacketIO extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		this.parser = new PacketParser(main, gui, client, level);
+		this.parser = new PacketParser(gui, client, level);
 	}
 
 	public void run() {
@@ -70,10 +70,6 @@ public class PacketIO extends Thread {
 
 	public InetAddress getAddress() {
 		return this.address;
-	}
-
-	public void setAddress(InetAddress address) {
-		this.address = address;
 	}
 
 	public int getPort() {

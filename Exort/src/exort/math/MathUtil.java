@@ -4,12 +4,21 @@ import java.nio.*;
 
 import org.lwjgl.util.vector.*;
 
+/**
+ * Contains utilities for Linear-Algebra-based operations.
+ */
 public class MathUtil {
 
+	/**
+	 * Returns a Vector3f that is perpendicular to "input".
+	 */
 	public static Vector3f perpendicular(Vector3f input) {
 		return new Vector3f(-input.getY(), input.getX(), input.getZ());
 	}
 
+	/**
+	 * Returns a Vector4f that is the result of multiplying "matrix" by "vector".
+	 */
 	public static Vector4f multByMatrix(Matrix4f matrix, Vector4f vector) {
 		float x = (matrix.m00 * vector.getX()) + ((matrix.m01 * vector.getY()) + (matrix.m02 * vector.getZ()) + (matrix.m03 * vector.getW()));
 		float y = (matrix.m10 * vector.getX()) + ((matrix.m11 * vector.getY()) + (matrix.m12 * vector.getZ()) + (matrix.m13 * vector.getW()));
@@ -18,6 +27,9 @@ public class MathUtil {
 		return new Vector4f(x, y, z, w);
 	}
 
+	/**
+	 * Loads "data" into "matrix" in Column-major order.
+	 */
 	public static void loadMatrix(Matrix4f matrix, FloatBuffer data) {
 		matrix.m00 = data.get(0);
 		matrix.m01 = data.get(1);
@@ -37,6 +49,10 @@ public class MathUtil {
 		matrix.m33 = data.get(15);
 	}
 
+	/**
+	 * Returns a Matrix4f that is the result of filling all entries with the elements in
+	 * "data" (in Column-major order).
+	 */
 	public static Matrix4f loadMatrix(FloatBuffer data) {
 		Matrix4f result = new Matrix4f();
 		result.m00 = data.get(0);

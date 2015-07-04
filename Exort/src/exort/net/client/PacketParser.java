@@ -2,16 +2,14 @@ package exort.net.client;
 
 import java.net.*;
 
-import exort.*;
 import exort.entity.creature.*;
 import exort.entity.projectile.*;
 import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
-import exort.net.packets.Packet.*;
+import exort.net.packets.Packet.PacketType;
 
 public class PacketParser {
-	private Main main;
 	private GUI gui;
 	private Client client;
 	private Level level;
@@ -19,8 +17,7 @@ public class PacketParser {
 	/**
 	 * Initializes a PacketParser for "client" with "level".
 	 */
-	public PacketParser(Main main, GUI gui, Client client, Level level) {
-		this.main = main;
+	public PacketParser(GUI gui, Client client, Level level) {
 		this.gui = gui;
 		this.client = client;
 		this.level = level;
@@ -37,14 +34,17 @@ public class PacketParser {
 				break;
 			case LOGIN:
 				Packet00Login packet = new Packet00Login(data);
-				this.gui.addToChat(packet.getUsername() + " has joined the game.");
-				Player player = new Player(this.main.input, this.level, null, packet.getUsername(), null, -1);
-				this.client.addConnection(player, packet);
+				if (packet.getID() == -1) {
+					this.gui.addToChat("Now ya fucked up...");
+				} else {
+					this.gui.addToChat(packet.getUsername() + " has joined the game.");
+					Player player = new Player(packet.getUsername(), packet.getID(), this.level);
+					this.client.addPlayer(player, packet.getID());
+				}
 				break;
 			case DISCONNECT:
 				Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-				this.gui.addToChat(disconnectPacket.getUsername() + " has left the game.");
-				this.client.removeConnection(disconnectPacket);
+				this.client.removePlayer(disconnectPacket);
 				break;
 			case MOVE:
 				Packet02Move movePacket = new Packet02Move(data);
@@ -52,12 +52,11 @@ public class PacketParser {
 				break;
 			case CHAT:
 				Packet03Chat chatPacket = new Packet03Chat(data);
-				this.gui.addToChat(chatPacket.getUsername() + ": " + chatPacket.getMessage());
+				this.gui.addToChat(chatPacket.getID() + ": " + chatPacket.getMessage());
 				break;
 			case SONIC_WAVE:
 				Packet04SonicWave qPacket = new Packet04SonicWave(data);
-				this.level.addEntity(new SonicWave(this.level.getPlayer(qPacket.getUsername()).getPosition(), qPacket.getDirection(), this.level));
-				System.out.println(qPacket.getDirection());
+				this.level.addEntity(new SonicWave(this.client.getPlayer(qPacket.getID()).getPosition(), qPacket.getDirection(), this.level));
 				break;
 			case ROCK_WALL:
 				Packet05RockWall wPacket = new Packet05RockWall(data);

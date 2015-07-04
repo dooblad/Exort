@@ -26,9 +26,7 @@ import exort.util.sat.*;
  * A Player with networking capabilities.
  */
 public class Player extends MovingEntity {
-	protected InputHandler input;
-
-	public static double[] spawn = new double[] { 0, 0, 0 };
+	private InputHandler input;
 
 	private float targetX, targetZ;
 	private float moveSpeed;
@@ -36,6 +34,7 @@ public class Player extends MovingEntity {
 	// Net variables.
 	private Client client;
 	private String username;
+	private int id;
 	private String address;
 	private int port;
 
@@ -43,21 +42,35 @@ public class Player extends MovingEntity {
 	 * Creates a Player at the origin with no associated Level or InputHandler.
 	 */
 	public Player() {
-		this(0, 0, 0, null, null, null, null, null, -1);
+		this(0, 0, 0, null, null, null, null, -1, null, -1);
 	}
 
 	/**
 	 * Creates a Player at ("x", "y", "z") on "level" with movement specified by "input".
 	 */
 	public Player(double x, double y, double z, InputHandler input, Level level) {
-		this(x, y, z, input, level, null, null, null, -1);
+		this(x, y, z, input, level, null, null, -1, null, -1);
+	}
+
+	/**
+	 * Creates a Player on "level" with "username" and "id".
+	 */
+	public Player(String username, int id, Level level) {
+		this(0, 0, 0, null, level, null, username, id, null, -1);
+	}
+
+	/**
+	 * Creates a Player on "level" with "username" and "id" at "address":"port".
+	 */
+	public Player(String username, int id, String address, int port, Level level) {
+		this(0, 0, 0, null, level, null, username, id, address, port);
 	}
 
 	/**
 	 * Creates a Player at the origin with networking capabilities.
 	 */
 	public Player(Client client, String username, String address, int port) {
-		this(0, 0, 0, null, null, client, username, address, port);
+		this(0, 0, 0, null, null, client, username, -1, address, port);
 	}
 
 	/**
@@ -65,14 +78,14 @@ public class Player extends MovingEntity {
 	 * movement specified by "input".
 	 */
 	public Player(InputHandler input, Level level, Client client, String username, String address, int port) {
-		this(0, 0, 0, input, level, client, username, address, port);
+		this(0, 0, 0, input, level, client, username, -1, address, port);
 	}
 
 	/**
 	 * Creates a Player with networking capabilites at ("x", "y", "z") on "level" with
 	 * movement specified by "input".
 	 */
-	public Player(double x, double y, double z, InputHandler input, Level level, Client client, String username, String address, int port) {
+	public Player(double x, double y, double z, InputHandler input, Level level, Client client, String username, int id, String address, int port) {
 		this.targetX = 0;
 		this.targetZ = 0;
 		this.xa = 0;
@@ -84,6 +97,7 @@ public class Player extends MovingEntity {
 		// Net variables.
 		this.client = client;
 		this.username = username;
+		this.id = id;
 		this.address = address;
 		this.port = port;
 	}
@@ -94,12 +108,12 @@ public class Player extends MovingEntity {
 	public void tick(int delta) {
 		// Player movement.
 		boolean xDone = false, zDone = false;
-		if ((this.xa > 0) && ((this.x + (this.xa * delta)) > this.targetX) || (this.xa < 0) && ((this.x + (this.xa * delta)) < this.targetX)) {
+		if (((this.xa > 0) && ((this.x + (this.xa * delta)) > this.targetX)) || ((this.xa < 0) && ((this.x + (this.xa * delta)) < this.targetX))) {
 			this.xa = this.targetX - this.x;
 			xDone = true;
 		}
 
-		if ((this.za > 0) && ((this.z + (this.za * delta)) > this.targetZ) || (this.za < 0) && ((this.z + (this.za * delta)) < this.targetZ)) {
+		if (((this.za > 0) && ((this.z + (this.za * delta)) > this.targetZ)) || ((this.za < 0) && ((this.z + (this.za * delta)) < this.targetZ))) {
 			this.za = this.targetZ - this.z;
 			zDone = true;
 		}
@@ -121,6 +135,7 @@ public class Player extends MovingEntity {
 		Iterator<Entity> iterator = this.level.getEntities().iterator();
 		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
+			// TODO: SAT Collision detection.
 			// Vector2f mtv = null;
 			// if (entity != null && entity != this && (mtv =
 			// bb.colliding(entity.getBB())) != null) {
@@ -134,9 +149,9 @@ public class Player extends MovingEntity {
 				// momentum)
 				/*
 				 * if (mtv != null) { entity.x += mtv.x; entity.z += mtv.y;
-				 * 
+				 *
 				 * mEntity.x += -mtv.x; mEntity.z += -mtv.y;
-				 * 
+				 *
 				 * System.out.println("X: " + mtv.x + " Y: " + mtv.y); } }
 				 */
 			}
@@ -146,19 +161,19 @@ public class Player extends MovingEntity {
 		Lighting.moveLight(new Vector3f((float) this.x, 8f, (float) this.z), false);
 
 		// Net code.
-		if (this.client != null && !Mouse.isGrabbed()) {
+		if ((this.client != null) && !Mouse.isGrabbed()) {
 			// Move.
 			if (this.input.isMouseButtonDown(1)) {
 				this.setTarget(new Vector3f(RayCast.mouseX, 0, RayCast.mouseZ));
 			}
 			// Sonic wave.
 			if (this.input.isKeyReleased(Keyboard.KEY_Q)) {
-				new Packet04SonicWave(this.username, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)).sendData(this.client);
+				new Packet04SonicWave(this.id, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)).sendData(this.client);
 			}
 			// Rock wall.
 			if (this.input.isKeyReleased(Keyboard.KEY_W)) {
-				new Packet05RockWall(this.username, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z), RayCast.mouseX, RayCast.mouseZ)
-						.sendData(this.client);
+				new Packet05RockWall(this.id, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z), RayCast.mouseX, RayCast.mouseZ)
+				.sendData(this.client);
 			}
 		}
 	}
@@ -227,7 +242,7 @@ public class Player extends MovingEntity {
 			this.targetZ = position.z;
 			this.calculateSpeeds();
 		}
-		this.client.sendData(new Packet02Move(this.username, position.getX(), position.getZ()).getData());
+		this.client.sendData(new Packet02Move(this.id, position.getX(), position.getZ()).getData());
 	}
 
 	/**
@@ -255,10 +270,17 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Returns a Vector3f that represents this Player's current position.
+	 * Returns a String representation of this Player.
 	 */
-	public Vector3f getPosition() {
-		return new Vector3f((float) this.x, (float) this.y, (float) this.z);
+	public String toString() {
+		return "[\"" + this.username + "\":" + this.id + "]";
+	}
+
+	/**
+	 * Makes this Player accept input from "input".
+	 */
+	public void setInput(InputHandler input) {
+		this.input = input;
 	}
 
 	/**
@@ -320,6 +342,20 @@ public class Player extends MovingEntity {
 	 */
 	public String getUsername() {
 		return this.username;
+	}
+
+	/**
+	 * Returns the ID of this Player.
+	 */
+	public int getID() {
+		return this.id;
+	}
+
+	/**
+	 * Sets the ID of this Player to "id".
+	 */
+	public void setID(int id) {
+		this.id = id;
 	}
 
 	/**

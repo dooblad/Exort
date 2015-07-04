@@ -4,17 +4,16 @@ import exort.net.client.*;
 import exort.net.server.*;
 
 public class Packet01Disconnect extends Packet {
-
-	private String username;
+	private int id;
 
 	public Packet01Disconnect(byte[] data) {
 		super(01);
-		this.username = this.readData(data);
+		this.id = Integer.parseInt(this.readData(data));
 	}
 
-	public Packet01Disconnect(String username) {
+	public Packet01Disconnect(int id) {
 		super(01);
-		this.username = username;
+		this.id = id;
 	}
 
 	public void sendData(Client client) {
@@ -26,12 +25,11 @@ public class Packet01Disconnect extends Packet {
 	}
 
 	public byte[] getData() {
-		return ("01" + this.username).getBytes();
+		return ("01" + this.id).getBytes();
 	}
 
-	// Getters and setters
-	public String getUsername() {
-		return this.username;
+	public int getID() {
+		return this.id;
 	}
 
 }

@@ -1,92 +1,135 @@
 package exort.net.client;
 
 import java.net.*;
-import java.util.*;
 
-import exort.*;
 import exort.entity.creature.*;
 import exort.gui.*;
 import exort.level.*;
+import exort.net.*;
 import exort.net.packets.*;
 import exort.state.*;
+import exort.util.*;
 
+/**
+ * Handles Client-side networking for the game.
+ */
 public class Client {
-	private Main main;
+	private GUI gui;
 
 	private Level level;
-	private Map<String, Player> players; // Keeping this here just for the
-	// sake of having the usernames of
-	// all connected players.
+
+	private Player[] players;
 
 	private PacketIO handler;
 
-	public Client(Main main, GUI gui, Level level, String address) {
-		this.main = main;
+	// For setting input for the main Player, when they connect.
+	private InputHandler input;
+	// For setting the DuelState's main Player, when they connect.
+	private DuelState state;
+	private boolean mainPlayerConnected;
 
-		this.level = level;
-		this.players = new HashMap<String, Player>();
+	/**
+	 * Creates a Client connected to a server with "address". Uses "gui" to send messages
+	 * directly to chat and uses "level" to interact with the Level according to incoming
+	 * packets. "input" is used to set the main Player's input, when they connect.
+	 */
+	public Client(DuelState state, String address) {
+		this.gui = state.getGUI();
+		this.level = state.getLevel();
+		this.input = state.getInput();
+		this.state = state;
 
-		this.handler = new PacketIO(main, this, gui, address, level);
+		// Initialize all possible slots so the Server can assign any ID between 0 and
+		// MAX_PLAYERS without any IndexOutOfBoundsExceptions.
+		this.players = new Player[NetVariables.MAX_PLAYERS];
+
+		this.handler = new PacketIO(this, this.gui, address, this.level);
 		this.handler.start();
+
+		this.mainPlayerConnected = false;
 	}
 
+	/**
+	 * Moves a Player based on the data in the incoming "packet".
+	 */
 	public void handleMove(Packet02Move packet) {
-		if (this.main.getCurrentState() instanceof DuelState) {
-			((DuelState) this.main.getCurrentState()).getLevel().movePlayer(packet.getUsername(), packet.getX(), 0, packet.getZ());
-		}
+		this.players[packet.getID()].setTargetPosition(packet.getX(), packet.getZ());
 	}
 
-	public void addConnection(Player player, Packet00Login packet) {
-		if (this.players.isEmpty()) {
+	/**
+	 * Adds "player" to this Level. If it's the first Player, it becomes the main Player.
+	 */
+	public void addPlayer(Player player, int id) {
+		// I think there's a chance that, if another Player connects at the perfect time,
+		// another Player could become the main player on the actual main Player's client.
+		if (!this.mainPlayerConnected) {
 			player.setClient(this);
+			player.setInput(this.input);
+			this.state.setPlayer(player);
 			this.level.setMainPlayer(player);
+			this.mainPlayerConnected = true;
 		}
 
-		if (this.players.containsKey(player.getUsername())) {
-			Player p = this.players.get(packet.getUsername());
-			if (p.getAddress() == null) {
-				p.setUsername(player.getAddress());
-			}
-		} else {
-			this.addPlayer(player);
-		}
-	}
-
-	public void removeConnection(Packet01Disconnect packet) {
-		this.players.remove(packet.getUsername());
-		this.level.removePlayer(packet.getUsername());
-	}
-
-	public Player getPlayer(String username) {
-		return this.players.get(username);
-	}
-
-	public void addPlayer(Player player) {
-		this.players.put(player.getUsername(), player);
+		this.players[id] = player;
 		this.level.addEntity(player);
 	}
 
+	/**
+	 * Removes the Player specified by "packet".
+	 */
+	public void removePlayer(Packet01Disconnect packet) {
+		int id = packet.getID();
+
+		this.gui.addToChat(this.players[packet.getID()].getUsername() + " has left the game.");
+
+		// Remove from the Level and here.
+		this.players[id].remove();
+		this.players[id] = null;
+	}
+
+	/**
+	 * Pre: Player with "id" exists. Otherwise, throws IllegalArgumentException.
+	 *
+	 * Returns the Player with "id".
+	 */
+	public Player getPlayer(int id) {
+		if ((id >= this.players.length) || (this.players[id] == null)) {
+			throw new IllegalArgumentException("Player with id \"" + id + "\" doesn't exist.");
+		}
+		return this.players[id];
+	}
+
+	/**
+	 * Sends the packet specified by "data".
+	 */
 	public void sendData(byte[] data) {
 		this.handler.sendData(data);
 	}
 
+	/**
+	 * Exits all networking processes.
+	 */
 	public void exit() {
 		this.handler.exit();
 	}
 
-	// Getters and Setters
+	/**
+	 * Returns the packet handler.
+	 */
 	public PacketIO getHandler() {
 		return this.handler;
 	}
 
+	/**
+	 * Returns the address this Client is connected to.
+	 */
 	public InetAddress getAddress() {
 		return this.handler.getAddress();
 	}
 
-	public void setAddress(InetAddress address) {
-		this.handler.setAddress(address);
-	}
-
+	/**
+	 * Returns the port being used for networking.
+	 */
 	public int getPort() {
 		return this.handler.getPort();
 	}

@@ -14,11 +14,18 @@ import com.doobs.modern.util.matrix.*;
 
 import exort.util.gl.*;
 
+/**
+ * Aids in transforming the mouse position on the screen into 3D world coordinates.
+ */
 public class RayCast {
-	// In world coordinates
+	// These are the world coordinates that were calculated from window coordinates.
 	public static float mouseX, mouseZ;
 
-	// Only call after rendering the level
+	/**
+	 * Pre: The Level has been rendered, but not the Entities.
+	 *
+	 * Updates the world coordinates of the mouse.
+	 */
 	public static void tick(Camera camera) {
 		Vector3f position;
 
@@ -28,12 +35,17 @@ public class RayCast {
 			position = getPosition(Display.getWidth() / 2, Display.getHeight() / 2);
 		}
 
+		// If nothing went wrong.
 		if (position != null) {
 			mouseX = position.getX();
 			mouseZ = position.getZ();
 		}
 	}
 
+	/**
+	 * Returns a Vector3f that represents the world coordinates from the given window
+	 * coordinates ("mouseX", "mouseY").
+	 */
 	public static Vector3f getPosition(int mouseX, int mouseY) {
 		IntBuffer viewport = BufferUtils.createIntBuffer(16);
 		glGetInteger(GL_VIEWPORT, viewport);
@@ -45,15 +57,15 @@ public class RayCast {
 		float[] out;
 		Vector3f coords = new Vector3f();
 
-		// Find inverse of ProjectionModelViewMatrix
+		// Find inverse of ProjectionModelViewMatrix.
 		Math3D.matrixMultiply4f(a, projection, modelView);
 		a = Math3D.matrixInverse4f(a);
 
-		// Get the depth component of the mouse pixel
+		// Get the depth component of the mouse pixel.
 		FloatBuffer winZ = BufferUtils.createFloatBuffer(1);
 		glReadPixels(mouseX, mouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, winZ);
 
-		// Normalized device coordinate transformation
+		// Normalized device coordinate transformation.
 		in[0] = (((mouseX - (float) viewport.get(0)) / viewport.get(2)) * 2f) - 1f;
 		in[1] = (((mouseY - (float) viewport.get(1)) / viewport.get(3)) * 2f) - 1f;
 		in[2] = (2f * winZ.get(0)) - 1f;

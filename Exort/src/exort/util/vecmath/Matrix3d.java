@@ -2486,7 +2486,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable {
 		 * System.out.println("t1="+t1[0]+" "+t1[1]+" "+t1[2]);
 		 * System.out.println("t1="+t1[3]+" "+t1[4]+" "+t1[5]);
 		 * System.out.println("t1="+t1[6]+" "+t1[7]+" "+t1[8]);
-		 * 
+		 *
 		 * System.out.println("t2 is \n" + t2);
 		 * System.out.println("t2="+t2[0]+" "+t2[1]+" "+t2[2]);
 		 * System.out.println("t2="+t2[3]+" "+t2[4]+" "+t2[5]);
