@@ -2,23 +2,22 @@ package exort.net.client;
 
 import java.net.*;
 
-import exort.entity.creature.*;
 import exort.entity.projectile.*;
-import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
 import exort.net.packets.Packet.PacketType;
 
+/**
+ * Carries out the actions designated by incoming packets.
+ */
 public class PacketParser {
-	private GUI gui;
 	private Client client;
 	private Level level;
 
 	/**
 	 * Initializes a PacketParser for "client" with "level".
 	 */
-	public PacketParser(GUI gui, Client client, Level level) {
-		this.gui = gui;
+	public PacketParser(Client client, Level level) {
 		this.client = client;
 		this.level = level;
 	}
@@ -34,25 +33,16 @@ public class PacketParser {
 				break;
 			case LOGIN:
 				Packet00Login packet = new Packet00Login(data);
-				if (packet.getID() == -1) {
-					this.gui.addToChat("Now ya fucked up...");
-				} else {
-					this.gui.addToChat(packet.getUsername() + " has joined the game.");
-					Player player = new Player(packet.getUsername(), packet.getID(), this.level);
-					this.client.addPlayer(player, packet.getID());
-				}
+				this.client.addPlayer(packet.getUsername(), packet.getID());
 				break;
 			case DISCONNECT:
-				Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-				this.client.removePlayer(disconnectPacket);
+				this.client.removePlayer(new Packet01Disconnect(data));
 				break;
 			case MOVE:
-				Packet02Move movePacket = new Packet02Move(data);
-				this.client.handleMove(movePacket);
+				this.client.handleMove(new Packet02Move(data));
 				break;
 			case CHAT:
-				Packet03Chat chatPacket = new Packet03Chat(data);
-				this.gui.addToChat(chatPacket.getID() + ": " + chatPacket.getMessage());
+				this.client.addChat(new Packet03Chat(data));
 				break;
 			case SONIC_WAVE:
 				Packet04SonicWave qPacket = new Packet04SonicWave(data);

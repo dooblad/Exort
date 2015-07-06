@@ -5,7 +5,6 @@ import org.lwjgl.util.vector.*;
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
-import exort.*;
 import exort.entity.*;
 import exort.level.*;
 import exort.util.loaders.*;
@@ -35,7 +34,7 @@ public class RockWall extends Entity {
 	 */
 	public RockWall(double x, double z, float direction, Level level) {
 		super(x, z, level);
-		this.bb = new BB((float) x, 0.7f, (float) z, 2f);
+		this.bb = new OBB((float) x, 0.7f, (float) z, 2f);
 		this.bb.rotate(direction);
 		this.currentLife = LIFE;
 		this.direction = (float) (Math.toDegrees(direction));
@@ -55,9 +54,7 @@ public class RockWall extends Entity {
 	 * Renders this RockWall.
 	 */
 	public void render() {
-		if (Main.debug) {
 			this.bb.render();
-		}
 
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);

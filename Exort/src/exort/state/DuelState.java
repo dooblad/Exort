@@ -45,7 +45,6 @@ public class DuelState implements GameState {
 
 		this.client = new Client(this, address);
 
-		// TODO: Move this statement before 'this.client' statement if problems arise.
 		if (isServer) {
 			this.server = new Server(this.gui, new Level());
 		}

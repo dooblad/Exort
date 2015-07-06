@@ -30,7 +30,7 @@ public class PacketIO extends Thread {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		this.parser = new PacketParser(gui, client, level);
+		this.parser = new PacketParser(client, level);
 	}
 
 	public void run() {

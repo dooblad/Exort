@@ -9,7 +9,7 @@ import exort.util.sat.*;
  * A thing with a collision box and a position in the Level.
  */
 public class Entity {
-	protected BB bb;
+	protected OBB bb;
 	protected double x, y, z;
 	protected Level level;
 	protected boolean removed;
@@ -77,14 +77,14 @@ public class Entity {
 	/**
 	 * Returns this Entity's bounding box.
 	 */
-	public BB getBB() {
+	public OBB getBB() {
 		return this.bb;
 	}
 
 	/**
 	 * Sets this Entity's bounding box to "bb".
 	 */
-	public void setBB(BB bb) {
+	public void setBB(OBB bb) {
 		this.bb = bb;
 	}
 

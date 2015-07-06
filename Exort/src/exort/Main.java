@@ -19,7 +19,7 @@ import exort.util.loaders.*;
 public class Main implements GameLoop {
 	public static final String TITLE = "Exort Test";
 
-	public static boolean debug = false;
+	public static boolean debug = true;
 
 	public GraphicsContext context;
 	public InputHandler input;

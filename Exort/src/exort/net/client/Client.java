@@ -59,19 +59,36 @@ public class Client {
 	/**
 	 * Adds "player" to this Level. If it's the first Player, it becomes the main Player.
 	 */
-	public void addPlayer(Player player, int id) {
-		// I think there's a chance that, if another Player connects at the perfect time,
-		// another Player could become the main player on the actual main Player's client.
-		if (!this.mainPlayerConnected) {
-			player.setClient(this);
-			player.setInput(this.input);
-			this.state.setPlayer(player);
-			this.level.setMainPlayer(player);
-			this.mainPlayerConnected = true;
-		}
+	public void addPlayer(String username, int id) {
+		if (id == -1) {
+			this.gui.addToChat("Now ya fucked up...");
+		} else {
+			Player player = new Player(username, id, this.level);
 
-		this.players[id] = player;
-		this.level.addEntity(player);
+			// I think there's a chance that, if another Player connects at the perfect
+			// time,
+			// another Player could become the main player on the actual main Player's
+			// client.
+			if (!this.mainPlayerConnected) {
+				player.setClient(this);
+				player.setInput(this.input);
+				this.state.setPlayer(player);
+				this.level.setMainPlayer(player);
+				this.mainPlayerConnected = true;
+			}
+
+			this.players[id] = player;
+			this.level.addEntity(player);
+
+			this.gui.addToChat(username + " has joined the game.");
+		}
+	}
+
+	/**
+	 * Adds the contents of "packet" to the chat box.
+	 */
+	public void addChat(Packet03Chat packet) {
+		this.gui.addToChat(this.players[packet.getID()].getUsername() + ": " + packet.getMessage());
 	}
 
 	/**

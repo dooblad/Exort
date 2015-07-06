@@ -5,7 +5,6 @@ import org.lwjgl.util.vector.*;
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
-import exort.*;
 import exort.level.*;
 import exort.util.loaders.*;
 import exort.util.sat.*;
@@ -37,7 +36,7 @@ public class SonicWave extends Projectile {
 	 */
 	public SonicWave(double x, double y, double z, double xa, double ya, double za, Level level) {
 		super(x, y, z, xa, ya, za, LIFE, level);
-		this.bb = new BB((float) x, 1f, (float) y, 1f);
+		this.bb = new OBB((float) x, 1f, (float) y, 1f);
 		this.direction = (float) Math.toDegrees(Math.atan(za / xa));
 	}
 
@@ -52,9 +51,7 @@ public class SonicWave extends Projectile {
 	 * Renders this SonicWave.
 	 */
 	public void render() {
-		if (Main.debug) {
-			this.bb.render();
-		}
+		this.bb.render();
 
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);

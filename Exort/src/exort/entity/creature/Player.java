@@ -11,7 +11,6 @@ import com.doobs.modern.util.*;
 import com.doobs.modern.util.batch.*;
 import com.doobs.modern.util.matrix.*;
 
-import exort.*;
 import exort.entity.*;
 import exort.level.*;
 import exort.math.*;
@@ -91,7 +90,7 @@ public class Player extends MovingEntity {
 		this.xa = 0;
 		this.za = 0;
 		this.moveSpeed = 1f / 50f;
-		this.bb = new BB((float) x, 2.5f, (float) z, 2.5f);
+		this.bb = new OBB((float) x, 2.5f, (float) z, 2.5f);
 		this.input = input;
 		this.level = level;
 		// Net variables.
@@ -140,18 +139,18 @@ public class Player extends MovingEntity {
 			// if (entity != null && entity != this && (mtv =
 			// bb.colliding(entity.getBB())) != null) {
 			if (entity instanceof MovingEntity) {
-				MovingEntity mEntity = (MovingEntity) entity;
+				// MovingEntity mEntity = (MovingEntity) entity;
 
-				mEntity.stop();
-				this.stop();
+				// mEntity.stop();
+				// this.stop();
 
 				// Divide by 2 so each entity is repelled by an equal amount // (no
 				// momentum)
 				/*
 				 * if (mtv != null) { entity.x += mtv.x; entity.z += mtv.y;
-				 *
+				 * 
 				 * mEntity.x += -mtv.x; mEntity.z += -mtv.y;
-				 *
+				 * 
 				 * System.out.println("X: " + mtv.x + " Y: " + mtv.y); } }
 				 */
 			}
@@ -173,7 +172,7 @@ public class Player extends MovingEntity {
 			// Rock wall.
 			if (this.input.isKeyReleased(Keyboard.KEY_W)) {
 				new Packet05RockWall(this.id, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z), RayCast.mouseX, RayCast.mouseZ)
-				.sendData(this.client);
+						.sendData(this.client);
 			}
 		}
 	}
@@ -182,9 +181,8 @@ public class Player extends MovingEntity {
 	 * Renders this Player and all graphical entities associated with it.
 	 */
 	public void render() {
-		if (Main.debug) {
-			this.bb.render();
-		}
+		this.bb.render();
+
 		Shaders.use("lighting");
 
 		// Model command.
@@ -303,10 +301,14 @@ public class Player extends MovingEntity {
 	 * Sets the coordinates of this Player's target to ("x", "z").
 	 */
 	public void setTargetPosition(float x, float z) {
-		this.targetX = x;
-		this.targetZ = z;
-		this.bb.rotate(-Math.atan(x / z));
-		this.calculateSpeeds();
+		if (x != this.targetX || z != this.targetZ) {
+			double angle = -Math.atan((x - this.targetX) / (z - this.targetZ));
+			System.out.println(Math.toDegrees(angle));
+			this.bb.rotate(angle);
+			this.targetX = x;
+			this.targetZ = z;
+			this.calculateSpeeds();
+		}
 	}
 
 	/**
