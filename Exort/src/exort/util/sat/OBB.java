@@ -21,8 +21,6 @@ public class OBB {
 	private Vector2f center;
 	private Vector2f[] vertices;
 
-	private double angle;
-
 	private float width, length;
 
 	public OBB() {
@@ -39,7 +37,6 @@ public class OBB {
 		this.vertices[2].set(x + width / 2, z + length / 2);
 		this.vertices[3].set(x - width / 2, z + length / 2);
 		this.center = new Vector2f(x, z);
-		this.angle = 0.0;
 		this.width = width;
 		this.length = length;
 	}
@@ -51,8 +48,8 @@ public class OBB {
 			Matrices.sendMVPMatrix(Shaders.current);
 			new SimpleBatch(GL11.GL_LINES, 3, new float[] { this.vertices[0].x, HEIGHT, this.vertices[0].y, this.vertices[1].x, HEIGHT, this.vertices[1].y,
 					this.vertices[1].x, HEIGHT, this.vertices[1].y, this.vertices[2].x, HEIGHT, this.vertices[2].y, this.vertices[2].x, HEIGHT,
-					this.vertices[2].y, this.vertices[3].x, HEIGHT, this.vertices[3].y, this.vertices[3].x, HEIGHT, this.vertices[3].y,
-					this.vertices[0].x, HEIGHT, this.vertices[0].y, }, null, null, null, null).draw(Shaders.current.getAttributeLocations());
+					this.vertices[2].y, this.vertices[3].x, HEIGHT, this.vertices[3].y, this.vertices[3].x, HEIGHT, this.vertices[3].y, this.vertices[0].x,
+					HEIGHT, this.vertices[0].y, }, null, null, null, null).draw(Shaders.current.getAttributeLocations());
 		}
 	}
 
@@ -69,23 +66,30 @@ public class OBB {
 		}
 	}
 
+	/**
+	 * Performs an absolute rotation (relative to no rotation) by "angle" radians.
+	 */
 	public void rotate(double angle) {
-		double difference = this.angle - angle;
-		this.angle = angle;
-
 		// Precompute sine and cosine.
-		float sin = (float) Math.sin(difference);
-		float cos = (float) Math.cos(difference);
+		float sin = (float) Math.sin(angle);
+		float cos = (float) Math.cos(angle);
 
-		// Translate to the origin for proper rotation.
-		for (Vector2f vertex : this.vertices) {
-			float x = vertex.x - this.center.x;
-			float z = vertex.y - this.center.y;
-			// System.out.println(x + " " + z);
-			 vertex.x = (x * cos - z * sin) + this.center.x;
-			 vertex.y = (x * sin + z * cos) + this.center.y;
-		}
-		// System.out.println("---------------");
+		float x = -this.width / 2;
+		float z = -this.length / 2;
+		this.vertices[0].x = (x * cos - z * sin) + this.center.x;
+		this.vertices[0].y = (x * sin + z * cos) + this.center.y;
+		x = this.width / 2;
+		z = -this.length / 2;
+		this.vertices[1].x = (x * cos - z * sin) + this.center.x;
+		this.vertices[1].y = (x * sin + z * cos) + this.center.y;
+		x = this.width / 2;
+		z = this.length / 2;
+		this.vertices[2].x = (x * cos - z * sin) + this.center.x;
+		this.vertices[2].y = (x * sin + z * cos) + this.center.y;
+		x = -this.width / 2;
+		z = this.length / 2;
+		this.vertices[3].x = (x * cos - z * sin) + this.center.x;
+		this.vertices[3].y = (x * sin + z * cos) + this.center.y;
 	}
 
 	public Vector2f[] getAxes() {

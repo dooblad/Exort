@@ -71,7 +71,7 @@ public class Chat {
 
 			this.input.handleTyping(this.message, Fonts.centuryGothic);
 			// Keep message under CHAT_CHAR_LIMIT.
-			if (this.message.length() > CHAT_CHAR_LIMIT) { // TODO: Fix possible bug?
+			if (this.message.length() > CHAT_CHAR_LIMIT) { 
 				this.message.deleteCharAt(this.message.length() - 1);
 			}
 

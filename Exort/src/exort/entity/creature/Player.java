@@ -128,6 +128,7 @@ public class Player extends MovingEntity {
 			this.za = 0;
 		}
 
+		// Position and BB update.
 		super.tick(delta);
 
 		// Check collisions.
@@ -163,7 +164,7 @@ public class Player extends MovingEntity {
 		if ((this.client != null) && !Mouse.isGrabbed()) {
 			// Move.
 			if (this.input.isMouseButtonDown(1)) {
-				this.setTarget(new Vector3f(RayCast.mouseX, 0, RayCast.mouseZ));
+				this.client.sendData(new Packet02Move(this.id, RayCast.mouseX, RayCast.mouseZ).getData());
 			}
 			// Sonic wave.
 			if (this.input.isKeyReleased(Keyboard.KEY_Q)) {
@@ -217,7 +218,6 @@ public class Player extends MovingEntity {
 				Matrices.rotate((float) Math.toDegrees(this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)), 0f, 1f, 0f);
 				Matrices.sendMVPMatrix(Shaders.current);
 
-				// TODO: Make some sense of these coordinates.
 				new SimpleBatch(GL_TRIANGLES, 3, new float[] { 0f, 0f, 1f, 20f, 0f, 1f, 20f, 0f, -1f, 20f, 0f, -1f, 0f, 0f, -1f, 0f, 0f, 1f }, null, null,
 						new float[] { 0f, 0f, 1f, 0f, 1f, 1f, 1f, 1f, 0f, 1f, 0f, 0f }, null).draw(Shaders.current.getAttributeLocations());
 
@@ -232,15 +232,15 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Sets this Player's target to "position".
+	 * Sets the coordinates of this Player's target to ("x", "z").
 	 */
-	public void setTarget(Vector3f position) {
-		if ((position.getX() != this.x) || (position.getZ() != this.z)) {
-			this.targetX = position.x;
-			this.targetZ = position.z;
+	public void setTargetPosition(float x, float z) {
+		if (x != this.targetX || z != this.targetZ) {
+			this.bb.rotate(this.calculateAngle(x - this.x, z - this.z));
+			this.targetX = x;
+			this.targetZ = z;
 			this.calculateSpeeds();
 		}
-		this.client.sendData(new Packet02Move(this.id, position.getX(), position.getZ()).getData());
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class Player extends MovingEntity {
 	}
 
 	/**
-	 * Returns a String representation of this Player.
+	 * Returns a String representing the username and id of this Player.
 	 */
 	public String toString() {
 		return "[\"" + this.username + "\":" + this.id + "]";
@@ -279,36 +279,6 @@ public class Player extends MovingEntity {
 	 */
 	public void setInput(InputHandler input) {
 		this.input = input;
-	}
-
-	/**
-	 * Sets the x-coordinate of this Player's target to "x".
-	 */
-	public void setTargetX(float x) {
-		this.targetX = x;
-		this.calculateSpeeds();
-	}
-
-	/**
-	 * Sets the z-coordinate of this Player's target to "z".
-	 */
-	public void setTargetZ(float z) {
-		this.targetZ = z;
-		this.calculateSpeeds();
-	}
-
-	/**
-	 * Sets the coordinates of this Player's target to ("x", "z").
-	 */
-	public void setTargetPosition(float x, float z) {
-		if (x != this.targetX || z != this.targetZ) {
-			double angle = -Math.atan((x - this.targetX) / (z - this.targetZ));
-			System.out.println(Math.toDegrees(angle));
-			this.bb.rotate(angle);
-			this.targetX = x;
-			this.targetZ = z;
-			this.calculateSpeeds();
-		}
 	}
 
 	/**

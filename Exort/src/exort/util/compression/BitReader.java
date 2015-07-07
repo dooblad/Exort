@@ -41,7 +41,6 @@ public class BitReader {
 	 * Returns the remaining contents of this BitReader as a String.
 	 */
 	public String restToString() {
-		// TODO: WRITE IT
 		BitString result = new BitString();
 		while (this.hasNextBit()) {
 			result.add(this.nextBit());

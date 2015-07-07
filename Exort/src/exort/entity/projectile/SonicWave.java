@@ -9,7 +9,6 @@ import exort.level.*;
 import exort.util.loaders.*;
 import exort.util.sat.*;
 
-// TODO: Update this class description.
 /**
  * A Projectile with mysterious purposes.
  */
