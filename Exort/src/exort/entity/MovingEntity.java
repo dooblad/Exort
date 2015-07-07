@@ -6,7 +6,7 @@ import exort.level.*;
  * An Entity that can move.
  */
 public class MovingEntity extends Entity {
-	public double xa, ya, za;
+	public float xa, ya, za;
 	// In radians.
 	protected float direction;
 
@@ -20,28 +20,28 @@ public class MovingEntity extends Entity {
 	/**
 	 * Creates a MovingEntity at ("x", 0, "z") with no associated Level.
 	 */
-	public MovingEntity(double x, double z) {
+	public MovingEntity(float x, float z) {
 		this(x, 0, z, null);
 	}
 
 	/**
 	 * Creates a MovingEntity at ("x", "y", "z") with no associated Level.
 	 */
-	public MovingEntity(double x, double y, double z) {
+	public MovingEntity(float x, float y, float z) {
 		this(x, y, z, null);
 	}
 
 	/**
 	 * Creates a MovingEntity at ("x", 0, "z") on "level".
 	 */
-	public MovingEntity(double x, double z, Level level) {
+	public MovingEntity(float x, float z, Level level) {
 		this(x, 0, z, level);
 	}
 
 	/**
 	 * Creates a MovingEntity at ("x", "y", "z") on "level".
 	 */
-	public MovingEntity(double x, double y, double z, Level level) {
+	public MovingEntity(float x, float y, float z, Level level) {
 		super(x, y, z, level);
 	}
 
@@ -49,7 +49,7 @@ public class MovingEntity extends Entity {
 	 * Creates a MovingEntity at ("x", "y", "z") with velocity ("xa", "ya", "za") on
 	 * "level".
 	 */
-	public MovingEntity(double x, double y, double z, double xa, double ya, double za, Level level) {
+	public MovingEntity(float x, float y, float z, float xa, float ya, float za, Level level) {
 		super(x, y, z, level);
 		this.xa = xa;
 		this.ya = ya;
@@ -86,42 +86,42 @@ public class MovingEntity extends Entity {
 	/**
 	 * Returns the x-acceleration of this MovingEntity.
 	 */
-	public double getXA() {
+	public float getXA() {
 		return this.xa;
 	}
 
 	/**
 	 * Sets the x-acceleration of this MovingEntity to "xa".
 	 */
-	public void setXA(double xa) {
+	public void setXA(float xa) {
 		this.xa = xa;
 	}
 
 	/**
 	 * Returns the y-acceleration of this MovingEntity.
 	 */
-	public double getYA() {
+	public float getYA() {
 		return this.ya;
 	}
 
 	/**
 	 * Sets the y-acceleration of this MovingEntity to "ya".
 	 */
-	public void setYA(double ya) {
+	public void setYA(float ya) {
 		this.ya = ya;
 	}
 
 	/**
 	 * Returns the z-acceleration of this MovingEntity.
 	 */
-	public double getZA() {
+	public float getZA() {
 		return this.za;
 	}
 
 	/**
 	 * Sets the z-acceleration of this MovingEntity to "za".
 	 */
-	public void setZA(double za) {
+	public void setZA(float za) {
 		this.za = za;
 	}
 

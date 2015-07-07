@@ -10,7 +10,7 @@ import exort.util.sat.*;
  */
 public class Entity {
 	protected OBB bb;
-	protected double x, y, z;
+	protected float x, y, z;
 	protected Level level;
 	protected boolean removed;
 
@@ -24,28 +24,28 @@ public class Entity {
 	/**
 	 * Creates an Entity at ("x", 0, "z") with no associated Level.
 	 */
-	public Entity(double x, double z) {
+	public Entity(float x, float z) {
 		this(x, 0, z, null);
 	}
 
 	/**
 	 * Creates an Entity at ("x", "y", "z") with no associated Level.
 	 */
-	public Entity(double x, double y, double z) {
+	public Entity(float x, float y, float z) {
 		this(x, y, z, null);
 	}
 
 	/**
 	 * Creates an Entity at ("x", 0, "z") on "level".
 	 */
-	public Entity(double x, double z, Level level) {
+	public Entity(float x, float z, Level level) {
 		this(x, 0, z, level);
 	}
 
 	/**
 	 * Creates an Entity at ("x", "y", "z") on "level".
 	 */
-	public Entity(double x, double y, double z, Level level) {
+	public Entity(float x, float y, float z, Level level) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -61,10 +61,26 @@ public class Entity {
 	}
 
 	/**
-	 * Renders this Entity
+	 * Renders this Entity.
 	 */
 	public void render() {
 
+	}
+
+	/**
+	 * Moves this Entity by ("position".getX(), 0, "position".getY()).
+	 */
+	public void move(Vector2f position) {
+		this.move(position.getX(), 0, position.getY());
+	}
+
+	/**
+	 * Moves this Entity by ("x", "y", "z").
+	 */
+	public void move(float x, float y, float z) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
 	}
 
 	/**
@@ -98,42 +114,42 @@ public class Entity {
 	/**
 	 * Returns this Entity's x-position.
 	 */
-	public double getX() {
+	public float getX() {
 		return this.x;
 	}
 
 	/**
 	 * Sets this Entity's x-position to "x".
 	 */
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
 	/**
 	 * Returns this Entity's y-position.
 	 */
-	public double getY() {
+	public float getY() {
 		return this.y;
 	}
 
 	/**
 	 * Sets this Entity's y-position to "y".
 	 */
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
 	/**
 	 * Returns this Entity's z-position.
 	 */
-	public double getZ() {
+	public float getZ() {
 		return this.z;
 	}
 
 	/**
 	 * Sets this Entity's z-position to "z".
 	 */
-	public void setZ(double z) {
+	public void setZ(float z) {
 		this.z = z;
 	}
 

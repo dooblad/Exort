@@ -9,9 +9,7 @@ import com.doobs.modern.util.shader.*;
 import exort.util.loaders.*;
 
 /**
- * A helper class for lighting
- *
- * @author Logan
+ * A helper class for lighting.
  */
 public class Lighting {
 	public static final float[] lightColor = new float[] { 1f, 0.5f, 0f, 1f };
@@ -41,17 +39,16 @@ public class Lighting {
 		Shaders.useDefault();
 	}
 
-	public static void moveLight(Vector3f position, boolean usingShader) {
-		if (!usingShader) {
-			Shaders.get("lighting").use();
-		}
-
+	public static void setPosition(float x, float y, float z) {
 		int location = glGetUniformLocation(Shaders.get("lighting").getID(), "lightPosition");
-		glUniform3f(location, position.getX(), position.getY(), position.getZ());
+		glUniform3f(location, x, y, z);
+		position.x = x;
+		position.y = y;
+		position.z = z;
+	}
 
-		if (!usingShader) {
-			Shaders.useDefault();
-		}
+	public static void setPosition(Vector3f position) {
+		setPosition(position.x, position.y, position.z);
 	}
 
 	public static void setTextured(boolean textured) {

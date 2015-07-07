@@ -30,7 +30,7 @@ public class Projectile extends MovingEntity {
 	/**
 	 * Creates a Projectile on "level" at ("x", "y", "z") with "maxLife".
 	 */
-	public Projectile(double x, double y, double z, int maxLife, Level level) {
+	public Projectile(float x, float y, float z, int maxLife, Level level) {
 		this(x, y, z, 0, 0, 0, maxLife, null, level);
 	}
 
@@ -38,7 +38,7 @@ public class Projectile extends MovingEntity {
 	 * Creates a Projectile on "level" at "position" with velocity ("xa", "ya", "za") and
 	 * "maxLife".
 	 */
-	public Projectile(Vector3f position, double xa, double ya, double za, int maxLife, Level level) {
+	public Projectile(Vector3f position, float xa, float ya, float za, int maxLife, Level level) {
 		this(position.getX(), position.getY(), position.getZ(), xa, ya, za, maxLife, null, level);
 	}
 
@@ -46,7 +46,7 @@ public class Projectile extends MovingEntity {
 	 * Creates a Projectile on "level" at ("x", "y", "z") with velocity ("xa", "ya", "za")
 	 * and "maxLife" with "owner".
 	 */
-	public Projectile(double x, double y, double z, double xa, double ya, double za, int maxLife, Entity owner, Level level) {
+	public Projectile(float x, float y, float z, float xa, float ya, float za, int maxLife, Entity owner, Level level) {
 		super(x, y, z, xa, ya, za, level);
 		this.currentLife = this.maxLife = maxLife;
 		this.owner = owner;

@@ -136,19 +136,20 @@ public class Player extends MovingEntity {
 		Iterator<Entity> iterator = this.level.getEntities().iterator();
 		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
-			// TODO: SAT Collision detection.
-			if (entity != null && entity != this && bb.colliding(entity.getBB()) != null) {
+			Vector2f mtv = null;
+			if (entity != null && entity != this && (mtv = bb.colliding(entity.getBB())) != null) {
 				if (entity instanceof Projectile) {
 					Projectile p = (Projectile) entity;
+					// Replace this with hit reaction.
 					if (p.getOwner() != this) {
-						System.out.println(p.getOwner());
+						System.out.println(this);
 					}
+				} else if (entity instanceof RockWall) {
+					this.stop();
+					this.move(mtv);
 				}
 			}
 		}
-
-		// Update lighting.
-		Lighting.moveLight(new Vector3f((float) this.x, 8f, (float) this.z), false);
 
 		// Net code.
 		if ((this.client != null) && !Mouse.isGrabbed()) {
@@ -175,6 +176,9 @@ public class Player extends MovingEntity {
 		this.bb.render();
 
 		Shaders.use("lighting");
+
+		// Update lighting.
+		Lighting.setPosition(this.x, 8f, this.z);
 
 		// Model command.
 		Matrices.translate(this.x, this.y, this.z);

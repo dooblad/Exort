@@ -14,11 +14,11 @@ import exort.util.sat.*;
  * A wall with a limited life time that can be conjured by Players.
  */
 public class RockWall extends Entity {
-	public static final int LIFE = 60;
+	public static final int LIFE = 500; //60;
 
 	private int currentLife;
 
-	// Angle (in degrees) of the line perpendicular to this RockWall, with respect to the
+	// Angle (in radians) of the line perpendicular to this RockWall, with respect to the
 	// xz-plane.
 	private float direction;
 
@@ -32,7 +32,7 @@ public class RockWall extends Entity {
 	/**
 	 * Creates a RockWall on "level" at ("x", 0, "z") facing "direction".
 	 */
-	public RockWall(double x, double z, float direction, Level level) {
+	public RockWall(float x, float z, float direction, Level level) {
 		super(x, z, level);
 		this.bb = new OBB((float) x, 0.7f, (float) z, 2f);
 		this.bb.rotate(direction);
