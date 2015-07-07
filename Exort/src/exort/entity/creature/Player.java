@@ -12,6 +12,7 @@ import com.doobs.modern.util.batch.*;
 import com.doobs.modern.util.matrix.*;
 
 import exort.entity.*;
+import exort.entity.projectile.*;
 import exort.level.*;
 import exort.math.*;
 import exort.net.client.*;
@@ -136,24 +137,12 @@ public class Player extends MovingEntity {
 		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
 			// TODO: SAT Collision detection.
-			 Vector2f mtv = null;
-			if (entity != null && entity != this && (mtv = bb.colliding(entity.getBB())) != null) {
-				if (entity instanceof Entity) {
-					// MovingEntity mEntity = (MovingEntity) entity;
-
-					System.out.println("hit");
-					// mEntity.stop();
-					// this.stop();
-
-					// Divide by 2 so each entity is repelled by an equal amount // (no
-					// momentum)
-					/*
-					 * if (mtv != null) { entity.x += mtv.x; entity.z += mtv.y;
-					 * 
-					 * mEntity.x += -mtv.x; mEntity.z += -mtv.y;
-					 * 
-					 * System.out.println("X: " + mtv.x + " Y: " + mtv.y); } }
-					 */
+			if (entity != null && entity != this && bb.colliding(entity.getBB()) != null) {
+				if (entity instanceof Projectile) {
+					Projectile p = (Projectile) entity;
+					if (p.getOwner() != this) {
+						System.out.println(p.getOwner());
+					}
 				}
 			}
 		}

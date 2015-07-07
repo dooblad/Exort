@@ -46,7 +46,7 @@ public class PacketParser {
 				break;
 			case SONIC_WAVE:
 				Packet04SonicWave qPacket = new Packet04SonicWave(data);
-				this.level.addEntity(new SonicWave(this.client.getPlayer(qPacket.getID()).getPosition(), qPacket.getDirection(), this.level));
+				this.level.addEntity(new SonicWave(this.client.getPlayer(qPacket.getID()).getPosition(), qPacket.getDirection(), this.client.getPlayer(qPacket.getID()), this.level));
 				break;
 			case ROCK_WALL:
 				Packet05RockWall wPacket = new Packet05RockWall(data);
