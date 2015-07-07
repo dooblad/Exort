@@ -37,7 +37,7 @@ public class RockWall extends Entity {
 		this.bb = new OBB((float) x, 0.7f, (float) z, 2f);
 		this.bb.rotate(direction);
 		this.currentLife = LIFE;
-		this.direction = (float) (Math.toDegrees(direction));
+		this.direction = direction;
 	}
 
 	/**
@@ -54,17 +54,17 @@ public class RockWall extends Entity {
 	 * Renders this RockWall.
 	 */
 	public void render() {
-			this.bb.render();
+		this.bb.render();
 
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);
-		Matrices.rotate(this.direction, 0, 1, 0);
+		Matrices.rotate(Math.toDegrees(this.direction), 0, 1, 0);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Color.set(Shaders.current, 0f, 1f, 1f, 1f);
 		Models.get("rockWall").draw();
 
 		// Reset
-		Matrices.rotate(this.direction, 0, -1, 0);
+		Matrices.rotate(Math.toDegrees(this.direction), 0, -1, 0);
 		Matrices.translate(-this.x, -this.y, -this.z);
 	}
 }

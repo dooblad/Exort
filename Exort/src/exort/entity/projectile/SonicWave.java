@@ -6,6 +6,7 @@ import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
 import exort.level.*;
+import exort.util.*;
 import exort.util.loaders.*;
 import exort.util.sat.*;
 
@@ -36,7 +37,8 @@ public class SonicWave extends Projectile {
 	public SonicWave(double x, double y, double z, double xa, double ya, double za, Level level) {
 		super(x, y, z, xa, ya, za, LIFE, level);
 		this.bb = new OBB((float) x, 1f, (float) y, 1f);
-		this.direction = (float) Math.toDegrees(Math.atan(za / xa));
+		this.direction = TrigUtil.calculateAngle(xa, za);
+		this.bb.rotate(this.direction);
 	}
 
 	/**
@@ -54,13 +56,13 @@ public class SonicWave extends Projectile {
 
 		Shaders.use("lighting");
 		Matrices.translate(this.x, this.y, this.z);
-		Matrices.rotate(this.direction, 0, 1, 0);
+		Matrices.rotate(Math.toDegrees(this.direction), 0, 1, 0);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Color.set(Shaders.current, 0f, 1f, 1f, 1f);
 		Models.get("sonicWave").draw();
 
 		// Reset
-		Matrices.rotate(this.direction, 0, -1, 0);
+		Matrices.rotate(Math.toDegrees(this.direction), 0, -1, 0);
 		Matrices.translate(-this.x, -this.y, -this.z);
 	}
 }

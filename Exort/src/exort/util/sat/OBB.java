@@ -92,6 +92,37 @@ public class OBB {
 		this.vertices[3].y = (x * sin + z * cos) + this.center.y;
 	}
 
+	public Vector2f colliding(OBB bb) {
+		double overlap = Integer.MAX_VALUE;
+		Vector2f smallest = null;
+		Vector2f[][] axes = new Vector2f[2][];
+		axes[0] = this.getAxes();
+		axes[1] = bb.getAxes();
+
+		for (int i = 0; i < axes.length; i++) {
+			// Reference to one of the axis arrays.
+			Vector2f[] a = axes[i];
+			for (Vector2f axis : a) {
+				// Project both shapes onto the axis.
+				Projection p1 = this.project(axis);
+				Projection p2 = bb.project(axis);
+
+				if (!p1.overlaps(p2)) {
+					return null;
+				} else {
+					double o = p1.getOverlap(p2);
+					if (o < overlap) {
+						overlap = o;
+						smallest = axis;
+					}
+				}
+			}
+		}
+
+		Vector2f result = new Vector2f((float) (overlap / smallest.x), (float) (overlap / smallest.y));
+		return result;
+	}
+
 	public Vector2f[] getAxes() {
 		Vector2f[] axes = new Vector2f[this.vertices.length];
 
@@ -114,7 +145,7 @@ public class OBB {
 		double max = min;
 
 		for (int i = 1; i < this.vertices.length; i++) {
-			// The axis must be normalized to get accurate projections
+			// The axis must be normalized to get accurate projections.
 			double p = Vector2f.dot(axis, this.vertices[i]);
 
 			if (p < min) {
@@ -126,54 +157,6 @@ public class OBB {
 
 		Projection projection = new Projection(min, max);
 		return projection;
-	}
-
-	public Vector2f colliding(OBB bb) {
-		double overlap = 2000000000;
-		Vector2f smallest = null;
-		Vector2f[] axes1 = this.getAxes();
-		Vector2f[] axes2 = bb.getAxes();
-
-		for (Vector2f axis : axes1) {
-			// Project both shapes onto the axis
-			Projection p1 = this.project(axis);
-			Projection p2 = bb.project(axis);
-
-			if (!p1.overlaps(p2)) {
-				return null;
-			} else {
-				double o = p1.getOverlap(p2);
-				if (o < overlap) {
-					overlap = o;
-					smallest = axis;
-				}
-			}
-		}
-
-		for (Vector2f axis : axes2) {
-			// Project both shapes onto the axis
-			Projection p1 = this.project(axis);
-			Projection p2 = bb.project(axis);
-
-			if (!p1.overlaps(p2)) {
-				return null;
-			} else {
-				double o = p1.getOverlap(p2);
-				if (o < overlap) {
-					overlap = o;
-					smallest = axis;
-				}
-			}
-		}
-
-		Vector2f result = new Vector2f((float) (overlap / smallest.x), (float) (overlap / smallest.y));
-		if (Math.abs(result.x) > 2000000000) {
-			result.x = 0;
-		}
-		if (Math.abs(result.y) > 2000000000) {
-			result.y = 0;
-		}
-		return result;
 	}
 
 	public float getX() {

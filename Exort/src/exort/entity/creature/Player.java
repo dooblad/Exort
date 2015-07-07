@@ -136,24 +136,25 @@ public class Player extends MovingEntity {
 		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
 			// TODO: SAT Collision detection.
-			// Vector2f mtv = null;
-			// if (entity != null && entity != this && (mtv =
-			// bb.colliding(entity.getBB())) != null) {
-			if (entity instanceof MovingEntity) {
-				// MovingEntity mEntity = (MovingEntity) entity;
+			 Vector2f mtv = null;
+			if (entity != null && entity != this && (mtv = bb.colliding(entity.getBB())) != null) {
+				if (entity instanceof Entity) {
+					// MovingEntity mEntity = (MovingEntity) entity;
 
-				// mEntity.stop();
-				// this.stop();
+					System.out.println("hit");
+					// mEntity.stop();
+					// this.stop();
 
-				// Divide by 2 so each entity is repelled by an equal amount // (no
-				// momentum)
-				/*
-				 * if (mtv != null) { entity.x += mtv.x; entity.z += mtv.y;
-				 * 
-				 * mEntity.x += -mtv.x; mEntity.z += -mtv.y;
-				 * 
-				 * System.out.println("X: " + mtv.x + " Y: " + mtv.y); } }
-				 */
+					// Divide by 2 so each entity is repelled by an equal amount // (no
+					// momentum)
+					/*
+					 * if (mtv != null) { entity.x += mtv.x; entity.z += mtv.y;
+					 * 
+					 * mEntity.x += -mtv.x; mEntity.z += -mtv.y;
+					 * 
+					 * System.out.println("X: " + mtv.x + " Y: " + mtv.y); } }
+					 */
+				}
 			}
 		}
 
@@ -168,11 +169,11 @@ public class Player extends MovingEntity {
 			}
 			// Sonic wave.
 			if (this.input.isKeyReleased(Keyboard.KEY_Q)) {
-				new Packet04SonicWave(this.id, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)).sendData(this.client);
+				new Packet04SonicWave(this.id, TrigUtil.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)).sendData(this.client);
 			}
 			// Rock wall.
 			if (this.input.isKeyReleased(Keyboard.KEY_W)) {
-				new Packet05RockWall(this.id, this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z), RayCast.mouseX, RayCast.mouseZ)
+				new Packet05RockWall(this.id, TrigUtil.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z), RayCast.mouseX, RayCast.mouseZ)
 						.sendData(this.client);
 			}
 		}
@@ -215,13 +216,13 @@ public class Player extends MovingEntity {
 
 				// Move to Player's position and raise slightly off the ground.
 				Matrices.translate(this.x, 0.5f, this.z);
-				Matrices.rotate((float) Math.toDegrees(this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)), 0f, 1f, 0f);
+				Matrices.rotate((float) Math.toDegrees(TrigUtil.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)), 0f, 1f, 0f);
 				Matrices.sendMVPMatrix(Shaders.current);
 
 				new SimpleBatch(GL_TRIANGLES, 3, new float[] { 0f, 0f, 1f, 20f, 0f, 1f, 20f, 0f, -1f, 20f, 0f, -1f, 0f, 0f, -1f, 0f, 0f, 1f }, null, null,
 						new float[] { 0f, 0f, 1f, 0f, 1f, 1f, 1f, 1f, 0f, 1f, 0f, 0f }, null).draw(Shaders.current.getAttributeLocations());
 
-				Matrices.rotate((float) -Math.toDegrees(this.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)), 0f, 1f, 0f);
+				Matrices.rotate((float) -Math.toDegrees(TrigUtil.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z)), 0f, 1f, 0f);
 				Matrices.translate(-this.x, -0.5f, -this.z);
 
 				Shaders.use("lighting");
@@ -236,7 +237,7 @@ public class Player extends MovingEntity {
 	 */
 	public void setTargetPosition(float x, float z) {
 		if (x != this.targetX || z != this.targetZ) {
-			this.bb.rotate(this.calculateAngle(x - this.x, z - this.z));
+			this.bb.rotate(TrigUtil.calculateAngle(x - this.x, z - this.z));
 			this.targetX = x;
 			this.targetZ = z;
 			this.calculateSpeeds();
@@ -253,18 +254,6 @@ public class Player extends MovingEntity {
 			this.xa = target.getX() * this.moveSpeed;
 			this.za = target.getZ() * this.moveSpeed;
 		}
-	}
-
-	/**
-	 * Returns the angle (in radians) of the line from the origin to ("x", 0, "z"), with
-	 * respect to the y-axis.
-	 */
-	private float calculateAngle(double x, double z) {
-		float result = (float) Math.atan(z / x);
-		if (x < 0) {
-			result += Math.PI;
-		}
-		return result;
 	}
 
 	/**

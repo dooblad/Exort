@@ -10,7 +10,7 @@ import exort.level.*;
  * to our well-being.
  */
 public class Creature extends MovingEntity {
-	private int health;
+	protected int health;
 
 	/**
 	 * Creates a Creature at (0, 0, 0) with no initial velocity and no associated Level.
