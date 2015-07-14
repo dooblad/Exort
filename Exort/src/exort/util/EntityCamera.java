@@ -27,26 +27,48 @@ public class EntityCamera extends Camera {
 	// For preventing further input at the rotation limits.
 	private boolean upLocked, downLocked;
 
+	/**
+	 * Creates an EntityCamera at distance {@value #DEFAULT_DISTANCE} with no Entity to
+	 * attach to or InputHandler.
+	 */
 	public EntityCamera() {
 		this(DEFAULT_DISTANCE, null, null);
 	}
 
+	/**
+	 * Creates an EntityCamera at "distance" with no Entity to attach to or InputHandler.
+	 */
 	public EntityCamera(float distance) {
 		this(distance, null, null);
 	}
 
+	/**
+	 * Creates an EntityCamera at distance {@value #DEFAULT_DISTANCE} attached to "entity"
+	 * with no InputHandler.
+	 */
 	public EntityCamera(Entity entity) {
 		this(DEFAULT_DISTANCE, entity);
 	}
 
+	/**
+	 * Creates an EntityCamera at "distance" attached to "entity" with no InputHandler.
+	 */
 	public EntityCamera(float distance, Entity entity) {
 		this(distance, entity, null);
 	}
 
+	/**
+	 * Creates an EntityCamera at "distance" with no Entity to attach to and InputHandler
+	 * "input".
+	 */
 	public EntityCamera(float distance, InputHandler input) {
 		this(distance, null, input);
 	}
 
+	/**
+	 * Creates an EntityCamera at "distance" attached to "entity" and InputHandler
+	 * "input".
+	 */
 	public EntityCamera(float distance, Entity entity, InputHandler input) {
 		super();
 		this.distance = distance;
@@ -58,6 +80,9 @@ public class EntityCamera extends Camera {
 		this.downLocked = false;
 	}
 
+	/**
+	 * Controls the behavior of this Entity Camera.
+	 */
 	public void tick() {
 		if (this.entity != null) {
 			if (this.input != null) {
@@ -103,14 +128,23 @@ public class EntityCamera extends Camera {
 		}
 	}
 
+	/**
+	 * Returns the Entity this EntityCamera is attached to.
+	 */
 	public Entity getEntity() {
 		return this.entity;
 	}
 
+	/**
+	 * Attaches this EntityCamera to "entity"
+	 */
 	public void setEntity(Entity entity) {
 		this.entity = entity;
 	}
 
+	/**
+	 * Makes this EntityCamera receive commands from "input".
+	 */
 	public void setInput(InputHandler input) {
 		this.input = input;
 	}

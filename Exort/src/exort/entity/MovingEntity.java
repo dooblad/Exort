@@ -6,7 +6,7 @@ import exort.level.*;
  * An Entity that can move.
  */
 public class MovingEntity extends Entity {
-	public float xa, ya, za;
+	public float xv, yv, zv;
 	// In radians.
 	protected float direction;
 
@@ -51,18 +51,18 @@ public class MovingEntity extends Entity {
 	 */
 	public MovingEntity(float x, float y, float z, float xa, float ya, float za, Level level) {
 		super(x, y, z, level);
-		this.xa = xa;
-		this.ya = ya;
-		this.za = za;
+		this.xv = xa;
+		this.yv = ya;
+		this.zv = za;
 	}
 
 	/**
 	 * Handles the behavior of this MovingEntity.
 	 */
 	public void tick(int delta) {
-		this.x += this.xa * delta;
-		this.y += this.ya * delta;
-		this.z += this.za * delta;
+		this.x += this.xv * delta;
+		this.y += this.yv * delta;
+		this.z += this.zv * delta;
 
 		this.bb.setPosition(this.x, this.z);
 	}
@@ -75,54 +75,54 @@ public class MovingEntity extends Entity {
 	}
 
 	/**
-	 * Sets acceleration on every axis to 0.
+	 * Sets velocity on every axis to 0.
 	 */
 	public void stop() {
-		this.xa = 0;
-		this.ya = 0;
-		this.za = 0;
+		this.xv = 0;
+		this.yv = 0;
+		this.zv = 0;
 	}
 
 	/**
-	 * Returns the x-acceleration of this MovingEntity.
+	 * Returns the x-velocity of this MovingEntity.
 	 */
 	public float getXA() {
-		return this.xa;
+		return this.xv;
 	}
 
 	/**
-	 * Sets the x-acceleration of this MovingEntity to "xa".
+	 * Sets the x-velocity of this MovingEntity to "xa".
 	 */
 	public void setXA(float xa) {
-		this.xa = xa;
+		this.xv = xa;
 	}
 
 	/**
-	 * Returns the y-acceleration of this MovingEntity.
+	 * Returns the y-velocity of this MovingEntity.
 	 */
 	public float getYA() {
-		return this.ya;
+		return this.yv;
 	}
 
 	/**
-	 * Sets the y-acceleration of this MovingEntity to "ya".
+	 * Sets the y-velocity of this MovingEntity to "ya".
 	 */
 	public void setYA(float ya) {
-		this.ya = ya;
+		this.yv = ya;
 	}
 
 	/**
-	 * Returns the z-acceleration of this MovingEntity.
+	 * Returns the z-velocity of this MovingEntity.
 	 */
 	public float getZA() {
-		return this.za;
+		return this.zv;
 	}
 
 	/**
-	 * Sets the z-acceleration of this MovingEntity to "za".
+	 * Sets the z-velocity of this MovingEntity to "za".
 	 */
 	public void setZA(float za) {
-		this.za = za;
+		this.zv = za;
 	}
 
 	/**

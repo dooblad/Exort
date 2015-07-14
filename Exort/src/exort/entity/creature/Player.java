@@ -88,8 +88,8 @@ public class Player extends MovingEntity {
 	public Player(float x, float y, float z, InputHandler input, Level level, Client client, String username, int id, String address, int port) {
 		this.targetX = 0;
 		this.targetZ = 0;
-		this.xa = 0;
-		this.za = 0;
+		this.xv = 0;
+		this.zv = 0;
 		this.moveSpeed = 1f / 50f;
 		this.bb = new OBB(x, 2.5f, z, 2.5f);
 		this.input = input;
@@ -107,13 +107,13 @@ public class Player extends MovingEntity {
 	 */
 	public void tick(int delta) {
 		// If close to target, snap Player's position to it.
-		if (Math.abs((this.x + this.xa) - this.targetX) > Math.abs(this.x - this.targetX)) {
+		if (Math.abs((this.x + this.xv) - this.targetX) > Math.abs(this.x - this.targetX)) {
 			this.x = this.targetX;
-			this.xa = 0;
+			this.xv = 0;
 		}
-		if (Math.abs((this.z + this.za) - this.targetZ) > Math.abs(this.z - this.targetZ)) {
+		if (Math.abs((this.z + this.zv) - this.targetZ) > Math.abs(this.z - this.targetZ)) {
 			this.z = this.targetZ;
-			this.za = 0;
+			this.zv = 0;
 		}
 
 		// Position and BB update.
@@ -178,7 +178,7 @@ public class Player extends MovingEntity {
 		// Move command.
 		Matrices.translate(this.targetX - this.x, 0, this.targetZ - this.z);
 		Matrices.sendMVPMatrix(Shaders.current);
-		if ((this.xa != 0) && (this.za != 0)) {
+		if ((this.xv != 0) && (this.zv != 0)) {
 			Color.set(Shaders.current, 0f, 1f, 0f, 1f);
 			Models.get("move").draw();
 		}
@@ -234,8 +234,8 @@ public class Player extends MovingEntity {
 		Vector3f target = new Vector3f(this.targetX - this.x, 0f, this.targetZ - this.z);
 		if ((target.getX() != 0) || (target.getZ() != 0)) {
 			target.normalise();
-			this.xa = target.getX() * this.moveSpeed;
-			this.za = target.getZ() * this.moveSpeed;
+			this.xv = target.getX() * this.moveSpeed;
+			this.zv = target.getZ() * this.moveSpeed;
 		}
 	}
 
