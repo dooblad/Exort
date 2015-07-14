@@ -34,7 +34,7 @@ public class RockWall extends Entity {
 	 */
 	public RockWall(float x, float z, float direction, Level level) {
 		super(x, z, level);
-		this.bb = new OBB((float) x, 0.7f, (float) z, 2f);
+		this.bb = new OBB((float) x, 2f, (float) z, 6f);
 		this.bb.rotate(direction);
 		this.currentLife = LIFE;
 		this.direction = direction;

@@ -23,10 +23,16 @@ public class OBB {
 
 	private float width, length;
 
+	/**
+	 * Creates an OBB at the origin with size (0, 0).
+	 */
 	public OBB() {
 		this(0, 0, 0, 0);
 	}
 
+	/**
+	 * Creates an OBB at ("x", "z") with size("width", "length").
+	 */
 	public OBB(float x, float width, float z, float length) {
 		this.vertices = new Vector2f[4];
 		for (int i = 0; i < this.vertices.length; i++) {
@@ -41,6 +47,9 @@ public class OBB {
 		this.length = length;
 	}
 
+	/**
+	 * Renders this OBB using GL_LINES.
+	 */
 	public void render() {
 		if (Main.debug) {
 			Shaders.use("color");
@@ -53,7 +62,10 @@ public class OBB {
 		}
 	}
 
-	public void move(float x, float z) {
+	/**
+	 * Moves this OBB to ("x", "z").
+	 */
+	public void setPosition(float x, float z) {
 		// Find the difference between the current center and the new center.
 		float xx = x - this.center.x;
 		float zz = z - this.center.y;
@@ -69,7 +81,7 @@ public class OBB {
 	/**
 	 * Performs an absolute rotation (relative to no rotation) by "angle" radians.
 	 */
-	public void rotate(double angle) {
+	public void rotate(float angle) {
 		// Precompute sine and cosine.
 		float sin = (float) Math.sin(angle);
 		float cos = (float) Math.cos(angle);
@@ -92,9 +104,16 @@ public class OBB {
 		this.vertices[3].y = (x * sin + z * cos) + this.center.y;
 	}
 
+	/**
+	 * Returns a minimum translation to resolve the collision between this and "bb". If
+	 * there is no collision, returns null.
+	 */
 	public Vector2f colliding(OBB bb) {
-		double overlap = Integer.MAX_VALUE;
-		Vector2f smallest = null;
+		// Start it out at a ridiculous maximum so it can be compared with actual overlaps
+		// to find a minimum.
+		double overlap = 100.0;
+		Vector2f smallest = new Vector2f(0, 0);
+
 		Vector2f[][] axes = new Vector2f[2][];
 		axes[0] = this.getAxes();
 		axes[1] = bb.getAxes();
@@ -119,7 +138,17 @@ public class OBB {
 			}
 		}
 
+		// Create the minimum translation vector (MTV).
 		Vector2f result = new Vector2f((float) (overlap / smallest.x), (float) (overlap / smallest.y));
+		// Check for ridiculousness in the vector.
+		if (Math.abs(result.x) > 100f) {
+			result.x = 0;
+		}
+		if (Math.abs(result.y) > 100f) {
+			result.y = 0;
+		}
+		// TODO: Remove this.
+		System.out.println(result);
 		return result;
 	}
 
@@ -131,10 +160,11 @@ public class OBB {
 			Vector2f p2 = this.vertices[(i + 1) == this.vertices.length ? 0 : i + 1];
 			Vector2f edge = new Vector2f();
 			Vector2f.sub(p1, p2, edge);
-			Vector2f normal = new Vector2f();
-			normal.x = -edge.y;
-			normal.y = edge.x;
-			axes[i] = normal;
+			edge.normalise();
+			float temp = edge.x;
+			edge.x = -edge.y;
+			edge.y = temp;
+			axes[i] = edge;
 		}
 
 		return axes;
@@ -157,6 +187,14 @@ public class OBB {
 
 		Projection projection = new Projection(min, max);
 		return projection;
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 21; i++) {
+			OBB one = new OBB(0, 20, 0, 20);
+			OBB two = new OBB(i, 20, 0, 20);
+			System.out.println(one.colliding(two));
+		}
 	}
 
 	public float getX() {

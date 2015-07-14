@@ -12,8 +12,6 @@ import org.lwjgl.util.vector.*;
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
 
-import exort.util.gl.*;
-
 /**
  * Aids in transforming the mouse position on the screen into 3D world coordinates.
  */

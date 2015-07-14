@@ -23,12 +23,16 @@ import exort.util.loaders.*;
  * GameState where two Players fight to the death.
  */
 public class DuelState implements GameState {
+	// For rotation about the x-axis.
+	public static final float CAMERA_ANGLE = 60f;
+	public static final float CAMERA_DISTANCE = 15f;
+
 	private Main main;
 	private InputHandler input;
 	private GUI gui;
 	private Level level;
 	private Player player;
-	private Camera camera;
+	private EntityCamera camera;
 
 	private Client client;
 	private Server server;
@@ -51,7 +55,8 @@ public class DuelState implements GameState {
 
 		new Packet00Login(username).sendData(this.client);
 
-		this.camera = new Camera(0.0f, 6.5f, 0.0f);
+		this.camera = new EntityCamera(CAMERA_DISTANCE, this.input);
+		this.camera.rotX = CAMERA_ANGLE;
 
 		Mouse.setGrabbed(true);
 	}
@@ -77,24 +82,13 @@ public class DuelState implements GameState {
 			Models.init();
 		}
 
-		// You get speedy when you press 'V'.
-		if (this.input.isKeyDown(Keyboard.KEY_V)) {
-			Camera.moveSpeed = 0.01f;
-		} else {
-			Camera.moveSpeed = 0.0015f;
-		}
+		this.level.tick(delta);
 
-		// Freeze certain components while paused.
-		if (!this.paused) {
-			if (!this.gui.isTyping()) { // Don't move the camera while typing.
-				this.camera.tick(delta);
-			}
-			this.level.tick(delta);
-		}
+		this.camera.tick();
 	}
 
 	public void render() {
-		// Level rendering
+		// Level rendering.
 		Matrices.switchToPerspective();
 		Shaders.use("lighting");
 		Color.set(Shaders.current, 1f, 1f, 1f, 1f);
@@ -143,6 +137,7 @@ public class DuelState implements GameState {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+		this.camera.setEntity(player);
 	}
 
 	public Camera getCamera() {

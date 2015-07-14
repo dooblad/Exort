@@ -75,6 +75,10 @@ public class Level {
 	 * Iterates through all Entities on this Level and renders them.
 	 */
 	public void renderEntities() {
+		// Wait until it's safe to add to "entities".
+		while (this.entitiesLocked) {
+			;
+		}
 		this.entitiesLocked = true;
 		Iterator<Entity> iterator = this.entities.iterator();
 		while (iterator.hasNext()) {

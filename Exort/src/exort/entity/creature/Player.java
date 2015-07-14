@@ -48,7 +48,7 @@ public class Player extends MovingEntity {
 	/**
 	 * Creates a Player at ("x", "y", "z") on "level" with movement specified by "input".
 	 */
-	public Player(double x, double y, double z, InputHandler input, Level level) {
+	public Player(float x, float y, float z, InputHandler input, Level level) {
 		this(x, y, z, input, level, null, null, -1, null, -1);
 	}
 
@@ -85,13 +85,13 @@ public class Player extends MovingEntity {
 	 * Creates a Player with networking capabilites at ("x", "y", "z") on "level" with
 	 * movement specified by "input".
 	 */
-	public Player(double x, double y, double z, InputHandler input, Level level, Client client, String username, int id, String address, int port) {
+	public Player(float x, float y, float z, InputHandler input, Level level, Client client, String username, int id, String address, int port) {
 		this.targetX = 0;
 		this.targetZ = 0;
 		this.xa = 0;
 		this.za = 0;
 		this.moveSpeed = 1f / 50f;
-		this.bb = new OBB((float) x, 2.5f, (float) z, 2.5f);
+		this.bb = new OBB(x, 2.5f, z, 2.5f);
 		this.input = input;
 		this.level = level;
 		// Net variables.
@@ -106,29 +106,16 @@ public class Player extends MovingEntity {
 	 * Handles the majority of the logic of this Player.
 	 */
 	public void tick(int delta) {
-		// Player movement.
-		boolean xDone = false, zDone = false;
-		if (((this.xa > 0) && ((this.x + (this.xa * delta)) > this.targetX)) || ((this.xa < 0) && ((this.x + (this.xa * delta)) < this.targetX))) {
-			this.xa = this.targetX - this.x;
-			xDone = true;
-		}
-
-		if (((this.za > 0) && ((this.z + (this.za * delta)) > this.targetZ)) || ((this.za < 0) && ((this.z + (this.za * delta)) < this.targetZ))) {
-			this.za = this.targetZ - this.z;
-			zDone = true;
-		}
-
 		// If close to target, snap Player's position to it.
-		if (xDone) {
+		if (Math.abs(this.x + this.xa - this.targetX) > Math.abs(this.x - this.targetX)){
 			this.x = this.targetX;
 			this.xa = 0;
 		}
-
-		if (zDone) {
+		if (Math.abs(this.z + this.za - this.targetZ) > Math.abs(this.z - this.targetZ)){
 			this.z = this.targetZ;
 			this.za = 0;
 		}
-
+		
 		// Position and BB update.
 		super.tick(delta);
 
@@ -144,9 +131,9 @@ public class Player extends MovingEntity {
 					if (p.getOwner() != this) {
 						System.out.println(this);
 					}
-				} else if (entity instanceof RockWall) {
-					this.stop();
+				} else if (entity instanceof RockWall || entity instanceof Player) {
 					this.move(mtv);
+					this.calculateSpeeds();
 				}
 			}
 		}
@@ -180,11 +167,13 @@ public class Player extends MovingEntity {
 		// Update lighting.
 		Lighting.setPosition(this.x, 8f, this.z);
 
-		// Model command.
+		// Player.
 		Matrices.translate(this.x, this.y, this.z);
+		Matrices.rotate(Math.toDegrees(this.direction), 0.0, 1.0, 0.0);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Color.set(Shaders.current, 1f, 0f, 0f, 1f);
 		Models.get("player").draw();
+		Matrices.rotate(Math.toDegrees(this.direction), 0.0, -1.0, 0.0);
 
 		// Move command.
 		Matrices.translate(this.targetX - this.x, 0, this.targetZ - this.z);
@@ -230,7 +219,8 @@ public class Player extends MovingEntity {
 	 */
 	public void setTargetPosition(float x, float z) {
 		if (x != this.targetX || z != this.targetZ) {
-			this.bb.rotate(TrigUtil.calculateAngle(x - this.x, z - this.z));
+			this.direction = TrigUtil.calculateAngle(x - this.x, z - this.z);
+			this.bb.rotate(this.direction);
 			this.targetX = x;
 			this.targetZ = z;
 			this.calculateSpeeds();
