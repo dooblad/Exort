@@ -3,6 +3,7 @@ package exort.net.client;
 import java.net.*;
 
 import exort.entity.projectile.*;
+import exort.gui.*;
 import exort.level.*;
 import exort.net.packets.*;
 import exort.net.packets.Packet.PacketType;
@@ -10,16 +11,26 @@ import exort.net.packets.Packet.PacketType;
 /**
  * Carries out the actions designated by incoming packets.
  */
-public class PacketParser {
+public class PacketHandler {
 	private Client client;
 	private Level level;
+
+	private PacketIO packetIO;
 
 	/**
 	 * Initializes a PacketParser for "client" with "level".
 	 */
-	public PacketParser(Client client, Level level) {
+	public PacketHandler(Client client, GUI gui, String address, Level level) {
 		this.client = client;
 		this.level = level;
+		this.packetIO = new PacketIO(gui, this, address);
+	}
+
+	/**
+	 * Starts receiving and parsing packets.
+	 */
+	public void start() {
+		this.packetIO.start();
 	}
 
 	/**
@@ -56,5 +67,33 @@ public class PacketParser {
 			default:
 				break;
 		}
+	}
+
+	/**
+	 * Sends the packet specified by "data".
+	 */
+	public void sendData(byte[] data) {
+		this.packetIO.sendData(data);
+	}
+
+	/**
+	 * Returns the address this Client is connected to.
+	 */
+	public InetAddress getAddress() {
+		return this.packetIO.getAddress();
+	}
+
+	/**
+	 * Returns the port being used for networking.
+	 */
+	public int getPort() {
+		return this.packetIO.getPort();
+	}
+
+	/**
+	 * Exits all networking processes.
+	 */
+	public void exit() {
+		this.packetIO.exit();
 	}
 }

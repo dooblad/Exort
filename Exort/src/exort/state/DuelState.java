@@ -11,7 +11,6 @@ import exort.*;
 import exort.entity.creature.*;
 import exort.gui.*;
 import exort.level.*;
-import exort.math.*;
 import exort.net.client.*;
 import exort.net.packets.*;
 import exort.net.server.*;
@@ -101,12 +100,13 @@ public class DuelState implements GameState {
 		Matrices.sendMVMatrix(Shaders.current);
 		this.level.renderLevel();
 
-		// Raycast before rendering entities to pick position by terrain only.
+		Lighting.setTextured(false);
+
+		this.level.renderEntities();
+
 		if (!this.paused) {
 			RayCast.tick(this.camera);
 		}
-		Lighting.setTextured(false);
-		this.level.renderEntities();
 
 		// GUI rendering
 		glEnable(GL_BLEND);

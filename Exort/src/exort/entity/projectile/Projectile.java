@@ -8,7 +8,7 @@ import exort.level.*;
 /**
  * A MovingEntity with a lifetime.
  */
-public class Projectile extends MovingEntity {
+public abstract class Projectile extends MovingEntity {
 	// Whoever conjured it.
 	protected Entity owner;
 	protected int currentLife, maxLife;

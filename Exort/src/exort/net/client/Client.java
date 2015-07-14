@@ -20,7 +20,7 @@ public class Client {
 
 	private Player[] players;
 
-	private PacketIO handler;
+	private PacketHandler handler;
 
 	// For setting input for the main Player, when they connect.
 	private InputHandler input;
@@ -43,7 +43,7 @@ public class Client {
 		// MAX_PLAYERS without any IndexOutOfBoundsExceptions.
 		this.players = new Player[NetVariables.MAX_PLAYERS];
 
-		this.handler = new PacketIO(this, this.gui, address, this.level);
+		this.handler = new PacketHandler(this, this.gui, address, this.level);
 		this.handler.start();
 
 		this.mainPlayerConnected = false;
@@ -66,9 +66,8 @@ public class Client {
 			Player player = new Player(username, id, this.level);
 
 			// I think there's a chance that, if another Player connects at the perfect
-			// time,
-			// another Player could become the main player on the actual main Player's
-			// client.
+			// time, that Player could become the main player on the actual main
+			// Player's client.
 			if (!this.mainPlayerConnected) {
 				player.setClient(this);
 				player.setInput(this.input);
@@ -117,27 +116,6 @@ public class Client {
 	}
 
 	/**
-	 * Sends the packet specified by "data".
-	 */
-	public void sendData(byte[] data) {
-		this.handler.sendData(data);
-	}
-
-	/**
-	 * Exits all networking processes.
-	 */
-	public void exit() {
-		this.handler.exit();
-	}
-
-	/**
-	 * Returns the packet handler.
-	 */
-	public PacketIO getHandler() {
-		return this.handler;
-	}
-
-	/**
 	 * Returns the address this Client is connected to.
 	 */
 	public InetAddress getAddress() {
@@ -149,5 +127,19 @@ public class Client {
 	 */
 	public int getPort() {
 		return this.handler.getPort();
+	}
+
+	/**
+	 * Sends the packet specified by "data".
+	 */
+	public void sendData(byte[] data) {
+		this.handler.sendData(data);
+	}
+
+	/**
+	 * Exits all networking processes.
+	 */
+	public void exit() {
+		this.handler.exit();
 	}
 }

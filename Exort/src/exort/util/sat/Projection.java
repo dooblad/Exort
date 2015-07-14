@@ -21,6 +21,7 @@ public class Projection {
 		if ((this.min - p.getMax()) < smallest) {
 			smallest = p.getMax() - this.min;
 		}
+		
 		// If it returns negative values, they're not overlapping
 		return smallest;
 	}

@@ -5,7 +5,7 @@ import exort.level.*;
 /**
  * An Entity that can move.
  */
-public class MovingEntity extends Entity {
+public abstract class MovingEntity extends Entity {
 	public float xv, yv, zv;
 	// In radians.
 	protected float direction;
@@ -70,9 +70,7 @@ public class MovingEntity extends Entity {
 	/**
 	 * Renders this MovingEntity.
 	 */
-	public void render() {
-
-	}
+	public abstract void render();
 
 	/**
 	 * Sets velocity on every axis to 0.

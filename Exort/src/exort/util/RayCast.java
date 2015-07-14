@@ -1,4 +1,4 @@
-package exort.math;
+package exort.util;
 
 import static org.lwjgl.opengl.GL11.*;
 

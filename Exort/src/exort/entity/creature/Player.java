@@ -14,7 +14,6 @@ import com.doobs.modern.util.matrix.*;
 import exort.entity.*;
 import exort.entity.projectile.*;
 import exort.level.*;
-import exort.math.*;
 import exort.net.client.*;
 import exort.net.packets.*;
 import exort.util.*;
@@ -141,7 +140,7 @@ public class Player extends MovingEntity {
 		// Net code.
 		if ((this.client != null) && !Mouse.isGrabbed()) {
 			// Move.
-			if (this.input.isMouseButtonDown(1)) {
+			if (this.input.isMouseButtonPressed(1)) {
 				this.client.sendData(new Packet02Move(this.id, RayCast.mouseX, RayCast.mouseZ).getData());
 			}
 			// Sonic wave.
@@ -174,11 +173,12 @@ public class Player extends MovingEntity {
 		Color.set(Shaders.current, 1f, 0f, 0f, 1f);
 		Models.get("player").draw();
 		Matrices.rotate(Math.toDegrees(this.direction), 0.0, -1.0, 0.0);
+		Matrices.translate(-this.x, -this.y, -this.z);
 
 		// Move command.
-		Matrices.translate(this.targetX - this.x, 0, this.targetZ - this.z);
+		Matrices.translate(this.targetX, 0, this.targetZ);
 		Matrices.sendMVPMatrix(Shaders.current);
-		if ((this.xv != 0) && (this.zv != 0)) {
+		if ((this.xv != 0) || (this.zv != 0)) {
 			Color.set(Shaders.current, 0f, 1f, 0f, 1f);
 			Models.get("move").draw();
 		}

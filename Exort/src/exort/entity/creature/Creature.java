@@ -9,7 +9,7 @@ import exort.level.*;
  * There is no maximum health because we must teach ourselves that there is no upper bound
  * to our well-being.
  */
-public class Creature extends MovingEntity {
+public abstract class Creature extends MovingEntity {
 	protected int health;
 
 	/**

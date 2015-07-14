@@ -8,7 +8,7 @@ import exort.util.sat.*;
 /**
  * A thing with a collision box and a position in the Level.
  */
-public class Entity {
+public abstract class Entity {
 	protected OBB bb;
 	protected float x, y, z;
 	protected Level level;
@@ -56,16 +56,12 @@ public class Entity {
 	/**
 	 * Handles the behavior of this Entity.
 	 */
-	public void tick(int delta) {
-
-	}
+	public abstract void tick(int delta);
 
 	/**
 	 * Renders this Entity.
 	 */
-	public void render() {
-
-	}
+	public abstract void render();
 
 	/**
 	 * Moves this Entity by ("position".getX(), 0, "position".getY()).

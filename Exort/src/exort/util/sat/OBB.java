@@ -38,11 +38,12 @@ public class OBB {
 		for (int i = 0; i < this.vertices.length; i++) {
 			this.vertices[i] = new Vector2f();
 		}
-		this.vertices[0].set(x - (width / 2), z - (length / 2));
-		this.vertices[1].set(x + (width / 2), z - (length / 2));
-		this.vertices[2].set(x + (width / 2), z + (length / 2));
-		this.vertices[3].set(x - (width / 2), z + (length / 2));
-		this.center = new Vector2f(x, z);
+		this.vertices[0].set(-(width / 2), -(length / 2));
+		this.vertices[1].set((width / 2), -(length / 2));
+		this.vertices[2].set((width / 2), (length / 2));
+		this.vertices[3].set(-(width / 2), (length / 2));
+		this.center = new Vector2f(0, 0);
+		this.setPosition(x, z);
 		this.width = width;
 		this.length = length;
 	}
@@ -183,14 +184,6 @@ public class OBB {
 
 		Projection projection = new Projection(min, max);
 		return projection;
-	}
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 21; i++) {
-			OBB one = new OBB(0, 20, 0, 20);
-			OBB two = new OBB(i, 20, 0, 20);
-			System.out.println(one.colliding(two));
-		}
 	}
 
 	public float getX() {

@@ -11,12 +11,12 @@ import exort.entity.*;
  */
 public class EntityCamera extends Camera {
 	private static final float DEFAULT_DISTANCE = 10f;
-	private static final float ACCELERATION = 0.1f;
+	private static final float ACCELERATION = 0.2f;
 	private static final float SLOWDOWN_FACTOR = 0.9f;
 	// These are acceleration limits, not position limits.
 	// For smoothing purposes.
 	private static final float CLOSEST = 20f, FURTHEST = 30f;
-	private static final float LOWEST = 10f, HIGHEST = 85f;
+	private static final float LOWEST = 7f, HIGHEST = 93f;
 
 	private InputHandler input;
 
@@ -121,10 +121,10 @@ public class EntityCamera extends Camera {
 		this.rotationSpeed *= SLOWDOWN_FACTOR;
 		if (this.rotX < LOWEST) {
 			this.downLocked = true;
-			this.rotationSpeed += ACCELERATION * 1.5f;
+			this.rotationSpeed += ACCELERATION * 1.1f;
 		} else if (this.rotX > HIGHEST) {
 			this.upLocked = true;
-			this.rotationSpeed -= ACCELERATION * 1.5f;
+			this.rotationSpeed -= ACCELERATION * 1.1f;
 		}
 	}
 
