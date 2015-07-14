@@ -1,41 +1,37 @@
 package exort.net.packets;
 
-import exort.net.client.*;
-import exort.net.server.*;
-
+/**
+ * Used to put messages in the chat for other Players to see.
+ */
 public class Packet03Chat extends Packet {
-	private int id;
 	private String message;
 
+	/**
+	 * Recreates a Packet03Chat from "data".
+	 */
 	public Packet03Chat(byte[] data) {
-		super(03);
-		String[] dataArray = this.readData(data).split(",");
-		this.id = Integer.parseInt(dataArray[0]);
+		this.packetID = PacketType.CHAT.getID();
+
+		String[] dataArray = readData(data).split(",");
+		this.playerID = Integer.parseInt(dataArray[0]);
 		this.message = dataArray[1];
 	}
 
+	/**
+	 * Creates a Packet03Chat carrying "message" from the Player with "id".
+	 */
 	public Packet03Chat(int id, String message) {
-		super(03);
-		this.id = id;
+		super(PacketType.CHAT.getID(), id);
 		this.message = message;
 	}
 
-	public void sendData(Client client) {
-		super.sendData(client, this.getData());
-	}
-
-	public void sendData(Server server) {
-		super.sendData(server, this.getData());
-	}
-
 	public byte[] getData() {
-		return ("03" + this.id + "," + this.message).getBytes();
+		return (PacketType.CHAT.id + this.playerID + "," + this.message).getBytes();
 	}
 
-	public int getID() {
-		return this.id;
-	}
-
+	/**
+	 * Returns the message being sent.
+	 */
 	public String getMessage() {
 		return this.message;
 	}

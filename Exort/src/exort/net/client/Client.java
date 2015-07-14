@@ -53,7 +53,7 @@ public class Client {
 	 * Moves a Player based on the data in the incoming "packet".
 	 */
 	public void handleMove(Packet02Move packet) {
-		this.players[packet.getID()].setTargetPosition(packet.getX(), packet.getZ());
+		this.players[packet.getPlayerID()].setTargetPosition(packet.getX(), packet.getZ());
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Client {
 	 * Adds the contents of "packet" to the chat box.
 	 */
 	public void addChat(Packet03Chat packet) {
-		this.gui.addToChat(this.players[packet.getID()].getUsername() + ": " + packet.getMessage());
+		this.gui.addToChat(this.players[packet.getPlayerID()].getUsername() + ": " + packet.getMessage());
 	}
 
 	/**

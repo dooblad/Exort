@@ -43,7 +43,7 @@ public class Server {
 	 * to all other clients.
 	 */
 	public void handleMove(Packet02Move packet) {
-		this.players[packet.getID()].setTargetPosition(packet.getX(), packet.getZ());
+		this.players[packet.getPlayerID()].setTargetPosition(packet.getX(), packet.getZ());
 		packet.sendData(this);
 	}
 

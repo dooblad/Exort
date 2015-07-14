@@ -219,16 +219,16 @@ public class Player extends MovingEntity {
 	 */
 	public void setTargetPosition(float x, float z) {
 		if ((x != this.targetX) || (z != this.targetZ)) {
-			this.direction = TrigUtil.calculateAngle(x - this.x, z - this.z);
-			this.bb.rotate(this.direction);
 			this.targetX = x;
 			this.targetZ = z;
 			this.calculateSpeeds();
+			this.bb.rotate(this.direction);
 		}
 	}
 
 	/**
-	 * Calculates the component-wise velocities required to reach this Player's target.
+	 * Calculates the component-wise velocities required to reach this Player's target and
+	 * updates the Player's direction.
 	 */
 	public void calculateSpeeds() {
 		Vector3f target = new Vector3f(this.targetX - this.x, 0f, this.targetZ - this.z);
@@ -237,6 +237,7 @@ public class Player extends MovingEntity {
 			this.xv = target.getX() * this.moveSpeed;
 			this.zv = target.getZ() * this.moveSpeed;
 		}
+		this.direction = TrigUtil.calculateAngle(this.targetX - this.x, this.targetZ - this.z);
 	}
 
 	/**

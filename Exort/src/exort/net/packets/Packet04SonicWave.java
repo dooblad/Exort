@@ -1,49 +1,38 @@
 package exort.net.packets;
 
-import exort.net.client.*;
-import exort.net.server.*;
-
 /**
- * A Packet containing information about a conjured SonicWave in the format
- *
- * 04<username>,<direction>
+ * Used to conjure a SonicWave in a certain direction (in radians).
  */
 public class Packet04SonicWave extends Packet {
-	private int id;
+	// In radians.
 	private float direction;
 
 	/**
-	 * Creates a Packet04SonicWave with "data".
+	 * Recreates a Packet04SonicWave from "data".
 	 */
 	public Packet04SonicWave(byte[] data) {
-		super(04);
-		String[] dataArray = this.readData(data).split(",");
-		this.id = Integer.parseInt(dataArray[0]);
+		this.packetID = PacketType.SONIC_WAVE.getID();
+
+		String[] dataArray = readData(data).split(",");
+		this.playerID = Integer.parseInt(dataArray[0]);
 		this.direction = Float.valueOf(dataArray[1]);
 	}
 
+	/**
+	 * Creates a Packet04SonicWave in "direction" (in radians) from the Player with "id".
+	 */
 	public Packet04SonicWave(int id, float direction) {
-		super(04);
-		this.id = id;
+		super(PacketType.SONIC_WAVE.getID(), id);
 		this.direction = direction;
 	}
 
-	public void sendData(Client client) {
-		super.sendData(client, this.getData());
-	}
-
-	public void sendData(Server server) {
-		super.sendData(server, this.getData());
-	}
-
 	public byte[] getData() {
-		return ("04" + this.id + "," + this.direction).getBytes();
+		return (PacketType.SONIC_WAVE.id + this.playerID + "," + this.direction).getBytes();
 	}
 
-	public int getID() {
-		return this.id;
-	}
-
+	/**
+	 * Returns the direction (in radians) this Packet04SonicWave specifies.
+	 */
 	public float getDirection() {
 		return this.direction;
 	}

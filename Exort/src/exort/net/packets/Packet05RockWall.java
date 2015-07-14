@@ -1,62 +1,72 @@
 package exort.net.packets;
 
-import exort.net.client.*;
-import exort.net.server.*;
-
+/**
+ * Used to conjure a RockWall with a certain position and orientation (in radians).
+ */
 public class Packet05RockWall extends Packet {
-	private int id;
-	private float direction;
+	// In radians.
+	private float orientation;
 	private float x, z;
 
+	/**
+	 * Recreates a Packet05RockWall from "data".
+	 */
 	public Packet05RockWall(byte[] data) {
-		super(05);
-		String[] dataArray = this.readData(data).split(",");
-		this.id = Integer.parseInt(dataArray[0]);
-		this.direction = Float.valueOf(dataArray[1]);
+		this.packetID = PacketType.ROCK_WALL.getID();
+
+		String[] dataArray = readData(data).split(",");
+		this.playerID = Integer.parseInt(dataArray[0]);
+		this.orientation = Float.valueOf(dataArray[1]);
 		this.x = Float.parseFloat(dataArray[2]);
 		this.z = Float.parseFloat(dataArray[3]);
 	}
 
-	public Packet05RockWall(int id, float direction, float x, float z) {
-		super(05);
-		this.id = id;
-		this.direction = direction;
+	/**
+	 * Creates a Packet05RockWall conjured by the Player with "id" with "direction" and
+	 * position ("x", 0, "z").
+	 */
+	public Packet05RockWall(int id, float orientation, float x, float z) {
+		super(PacketType.ROCK_WALL.getID(), id);
+		this.orientation = orientation;
 		this.x = x;
 		this.z = z;
 	}
 
-	public void sendData(Client client) {
-		super.sendData(client, this.getData());
-	}
-
-	public void sendData(Server server) {
-		super.sendData(server, this.getData());
-	}
-
 	public byte[] getData() {
-		return ("05" + this.id + "," + this.direction + "," + this.x + "," + this.z).getBytes();
+		return (PacketType.ROCK_WALL.id + this.playerID + "," + this.orientation + "," + this.x + "," + this.z).getBytes();
 	}
 
-	public int getID() {
-		return this.id;
+	/**
+	 * Returns the orientation (in radians) this Packet05RockWall specifies.
+	 */
+	public float getOrientation() {
+		return this.orientation;
 	}
 
-	public float getDirection() {
-		return this.direction;
-	}
-
+	/**
+	 * Returns the x-coordinate this Packet05RockWall specifies.
+	 */
 	public float getX() {
 		return this.x;
 	}
 
+	/**
+	 * Sets the x-coordinate this Packet05RockWall specifies to "x".
+	 */
 	public void setX(float x) {
 		this.x = x;
 	}
 
+	/**
+	 * Returns the z-coordinate this Packet05RockWall specifies.
+	 */
 	public float getZ() {
 		return this.z;
 	}
 
+	/**
+	 * Sets the z-coordinate this Packet05RockWall specifies to "z".
+	 */
 	public void setZ(float z) {
 		this.z = z;
 	}

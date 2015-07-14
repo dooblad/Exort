@@ -1,47 +1,46 @@
 package exort.net.packets;
 
-import exort.net.client.*;
-import exort.net.server.*;
-
+/**
+ * Used to move the Player with "id" to ("x", 0, "z").
+ */
 public class Packet02Move extends Packet {
-	private int id;
 	private float x, z;
 
+	/**
+	 * Recreates a Packet02Move from "data".
+	 */
 	public Packet02Move(byte[] data) {
-		super(02);
-		String[] dataArray = this.readData(data).split(",");
-		this.id = Integer.parseInt(dataArray[0]);
+		this.packetID = PacketType.MOVE.getID();
+
+		String[] dataArray = readData(data).split(",");
+		this.playerID = Integer.parseInt(dataArray[0]);
 		this.x = Float.parseFloat(dataArray[1]);
 		this.z = Float.parseFloat(dataArray[2]);
 	}
 
+	/**
+	 * Creates a Packet02Move for the Player with "id" to move to ("x", 0, "z").
+	 */
 	public Packet02Move(int id, float x, float z) {
-		super(02);
-		this.id = id;
+		super(PacketType.MOVE.getID(), id);
 		this.x = x;
 		this.z = z;
 	}
 
-	public void sendData(Client client) {
-		super.sendData(client, this.getData());
-	}
-
-	public void sendData(Server server) {
-		super.sendData(server, this.getData());
-	}
-
 	public byte[] getData() {
-		return ("02" + this.id + "," + this.x + "," + this.z).getBytes();
+		return (PacketType.MOVE.id + this.playerID + "," + this.x + "," + this.z).getBytes();
 	}
 
-	public int getID() {
-		return this.id;
-	}
-
+	/**
+	 * Returns the x-coordinate the Player is moving to.
+	 */
 	public float getX() {
 		return this.x;
 	}
 
+	/**
+	 * Returns the z-coordinate the Player is moving to.
+	 */
 	public float getZ() {
 		return this.z;
 	}
