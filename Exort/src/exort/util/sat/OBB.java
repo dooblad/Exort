@@ -38,10 +38,10 @@ public class OBB {
 		for (int i = 0; i < this.vertices.length; i++) {
 			this.vertices[i] = new Vector2f();
 		}
-		this.vertices[0].set(x - width / 2, z - length / 2);
-		this.vertices[1].set(x + width / 2, z - length / 2);
-		this.vertices[2].set(x + width / 2, z + length / 2);
-		this.vertices[3].set(x - width / 2, z + length / 2);
+		this.vertices[0].set(x - (width / 2), z - (length / 2));
+		this.vertices[1].set(x + (width / 2), z - (length / 2));
+		this.vertices[2].set(x + (width / 2), z + (length / 2));
+		this.vertices[3].set(x - (width / 2), z + (length / 2));
 		this.center = new Vector2f(x, z);
 		this.width = width;
 		this.length = length;
@@ -88,20 +88,20 @@ public class OBB {
 
 		float x = -this.width / 2;
 		float z = -this.length / 2;
-		this.vertices[0].x = (x * cos - z * sin) + this.center.x;
-		this.vertices[0].y = (x * sin + z * cos) + this.center.y;
+		this.vertices[0].x = ((x * cos) - (z * sin)) + this.center.x;
+		this.vertices[0].y = ((x * sin) + (z * cos)) + this.center.y;
 		x = this.width / 2;
 		z = -this.length / 2;
-		this.vertices[1].x = (x * cos - z * sin) + this.center.x;
-		this.vertices[1].y = (x * sin + z * cos) + this.center.y;
+		this.vertices[1].x = ((x * cos) - (z * sin)) + this.center.x;
+		this.vertices[1].y = ((x * sin) + (z * cos)) + this.center.y;
 		x = this.width / 2;
 		z = this.length / 2;
-		this.vertices[2].x = (x * cos - z * sin) + this.center.x;
-		this.vertices[2].y = (x * sin + z * cos) + this.center.y;
+		this.vertices[2].x = ((x * cos) - (z * sin)) + this.center.x;
+		this.vertices[2].y = ((x * sin) + (z * cos)) + this.center.y;
 		x = -this.width / 2;
 		z = this.length / 2;
-		this.vertices[3].x = (x * cos - z * sin) + this.center.x;
-		this.vertices[3].y = (x * sin + z * cos) + this.center.y;
+		this.vertices[3].x = ((x * cos) - (z * sin)) + this.center.x;
+		this.vertices[3].y = ((x * sin) + (z * cos)) + this.center.y;
 	}
 
 	/**
@@ -118,9 +118,7 @@ public class OBB {
 		axes[0] = this.getAxes();
 		axes[1] = bb.getAxes();
 
-		for (int i = 0; i < axes.length; i++) {
-			// Reference to one of the axis arrays.
-			Vector2f[] a = axes[i];
+		for (Vector2f[] a : axes) {
 			for (Vector2f axis : a) {
 				// Project both shapes onto the axis.
 				Projection p1 = this.project(axis);
@@ -147,8 +145,6 @@ public class OBB {
 		if (Math.abs(result.y) > 100f) {
 			result.y = 0;
 		}
-		// TODO: Remove this.
-		System.out.println(result);
 		return result;
 	}
 

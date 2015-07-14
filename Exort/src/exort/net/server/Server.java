@@ -62,8 +62,7 @@ public class Server {
 			if (other != null) {
 				// Inform "player" of existing Players.
 				this.handler.sendData(new Packet00Login(other.getUsername(), other.getID()).getData(), player.getAddress(), player.getPort());
-				this.handler.sendData(new Packet02Move(other.getID(), (float) other.getX(), (float) other.getZ()).getData(), player.getAddress(),
-						player.getPort());
+				this.handler.sendData(new Packet02Move(other.getID(), other.getX(), other.getZ()).getData(), player.getAddress(), player.getPort());
 				// Inform existing Players of "player".
 				this.handler.sendData(new Packet00Login(player.getUsername(), player.getID()).getData(), other.getAddress(), other.getPort());
 			}

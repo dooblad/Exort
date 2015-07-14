@@ -64,7 +64,7 @@ public class MovingEntity extends Entity {
 		this.y += this.ya * delta;
 		this.z += this.za * delta;
 
-		this.bb.setPosition((float) this.x, (float) this.z);
+		this.bb.setPosition(this.x, this.z);
 	}
 
 	/**

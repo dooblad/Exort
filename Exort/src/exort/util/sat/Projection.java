@@ -13,7 +13,7 @@ public class Projection {
 	}
 
 	public boolean overlaps(Projection p) {
-		 return !((p.getMin() > this.max) || (p.getMax() < this.min));
+		return !((p.getMin() > this.max) || (p.getMax() < this.min));
 	}
 
 	public double getOverlap(Projection p) {

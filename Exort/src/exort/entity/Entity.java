@@ -110,7 +110,7 @@ public class Entity {
 	 * Returns a Vector3f that represents this Entity's current position.
 	 */
 	public Vector3f getPosition() {
-		return new Vector3f((float) this.x, (float) this.y, (float) this.z);
+		return new Vector3f(this.x, this.y, this.z);
 	}
 
 	/**

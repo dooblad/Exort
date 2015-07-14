@@ -19,7 +19,8 @@ public class SonicWave extends Projectile {
 	public static final int LIFE = 28;
 
 	/**
-	 * Creates a SonicWave on "level" at "position" with initial "direction" (in radians) with "owner".
+	 * Creates a SonicWave on "level" at "position" with initial "direction" (in radians)
+	 * with "owner".
 	 */
 	public SonicWave(Vector3f position, float direction, Entity owner, Level level) {
 		this(position.x, position.y + 1.5f, position.z, SPEED * (float) Math.cos(direction), 0, SPEED * (float) Math.sin(direction), owner, level);
@@ -37,7 +38,7 @@ public class SonicWave extends Projectile {
 	 */
 	public SonicWave(float x, float y, float z, float xa, float ya, float za, Entity owner, Level level) {
 		super(x, y, z, xa, ya, za, LIFE, owner, level);
-		this.bb = new OBB((float) x, 1f, (float) y, 1f);
+		this.bb = new OBB(x, 1f, y, 1f);
 		this.direction = TrigUtil.calculateAngle(xa, za);
 		this.bb.rotate(this.direction);
 	}

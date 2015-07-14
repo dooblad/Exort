@@ -14,7 +14,7 @@ import exort.util.sat.*;
  * A wall with a limited life time that can be conjured by Players.
  */
 public class RockWall extends Entity {
-	public static final int LIFE = 500; //60;
+	public static final int LIFE = 500; // 60;
 
 	private int currentLife;
 
@@ -34,7 +34,7 @@ public class RockWall extends Entity {
 	 */
 	public RockWall(float x, float z, float direction, Level level) {
 		super(x, z, level);
-		this.bb = new OBB((float) x, 2f, (float) z, 6f);
+		this.bb = new OBB(x, 2f, z, 6f);
 		this.bb.rotate(direction);
 		this.currentLife = LIFE;
 		this.direction = direction;

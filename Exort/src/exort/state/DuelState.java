@@ -25,7 +25,7 @@ import exort.util.loaders.*;
 public class DuelState implements GameState {
 	// For rotation about the x-axis.
 	public static final float CAMERA_ANGLE = 60f;
-	public static final float CAMERA_DISTANCE = 15f;
+	public static final float CAMERA_DISTANCE = 25f;
 
 	private Main main;
 	private InputHandler input;
@@ -58,7 +58,7 @@ public class DuelState implements GameState {
 		this.camera = new EntityCamera(CAMERA_DISTANCE, this.input);
 		this.camera.rotX = CAMERA_ANGLE;
 
-		Mouse.setGrabbed(true);
+		Mouse.setGrabbed(false);
 	}
 
 	public void tick(int delta) {

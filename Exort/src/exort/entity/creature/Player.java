@@ -107,15 +107,15 @@ public class Player extends MovingEntity {
 	 */
 	public void tick(int delta) {
 		// If close to target, snap Player's position to it.
-		if (Math.abs(this.x + this.xa - this.targetX) > Math.abs(this.x - this.targetX)){
+		if (Math.abs((this.x + this.xa) - this.targetX) > Math.abs(this.x - this.targetX)) {
 			this.x = this.targetX;
 			this.xa = 0;
 		}
-		if (Math.abs(this.z + this.za - this.targetZ) > Math.abs(this.z - this.targetZ)){
+		if (Math.abs((this.z + this.za) - this.targetZ) > Math.abs(this.z - this.targetZ)) {
 			this.z = this.targetZ;
 			this.za = 0;
 		}
-		
+
 		// Position and BB update.
 		super.tick(delta);
 
@@ -124,14 +124,14 @@ public class Player extends MovingEntity {
 		while (iterator.hasNext()) {
 			Entity entity = iterator.next();
 			Vector2f mtv = null;
-			if (entity != null && entity != this && (mtv = bb.colliding(entity.getBB())) != null) {
+			if ((entity != null) && (entity != this) && ((mtv = this.bb.colliding(entity.getBB())) != null)) {
 				if (entity instanceof Projectile) {
 					Projectile p = (Projectile) entity;
 					// Replace this with hit reaction.
 					if (p.getOwner() != this) {
 						System.out.println(this);
 					}
-				} else if (entity instanceof RockWall || entity instanceof Player) {
+				} else if ((entity instanceof RockWall) || (entity instanceof Player)) {
 					this.move(mtv);
 					this.calculateSpeeds();
 				}
@@ -218,7 +218,7 @@ public class Player extends MovingEntity {
 	 * Sets the coordinates of this Player's target to ("x", "z").
 	 */
 	public void setTargetPosition(float x, float z) {
-		if (x != this.targetX || z != this.targetZ) {
+		if ((x != this.targetX) || (z != this.targetZ)) {
 			this.direction = TrigUtil.calculateAngle(x - this.x, z - this.z);
 			this.bb.rotate(this.direction);
 			this.targetX = x;
@@ -231,7 +231,7 @@ public class Player extends MovingEntity {
 	 * Calculates the component-wise velocities required to reach this Player's target.
 	 */
 	public void calculateSpeeds() {
-		Vector3f target = new Vector3f((float) (this.targetX - this.x), 0f, (float) (this.targetZ - this.z));
+		Vector3f target = new Vector3f(this.targetX - this.x, 0f, this.targetZ - this.z);
 		if ((target.getX() != 0) || (target.getZ() != 0)) {
 			target.normalise();
 			this.xa = target.getX() * this.moveSpeed;
