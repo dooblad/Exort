@@ -7,6 +7,7 @@ import org.lwjgl.util.vector.*;
 
 import exort.*;
 import exort.gui.*;
+import exort.level.*;
 import exort.net.*;
 import exort.util.*;
 
@@ -16,9 +17,10 @@ import exort.util.*;
 public class PacketIO extends Thread {
 	private GUI gui;
 
+	private PacketHandler handler;
+
 	// Net variables.
 	private DatagramSocket socket;
-	private PacketHandler parser;
 	private InetAddress address;
 	private int port;
 
@@ -28,19 +30,18 @@ public class PacketIO extends Thread {
 	 * Creates a PacketIO connected to "addresss". Uses "gui" for sending raw packets to
 	 * chat when debugging.
 	 */
-	public PacketIO(GUI gui, PacketHandler parser, String address) {
+	public PacketIO(Client client, GUI gui, InetAddress address, Level level) {
 		this.gui = gui;
-		this.parser = parser;
-		this.port = NetVariables.PORT;
+		this.handler = new PacketHandler(client, gui, address, level);
 		try {
 			this.socket = new DatagramSocket();
-			this.address = InetAddress.getByName(address);
 		} catch (SocketException e) {
 			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+		} 
+		this.address = address;
+		this.port = NetVariables.PORT;
 		this.running = false;
+		this.start();
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class PacketIO extends Thread {
 				this.gui.addToChat(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f,
 						0f, 1f)));
 			}
-			this.parser.parsePacket(data, packet.getAddress(), packet.getPort());
+			this.handler.parsePacket(data, packet.getAddress(), packet.getPort());
 		}
 	}
 

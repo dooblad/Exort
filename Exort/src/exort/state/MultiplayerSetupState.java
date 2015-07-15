@@ -2,12 +2,13 @@ package exort.state;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.net.*;
+
 import org.lwjgl.input.*;
 
 import com.doobs.modern.util.matrix.*;
 
 import exort.*;
-import exort.net.*;
 import exort.util.*;
 import exort.util.loaders.*;
 
@@ -37,10 +38,15 @@ public class MultiplayerSetupState implements GameState {
 		if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
 			if (this.chosen) {
 				if (this.username.length() != 0) {
-					if (this.server) {
-						this.main.changeState(new DuelState(this.main, this.server, this.username.toString(), NetVariables.LOCALHOST));
-					} else if (this.address.length() != 0) {
-						this.main.changeState(new DuelState(this.main, this.server, this.username.toString(), this.address.toString()));
+					try {
+						if (this.server) {
+							this.main.changeState(new DuelState(this.main, this.server, this.username.toString(), InetAddress.getLocalHost()));
+						} else if (this.address.length() != 0) {
+							this.main.changeState(new DuelState(this.main, this.server, this.username.toString(),
+									InetAddress.getByName(this.address.toString())));
+						}
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
 					}
 				}
 			} else {

@@ -2,6 +2,8 @@ package exort.state;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.net.*;
+
 import org.lwjgl.input.*;
 
 import com.doobs.modern.util.*;
@@ -38,7 +40,7 @@ public class DuelState implements GameState {
 
 	private boolean paused;
 
-	public DuelState(Main main, boolean isServer, String username, String address) {
+	public DuelState(Main main, boolean isServer, String username, InetAddress address) {
 		this.main = main;
 		this.input = main.input;
 
@@ -83,7 +85,9 @@ public class DuelState implements GameState {
 
 		this.level.tick(delta);
 
-		this.camera.tick();
+		if (!this.gui.isTyping()) {
+			this.camera.tick();
+		}
 	}
 
 	public void render() {

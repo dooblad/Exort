@@ -1,5 +1,7 @@
 package exort.net.server;
 
+import java.net.*;
+
 import exort.entity.creature.*;
 import exort.gui.*;
 import exort.level.*;
@@ -51,7 +53,7 @@ public class Server {
 	 * Assigns an ID to "player", synchronizes the world state between all other Players,
 	 * and adds "player" to the game.
 	 */
-	public void addPlayer(String username, String address, int port) {
+	public void addPlayer(String username, InetAddress address, int port) {
 		// Assign an ID while creating the Player.
 		Player player = new Player(username, this.findID(), address, port, this.level);
 

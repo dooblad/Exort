@@ -11,13 +11,24 @@ import exort.level.*;
 import exort.net.*;
 import exort.util.*;
 
+/**
+ * Handles the low-level components of networking.
+ */
 public class PacketIO extends Thread {
 	private GUI gui;
 
+	private PacketHandler handler;
+
+	// Net variables.
 	private DatagramSocket socket;
-	private PacketParser parser;
 	private int port;
 
+	private volatile boolean running;
+
+	/**
+	 * Creates a PacketIO connected to "addresss". Uses "gui" for sending raw packets to
+	 * chat when debugging.
+	 */
 	public PacketIO(GUI gui, Server server, Level level) {
 		this.gui = gui;
 		this.port = NetVariables.PORT;
@@ -27,11 +38,16 @@ public class PacketIO extends Thread {
 			e.printStackTrace();
 		}
 
-		this.parser = new PacketParser(server);
+		this.handler = new PacketHandler(server);
+		this.running = false;
 	}
 
+	/**
+	 * Makes this PacketIO begin receiving packets.
+	 */
 	public void run() {
-		while (true) {
+		this.running = true;
+		while (this.running) {
 			byte[] data = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			try {
@@ -44,24 +60,33 @@ public class PacketIO extends Thread {
 				this.gui.addToChat(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 0f,
 						0f, 1f)));
 			}
-			this.parser.parsePacket(packet.getData(), packet.getAddress().getHostAddress(), packet.getPort());
+			this.handler.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 		}
 	}
 
-	public void sendData(byte[] data, String address, int port) {
+	/**
+	 * Sends the packet contained within "data" to "address":"port".
+	 */
+	public void sendData(byte[] data, InetAddress address, int port) {
+		DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
 		try {
-			DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(address), port);
 			this.socket.send(packet);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Closes all network processes.
+	 */
 	public void exit() {
+		this.running = false;
 		this.socket.close();
 	}
 
-	// Getters and setters
+	/**
+	 * Returns the port being used for networking.
+	 */
 	public int getPort() {
 		return this.port;
 	}

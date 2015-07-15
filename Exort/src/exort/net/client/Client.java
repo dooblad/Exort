@@ -20,7 +20,7 @@ public class Client {
 
 	private Player[] players;
 
-	private PacketHandler handler;
+	private PacketIO packetIO;
 
 	// For setting input for the main Player, when they connect.
 	private InputHandler input;
@@ -33,7 +33,7 @@ public class Client {
 	 * directly to chat and uses "level" to interact with the Level according to incoming
 	 * packets. "input" is used to set the main Player's input, when they connect.
 	 */
-	public Client(DuelState state, String address) {
+	public Client(DuelState state, InetAddress address) {
 		this.gui = state.getGUI();
 		this.level = state.getLevel();
 		this.input = state.getInput();
@@ -43,8 +43,7 @@ public class Client {
 		// MAX_PLAYERS without any IndexOutOfBoundsExceptions.
 		this.players = new Player[NetVariables.MAX_PLAYERS];
 
-		this.handler = new PacketHandler(this, this.gui, address, this.level);
-		this.handler.start();
+		this.packetIO = new PacketIO(this, this.gui, address, this.level);
 
 		this.mainPlayerConnected = false;
 	}
@@ -119,27 +118,27 @@ public class Client {
 	 * Returns the address this Client is connected to.
 	 */
 	public InetAddress getAddress() {
-		return this.handler.getAddress();
+		return this.packetIO.getAddress();
 	}
 
 	/**
 	 * Returns the port being used for networking.
 	 */
 	public int getPort() {
-		return this.handler.getPort();
+		return this.packetIO.getPort();
 	}
 
 	/**
 	 * Sends the packet specified by "data".
 	 */
 	public void sendData(byte[] data) {
-		this.handler.sendData(data);
+		this.packetIO.sendData(data);
 	}
 
 	/**
 	 * Exits all networking processes.
 	 */
 	public void exit() {
-		this.handler.exit();
+		this.packetIO.exit();
 	}
 }

@@ -9,32 +9,22 @@ import exort.net.packets.*;
 import exort.net.packets.Packet.PacketType;
 
 /**
- * Carries out the actions designated by incoming packets.
+ * Carries out the actions designated by incoming Packets.
  */
 public class PacketHandler {
 	private Client client;
 	private Level level;
 
-	private PacketIO packetIO;
-
 	/**
-	 * Initializes a PacketParser for "client" with "level".
+	 * Initializes a PacketHandler for "client" with "level".
 	 */
-	public PacketHandler(Client client, GUI gui, String address, Level level) {
+	public PacketHandler(Client client, GUI gui, InetAddress address, Level level) {
 		this.client = client;
 		this.level = level;
-		this.packetIO = new PacketIO(gui, this, address);
 	}
 
 	/**
-	 * Starts receiving and parsing packets.
-	 */
-	public void start() {
-		this.packetIO.start();
-	}
-
-	/**
-	 * Handles the incoming packet defined by "data" from "address" on "port".
+	 * Handles the incoming packet defined by "data" from "address":"port".
 	 */
 	public void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
@@ -67,33 +57,5 @@ public class PacketHandler {
 					break;
 			}
 		}
-	}
-
-	/**
-	 * Sends the packet specified by "data".
-	 */
-	public void sendData(byte[] data) {
-		this.packetIO.sendData(data);
-	}
-
-	/**
-	 * Returns the address this Client is connected to.
-	 */
-	public InetAddress getAddress() {
-		return this.packetIO.getAddress();
-	}
-
-	/**
-	 * Returns the port being used for networking.
-	 */
-	public int getPort() {
-		return this.packetIO.getPort();
-	}
-
-	/**
-	 * Exits all networking processes.
-	 */
-	public void exit() {
-		this.packetIO.exit();
 	}
 }

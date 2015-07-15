@@ -1,17 +1,28 @@
 package exort.net.server;
 
+import java.net.*;
+
 import exort.net.*;
 import exort.net.packets.*;
 import exort.net.packets.Packet.PacketType;
 
-public class PacketParser {
+/**
+ * Carries out the actions designated by incoming Packets.
+ */
+public class PacketHandler {
 	private Server server;
 
-	public PacketParser(Server server) {
+	/**
+	 * Initializes a PacketParser for "server".
+	 */
+	public PacketHandler(Server server) {
 		this.server = server;
 	}
 
-	public void parsePacket(byte[] data, String address, int port) {
+	/**
+	 * Handles the incoming packet defined by "data" from "address":"port".
+	 */
+	public void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketType type = Packet.lookupPacket(message.substring(0, 2));
 		if (type != null) {
@@ -20,8 +31,7 @@ public class PacketParser {
 					Packet00Login loginPacket = new Packet00Login(data);
 					if (loginPacket.getUsername().length() > NetVariables.MAX_USERNAME_LENGTH) {
 						// Send it right back without an assigned ID to show the Player
-						// that
-						// they fucked up.
+						// that they fucked up.
 						loginPacket.sendData(this.server);
 					} else {
 						this.server.addPlayer(loginPacket.getUsername(), address, port);

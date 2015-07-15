@@ -2,6 +2,7 @@ package exort.entity.creature;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.net.*;
 import java.util.*;
 
 import org.lwjgl.input.*;
@@ -34,7 +35,7 @@ public class Player extends MovingEntity {
 	private Client client;
 	private String username;
 	private int id;
-	private String address;
+	private InetAddress address;
 	private int port;
 
 	/**
@@ -61,14 +62,14 @@ public class Player extends MovingEntity {
 	/**
 	 * Creates a Player on "level" with "username" and "id" at "address":"port".
 	 */
-	public Player(String username, int id, String address, int port, Level level) {
+	public Player(String username, int id, InetAddress address, int port, Level level) {
 		this(0, 0, 0, null, level, null, username, id, address, port);
 	}
 
 	/**
 	 * Creates a Player at the origin with networking capabilities.
 	 */
-	public Player(Client client, String username, String address, int port) {
+	public Player(Client client, String username, InetAddress address, int port) {
 		this(0, 0, 0, null, null, client, username, -1, address, port);
 	}
 
@@ -76,7 +77,7 @@ public class Player extends MovingEntity {
 	 * Creates a Player with networking capabilities at the origin on "level" with
 	 * movement specified by "input".
 	 */
-	public Player(InputHandler input, Level level, Client client, String username, String address, int port) {
+	public Player(InputHandler input, Level level, Client client, String username, InetAddress address, int port) {
 		this(0, 0, 0, input, level, client, username, -1, address, port);
 	}
 
@@ -84,7 +85,7 @@ public class Player extends MovingEntity {
 	 * Creates a Player with networking capabilites at ("x", "y", "z") on "level" with
 	 * movement specified by "input".
 	 */
-	public Player(float x, float y, float z, InputHandler input, Level level, Client client, String username, int id, String address, int port) {
+	public Player(float x, float y, float z, InputHandler input, Level level, Client client, String username, int id, InetAddress address, int port) {
 		this.targetX = 0;
 		this.targetZ = 0;
 		this.xv = 0;
@@ -306,7 +307,7 @@ public class Player extends MovingEntity {
 	/**
 	 * Returns the IP address of this Player.
 	 */
-	public String getAddress() {
+	public InetAddress getAddress() {
 		return this.address;
 	}
 
