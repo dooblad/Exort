@@ -1,4 +1,4 @@
-package client.util.sat;
+package shared.sat;
 
 public class Axis {
 	private float x1, x2;

@@ -1,4 +1,4 @@
-package client.util;
+package shared.util;
 
 /**
  * Utility class for trigonometric operations.

@@ -110,7 +110,7 @@ public class EntityCamera extends Camera {
 			}
 
 			this.x = this.entity.getX();
-			this.y = (this.distance * (float) Math.sin(Math.toRadians(this.rotX))) + this.entity.getY();
+			this.y = (this.distance * (float) Math.sin(Math.toRadians(this.rotX)));
 			this.z = (this.distance * (float) Math.cos(Math.toRadians(this.rotX))) + this.entity.getZ();
 		}
 

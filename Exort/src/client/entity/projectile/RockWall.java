@@ -2,10 +2,10 @@ package client.entity.projectile;
 
 import org.lwjgl.util.vector.*;
 
+import shared.sat.*;
 import client.entity.*;
 import client.level.*;
 import client.util.loaders.*;
-import client.util.sat.*;
 
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;

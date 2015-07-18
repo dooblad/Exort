@@ -6,8 +6,9 @@ import java.net.*;
 import java.util.*;
 
 import org.lwjgl.input.*;
-import org.lwjgl.util.vector.*;
 
+import shared.sat.*;
+import shared.util.*;
 import client.entity.*;
 import client.entity.projectile.*;
 import client.level.*;
@@ -16,7 +17,6 @@ import client.net.packets.*;
 import client.util.*;
 import client.util.gl.*;
 import client.util.loaders.*;
-import client.util.sat.*;
 
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.batch.*;
@@ -42,35 +42,35 @@ public class Player extends MovingEntity {
 	 * Creates a Player at the origin with no associated Level or InputHandler.
 	 */
 	public Player() {
-		this(0, 0, 0, null, null, null, null, -1, null, -1);
+		this(0, 0, null, null, null, null, -1, null, -1);
 	}
 
 	/**
-	 * Creates a Player at ("x", "y", "z") on "level" with movement specified by "input".
+	 * Creates a Player at ("x", "z") on "level" with movement specified by "input".
 	 */
-	public Player(float x, float y, float z, InputHandler input, Level level) {
-		this(x, y, z, input, level, null, null, -1, null, -1);
+	public Player(float x, float z, InputHandler input, Level level) {
+		this(x, z, input, level, null, null, -1, null, -1);
 	}
 
 	/**
 	 * Creates a Player on "level" with "username" and "id".
 	 */
 	public Player(String username, int id, Level level) {
-		this(0, 0, 0, null, level, null, username, id, null, -1);
+		this(0, 0, null, level, null, username, id, null, -1);
 	}
 
 	/**
 	 * Creates a Player on "level" with "username" and "id" at "address":"port".
 	 */
 	public Player(String username, int id, InetAddress address, int port, Level level) {
-		this(0, 0, 0, null, level, null, username, id, address, port);
+		this(0, 0, null, level, null, username, id, address, port);
 	}
 
 	/**
 	 * Creates a Player at the origin with networking capabilities.
 	 */
 	public Player(Client client, String username, InetAddress address, int port) {
-		this(0, 0, 0, null, null, client, username, -1, address, port);
+		this(0, 0, null, null, client, username, -1, address, port);
 	}
 
 	/**
@@ -78,14 +78,15 @@ public class Player extends MovingEntity {
 	 * movement specified by "input".
 	 */
 	public Player(InputHandler input, Level level, Client client, String username, InetAddress address, int port) {
-		this(0, 0, 0, input, level, client, username, -1, address, port);
+		this(0, 0, input, level, client, username, -1, address, port);
 	}
 
 	/**
-	 * Creates a Player with networking capabilites at ("x", "y", "z") on "level" with
-	 * movement specified by "input".
+	 * Creates a Player with networking capabilites at ("x", "z") on "level" with movement
+	 * specified by "input".
 	 */
-	public Player(float x, float y, float z, InputHandler input, Level level, Client client, String username, int id, InetAddress address, int port) {
+	public Player(float x, float z, InputHandler input, Level level, Client client, String username, int id, InetAddress address, int port) {
+		// TODO: Figure out why we're not using the super constructor here.
 		this.targetX = 0;
 		this.targetZ = 0;
 		this.xv = 0;
@@ -232,9 +233,9 @@ public class Player extends MovingEntity {
 	 * updates the Player's direction.
 	 */
 	public void calculateSpeeds() {
-		Vector3f target = new Vector3f(this.targetX - this.x, 0f, this.targetZ - this.z);
+		Vector2f target = new Vector2f(this.targetX - this.x, this.targetZ - this.z);
 		if ((target.getX() != 0) || (target.getZ() != 0)) {
-			target.normalise();
+			target.normalize();
 			this.xv = target.getX() * this.moveSpeed;
 			this.zv = target.getZ() * this.moveSpeed;
 		}

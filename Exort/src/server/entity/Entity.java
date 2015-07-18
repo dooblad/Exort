@@ -1,15 +1,15 @@
-package client.entity;
+package server.entity;
 
+import server.level.*;
 import shared.sat.*;
 import shared.util.*;
-import client.level.*;
 
 /**
  * A thing with a collision box and a position in the Level.
  */
 public abstract class Entity {
 	protected OBB bb;
-	protected float x, y, z;
+	protected float x, z;
 	protected Level level;
 	protected boolean removed;
 
@@ -17,36 +17,21 @@ public abstract class Entity {
 	 * Creates an Entity at the origin with no associated Level.
 	 */
 	public Entity() {
-		this(0, 0, 0, null);
+		this(0, 0, null);
 	}
 
 	/**
-	 * Creates an Entity at ("x", 0, "z") with no associated Level.
+	 * Creates an Entity at ("x", "z") with no associated Level.
 	 */
 	public Entity(float x, float z) {
-		this(x, 0, z, null);
+		this(x, z, null);
 	}
 
 	/**
-	 * Creates an Entity at ("x", "y", "z") with no associated Level.
-	 */
-	public Entity(float x, float y, float z) {
-		this(x, y, z, null);
-	}
-
-	/**
-	 * Creates an Entity at ("x", 0, "z") on "level".
+	 * Creates an Entity at ("x", "z") on "level".
 	 */
 	public Entity(float x, float z, Level level) {
-		this(x, 0, z, level);
-	}
-
-	/**
-	 * Creates an Entity at ("x", "y", "z") on "level".
-	 */
-	public Entity(float x, float y, float z, Level level) {
 		this.x = x;
-		this.y = y;
 		this.z = z;
 		this.level = level;
 		this.removed = false;
@@ -58,12 +43,7 @@ public abstract class Entity {
 	public abstract void tick(int delta);
 
 	/**
-	 * Renders this Entity.
-	 */
-	public abstract void render();
-
-	/**
-	 * Moves this Entity by ("position".getX(), "position".getZ()).
+	 * Adds "position" to this Entity's current position.
 	 */
 	public void move(Vector2f position) {
 		this.move(position.getX(), position.getZ());
@@ -101,7 +81,7 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Returns a Vector3f that represents this Entity's current position.
+	 * Returns a Vector2f that represents this Entity's current position.
 	 */
 	public Vector2f getPosition() {
 		return new Vector2f(this.x, this.z);

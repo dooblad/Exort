@@ -1,9 +1,8 @@
-package client.entity.projectile;
+package server.entity.projectile;
 
-import org.lwjgl.util.vector.*;
-
-import client.entity.*;
-import client.level.*;
+import server.entity.*;
+import server.level.*;
+import shared.util.*;
 
 /**
  * A MovingEntity with a lifetime.
@@ -35,15 +34,15 @@ public abstract class Projectile extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Projectile on "level" at "position" with velocity ("xa", "za") and
+	 * Creates a Projectile on "level" at "position" with velocity ("xa", "ya", "za") and
 	 * "maxLife".
 	 */
-	public Projectile(Vector3f position, float xa, float za, int maxLife, Level level) {
+	public Projectile(Vector2f position, float xa, float za, int maxLife, Level level) {
 		this(position.getX(), position.getZ(), xa, za, maxLife, null, level);
 	}
 
 	/**
-	 * Creates a Projectile on "level" at ("x", "z") with velocity ("xa", "za")
+	 * Creates a Projectile on "level" at ("x", "y", "z") with velocity ("xa", "ya", "za")
 	 * and "maxLife" with "owner".
 	 */
 	public Projectile(float x, float z, float xa, float za, int maxLife, Entity owner, Level level) {

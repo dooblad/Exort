@@ -1,12 +1,10 @@
 package client.entity.projectile;
 
-import org.lwjgl.util.vector.*;
-
+import shared.sat.*;
+import shared.util.*;
 import client.entity.*;
 import client.level.*;
-import client.util.*;
 import client.util.loaders.*;
-import client.util.sat.*;
 
 import com.doobs.modern.util.*;
 import com.doobs.modern.util.matrix.*;
@@ -22,22 +20,22 @@ public class SonicWave extends Projectile {
 	 * Creates a SonicWave on "level" at "position" with initial "direction" (in radians)
 	 * with "owner".
 	 */
-	public SonicWave(Vector3f position, float direction, Entity owner, Level level) {
-		this(position.x, position.y + 1.5f, position.z, SPEED * (float) Math.cos(direction), 0, SPEED * (float) Math.sin(direction), owner, level);
+	public SonicWave(Vector2f vector2f, float direction, Entity owner, Level level) {
+		this(vector2f.x, vector2f.z, SPEED * (float) Math.cos(direction), SPEED * (float) Math.sin(direction), owner, level);
 	}
 
 	/**
-	 * Creates a SonicWave on "level" at "position" with velocity ("xa", "ya", "za).
+	 * Creates a SonicWave on "level" at "position" with velocity ("xa", "za).
 	 */
-	public SonicWave(Vector3f position, float xa, float ya, float za, Level level) {
-		this(position.getX(), position.getY(), position.getZ(), xa, ya, za, null, level);
+	public SonicWave(Vector2f position, float xa, float za, Level level) {
+		this(position.getX(), position.getZ(), xa, za, null, level);
 	}
 
 	/**
-	 * Creates a SonicWave on "level" at ("x", "y", "z") with velocity ("xa", "ya", "za").
+	 * Creates a SonicWave on "level" at ("x", "z") with velocity ("xa", "za").
 	 */
-	public SonicWave(float x, float y, float z, float xa, float ya, float za, Entity owner, Level level) {
-		super(x, y, z, xa, ya, za, LIFE, owner, level);
+	public SonicWave(float x, float z, float xa, float za, Entity owner, Level level) {
+		super(x, z, xa, za, LIFE, owner, level);
 		this.bb = new OBB(x, 1f, y, 1f);
 		this.direction = TrigUtil.calculateAngle(xa, za);
 		this.bb.rotate(this.direction);

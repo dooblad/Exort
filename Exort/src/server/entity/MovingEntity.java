@@ -1,6 +1,6 @@
-package client.entity;
+package server.entity;
 
-import client.level.*;
+import server.level.*;
 
 /**
  * An Entity that can move.
@@ -14,26 +14,25 @@ public abstract class MovingEntity extends Entity {
 	 * Creates a MovingEntity at the origin with no associated Level.
 	 */
 	public MovingEntity() {
-		this(0, 0, null);
+		this(0, 0, 0, 0, null);
 	}
 
 	/**
 	 * Creates a MovingEntity at ("x", "z") with no associated Level.
 	 */
 	public MovingEntity(float x, float z) {
-		this(x, z, null);
+		this(x, z, 0, 0, null);
 	}
 
 	/**
 	 * Creates a MovingEntity at ("x", "z") on "level".
 	 */
 	public MovingEntity(float x, float z, Level level) {
-		super(x, z, level);
+		this(x, z, 0, 0, level);
 	}
 
 	/**
-	 * Creates a MovingEntity at ("x", "z") with velocity ("xa", "za") on
-	 * "level".
+	 * Creates a MovingEntity at ("x", "z") with velocity ("xa", "za") on "level".
 	 */
 	public MovingEntity(float x, float z, float xa, float za, Level level) {
 		super(x, z, level);
@@ -52,15 +51,11 @@ public abstract class MovingEntity extends Entity {
 	}
 
 	/**
-	 * Renders this MovingEntity.
-	 */
-	public abstract void render();
-
-	/**
 	 * Sets velocity on every axis to 0.
 	 */
 	public void stop() {
 		this.xv = 0;
+		this.yv = 0;
 		this.zv = 0;
 	}
 
@@ -76,6 +71,20 @@ public abstract class MovingEntity extends Entity {
 	 */
 	public void setXA(float xa) {
 		this.xv = xa;
+	}
+
+	/**
+	 * Returns the y-velocity of this MovingEntity.
+	 */
+	public float getYA() {
+		return this.yv;
+	}
+
+	/**
+	 * Sets the y-velocity of this MovingEntity to "ya".
+	 */
+	public void setYA(float ya) {
+		this.yv = ya;
 	}
 
 	/**

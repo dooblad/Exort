@@ -1,8 +1,8 @@
-package client.util.sat;
+package shared.sat;
 
 import org.lwjgl.opengl.*;
-import org.lwjgl.util.vector.*;
 
+import shared.util.*;
 import client.*;
 import client.util.loaders.*;
 
@@ -56,10 +56,10 @@ public class OBB {
 			Shaders.use("color");
 			Color.set(Shaders.current, 1f, 0f, 1f, 1f);
 			Matrices.sendMVPMatrix(Shaders.current);
-			new SimpleBatch(GL11.GL_LINES, 3, new float[] { this.vertices[0].x, HEIGHT, this.vertices[0].y, this.vertices[1].x, HEIGHT, this.vertices[1].y,
-					this.vertices[1].x, HEIGHT, this.vertices[1].y, this.vertices[2].x, HEIGHT, this.vertices[2].y, this.vertices[2].x, HEIGHT,
-					this.vertices[2].y, this.vertices[3].x, HEIGHT, this.vertices[3].y, this.vertices[3].x, HEIGHT, this.vertices[3].y, this.vertices[0].x,
-					HEIGHT, this.vertices[0].y, }, null, null, null, null).draw(Shaders.current.getAttributeLocations());
+			new SimpleBatch(GL11.GL_LINES, 3, new float[] { this.vertices[0].x, HEIGHT, this.vertices[0].z, this.vertices[1].x, HEIGHT, this.vertices[1].z,
+					this.vertices[1].x, HEIGHT, this.vertices[1].z, this.vertices[2].x, HEIGHT, this.vertices[2].z, this.vertices[2].x, HEIGHT,
+					this.vertices[2].z, this.vertices[3].x, HEIGHT, this.vertices[3].z, this.vertices[3].x, HEIGHT, this.vertices[3].z, this.vertices[0].x,
+					HEIGHT, this.vertices[0].z, }, null, null, null, null).draw(Shaders.current.getAttributeLocations());
 		}
 	}
 
@@ -69,18 +69,18 @@ public class OBB {
 	public void setPosition(float x, float z) {
 		// Find the difference between the current center and the new center.
 		float xx = x - this.center.x;
-		float zz = z - this.center.y;
+		float zz = z - this.center.z;
 
 		this.center.set(x, z);
 
 		for (int i = 0; i < this.vertices.length; i++) {
 			this.vertices[i].x += xx;
-			this.vertices[i].y += zz;
+			this.vertices[i].z += zz;
 		}
 	}
 
 	/**
-	 * Performs an absolute rotation (relative to no rotation) by "angle" radians.
+	 * Performs an absolute rotation (relative to no rotation) .z "angle" radians.
 	 */
 	public void rotate(float angle) {
 		// Precompute sine and cosine.
@@ -90,19 +90,19 @@ public class OBB {
 		float x = -this.width / 2;
 		float z = -this.length / 2;
 		this.vertices[0].x = ((x * cos) - (z * sin)) + this.center.x;
-		this.vertices[0].y = ((x * sin) + (z * cos)) + this.center.y;
+		this.vertices[0].z = ((x * sin) + (z * cos)) + this.center.z;
 		x = this.width / 2;
 		z = -this.length / 2;
 		this.vertices[1].x = ((x * cos) - (z * sin)) + this.center.x;
-		this.vertices[1].y = ((x * sin) + (z * cos)) + this.center.y;
+		this.vertices[1].z = ((x * sin) + (z * cos)) + this.center.z;
 		x = this.width / 2;
 		z = this.length / 2;
 		this.vertices[2].x = ((x * cos) - (z * sin)) + this.center.x;
-		this.vertices[2].y = ((x * sin) + (z * cos)) + this.center.y;
+		this.vertices[2].z = ((x * sin) + (z * cos)) + this.center.z;
 		x = -this.width / 2;
 		z = this.length / 2;
 		this.vertices[3].x = ((x * cos) - (z * sin)) + this.center.x;
-		this.vertices[3].y = ((x * sin) + (z * cos)) + this.center.y;
+		this.vertices[3].z = ((x * sin) + (z * cos)) + this.center.z;
 	}
 
 	/**
@@ -138,13 +138,13 @@ public class OBB {
 		}
 
 		// Create the minimum translation vector (MTV).
-		Vector2f result = new Vector2f((float) (overlap / smallest.x), (float) (overlap / smallest.y));
+		Vector2f result = new Vector2f((float) (overlap / smallest.x), (float) (overlap / smallest.z));
 		// Check for ridiculousness in the vector.
 		if (Math.abs(result.x) > 100f) {
 			result.x = 0;
 		}
-		if (Math.abs(result.y) > 100f) {
-			result.y = 0;
+		if (Math.abs(result.z) > 100f) {
+			result.z = 0;
 		}
 		return result;
 	}
@@ -155,12 +155,11 @@ public class OBB {
 		for (int i = 0; i < this.vertices.length; i++) {
 			Vector2f p1 = this.vertices[i];
 			Vector2f p2 = this.vertices[(i + 1) == this.vertices.length ? 0 : i + 1];
-			Vector2f edge = new Vector2f();
-			Vector2f.sub(p1, p2, edge);
-			edge.normalise();
+			Vector2f edge = p1.subtract(p2);
+			edge.normalize();
 			float temp = edge.x;
-			edge.x = -edge.y;
-			edge.y = temp;
+			edge.x = -edge.z;
+			edge.z = temp;
 			axes[i] = edge;
 		}
 
@@ -168,12 +167,12 @@ public class OBB {
 	}
 
 	public Projection project(Vector2f axis) {
-		double min = Vector2f.dot(axis, this.vertices[0]);
+		double min = axis.dot(this.vertices[0]);
 		double max = min;
 
 		for (int i = 1; i < this.vertices.length; i++) {
 			// The axis must be normalized to get accurate projections.
-			double p = Vector2f.dot(axis, this.vertices[i]);
+			double p = axis.dot(this.vertices[i]);
 
 			if (p < min) {
 				min = p;
@@ -191,7 +190,7 @@ public class OBB {
 	}
 
 	public float getZ() {
-		return this.center.getY();
+		return this.center.getZ();
 	}
 
 	public float getWidth() {
