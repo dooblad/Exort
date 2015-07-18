@@ -1,38 +1,43 @@
-package server.net;
+package client.net;
 
 import java.io.*;
 import java.net.*;
 
-import server.*;
-import server.ui.*;
+import org.lwjgl.util.vector.*;
+
 import shared.level.*;
 import shared.net.*;
+import client.*;
+import client.gui.*;
+import client.util.*;
 
 /**
  * Handles the low-level components of networking.
  */
 public class PacketIO implements Runnable {
-	private UI ui;
+	private GUI gui;
 
 	private PacketHandler handler;
 
 	// Net variables.
 	private DatagramSocket socket;
+	private InetAddress address;
 
 	private volatile boolean running;
 
 	/**
-	 * Creates a PacketIO connected to "addresss". Uses "ui" for sending raw packets to
+	 * Creates a PacketIO connected to "addresss". Uses "gui" for sending raw Packets to
 	 * chat when debugging. Automatically starts itself on a new Thread when created.
 	 */
-	public PacketIO(UI ui, Server server, Level level) {
-		this.ui = ui;
-		this.handler = new PacketHandler(server);
+	public PacketIO(Client client, GUI gui, InetAddress address, Level level) {
+		this.gui = gui;
+		this.handler = new PacketHandler(client, level);
 		try {
-			this.socket = new DatagramSocket(NetVariables.PORT);
+			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
+		this.address = address;
 		new Thread(this).start();
 	}
 
@@ -51,17 +56,18 @@ public class PacketIO implements Runnable {
 				break;
 			}
 			if (Main.debug) {
-				this.ui.addMessage("[" + packet.getAddress().getHostAddress() + ":" + packet.getPort() + "] " + new String(packet.getData()).trim());
+				this.gui.addToChat(new Message("[" + packet.getAddress().getHostAddress() + "] " + new String(packet.getData()).trim(), new Vector4f(1f, 1f,
+						0f, 1f)));
 			}
 			this.handler.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 		}
 	}
 
 	/**
-	 * Sends the packet contained within "data" to "address":"port".
+	 * Sends the packet contained within "data".
 	 */
-	public void sendData(byte[] data, InetAddress address, int port) {
-		DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
+	public void sendData(byte[] data) {
+		DatagramPacket packet = new DatagramPacket(data, data.length, this.address, NetVariables.PORT);
 		try {
 			this.socket.send(packet);
 		} catch (IOException e) {
@@ -72,15 +78,15 @@ public class PacketIO implements Runnable {
 	/**
 	 * Closes all network processes.
 	 */
-	public void exit() {
+	public synchronized void exit() {
 		this.running = false;
 		this.socket.close();
 	}
 
 	/**
-	 * Returns the port this PacketIO is bound to.
+	 * Returns the address this PacketIO is connecting to.
 	 */
-	public int getPort() {
-		return this.socket.getLocalPort();
+	public InetAddress getAddress() {
+		return this.address;
 	}
 }

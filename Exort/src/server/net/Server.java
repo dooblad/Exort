@@ -2,11 +2,11 @@ package server.net;
 
 import java.net.*;
 
-import server.entity.creature.*;
-import server.level.*;
-import server.net.packets.*;
 import server.ui.*;
-import shared.*;
+import shared.entity.*;
+import shared.level.*;
+import shared.net.*;
+import shared.net.packets.*;
 
 /**
  * Handles Server-side networking for the game.
@@ -35,7 +35,7 @@ public class Server {
 
 		this.handler = new PacketIO(ui, this, level);
 
-		ui.addMessage("Started server on port " + NetVariables.PORT);
+		ui.addMessage("Started server on port " + this.handler.getPort());
 	}
 
 	/**

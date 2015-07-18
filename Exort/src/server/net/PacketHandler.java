@@ -2,9 +2,9 @@ package server.net;
 
 import java.net.*;
 
-import server.net.packets.*;
-import server.net.packets.Packet.PacketType;
-import shared.*;
+import shared.net.*;
+import shared.net.packets.Packet.PacketType;
+import shared.net.packets.*;
 
 /**
  * Carries out the actions designated by incoming Packets.

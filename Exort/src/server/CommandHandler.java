@@ -3,7 +3,7 @@ package server;
 import java.util.*;
 
 import server.net.*;
-import shared.*;
+import shared.net.*;
 
 /**
  * Decomposes commands and executes them.

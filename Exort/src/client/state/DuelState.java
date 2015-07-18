@@ -6,12 +6,14 @@ import java.net.*;
 
 import org.lwjgl.input.*;
 
+import shared.entity.*;
+import shared.level.*;
+import shared.net.packets.*;
 import client.*;
-import client.entity.creature.*;
+import client.entity.*;
 import client.gui.*;
 import client.level.*;
-import client.net.client.*;
-import client.net.packets.*;
+import client.net.*;
 import client.util.*;
 import client.util.gl.*;
 import client.util.loaders.*;
@@ -30,26 +32,22 @@ public class DuelState implements GameState {
 	private Main main;
 	private InputHandler input;
 	private GUI gui;
-	private Level level;
-	private Player player;
+	private RenderableLevel level;
+	private Client client;
 	private EntityCamera camera;
 
-	private Client client;
+	private ClientPlayer player;
 
 	private boolean paused;
 
 	public DuelState(Main main, String username, InetAddress address) {
 		this.main = main;
 		this.input = main.input;
-
 		this.gui = new GUI(main, this);
-
-		this.level = new Level();
-
+		this.level = new RenderableLevel();
 		this.client = new Client(this, address);
-
+		// Login.
 		new Packet00Login(username).sendData(this.client);
-
 		this.camera = new EntityCamera(CAMERA_DISTANCE, this.input);
 		this.camera.rotX = CAMERA_ANGLE;
 
@@ -95,7 +93,8 @@ public class DuelState implements GameState {
 		Lighting.setTextured(true);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Matrices.sendMVMatrix(Shaders.current);
-		this.level.renderLevel();
+
+		this.level.renderMap();
 
 		Lighting.setTextured(false);
 
@@ -132,17 +131,9 @@ public class DuelState implements GameState {
 		return this.player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(ClientPlayer player) {
 		this.player = player;
 		this.camera.setEntity(player);
-	}
-
-	public Camera getCamera() {
-		return this.camera;
-	}
-
-	public Client getClient() {
-		return this.client;
 	}
 
 	public boolean isPaused() {

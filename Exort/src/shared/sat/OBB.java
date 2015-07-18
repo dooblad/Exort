@@ -23,6 +23,8 @@ public class OBB {
 
 	private float width, length;
 
+	private float angle;
+
 	/**
 	 * Creates an OBB at the origin with size (0, 0).
 	 */
@@ -46,6 +48,7 @@ public class OBB {
 		this.setPosition(x, z);
 		this.width = width;
 		this.length = length;
+		this.angle = 0f;
 	}
 
 	/**
@@ -80,7 +83,7 @@ public class OBB {
 	}
 
 	/**
-	 * Performs an absolute rotation (relative to no rotation) .z "angle" radians.
+	 * Performs an absolute rotation (relative to no rotation) by "angle" radians.
 	 */
 	public void rotate(float angle) {
 		// Precompute sine and cosine.
@@ -103,6 +106,8 @@ public class OBB {
 		z = this.length / 2;
 		this.vertices[3].x = ((x * cos) - (z * sin)) + this.center.x;
 		this.vertices[3].z = ((x * sin) + (z * cos)) + this.center.z;
+
+		this.angle = angle;
 	}
 
 	/**
@@ -207,5 +212,9 @@ public class OBB {
 
 	public void setLength(float length) {
 		this.length = length;
+	}
+
+	public float getAngle() {
+		return this.angle;
 	}
 }

@@ -2,7 +2,7 @@ package client.util;
 
 import org.lwjgl.input.*;
 
-import client.entity.*;
+import shared.entity.*;
 
 import com.doobs.modern.util.*;
 
