@@ -1,12 +1,10 @@
-package server.net;
+package shared.net;
 
 import java.io.*;
 import java.net.*;
 
-import server.*;
-import server.ui.*;
-import shared.level.*;
-import shared.net.*;
+import server.net.*;
+import shared.*;
 
 /**
  * Handles the low-level components of networking.
@@ -25,11 +23,15 @@ public class PacketIO implements Runnable {
 	 * Creates a PacketIO connected to "addresss". Uses "ui" for sending raw packets to
 	 * chat when debugging. Automatically starts itself on a new Thread when created.
 	 */
-	public PacketIO(UI ui, Server server, Level level) {
+	public PacketIO(UI ui, Networker networker) {
 		this.ui = ui;
-		this.handler = new PacketHandler(server);
+		this.handler = new PacketHandler(networker);
 		try {
-			this.socket = new DatagramSocket(NetVariables.PORT);
+			if (networker instanceof Server) {
+				this.socket = new DatagramSocket(NetVariables.PORT);
+			} else {
+				this.socket = new DatagramSocket();
+			}
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -42,7 +44,7 @@ public class PacketIO implements Runnable {
 	public void run() {
 		this.running = true;
 		while (this.running) {
-			byte[] data = new byte[1024];
+			byte[] data = new byte[NetVariables.BYTES_PER_PACKET];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			try {
 				this.socket.receive(packet);
@@ -50,7 +52,7 @@ public class PacketIO implements Runnable {
 				e.printStackTrace();
 				break;
 			}
-			if (Main.debug) {
+			if (GlobalVariables.debug) {
 				this.ui.addMessage("[" + packet.getAddress().getHostAddress() + ":" + packet.getPort() + "] " + new String(packet.getData()).trim());
 			}
 			this.handler.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
@@ -81,6 +83,7 @@ public class PacketIO implements Runnable {
 	 * Returns the port this PacketIO is bound to.
 	 */
 	public int getPort() {
+		// TODO: Figure out what this means.
 		return this.socket.getLocalPort();
 	}
 }

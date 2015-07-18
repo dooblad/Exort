@@ -2,8 +2,8 @@ package shared.sat;
 
 import org.lwjgl.opengl.*;
 
+import shared.*;
 import shared.util.*;
-import client.*;
 import client.util.loaders.*;
 
 import com.doobs.modern.util.*;
@@ -55,7 +55,7 @@ public class OBB {
 	 * Renders this OBB using GL_LINES.
 	 */
 	public void render() {
-		if (Main.debug) {
+		if (GlobalVariables.debug) {
 			Shaders.use("color");
 			Color.set(Shaders.current, 1f, 0f, 1f, 1f);
 			Matrices.sendMVPMatrix(Shaders.current);

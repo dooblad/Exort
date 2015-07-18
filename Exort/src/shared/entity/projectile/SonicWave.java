@@ -1,5 +1,6 @@
-package shared.entity;
+package shared.entity.projectile;
 
+import shared.entity.*;
 import shared.level.*;
 import shared.sat.*;
 import shared.util.*;

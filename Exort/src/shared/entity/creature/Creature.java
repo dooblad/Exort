@@ -1,5 +1,6 @@
-package shared.entity;
+package shared.entity.creature;
 
+import shared.entity.*;
 import shared.level.*;
 
 /**
@@ -19,8 +20,7 @@ public abstract class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Creature at ("x", "z") with no initial velocity and no associated
-	 * Level.
+	 * Creates a Creature at ("x", "z") with no initial velocity and no associated Level.
 	 */
 	public Creature(float x, float z) {
 		this(x, z, 0, 0, null);
@@ -34,8 +34,7 @@ public abstract class Creature extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Creature at ("x", "z") with initial velocity ("xa", "za") and
-	 * "level".
+	 * Creates a Creature at ("x", "z") with initial velocity ("xa", "za") and "level".
 	 */
 	public Creature(float x, float z, float xa, float za, Level level) {
 		super(x, z, xa, za, level);

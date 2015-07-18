@@ -1,8 +1,10 @@
-package shared.entity;
+package shared.entity.creature;
 
 import java.net.*;
 import java.util.*;
 
+import shared.entity.*;
+import shared.entity.projectile.*;
 import shared.level.*;
 import shared.sat.*;
 import shared.util.*;

@@ -1,6 +1,7 @@
 package client.gui;
 
 import static org.lwjgl.opengl.GL11.*;
+import shared.*;
 import client.*;
 import client.state.*;
 import client.util.*;
@@ -11,7 +12,7 @@ import com.doobs.modern.util.matrix.*;
 /**
  * Handles the GUI for the DuelState.
  */
-public class GUI {
+public class GUI implements UI {
 	// Standard color for GUI components.
 	public static final float[] GUI_COL = { 0f, 0f, 0f, 0.5f };
 
@@ -75,14 +76,14 @@ public class GUI {
 	/**
 	 * Adds "message" to the chat.
 	 */
-	public void addToChat(Message message) {
+	public void addMessage(Message message) {
 		this.chat.addMessage(message);
 	}
 
 	/**
 	 * Adds "message" to the chat.
 	 */
-	public void addToChat(String message) {
+	public void addMessage(String message) {
 		this.chat.addMessage(message);
 	}
 

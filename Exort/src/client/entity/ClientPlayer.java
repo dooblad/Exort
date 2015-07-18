@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.input.*;
 
-import shared.entity.*;
+import shared.entity.creature.*;
 import shared.level.*;
 import shared.net.packets.*;
 import shared.util.*;
@@ -54,7 +54,7 @@ public class ClientPlayer extends Player {
 			// Rock wall.
 			if (this.input.isKeyReleased(Keyboard.KEY_W)) {
 				new Packet05RockWall(this.id, TrigUtil.calculateAngle(RayCast.mouseX - this.x, RayCast.mouseZ - this.z), RayCast.mouseX, RayCast.mouseZ)
-						.sendData(this.client);
+				.sendData(this.client);
 			}
 		}
 

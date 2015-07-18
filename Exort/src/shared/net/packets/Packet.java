@@ -1,6 +1,7 @@
 package shared.net.packets;
 
 import server.net.*;
+import shared.net.*;
 import client.net.*;
 
 /**
@@ -42,17 +43,16 @@ public abstract class Packet {
 	}
 
 	/**
-	 * Sends the contents of this Packet to the Server that "client" is connected to.
+	 * If "networker" is a Client, sends the contents of this Packet to the Server that it
+	 * is connected to. If "networker" is a Server, sends the contents of this Packet to
+	 * all Clients.
 	 */
-	public void sendData(Client client) {
-		client.sendData(this.getData());
-	}
-
-	/**
-	 * Sends the contents of this Packet to all Clients connected to "server".
-	 */
-	public void sendData(Server server) {
-		server.sendDataToAllClients(this.getData());
+	public void sendData(Networker networker) {
+		if (networker instanceof Client) {
+			((Client) networker).sendData(this.getData());
+		} else {
+			((Server) networker).sendData(this.getData());
+		}
 	}
 
 	/**

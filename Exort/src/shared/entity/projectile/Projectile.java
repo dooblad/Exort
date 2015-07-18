@@ -1,7 +1,8 @@
-package shared.entity;
+package shared.entity.projectile;
 
 import org.lwjgl.util.vector.*;
 
+import shared.entity.*;
 import shared.level.*;
 
 /**
@@ -42,8 +43,8 @@ public abstract class Projectile extends MovingEntity {
 	}
 
 	/**
-	 * Creates a Projectile on "level" at ("x", "z") with velocity ("xa", "za")
-	 * and "maxLife" with "owner".
+	 * Creates a Projectile on "level" at ("x", "z") with velocity ("xa", "za") and
+	 * "maxLife" with "owner".
 	 */
 	public Projectile(float x, float z, float xa, float za, int maxLife, Entity owner, Level level) {
 		super(x, z, xa, za, level);

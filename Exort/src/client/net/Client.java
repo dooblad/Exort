@@ -2,26 +2,20 @@ package client.net;
 
 import java.net.*;
 
-import shared.entity.*;
-import shared.level.*;
+import shared.entity.creature.*;
 import shared.net.*;
 import shared.net.packets.*;
 import client.entity.*;
-import client.gui.*;
 import client.state.*;
 import client.util.*;
 
 /**
  * Handles Client-side networking for the game.
  */
-public class Client {
-	private GUI gui;
-
-	private Level level;
-
-	private Player[] players;
-
-	private PacketIO packetIO;
+public class Client extends Networker {
+	// The ones we're connecting to.
+	private InetAddress address;
+	private int port;
 
 	// For setting input for the main Player, when they connect.
 	private InputHandler input;
@@ -35,33 +29,22 @@ public class Client {
 	 * packets. "input" is used to set the main Player's input, when they connect.
 	 */
 	public Client(DuelState state, InetAddress address) {
-		this.gui = state.getGUI();
-		this.level = state.getLevel();
+		super(state.getGUI(), state.getLevel());
+		this.address = address;
+		this.port = NetVariables.PORT;
+
 		this.input = state.getInput();
 		this.state = state;
-
-		// Initialize all possible slots so the Server can assign any ID between 0 and
-		// MAX_PLAYERS without any IndexOutOfBoundsExceptions.
-		this.players = new Player[NetVariables.MAX_PLAYERS];
-
-		this.packetIO = new PacketIO(this, this.gui, address, this.level);
 
 		this.mainPlayerConnected = false;
 	}
 
 	/**
-	 * Moves a Player based on the data in the incoming "packet".
-	 */
-	public void handleMove(Packet02Move packet) {
-		this.players[packet.getPlayerID()].setTargetPosition(packet.getX(), packet.getZ());
-	}
-
-	/**
 	 * Adds "player" to this Level. If it's the first Player, it becomes the main Player.
 	 */
-	public void addPlayer(String username, int id) {
-		if (id == -1) {
-			this.gui.addToChat("Now ya fucked up...");
+	public void addPlayer(Packet00Login packet, InetAddress address, int port) {
+		if (packet.getPlayerID() == -1) { // No assigned ID.
+			this.ui.addMessage("Now ya fucked up...");
 		} else {
 			Player player;
 
@@ -69,70 +52,24 @@ public class Client {
 			// time, that Player could become the main player on the actual main
 			// Player's client.
 			if (!this.mainPlayerConnected) {
-				player = new ClientPlayer(this, username, id, this.input, this.level);
+				player = new ClientPlayer(this, packet.getUsername(), packet.getPlayerID(), this.input, this.level);
 				this.state.setPlayer((ClientPlayer) player);
 				this.mainPlayerConnected = true;
 			} else {
-				player = new Player(username, id, this.level);
+				player = new Player(packet.getUsername(), packet.getPlayerID(), address, port, this.level);
 			}
 
-			this.players[id] = player;
+			this.players[packet.getPlayerID()] = player;
 			this.level.addEntity(player);
 
-			this.gui.addToChat(username + " has joined the game.");
+			this.ui.addMessage(packet.getUsername() + " has joined the game.");
 		}
 	}
 
 	/**
-	 * Adds the contents of "packet" to the chat box.
-	 */
-	public void addChat(Packet03Chat packet) {
-		this.gui.addToChat(this.players[packet.getPlayerID()].getUsername() + ": " + packet.getMessage());
-	}
-
-	/**
-	 * Removes the Player specified by "packet".
-	 */
-	public void removePlayer(Packet01Disconnect packet) {
-		int id = packet.getID();
-
-		this.gui.addToChat(this.players[packet.getID()].getUsername() + " has left the game.");
-
-		// Remove from the Level and here.
-		this.players[id].remove();
-		this.players[id] = null;
-	}
-
-	/**
-	 * Pre: Player with "id" exists. Otherwise, throws IllegalArgumentException.
-	 *
-	 * Returns the Player with "id".
-	 */
-	public Player getPlayer(int id) {
-		if ((id >= this.players.length) || (this.players[id] == null)) {
-			throw new IllegalArgumentException("Player with id \"" + id + "\" doesn't exist.");
-		}
-		return this.players[id];
-	}
-
-	/**
-	 * Returns the address this Client is connected to.
-	 */
-	public InetAddress getAddress() {
-		return this.packetIO.getAddress();
-	}
-
-	/**
-	 * Sends the packet specified by "data".
+	 * Sends the packet specified by "data" to "address":"port".
 	 */
 	public void sendData(byte[] data) {
-		this.packetIO.sendData(data);
-	}
-
-	/**
-	 * Exits all networking processes.
-	 */
-	public void exit() {
-		this.packetIO.exit();
+		this.packetIO.sendData(data, this.address, this.port);
 	}
 }

@@ -6,7 +6,8 @@ import java.net.*;
 
 import org.lwjgl.input.*;
 
-import shared.entity.*;
+import shared.*;
+import shared.entity.creature.*;
 import shared.level.*;
 import shared.net.packets.*;
 import client.*;
@@ -69,7 +70,7 @@ public class DuelState implements GameState {
 			Mouse.setGrabbed(!Mouse.isGrabbed());
 		} else if (this.input.isKeyPressed(Keyboard.KEY_R) && !this.gui.isTyping()) {
 			this.camera.reset();
-		} else if (Main.debug && this.input.isKeyPressed(Keyboard.KEY_F5)) {
+		} else if (GlobalVariables.debug && this.input.isKeyPressed(Keyboard.KEY_F5)) {
 			// For dynamically loading in models.
 			Models.init();
 		}

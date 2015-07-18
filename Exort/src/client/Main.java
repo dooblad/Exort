@@ -4,6 +4,7 @@ import java.awt.*;
 
 import org.lwjgl.input.*;
 
+import shared.*;
 import client.state.*;
 import client.util.*;
 import client.util.gl.*;
@@ -18,8 +19,6 @@ import com.doobs.modern.util.*;
  */
 public class Main implements GameLoop {
 	public static final String TITLE = "Exort Test";
-
-	public static boolean debug = true;
 
 	public GraphicsContext context;
 	public InputHandler input;
@@ -58,7 +57,7 @@ public class Main implements GameLoop {
 		this.input.tick();
 
 		if (this.input.isKeyPressed(Keyboard.KEY_F4)) {
-			debug = !debug;
+			GlobalVariables.debug = !GlobalVariables.debug;
 		}
 		if (this.input.isKeyPressed(Keyboard.KEY_F11)) {
 			GLTools.toggleFullscreen();

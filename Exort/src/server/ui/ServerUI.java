@@ -7,8 +7,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import server.*;
+import shared.*;
 
-public class UI {
+public class ServerUI implements UI {
 	// Swing components.
 	private JFrame frame;
 	private JPanel panel;
@@ -16,7 +17,7 @@ public class UI {
 	private JScrollPane scrollPane;
 	private JTextArea textLog;
 
-	public UI(String name, int width, int height, final CommandHandler commands) {
+	public ServerUI(String name, int width, int height, final CommandHandler commands) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -41,12 +42,12 @@ public class UI {
 		this.textField.setBorder(new LineBorder(Color.BLACK));
 		this.textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UI.this.textLog.append('\n' + UI.this.textField.getText());
+				ServerUI.this.textLog.append('\n' + ServerUI.this.textField.getText());
 				// Only need a reference in this ActionListener, so there's no need for a
 				// CommandHandler field.
-				UI.this.textLog.append('\n' + commands.handleInput(UI.this.textField.getText()));
+				ServerUI.this.textLog.append('\n' + commands.handleInput(ServerUI.this.textField.getText()));
 
-				UI.this.textField.setText("");
+				ServerUI.this.textField.setText("");
 			}
 		});
 		this.panel.add(this.textField);

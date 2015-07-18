@@ -3,6 +3,7 @@ package server;
 import java.util.*;
 
 import server.net.*;
+import shared.*;
 import shared.net.*;
 
 /**
@@ -65,10 +66,10 @@ public class CommandHandler {
 		if (variable.equals("debug")) {
 			String newValue = command.next();
 			if (newValue.equals("true")) {
-				Main.debug = true;
+				GlobalVariables.debug = true;
 				return "\"debug\" set to true";
 			} else if (newValue.equals("false")) {
-				Main.debug = false;
+				GlobalVariables.debug = false;
 				return "\"debug\" set to false";
 			}
 		}
