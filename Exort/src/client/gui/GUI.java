@@ -20,16 +20,13 @@ public class GUI implements UI {
 	private PauseMenu menu;
 
 	/**
-	 * Creates a GUI.
+	 * Creates a GUI using the InputHandler and Dimension from "main".
 	 */
 	public GUI(Main main, DuelState state) {
 		this.chat = new Chat(state, main.input);
 		this.menu = new PauseMenu(state, main.getSize(), main.input);
 	}
 
-	/**
-	 * Handles the behavior of this GUI.
-	 */
 	public void tick(boolean paused, int delta) {
 		this.chat.tick(delta);
 		this.menu.tick(delta);
@@ -39,9 +36,6 @@ public class GUI implements UI {
 		}
 	}
 
-	/**
-	 * Renders the GUI components.
-	 */
 	public void render() {
 		// Orthographical projection for 2D rendering.
 		Matrices.switchToOrtho();

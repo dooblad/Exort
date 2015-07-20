@@ -5,48 +5,56 @@ import java.util.*;
 
 import com.doobs.modern.util.texture.*;
 
+/**
+ * Loads the attributes of every Character in a Font texture from a File.
+ */
 public class CharInfoLoader {
-
+	/**
+	 * Returns a Map from a int/char to a renderable Character.
+	 */
 	public static Map<Integer, Character> load(Texture texture, String URL) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(new File(URL)));
-
 			Map<Integer, Character> characters = new HashMap<Integer, Character>();
+			String line = reader.readLine();
+			float[] temp;
+			float width = texture.getWidth();
+			float height = texture.getHeight();
 
-			String line;
-			double[] temp;
-
-			while ((line = reader.readLine()) != null) {
+			while (line != null) {
 				if (line.startsWith("char ")) {
 					String number = "";
-					int numbers = 0;
-					temp = new double[8];
+					int index = 0;
+					temp = new float[8];
 
-					for (int i = 0; i < line.length(); i++) {
-						if (((line.charAt(i) >= 48) && (line.charAt(i) <= 57)) || (line.charAt(i) == '.')) {
-							number += line.charAt(i);
-						} else if (!number.equals("")) {
-							temp[numbers] = Double.valueOf(number);
+					// Extract numbers until the end of the line or capacity is reached.
+					for (int i = 0; i < line.length() && index < temp.length; i++) {
+						char ch = line.charAt(i);
+						if (isNumber(ch)) {
+							number += ch;
+						} else if (!number.isEmpty()) {
+							temp[index] = Float.parseFloat(number);
 							number = "";
-							if (numbers >= (temp.length - 1)) {
-								break;
-							}
-							numbers++;
+							index++;
 						}
 					}
 
-					characters.put((int) temp[0], new Character(texture.getWidth(), texture.getHeight(), (int) temp[1], (int) temp[2], (int) temp[3],
-							(int) temp[4], (int) temp[5], (int) temp[6], (int) temp[7]));
+					characters.put((int) temp[0], new Character(width, height, temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7]));
 				}
+				line = reader.readLine();
 			}
-
 			reader.close();
-
 			return characters;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return null;
+	}
+
+	/**
+	 * Returns true if "ch" is a numeric character or a period (for decimals).
+	 */
+	private static boolean isNumber(char ch) {
+		return (ch >= 48 && ch <= 57) || ch == '.';
 	}
 }

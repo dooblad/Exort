@@ -16,7 +16,7 @@ import com.doobs.modern.util.Color;
 import com.doobs.modern.util.batch.*;
 
 /**
- * GUI component for handling the menu presented when the current DuelState is paused.
+ * GUI component for handling the menu presented when the DuelState is paused.
  */
 public class PauseMenu {
 	private static final int PAUSE_HOVER_SPEED = 8;
@@ -39,8 +39,8 @@ public class PauseMenu {
 	private Rectangle exitBounds;
 
 	/**
-	 * Creates a PauseMenu using "state" for information about whether it's paused, "size"
-	 * to determine the size and position of components, and "input".
+	 * Creates a PauseMenu using "state" for information about whether it's paused and
+	 * "size" to determine the size and position of components.
 	 */
 	public PauseMenu(DuelState state, Dimension size, InputHandler input) {
 		this.state = state;
@@ -52,9 +52,6 @@ public class PauseMenu {
 		this.calculatePositions();
 	}
 
-	/**
-	 * Handles the behavior of this PauseMenu.
-	 */
 	public void tick(int delta) {
 		if (this.input.isKeyPressed(Keyboard.KEY_ESCAPE)) {
 			this.state.togglePause();
@@ -77,9 +74,6 @@ public class PauseMenu {
 		}
 	}
 
-	/**
-	 * Renders this PauseMenu.
-	 */
 	public void render() {
 		if (this.state.isPaused()) {
 			Shaders.use("gui");
@@ -92,6 +86,7 @@ public class PauseMenu {
 			float inverseExit = 1 - this.exitDuel.getSmoothedPercentage();
 			float hover = this.pauseHover.getSmoothedPercentage();
 
+			// TODO: Make it readable.
 			new SimpleBatch(GL_TRIANGLES, 3, new float[] { (this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
 					this.exitBounds.y * inverseExit, 0f,
 
@@ -101,20 +96,20 @@ public class PauseMenu {
 					(this.size.width * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
 							* inverseExit), (this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
 
-							(this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
-							this.exitBounds.y * inverseExit, 0f,
+					(this.exitBounds.x - (hover * 100f)) * inverseExit, // 0
+					this.exitBounds.y * inverseExit, 0f,
 
-							(this.size.width * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
-									* inverseExit), (this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
+					(this.size.width * exit) + ((this.exitBounds.x + this.exitBounds.width + (hover * 100f)) // 2
+							* inverseExit), (this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f,
 
-									this.exitBounds.x * inverseExit, // 3
-									(this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f }, null, null, null, null)
-			.draw(Shaders.current.getAttributeLocations());
+					this.exitBounds.x * inverseExit, // 3
+					(this.size.height * exit) + ((this.exitBounds.y + this.exitBounds.height) * inverseExit), 0f }, null, null, null, null)
+					.draw(Shaders.current.getAttributeLocations());
 
 			Shaders.use("font");
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
 			Fonts.centuryGothic.setSize(40 + (this.pauseHover.getSmoothedPercentage() * 10));
-			Fonts.centuryGothic.drawCentered("EXIT", 0, 0);
+			Fonts.centuryGothic.renderCentered("EXIT", 0, 0);
 		}
 	}
 

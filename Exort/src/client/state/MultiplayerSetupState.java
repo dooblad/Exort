@@ -12,7 +12,12 @@ import client.util.loaders.*;
 
 import com.doobs.modern.util.matrix.*;
 
+/**
+ * Prompts the user for a username and IP address to connect to.
+ */
 public class MultiplayerSetupState implements GameState {
+	private static final int ANIMATION_SPEED = 10;
+
 	private Main main;
 
 	private boolean typingName;
@@ -25,19 +30,22 @@ public class MultiplayerSetupState implements GameState {
 		this.typingName = true;
 		this.username = new StringBuffer();
 		this.address = new StringBuffer();
-		this.toPlayerSetup = new Animation(10);
-		this.nameAddressSwitch = new Animation(10);
+
+		// TODO: Remove these.
+		this.username.append("Doobs");
+		this.address.append("127.0.0.1");
+
+		this.toPlayerSetup = new Animation(ANIMATION_SPEED);
+		this.nameAddressSwitch = new Animation(ANIMATION_SPEED);
 
 		Matrices.loadIdentity();
 	}
 
 	public void tick(int delta) {
 		if (this.main.input.isKeyPressed(Keyboard.KEY_RETURN)) {
-			if (this.username.length() != 0) {
+			if (this.username.length() != 0 && this.address.length() != 0) {
 				try {
-					if (this.address.length() != 0) {
-						this.main.changeState(new DuelState(this.main, this.username.toString(), InetAddress.getByName(this.address.toString())));
-					}
+					this.main.changeState(new DuelState(this.main, this.username.toString(), InetAddress.getByName(this.address.toString())));
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
@@ -72,20 +80,19 @@ public class MultiplayerSetupState implements GameState {
 
 			Fonts.centuryGothic.setColor(1f, 1f, 1f, percent);
 			Fonts.centuryGothic.setSize(20 + (this.nameAddressSwitch.getPercentage() * 15));
-			Fonts.centuryGothic.drawCentered("Username", 0, 110 + yo + (int) (this.nameAddressSwitch.getPercentage() * 15));
+			Fonts.centuryGothic.renderCentered("Username", 0, 110 + yo + (int) (this.nameAddressSwitch.getPercentage() * 15));
 			Fonts.centuryGothic.setSize(20 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
-			Fonts.centuryGothic.drawCentered("Server IP", 0, -5 + yo + (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
+			Fonts.centuryGothic.renderCentered("Server IP", 0, -5 + yo + (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
 
 			Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
 			Fonts.centuryGothic.setSize(10 + (this.nameAddressSwitch.getPercentage() * 15));
-			Fonts.centuryGothic.drawCentered(this.username.toString(), 0, (75 + yo) - (int) (this.nameAddressSwitch.getPercentage() * 15));
+			Fonts.centuryGothic.renderCentered(this.username.toString(), 0, (75 + yo) - (int) (this.nameAddressSwitch.getPercentage() * 15));
 			Fonts.centuryGothic.setSize(10 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
-			Fonts.centuryGothic.drawCentered(this.address.toString(), 0, (-75 + yo) - (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
+			Fonts.centuryGothic.renderCentered(this.address.toString(), 0, (-75 + yo) - (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
 		}
 
 		Shaders.useDefault();
 		Matrices.switchToPerspective();
 		glDisable(GL_BLEND);
 	}
-
 }

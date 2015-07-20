@@ -12,9 +12,6 @@ import client.util.loaders.*;
 public class RenderableLevel extends Level {
 	public static final String MAP_NAME = "arena";
 
-	/**
-	 * Constructs an empty RenderableLevel.
-	 */
 	public RenderableLevel() {
 		super();
 	}
@@ -24,6 +21,9 @@ public class RenderableLevel extends Level {
 		this.renderEntities();
 	}
 
+	/**
+	 * Renders only the map.
+	 */
 	public void renderMap() {
 		Models.get("arena").draw();
 	}

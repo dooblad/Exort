@@ -16,22 +16,37 @@ import com.doobs.modern.util.*;
 import com.doobs.modern.util.batch.*;
 import com.doobs.modern.util.matrix.*;
 
+/**
+ * A Player that can accept input from the user.
+ */
 public class ClientPlayer extends Player {
 	private Client client;
 	private InputHandler input;
 
+	/**
+	 * Creates a ClientPlayer with no Client, ID, or InputHandler yet.
+	 */
 	public ClientPlayer(String username, Level level) {
 		super(username, level);
 	}
 
+	/**
+	 * Creates a ClientPlayer with no Client or InputHandler yet.
+	 */
 	public ClientPlayer(String username, Integer id, Level level) {
 		super(username, id, level);
 	}
 
+	/**
+	 * Creates a ClientPlayer at the origin.
+	 */
 	public ClientPlayer(Client client, String username, Integer id, InputHandler input, Level level) {
 		this(0, 0, client, username, id, input, level);
 	}
 
+	/**
+	 * Creates a ClientPlayer at ("x", "z").
+	 */
 	public ClientPlayer(float x, float z, Client client, String username, Integer id, InputHandler input, Level level) {
 		super(username, id, level);
 		this.client = client;
@@ -109,5 +124,4 @@ public class ClientPlayer extends Player {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-
 }

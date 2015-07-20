@@ -30,6 +30,7 @@ public class Chat {
 
 	private InputHandler input;
 
+	// TODO: Add limit to the number of messages.
 	private List<Message> messageHistory;
 
 	// Current message being typed.
@@ -92,8 +93,6 @@ public class Chat {
 
 	/**
 	 * Pre: OpenGL is in a state configured for GUI rendering.
-	 *
-	 * Renders this Chat.
 	 */
 	public void render() {
 		if (this.typing) {
@@ -104,7 +103,7 @@ public class Chat {
 			Dimension d = Fonts.centuryGothic.getPhraseDimensions(this.message);
 			renderChatBackground(d, 10, 10, 1f);
 			Shaders.use("font");
-			Fonts.centuryGothic.draw(this.message, 10, 10);
+			Fonts.centuryGothic.render(this.message, 10, 10);
 		}
 
 		if (!this.chatFade.isFull()) {

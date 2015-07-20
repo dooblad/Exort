@@ -13,67 +13,91 @@ import com.doobs.modern.util.Color;
 import com.doobs.modern.util.batch.*;
 import com.doobs.modern.util.texture.*;
 
+/**
+ * Used as an interface for rendering Strings on the screen.
+ */
 public class Font {
 	private static final String DIRECTORY = "res/textures/fonts/";
 	private static final int DEFAULT_SIZE = 12;
 	private static final float[] DEFAULT_COLOR = new float[] { 1f, 1f, 1f, 1f };
 
-	private Main main;
-
 	private float size;
-	private float[] color = new float[] { 1f, 1f, 1f, 1f };
+	private float[] color;
+
+	private Dimension windowSize;
 
 	private Texture texture;
 	private Map<Integer, Character> characters;
 
+	/**
+	 * Creates a Font at size {@value #DEFAULT_SIZE} from the File in {@value #DIRECTORY}
+	 * specified by "URL". "main" is used for keeping track of the window's size (for
+	 * centered rendering).
+	 */
 	public Font(Main main, String URL) {
-		this.main = main;
 		this.size = DEFAULT_SIZE;
+		this.color = new float[4];
+		// Set to DEFAULT_COLOR to start.
 		for (int i = 0; i < this.color.length; i++) {
 			this.color[i] = DEFAULT_COLOR[i];
 		}
+
+		this.windowSize = main.getSize();
 
 		this.texture = TextureLoader.getTexture(DIRECTORY + URL + ".png", true);
 		this.characters = CharInfoLoader.load(this.texture, DIRECTORY + URL + ".txt");
 	}
 
-	public void draw(StringBuffer phrase, int x, int y) {
-		this.draw(phrase.toString(), x, y);
+	/**
+	 * Renders "phrase" at ("x", "y") on the screen.
+	 */
+	public void render(StringBuffer phrase, int x, int y) {
+		this.render(phrase.toString(), x, y);
 	}
 
-	public void draw(String phrase, int x, int y) {
+	/**
+	 * Renders "phrase" at ("x", "y") on the screen.
+	 */
+	public void render(String phrase, int x, int y) {
 		Shaders.use("font");
+		// Apply color.
 		Color.set(Shaders.current, this.color[0], this.color[1], this.color[2], this.color[3]);
+		// Bind texture.
 		glActiveTexture(GL_TEXTURE0);
 		Shaders.current.setUniform1i("texture", 0);
 		this.texture.bind();
 
 		Character character;
-		float[] texCoords = new float[phrase.length() * 8];
-		float[] vertexData = new float[phrase.length() * 16];
-		short[] indexData = new short[phrase.length() * 6];
+		int length = phrase.length();
+		// 4 vertices * 2 components.
+		float[] texCoords = new float[8 * length];
+		// 4 vertices * 4 components.
+		float[] vertexData = new float[16 * length];
+		// Drawing with GL_TRIANGLES, so 3 vertices * 2 triangles to form a rectangle.
+		short[] indexData = new short[6 * length];
 
 		float width, height;
 
+		// Used to apply the current size to each Character's original values.
 		float sizeFactor = this.getSizeFactor();
 
 		float xo = 0, yo = 0;
 
 		for (int i = 0; i < phrase.length(); i++) {
-			char temp = phrase.charAt(i);
-			if ((character = this.characters.get((int) temp)) != null) {
+			character = this.characters.get((int) phrase.charAt(i));
+			if (character != null) { // If it exists.
 				width = character.getWidth() * sizeFactor;
 				height = character.getHeight() * sizeFactor;
 
 				xo = character.getXO() * sizeFactor;
 				yo = character.getYO() * sizeFactor;
 
-				// Tex Coords
+				// Tex Coords.
 				for (int j = 0; j < 8; j++) {
 					texCoords[(i * 8) + j] = character.getTexCoords()[j];
 				}
 
-				// Vertices
+				// Vertices.
 				vertexData[i * 16] = x + xo;
 				vertexData[(i * 16) + 1] = y + yo;
 				vertexData[(i * 16) + 2] = 0f;
@@ -94,7 +118,7 @@ public class Font {
 				vertexData[(i * 16) + 14] = 0f;
 				vertexData[(i * 16) + 15] = 1f;
 
-				// Indices
+				// Indices.
 				indexData[i * 6] = (short) (i * 4);
 				indexData[(i * 6) + 1] = (short) ((i * 4) + 1);
 				indexData[(i * 6) + 2] = (short) ((i * 4) + 2);
@@ -106,35 +130,65 @@ public class Font {
 				x += character.getXA() * sizeFactor;
 			}
 		}
+		// The reason we've done all this... so it's done in one batch!
 		new SimpleBatch(GL_TRIANGLES, 4, vertexData, null, null, texCoords, indexData).draw(Shaders.current.getAttributeLocations());
 	}
 
-	public void drawCentered(String phrase, int xo, int yo) {
-		Dimension d = this.getPhraseDimensions(phrase);
-		this.draw(phrase, ((this.main.getWidth() - d.width) / 2) + xo, ((this.main.getHeight() - d.height) / 2) + yo);
+	/**
+	 * Renders "phrase" in the center of the screen.
+	 */
+	public void renderCentered(String phrase) {
+		this.renderCentered(phrase, 0, 0);
 	}
 
-	// Getters and setters
+	/**
+	 * Renders "phrase" in the center of the screen plus "xo" and "yo" in the respective
+	 * dimensions.
+	 */
+	public void renderCentered(String phrase, int xo, int yo) {
+		Dimension d = this.getPhraseDimensions(phrase);
+		this.render(phrase, ((this.windowSize.width - d.width) / 2) + xo, ((this.windowSize.height - d.height) / 2) + yo);
+	}
+
+	/**
+	 * Returns the Texture being used by this Font.
+	 */
 	public Texture getTexture() {
 		return this.texture;
 	}
 
+	/**
+	 * Returns the Character that corresponds with the primitive char represented by
+	 * "character".
+	 */
 	public Character getCharacter(int character) {
 		return this.characters.get(character);
 	}
 
+	/**
+	 * Returns the current size of this Font.
+	 */
 	public float getSize() {
 		return this.size;
 	}
 
+	/**
+	 * Sets the size of this Font to "size".
+	 */
 	public void setSize(float size) {
 		this.size = size;
 	}
 
+	/**
+	 * Returns the RGBA components of this font's color as a float array.
+	 */
 	public float[] getColor() {
 		return this.color;
 	}
 
+	/**
+	 * Sets this Font's color to the RGBA parameters.
+	 */
 	public void setColor(float red, float green, float blue, float alpha) {
 		this.color[0] = red;
 		this.color[1] = green;
@@ -142,10 +196,16 @@ public class Font {
 		this.color[3] = alpha;
 	}
 
+	/**
+	 * Returns the size of "phrase" in this Font's current state as a Dimension.
+	 */
 	public Dimension getPhraseDimensions(StringBuffer phrase) {
 		return this.getPhraseDimensions(phrase.toString());
 	}
 
+	/**
+	 * Returns the size of "phrase" in this Font's current state as a Dimension.
+	 */
 	public Dimension getPhraseDimensions(String phrase) {
 		Character character;
 
@@ -154,7 +214,8 @@ public class Font {
 		float xa, h;
 
 		for (int i = 0; i < phrase.length(); i++) {
-			if ((character = this.characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
+			character = this.characters.get((int) phrase.charAt(i));
+			if (character != null) {
 				xa = character.getXA() * sizeFactor;
 				h = character.getHeight() * sizeFactor;
 
@@ -169,10 +230,16 @@ public class Font {
 		return new Dimension(width, height);
 	}
 
+	/**
+	 * Returns the width of "phrase" in this Font's current state.
+	 */
 	public int getPhraseWidth(StringBuffer phrase) {
 		return this.getPhraseWidth(phrase.toString());
 	}
 
+	/**
+	 * Returns the width of "phrase" in this Font's current state.
+	 */
 	public int getPhraseWidth(String phrase) {
 		Character character;
 
@@ -181,7 +248,8 @@ public class Font {
 		float xa;
 
 		for (int i = 0; i < phrase.length(); i++) {
-			if ((character = this.characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
+			character = this.characters.get((int) phrase.charAt(i));
+			if (character != null) {
 				xa = character.getXA() * sizeFactor;
 
 				width += xa;
@@ -191,10 +259,16 @@ public class Font {
 		return width;
 	}
 
+	/**
+	 * Returns the height of "phrase" in this Font's current state.
+	 */
 	public int getPhraseHeight(StringBuffer phrase) {
 		return this.getPhraseHeight(phrase.toString());
 	}
 
+	/**
+	 * Returns the height of "phrase" in this Font's current state.
+	 */
 	public int getPhraseHeight(String phrase) {
 		Character character;
 
@@ -203,7 +277,8 @@ public class Font {
 		int h;
 
 		for (int i = 0; i < phrase.length(); i++) {
-			if ((character = this.characters.get(Integer.valueOf(phrase.charAt(i)))) != null) {
+			character = this.characters.get((int) phrase.charAt(i));
+			if (character != null) {
 				h = (int) (character.getHeight() * sizeFactor);
 				if (h > height) {
 					height = h;
@@ -214,6 +289,10 @@ public class Font {
 		return height;
 	}
 
+	/**
+	 * Returns a float used for scaling the Font's original values. At size 100, the
+	 * Characters' original sizes are used.
+	 */
 	public float getSizeFactor() {
 		return this.size / 100f;
 	}

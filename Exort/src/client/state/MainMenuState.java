@@ -9,6 +9,9 @@ import client.util.loaders.*;
 
 import com.doobs.modern.util.matrix.*;
 
+/**
+ * The starting point for Exort.
+ */
 public class MainMenuState implements GameState {
 	private Main main;
 
@@ -35,7 +38,7 @@ public class MainMenuState implements GameState {
 		String phrase = "Welcome to Exort";
 		Fonts.centuryGothic.setSize(35);
 		Fonts.centuryGothic.setColor(1f, ((float) Math.sin(System.currentTimeMillis() / 350.0) / 2f) + 0.5f, 0f, 1f);
-		Fonts.centuryGothic.drawCentered(phrase, 0, 0);
+		Fonts.centuryGothic.renderCentered(phrase, 0, 0);
 		Shaders.useDefault();
 		glDisable(GL_BLEND);
 	}

@@ -7,7 +7,6 @@ import java.net.*;
 import org.lwjgl.input.*;
 
 import shared.*;
-import shared.entity.creature.*;
 import shared.level.*;
 import shared.net.packets.*;
 import client.*;
@@ -41,12 +40,16 @@ public class DuelState implements GameState {
 
 	private boolean paused;
 
+	/**
+	 * Creates a DuelState for connecting a Player with "username" to "address".
+	 */
 	public DuelState(Main main, String username, InetAddress address) {
 		this.main = main;
 		this.input = main.input;
 		this.gui = new GUI(main, this);
 		this.level = new RenderableLevel();
 		this.client = new Client(this, address);
+		// TODO: Implement a sendUntilACK method to make sure certain messages get sent.
 		// Login.
 		new Packet00Login(username).sendData(this.client);
 		this.camera = new EntityCamera(CAMERA_DISTANCE, this.input);
@@ -112,6 +115,9 @@ public class DuelState implements GameState {
 		glDisable(GL_BLEND);
 	}
 
+	/**
+	 * Sends "message" as a Packet03Chat.
+	 */
 	public void sendMessage(String message) {
 		new Packet03Chat(this.player.getID(), message).sendData(this.client);
 	}
@@ -128,10 +134,13 @@ public class DuelState implements GameState {
 		return this.level;
 	}
 
-	public Player getPlayer() {
+	public ClientPlayer getPlayer() {
 		return this.player;
 	}
 
+	/**
+	 * Sets this DuelState's ClientPlayer to "player" and attaches the EntityCamera to it.
+	 */
 	public void setPlayer(ClientPlayer player) {
 		this.player = player;
 		this.camera.setEntity(player);
