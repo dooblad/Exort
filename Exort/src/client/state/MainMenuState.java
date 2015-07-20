@@ -36,9 +36,9 @@ public class MainMenuState implements GameState {
 		Shaders.use("font");
 		Matrices.sendMVPMatrix(Shaders.current);
 		String phrase = "Welcome to Exort";
-		Fonts.centuryGothic.setSize(35);
-		Fonts.centuryGothic.setColor(1f, ((float) Math.sin(System.currentTimeMillis() / 350.0) / 2f) + 0.5f, 0f, 1f);
-		Fonts.centuryGothic.renderCentered(phrase, 0, 0);
+		Fonts.current.setSize(35);
+		Fonts.current.setColor(1f, ((float) Math.sin(System.currentTimeMillis() / 350.0) / 2f) + 0.5f, 0f, 1f);
+		Fonts.current.renderCentered(phrase, 0, 0);
 		Shaders.useDefault();
 		glDisable(GL_BLEND);
 	}

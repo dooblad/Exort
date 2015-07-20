@@ -1,72 +1,57 @@
 package client.util.gl;
 
 import static org.lwjgl.opengl.GL20.*;
-
-import org.lwjgl.util.vector.*;
-
 import client.util.loaders.*;
 
 import com.doobs.modern.util.shader.*;
 
 /**
- * A helper class for lighting.
+ * A helper class for the lighting shader.
  */
 public class Lighting {
-	public static final float[] lightColor = new float[] { 1f, 0.5f, 0f, 1f };
-	public static final float[] ambientColor = new float[] { 0.3f, 0.3f, 1f, 0.5f };
-	public static final float[] falloff = new float[] { 0.25f, 0.01f, 0.005f };
+	public static final float[] LIGHT_COLOR = new float[] { 1f, 0.5f, 0f, 1f };
+	public static final float[] AMBIENT_COLOR = new float[] { 0.3f, 0.3f, 1f, 0.5f };
+	// Quadratic attenuation.
+	public static final float[] FALLOFF = new float[] { 0.25f, 0.01f, 0.005f };
+	public static final float[] START_POSITION = new float[] { 0f, 1f, 0f };
 
-	private static boolean textured;
-	private static boolean normalMapped;
-
-	private static Vector3f position;
+	private static Shader shader;
 
 	public static void init() {
-		Shader lighting = Shaders.get("lighting");
-		lighting.use();
+		shader = Shaders.get("lighting");
+		// Use it, so we can start setting GLSL variables.
+		shader.use();
 
-		position = new Vector3f(0f, 1f, 0f);
-		position.normalise();
-		lighting.setUniform3f("lightPosition", position.getX(), position.getY(), position.getZ());
-		lighting.setUniform4f("lightColor", lightColor[0], lightColor[1], lightColor[2], lightColor[3]);
-		lighting.setUniform4f("ambientColor", ambientColor[0], ambientColor[1], ambientColor[2], ambientColor[3]);
-		lighting.setUniform3f("falloff", falloff[0], falloff[1], falloff[2]);
+		// Initialize GLSL variables.
+		shader.setUniform3f("lightPosition", START_POSITION[0], START_POSITION[1], START_POSITION[2]);
+		shader.setUniform4f("lightColor", LIGHT_COLOR[0], LIGHT_COLOR[1], LIGHT_COLOR[2], LIGHT_COLOR[3]);
+		shader.setUniform4f("ambientColor", AMBIENT_COLOR[0], AMBIENT_COLOR[1], AMBIENT_COLOR[2], AMBIENT_COLOR[3]);
+		shader.setUniform3f("falloff", FALLOFF[0], FALLOFF[1], FALLOFF[2]);
 		setTextured(false);
 		setNormalMapped(false);
-		lighting.setUniform1i("texture", 0);
-		lighting.setUniform1i("normalMap", 1);
 
 		Shaders.useDefault();
 	}
 
+	/**
+	 * Sets the light's position to ("x", "y", "z").
+	 */
 	public static void setPosition(float x, float y, float z) {
 		int location = glGetUniformLocation(Shaders.get("lighting").getID(), "lightPosition");
 		glUniform3f(location, x, y, z);
-		position.x = x;
-		position.y = y;
-		position.z = z;
 	}
 
-	public static void setPosition(Vector3f position) {
-		setPosition(position.x, position.y, position.z);
-	}
-
+	/**
+	 * Pre: OpenGL must be using the lighting shader.
+	 */
 	public static void setTextured(boolean textured) {
-		Lighting.textured = textured;
-		Shaders.get("lighting").setUniform1i("textured", textured ? 1 : 0);
+		shader.setUniform1i("textured", textured ? 1 : 0);
 	}
 
+	/**
+	 * Pre: OpenGL must be using the lighting shader.
+	 */
 	public static void setNormalMapped(boolean normalMapped) {
-		Lighting.normalMapped = normalMapped;
-		Shaders.get("lighting").setUniform1i("normalMapped", normalMapped ? 1 : 0);
-	}
-
-	// Getters and setters
-	public static boolean isTextured() {
-		return textured;
-	}
-
-	public static boolean isNormalMapped() {
-		return normalMapped;
+		shader.setUniform1i("normalMapped", normalMapped ? 1 : 0);
 	}
 }

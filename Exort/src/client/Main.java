@@ -30,6 +30,7 @@ public class Main implements GameLoop {
 	 */
 	public Main() {
 		this.context = new GraphicsContext(this);
+		this.input = new InputHandler();
 
 		// Initialization in specific order.
 		Shaders.init();
@@ -39,7 +40,6 @@ public class Main implements GameLoop {
 		Fonts.init(this);
 		Models.init();
 
-		this.input = new InputHandler();
 		this.state = new MainMenuState(this);
 
 		this.context.run();

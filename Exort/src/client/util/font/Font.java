@@ -17,7 +17,6 @@ import com.doobs.modern.util.texture.*;
  * Used as an interface for rendering Strings on the screen.
  */
 public class Font {
-	private static final String DIRECTORY = "res/textures/fonts/";
 	private static final int DEFAULT_SIZE = 12;
 	private static final float[] DEFAULT_COLOR = new float[] { 1f, 1f, 1f, 1f };
 
@@ -44,8 +43,8 @@ public class Font {
 
 		this.windowSize = main.getSize();
 
-		this.texture = TextureLoader.getTexture(DIRECTORY + URL + ".png", true);
-		this.characters = CharInfoLoader.load(this.texture, DIRECTORY + URL + ".txt");
+		this.texture = TextureLoader.getTexture(URL + ".png", true);
+		this.characters = CharInfoLoader.load(this.texture, URL + ".txt");
 	}
 
 	/**

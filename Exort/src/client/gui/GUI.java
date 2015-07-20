@@ -44,8 +44,8 @@ public class GUI implements UI {
 		// Setup font rendering.
 		Shaders.use("font");
 		Matrices.sendMVPMatrix(Shaders.current);
-		Fonts.centuryGothic.setSize(15);
-		Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
+		Fonts.current.setSize(15);
+		Fonts.current.setColor(1f, 1f, 1f, 1f);
 
 		// Setup gui rendering.
 		Shaders.use("gui");

@@ -8,6 +8,7 @@ import org.lwjgl.input.*;
 
 import client.*;
 import client.util.*;
+import client.util.font.*;
 import client.util.loaders.*;
 
 import com.doobs.modern.util.matrix.*;
@@ -60,10 +61,10 @@ public class MultiplayerSetupState implements GameState {
 		this.toPlayerSetup.tickUp(delta);
 
 		if (this.typingName) {
-			this.main.input.handleTyping(this.username, Fonts.centuryGothic);
+			this.main.input.handleTyping(this.username, Fonts.current);
 			this.nameAddressSwitch.tickUp(delta);
 		} else {
-			this.main.input.handleTyping(this.address, Fonts.centuryGothic);
+			this.main.input.handleTyping(this.address, Fonts.current);
 			this.nameAddressSwitch.tickDown(delta);
 		}
 	}
@@ -78,17 +79,18 @@ public class MultiplayerSetupState implements GameState {
 		if (!this.toPlayerSetup.isEmpty()) {
 			int yo = -(int) (Math.cos((percent * Math.PI) / 2) * 200);
 
-			Fonts.centuryGothic.setColor(1f, 1f, 1f, percent);
-			Fonts.centuryGothic.setSize(20 + (this.nameAddressSwitch.getPercentage() * 15));
-			Fonts.centuryGothic.renderCentered("Username", 0, 110 + yo + (int) (this.nameAddressSwitch.getPercentage() * 15));
-			Fonts.centuryGothic.setSize(20 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
-			Fonts.centuryGothic.renderCentered("Server IP", 0, -5 + yo + (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
+			Font font = Fonts.current;
+			font.setColor(1f, 1f, 1f, percent);
+			font.setSize(20 + (this.nameAddressSwitch.getPercentage() * 15));
+			font.renderCentered("Username", 0, 110 + yo + (int) (this.nameAddressSwitch.getPercentage() * 15));
+			font.setSize(20 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
+			font.renderCentered("Server IP", 0, -5 + yo + (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
 
-			Fonts.centuryGothic.setColor(0.2f, 0.2f, 0.2f, percent);
-			Fonts.centuryGothic.setSize(10 + (this.nameAddressSwitch.getPercentage() * 15));
-			Fonts.centuryGothic.renderCentered(this.username.toString(), 0, (75 + yo) - (int) (this.nameAddressSwitch.getPercentage() * 15));
-			Fonts.centuryGothic.setSize(10 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
-			Fonts.centuryGothic.renderCentered(this.address.toString(), 0, (-75 + yo) - (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
+			font.setColor(0.2f, 0.2f, 0.2f, percent);
+			font.setSize(10 + (this.nameAddressSwitch.getPercentage() * 15));
+			font.renderCentered(this.username.toString(), 0, (75 + yo) - (int) (this.nameAddressSwitch.getPercentage() * 15));
+			font.setSize(10 + ((1 - this.nameAddressSwitch.getPercentage()) * 15));
+			font.renderCentered(this.address.toString(), 0, (-75 + yo) - (int) (1 - (this.nameAddressSwitch.getPercentage() * 15)));
 		}
 
 		Shaders.useDefault();

@@ -1,6 +1,5 @@
 package client.util.loaders;
 
-import java.io.*;
 import java.util.*;
 
 import com.doobs.modern.util.texture.*;
@@ -11,23 +10,12 @@ public class Textures {
 	public static Map<String, Texture> textures = new HashMap<String, Texture>();
 
 	public static void init() {
-		System.err.println("----------------------\n" + "|  LOADING  TEXTURES |\n" + "----------------------");
+		System.out.println("----------------------\n" + "|  LOADING  TEXTURES |\n" + "----------------------");
 
-		File directory = new File(DIRECTORY);
-		File[] files = directory.listFiles();
-		String[] temp;
-
-		if (files != null) {
-			for (File file : files) {
-				if (file.isFile()) {
-					temp = file.getName().split("\\.");
-
-					if (temp[1].equals("png")) {
-						System.out.println(DIRECTORY + file.getName());
-						textures.put(temp[0], TextureLoader.getTexture(DIRECTORY + file.getName(), false));
-					}
-				}
-			}
+		textures = new HashMap<String, Texture>();
+		List<String> elements = DirectorySearcher.findElements(DIRECTORY, "png");
+		for(String URL : elements) {
+			textures.put(URL, TextureLoader.getTexture(DIRECTORY + URL + ".png", false));
 		}
 	}
 

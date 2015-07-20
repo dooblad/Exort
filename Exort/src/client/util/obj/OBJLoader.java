@@ -10,7 +10,6 @@ import client.util.loaders.*;
 public class OBJLoader {
 	public static Model load(String URL) {
 		try {
-			System.out.println(URL);
 			Model model = new Model();
 
 			BufferedReader reader = new BufferedReader(new FileReader(URL));

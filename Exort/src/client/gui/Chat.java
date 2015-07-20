@@ -70,7 +70,7 @@ public class Chat {
 				this.messageOffset--;
 			}
 
-			this.input.handleTyping(this.message, Fonts.centuryGothic);
+			this.input.handleTyping(this.message, Fonts.current);
 			// Keep message under CHAT_CHAR_LIMIT.
 			if (this.message.length() > CHAT_CHAR_LIMIT) {
 				this.message.deleteCharAt(this.message.length() - 1);
@@ -100,20 +100,20 @@ public class Chat {
 			Shaders.use("gui");
 			glActiveTexture(GL_TEXTURE0);
 			Textures.get("white").bind();
-			Dimension d = Fonts.centuryGothic.getPhraseDimensions(this.message);
+			Dimension d = Fonts.current.getPhraseDimensions(this.message);
 			renderChatBackground(d, 10, 10, 1f);
 			Shaders.use("font");
-			Fonts.centuryGothic.render(this.message, 10, 10);
+			Fonts.current.render(this.message, 10, 10);
 		}
 
 		if (!this.chatFade.isFull()) {
 			float alpha = Math.min(1f, 1f - ((this.chatFade.getPercentage() - 0.8f) * 5f));
 			Dimension d;
-			int y = 10 + Fonts.centuryGothic.getPhraseHeight(this.message) + (PADDING * 2);
+			int y = 10 + Fonts.current.getPhraseHeight(this.message) + (PADDING * 2);
 			for (int i = 0; i < VISIBLE_MESSAGES; i++) {
 				if (i < this.messageHistory.size()) {
 					Message message = this.messageHistory.get(this.messageHistory.size() - i - this.messageOffset - 1);
-					d = Fonts.centuryGothic.getPhraseDimensions(message.getText());
+					d = Fonts.current.getPhraseDimensions(message.getText());
 
 					// Draw chat background
 					Shaders.use("gui");

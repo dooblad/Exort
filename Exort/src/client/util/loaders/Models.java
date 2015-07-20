@@ -1,6 +1,5 @@
 package client.util.loaders;
 
-import java.io.*;
 import java.util.*;
 
 import client.util.obj.*;
@@ -8,26 +7,20 @@ import client.util.obj.*;
 public class Models {
 	private static final String DIRECTORY = "res/models/";
 
-	public static Map<String, Model> models = new HashMap<String, Model>();
+	public static Map<String, Model> models;
 
 	public static void init() {
-		System.err.println("----------------------\n" + "|   LOADING MODELS   |\n" + "----------------------");
-		File directory = new File(DIRECTORY);
-		File[] files = directory.listFiles();
-		String[] temp;
+		// TODO: ANIMATIONS FOR DIRECTORIES OF .OBJs
 
-		if (files != null) {
-			for (File file : files) {
-				if (file.isFile()) {
-					temp = file.getName().split("\\.");
+		System.out.println("----------------------\n" + "|   LOADING MODELS   |\n" + "----------------------");
 
-					if (temp[1].equals("obj")) {
-						models.put(temp[0], OBJLoader.load(DIRECTORY + file.getName()));
-					}
-				} else if (file.isDirectory()) {
-					// ANIMATIONS
-				}
-			}
+		models = new HashMap<String, Model>();
+
+		List<String> elements = DirectorySearcher.findElements(DIRECTORY, "obj");
+		for (String URL : elements) {
+			// TODO: Standardize on where to include the file extension (e.g. adding the
+			// ".obj" here).
+			models.put(URL, OBJLoader.load(DIRECTORY + URL + ".obj"));
 		}
 	}
 

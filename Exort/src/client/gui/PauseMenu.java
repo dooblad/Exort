@@ -107,9 +107,9 @@ public class PauseMenu {
 					.draw(Shaders.current.getAttributeLocations());
 
 			Shaders.use("font");
-			Fonts.centuryGothic.setColor(1f, 1f, 1f, 1f);
-			Fonts.centuryGothic.setSize(40 + (this.pauseHover.getSmoothedPercentage() * 10));
-			Fonts.centuryGothic.renderCentered("EXIT", 0, 0);
+			Fonts.current.setColor(1f, 1f, 1f, 1f);
+			Fonts.current.setSize(40 + (this.pauseHover.getSmoothedPercentage() * 10));
+			Fonts.current.renderCentered("EXIT", 0, 0);
 		}
 	}
 

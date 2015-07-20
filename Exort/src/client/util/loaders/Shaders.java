@@ -2,7 +2,6 @@ package client.util.loaders;
 
 import static org.lwjgl.opengl.GL20.*;
 
-import java.io.*;
 import java.util.*;
 
 import com.doobs.modern.util.shader.*;
@@ -14,24 +13,12 @@ public class Shaders {
 	public static Map<String, Shader> shaders;
 
 	public static void init() {
+		System.out.println("----------------------\n" + "|  LOADING  SHADERS  |\n" + "----------------------");
+
 		shaders = new HashMap<String, Shader>();
-		System.err.println("----------------------\n" + "|  LOADING  SHADERS  |\n" + "----------------------");
-
-		File directory = new File(DIRECTORY);
-		File[] files = directory.listFiles();
-		String[] temp;
-
-		if (files != null) {
-			for (File file : files) {
-				if (file.isFile()) {
-					temp = file.getName().split("\\.");
-
-					if (temp[1].equals("vert")) {
-						System.out.println(DIRECTORY + temp[0]);
-						shaders.put(temp[0], new Shader(DIRECTORY + temp[0]));
-					}
-				}
-			}
+		List<String> elements = DirectorySearcher.findElements(DIRECTORY, "vert");
+		for(String URL : elements) {
+			shaders.put(URL, new Shader(DIRECTORY + URL));
 		}
 	}
 

@@ -58,7 +58,7 @@ public class InputHandler {
 			phrase.deleteCharAt(phrase.length() - 1);
 		} else {
 			for (char c : this.eventChars) {
-				if (Fonts.centuryGothic.getCharacter(c) != null) {
+				if (Fonts.current.getCharacter(c) != null) {
 					phrase.append(c);
 				}
 			}
