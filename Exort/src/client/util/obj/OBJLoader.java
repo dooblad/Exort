@@ -14,8 +14,8 @@ public class OBJLoader {
 
 			BufferedReader reader = new BufferedReader(new FileReader(URL));
 
-			List<Vector3f> vertices = new ArrayList<Vector3f>();
-			List<Vector3f> verticesTemp = new ArrayList<Vector3f>();
+			List<Vector3f> positions = new ArrayList<Vector3f>();
+			List<Vector3f> positionsTemp = new ArrayList<Vector3f>();
 
 			List<Vector2f> texCoords = new ArrayList<Vector2f>();
 			List<Vector2f> texCoordsTemp = new ArrayList<Vector2f>();
@@ -33,7 +33,7 @@ public class OBJLoader {
 					float x = Float.valueOf(line.split(" ")[1]);
 					float y = Float.valueOf(line.split(" ")[2]);
 					float z = Float.valueOf(line.split(" ")[3]);
-					verticesTemp.add(new Vector3f(x, y, z));
+					positionsTemp.add(new Vector3f(x, y, z));
 				} else if (line.startsWith("vt ")) {
 					float u = Float.valueOf(line.split(" ")[1]);
 					float v = Float.valueOf(line.split(" ")[2]);
@@ -44,7 +44,7 @@ public class OBJLoader {
 					float z = Float.valueOf(line.split(" ")[3]);
 					normalsTemp.add(new Vector3f(x, y, z));
 				} else if (line.startsWith("f ")) {
-					Vector3f vertexIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]), Float.valueOf(line.split(" ")[2].split("/")[0]),
+					Vector3f positionIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]), Float.valueOf(line.split(" ")[2].split("/")[0]),
 							Float.valueOf(line.split(" ")[3].split("/")[0]));
 
 					// Check if model uses textures
@@ -57,19 +57,19 @@ public class OBJLoader {
 					Vector3f normalIndices = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]), Float.valueOf(line.split(" ")[2].split("/")[2]),
 							Float.valueOf(line.split(" ")[3].split("/")[2]));
 
-					facesTemp.add(new Face(vertexIndices, texCoordIndices, normalIndices));
+					facesTemp.add(new Face(positionIndices, texCoordIndices, normalIndices));
 				} else if (line.startsWith("o ")) {
-					dumpModelData(URL, vertices, verticesTemp, texCoords, texCoordsTemp, normals, normalsTemp, faces, facesTemp);
+					dumpModelData(URL, positions, positionsTemp, texCoords, texCoordsTemp, normals, normalsTemp, faces, facesTemp);
 				}
 			}
 			reader.close();
 
-			dumpModelData(URL, vertices, verticesTemp, texCoords, texCoordsTemp, normals, normalsTemp, faces, facesTemp);
+			dumpModelData(URL, positions, positionsTemp, texCoords, texCoordsTemp, normals, normalsTemp, faces, facesTemp);
 
 			// Convert Lists to Vector Arrays
-			Vector3f[] vertexArray = new Vector3f[vertices.size()];
-			for (int i = 0; i < vertices.size(); i++) {
-				vertexArray[i] = vertices.get(i);
+			Vector3f[] positionArray = new Vector3f[positions.size()];
+			for (int i = 0; i < positions.size(); i++) {
+				positionArray[i] = positions.get(i);
 			}
 
 			Vector3f[] normalArray = new Vector3f[normals.size()];
@@ -87,7 +87,7 @@ public class OBJLoader {
 				faceArray[i] = faces.get(i);
 			}
 
-			sortData(model, vertexArray, normalArray, texCoordArray, faceArray);
+			sortData(model, positionArray, normalArray, texCoordArray, faceArray);
 			model.generate();
 
 			// Find texture (if available)
@@ -101,13 +101,13 @@ public class OBJLoader {
 		return null;
 	}
 
-	private static void dumpModelData(String URL, List<Vector3f> vertices, List<Vector3f> verticesTemp, List<Vector2f> texCoords, List<Vector2f> texCoordsTemp,
+	private static void dumpModelData(String URL, List<Vector3f> positions, List<Vector3f> positionsTemp, List<Vector2f> texCoords, List<Vector2f> texCoordsTemp,
 			List<Vector3f> normals, List<Vector3f> normalsTemp, List<Face> faces, List<Face> facesTemp) {
 
-		for (int i = 0; i < verticesTemp.size(); i++) {
-			vertices.add(verticesTemp.get(i));
+		for (int i = 0; i < positionsTemp.size(); i++) {
+			positions.add(positionsTemp.get(i));
 		}
-		verticesTemp.clear();
+		positionsTemp.clear();
 
 		boolean textured = texCoordsTemp.size() > 0;
 
@@ -129,8 +129,8 @@ public class OBJLoader {
 		facesTemp.clear();
 	}
 
-	private static void sortData(Model model, Vector3f[] vertices, Vector3f[] normals, Vector2f[] texCoords, Face[] faces) {
-		model.vertices = new float[faces.length * 9];
+	private static void sortData(Model model, Vector3f[] positions, Vector3f[] normals, Vector2f[] texCoords, Face[] faces) {
+		model.positions = new float[faces.length * 9];
 		model.normals = new float[faces.length * 9];
 		model.texCoords = null;
 		if ((texCoords != null) && (texCoords.length > 0)) {
@@ -140,10 +140,10 @@ public class OBJLoader {
 		int i = 0;
 		for (Face face : faces) {
 			{
-				Vector3f v1 = vertices[(int) face.getVertex().x - 1];
-				model.vertices[i * 9] = v1.x;
-				model.vertices[(i * 9) + 1] = v1.y;
-				model.vertices[(i * 9) + 2] = v1.z;
+				Vector3f v1 = positions[(int) face.getPosition().x - 1];
+				model.positions[i * 9] = v1.x;
+				model.positions[(i * 9) + 1] = v1.y;
+				model.positions[(i * 9) + 2] = v1.z;
 
 				Vector3f n1 = normals[(int) face.getNormal().x - 1];
 				model.normals[i * 9] = n1.x;
@@ -158,10 +158,10 @@ public class OBJLoader {
 			}
 
 			{
-				Vector3f v2 = vertices[(int) face.getVertex().y - 1];
-				model.vertices[(i * 9) + 3] = v2.x;
-				model.vertices[(i * 9) + 4] = v2.y;
-				model.vertices[(i * 9) + 5] = v2.z;
+				Vector3f v2 = positions[(int) face.getPosition().y - 1];
+				model.positions[(i * 9) + 3] = v2.x;
+				model.positions[(i * 9) + 4] = v2.y;
+				model.positions[(i * 9) + 5] = v2.z;
 
 				Vector3f n2 = normals[(int) face.getNormal().y - 1];
 				model.normals[(i * 9) + 3] = n2.x;
@@ -176,10 +176,10 @@ public class OBJLoader {
 			}
 
 			{
-				Vector3f v3 = vertices[(int) face.getVertex().z - 1];
-				model.vertices[(i * 9) + 6] = v3.x;
-				model.vertices[(i * 9) + 7] = v3.y;
-				model.vertices[(i * 9) + 8] = v3.z;
+				Vector3f v3 = positions[(int) face.getPosition().z - 1];
+				model.positions[(i * 9) + 6] = v3.x;
+				model.positions[(i * 9) + 7] = v3.y;
+				model.positions[(i * 9) + 8] = v3.z;
 
 				Vector3f n3 = normals[(int) face.getNormal().z - 1];
 				model.normals[(i * 9) + 6] = n3.x;

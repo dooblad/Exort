@@ -92,6 +92,7 @@ public class DuelState implements GameState {
 		Color.set(Shaders.current, 1f, 1f, 1f, 1f);
 		Matrices.loadIdentity();
 
+
 		this.camera.applyTransformations();
 
 		Lighting.setTextured(true);

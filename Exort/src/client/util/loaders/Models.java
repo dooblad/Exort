@@ -2,6 +2,7 @@ package client.util.loaders;
 
 import java.util.*;
 
+import client.util.dae.*;
 import client.util.obj.*;
 
 public class Models {
@@ -22,9 +23,15 @@ public class Models {
 			// ".obj" here).
 			models.put(URL, OBJLoader.load(DIRECTORY + URL + ".obj"));
 		}
+
+		// TODO: REMOVE
+		models.put("cube", ColladaLoader.load(DIRECTORY + "cube.dae"));
 	}
 
-	public static Model get(String key) {
-		return models.get(key);
+	/**
+	 * Returns the Model with "name".
+	 */
+	public static Model get(String name) {
+		return models.get(name);
 	}
 }

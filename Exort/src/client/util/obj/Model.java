@@ -1,34 +1,36 @@
 package client.util.obj;
 
 import static org.lwjgl.opengl.GL11.*;
-
-import org.lwjgl.util.vector.*;
-
 import client.util.loaders.*;
 
 import com.doobs.modern.util.batch.*;
 import com.doobs.modern.util.texture.*;
 
 public class Model {
+	public static int POSITION_COMPONENTS = 3;
+
 	private Texture texture;
 
 	private SimpleBatch batch;
 
-	public float[] vertices, normals, texCoords;
+	public float[] positions, normals, texCoords;
 
 	public Model() {
 
 	}
 
-	public Model(Vector3f[] vertices, Vector3f[] normals, Vector2f[] texCoords) {
-		this.generate();
-	}
-
+	/**
+	 * Creates the drawing batch for this Model.
+	 */
 	public void generate() {
-		this.batch = new SimpleBatch(GL_TRIANGLES, 3, this.vertices, null, this.normals, this.texCoords, null);
+		this.batch = new SimpleBatch(GL_TRIANGLES, POSITION_COMPONENTS, this.positions, null, this.normals, this.texCoords, null);
 	}
 
+	/**
+	 * Pre: OpenGL is using a Shader with textures.
+	 */
 	public void draw() {
+		// TODO: Figure out the correct way to bind textures in OpenGL 3+.
 		Shaders.current.setUniform1i("texture", 0);
 		if (this.texture != null) {
 			this.texture.bind();
@@ -37,44 +39,7 @@ public class Model {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	// Getter and setters
-	public Texture getTexture() {
-		return this.texture;
-	}
-
 	public void setTexture(Texture texture) {
 		this.texture = texture;
-	}
-
-	public SimpleBatch getBatch() {
-		return this.batch;
-	}
-
-	public void setBatch(SimpleBatch batch) {
-		this.batch = batch;
-	}
-
-	public float[] getVertices() {
-		return this.vertices;
-	}
-
-	public void setVertices(float[] vertices) {
-		this.vertices = vertices;
-	}
-
-	public float[] getNormals() {
-		return this.normals;
-	}
-
-	public void setNormals(float[] normals) {
-		this.normals = normals;
-	}
-
-	public float[] getTexCoords() {
-		return this.texCoords;
-	}
-
-	public void setTexCoords(float[] texCoords) {
-		this.texCoords = texCoords;
 	}
 }

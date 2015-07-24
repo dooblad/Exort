@@ -1,4 +1,4 @@
-package client.util.gl;
+package client.util.loaders;
 
 import java.awt.image.*;
 import java.io.*;

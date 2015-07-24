@@ -2,25 +2,25 @@ package client.util.obj;
 
 import org.lwjgl.util.vector.*;
 
+/**
+ * Represents one Face of a Model for bundling the positions, texture coordinates, and
+ * normal vectors together.
+ */
 public class Face {
-	private Vector3f vertex, texCoord, normal;
+	private Vector3f position, texCoord, normal;
 
-	public Face(Vector3f vertex, Vector3f texCoord, Vector3f normal) {
-		this.normal = normal;
+	public Face(Vector3f position, Vector3f texCoord, Vector3f normal) {
+		this.position = position;
 		this.texCoord = texCoord;
-		this.vertex = vertex;
+		this.normal = normal;
 	}
 
-	public Vector3f getVertex() {
-		return this.vertex;
+	public Vector3f getPosition() {
+		return this.position;
 	}
 
 	public Vector3f getTexCoord() {
-		if (this.texCoord == null) {
-			return new Vector3f(0f, 0f, 0f);
-		} else {
-			return this.texCoord;
-		}
+		return this.texCoord;
 	}
 
 	public Vector3f getNormal() {

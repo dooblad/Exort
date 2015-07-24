@@ -122,7 +122,7 @@ public class Player extends MovingEntity {
 		Matrices.rotate(Math.toDegrees(this.direction), 0.0, 1.0, 0.0);
 		Matrices.sendMVPMatrix(Shaders.current);
 		Color.set(Shaders.current, 1f, 0f, 0f, 1f);
-		Models.get("player").draw();
+		Models.get("cube").draw();
 		Matrices.rotate(Math.toDegrees(this.direction), 0.0, -1.0, 0.0);
 		Matrices.translate(-this.x, 0f, -this.z);
 

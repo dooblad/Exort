@@ -22,7 +22,10 @@ public class Fonts {
 		current = fonts.get("centuryGothic");
 	}
 
-	public static Font get(String font) {
-		return fonts.get(font);
+	/**
+	 * Returns the Font with "name".
+	 */
+	public static Font get(String name) {
+		return fonts.get(name);
 	}
 }

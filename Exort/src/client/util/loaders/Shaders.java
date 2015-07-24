@@ -22,15 +22,24 @@ public class Shaders {
 		}
 	}
 
-	public static Shader get(String shader) {
-		return shaders.get(shader);
+	/**
+	 * Returns the Shader with "name".
+	 */
+	public static Shader get(String name) {
+		return shaders.get(name);
 	}
 
-	public static void use(String shader) {
-		current = shaders.get(shader);
+	/**
+	 * Uses the Shader with "name".
+	 */
+	public static void use(String name) {
+		current = shaders.get(name);
 		current.use();
 	}
 
+	/**
+	 * Uses OpenGL's default Shader.
+	 */
 	public static void useDefault() {
 		glUseProgram(0);
 	}

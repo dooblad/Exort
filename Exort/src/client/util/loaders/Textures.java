@@ -19,7 +19,10 @@ public class Textures {
 		}
 	}
 
-	public static Texture get(String key) {
-		return textures.get(key);
+	/**
+	 * Returns the Texture with "name".
+	 */
+	public static Texture get(String name) {
+		return textures.get(name);
 	}
 }

@@ -71,9 +71,9 @@ public class Font {
 		// 4 vertices * 2 components.
 		float[] texCoords = new float[8 * length];
 		// 4 vertices * 4 components.
-		float[] vertexData = new float[16 * length];
+		float[] positions = new float[16 * length];
 		// Drawing with GL_TRIANGLES, so 3 vertices * 2 triangles to form a rectangle.
-		short[] indexData = new short[6 * length];
+		short[] indices = new short[6 * length];
 
 		float width, height;
 
@@ -97,40 +97,40 @@ public class Font {
 				}
 
 				// Vertices.
-				vertexData[i * 16] = x + xo;
-				vertexData[(i * 16) + 1] = y + yo;
-				vertexData[(i * 16) + 2] = 0f;
-				vertexData[(i * 16) + 3] = 1f;
+				positions[i * 16] = x + xo;
+				positions[(i * 16) + 1] = y + yo;
+				positions[(i * 16) + 2] = 0f;
+				positions[(i * 16) + 3] = 1f;
 
-				vertexData[(i * 16) + 4] = x + xo + width;
-				vertexData[(i * 16) + 5] = y + yo;
-				vertexData[(i * 16) + 6] = 0f;
-				vertexData[(i * 16) + 7] = 1f;
+				positions[(i * 16) + 4] = x + xo + width;
+				positions[(i * 16) + 5] = y + yo;
+				positions[(i * 16) + 6] = 0f;
+				positions[(i * 16) + 7] = 1f;
 
-				vertexData[(i * 16) + 8] = x + xo + width;
-				vertexData[(i * 16) + 9] = y + yo + height;
-				vertexData[(i * 16) + 10] = 0f;
-				vertexData[(i * 16) + 11] = 1f;
+				positions[(i * 16) + 8] = x + xo + width;
+				positions[(i * 16) + 9] = y + yo + height;
+				positions[(i * 16) + 10] = 0f;
+				positions[(i * 16) + 11] = 1f;
 
-				vertexData[(i * 16) + 12] = x + xo;
-				vertexData[(i * 16) + 13] = y + yo + height;
-				vertexData[(i * 16) + 14] = 0f;
-				vertexData[(i * 16) + 15] = 1f;
+				positions[(i * 16) + 12] = x + xo;
+				positions[(i * 16) + 13] = y + yo + height;
+				positions[(i * 16) + 14] = 0f;
+				positions[(i * 16) + 15] = 1f;
 
 				// Indices.
-				indexData[i * 6] = (short) (i * 4);
-				indexData[(i * 6) + 1] = (short) ((i * 4) + 1);
-				indexData[(i * 6) + 2] = (short) ((i * 4) + 2);
+				indices[i * 6] = (short) (i * 4);
+				indices[(i * 6) + 1] = (short) ((i * 4) + 1);
+				indices[(i * 6) + 2] = (short) ((i * 4) + 2);
 
-				indexData[(i * 6) + 3] = (short) (i * 4);
-				indexData[(i * 6) + 4] = (short) ((i * 4) + 2);
-				indexData[(i * 6) + 5] = (short) ((i * 4) + 3);
+				indices[(i * 6) + 3] = (short) (i * 4);
+				indices[(i * 6) + 4] = (short) ((i * 4) + 2);
+				indices[(i * 6) + 5] = (short) ((i * 4) + 3);
 
 				x += character.getXA() * sizeFactor;
 			}
 		}
 		// The reason we've done all this... so it's done in one batch!
-		new SimpleBatch(GL_TRIANGLES, 4, vertexData, null, null, texCoords, indexData).draw(Shaders.current.getAttributeLocations());
+		new SimpleBatch(GL_TRIANGLES, 4, positions, null, null, texCoords, indices).draw(Shaders.current.getAttributeLocations());
 	}
 
 	/**

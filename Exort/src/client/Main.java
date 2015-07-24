@@ -8,7 +8,6 @@ import shared.*;
 import client.state.*;
 import client.util.*;
 import client.util.gl.*;
-import client.util.gl.Cursor;
 import client.util.loaders.*;
 
 import com.doobs.modern.*;
@@ -32,13 +31,8 @@ public class Main implements GameLoop {
 		this.context = new GraphicsContext(this);
 		this.input = new InputHandler();
 
-		// Initialization in specific order.
-		Shaders.init();
+		Resources.init(this);
 		Lighting.init();
-		Cursor.init();
-		Textures.init();
-		Fonts.init(this);
-		Models.init();
 
 		this.state = new MainMenuState(this);
 
