@@ -20,7 +20,6 @@ public class ColladaLoader {
 		TagReader reader = new TagReader(URL);
 		XMLTag tag = reader.next();
 		while (tag != null) {
-			System.out.println(tag);
 			if ((tag.isOpening() || tag.isSelfClosing()) && !tagStack.isEmpty()) {
 				String parentName = tagStack.peek().getName();
 				String name = tag.getName();
@@ -45,7 +44,10 @@ public class ColladaLoader {
 						}
 
 					} else if (name.equals("p")) {
-						indices = FileReadingUtils.extractNumbers(reader.getLine(), tag.end(), Integer.parseInt(tagStack.peek().getAttribute("count")));
+						// TODO: Replace two with a variable that corresponds with the
+						// number of vertex attributes being represented in this tag.
+						int count = Integer.parseInt(tagStack.peek().getAttribute("count")) * 3 * 2;
+						indices = FileReadingUtils.extractNumbers(reader.getLine(), tag.end(), count);
 					}
 				}
 			}
